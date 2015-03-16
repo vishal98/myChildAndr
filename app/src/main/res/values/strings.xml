@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Connect</string>
+    <string name="action_settings">Settings</string>
+    <string name="login_text">Please login to connect</string>
+    <string name="userid_hint">Enter User ID</string>
+    <string name="password">Enter Password</string>
+    <string name="login_btn">Login</string>
+    <string name="login_reset">Reset</string>
+    <string name="remember">Remember Me</string>
+
+    <!--home.xml used text-->
+    <string name="text_to_send_hint">Type here...</string>
+    <string name="home_text_to_send_lbl">Please enter text to send.</string>
+    <string name="home_text_to_send_hint">Type your message here...</string>
+    <string name="home_select_student">Select Student</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <!--Spinner for select subject-->
+    <string-array name="subject_array">
+        <item>Choose Subject</item>
+        <item>Maths I</item>
+        <item>Maths II</item>
+        <item>English I</item>
+        <item>English II</item>
+        <item>Biology</item>
+        <item>Physics</item>
+        <item>Chemistry</item>
+    </string-array>
+</resources>
