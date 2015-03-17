@@ -2,7 +2,6 @@ package com.freelancing.connect;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,15 +19,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class LoginActivity extends ActionBarActivity implements RequestCompletion {
+public class LoginActivity extends BaseActivity implements RequestCompletion {
     Button login_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_login);
         final EditText usedID = (EditText) findViewById(R.id.user_id);
         final EditText pwd = (EditText) findViewById(R.id.password);
-         login_btn = (Button) findViewById(R.id.login_btn);
+        login_btn = (Button) findViewById(R.id.login_btn);
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
