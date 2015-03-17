@@ -1,8 +1,9 @@
 package com.freelancing.Networkcall;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.ClientError;
 import com.android.volley.DefaultRetryPolicy;
@@ -15,19 +16,13 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import android.app.Activity;
-import android.content.Context;
-
 import com.freelancing.volley.AppController;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
-import android.util.Log;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -47,12 +42,12 @@ public class WebServiceCall {
     }
 
 
-    public void LoginRequestApi() {
+    public void LoginRequestApi(String userName, String Password) {
         String request_URL = "http://default-environment-8tpprium54.elasticbeanstalk.com/api/login";
         JSONObject headerBodyParam = null;
         LinkedHashMap<String, String> parmKeyValue = new LinkedHashMap<String, String>();
-        parmKeyValue.put("username", "test@test.com");
-        parmKeyValue.put("password", "test123");
+        parmKeyValue.put("username", userName);
+        parmKeyValue.put("password", Password);
 //        headerBodyParam = new JSONObject(parmKeyValue);
         Gson gson = new Gson();
         String parmsToJson = gson.toJson(parmKeyValue);
