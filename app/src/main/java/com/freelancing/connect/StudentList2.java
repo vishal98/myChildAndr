@@ -1,9 +1,6 @@
 package com.freelancing.connect;
 
-import android.app.Activity;
-import android.app.ListActivity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,13 +10,15 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 
-public class StudentList2 extends ActionBarActivity {
-	
-	/** String array used as the datasource for the ArrayAdapter of the listview **/
-	String[] countries = new String[] {
-		"Student1",
-		"Student2",
-		"Student3",
+public class StudentList2 extends BaseActivity {
+
+    /**
+     * String array used as the datasource for the ArrayAdapter of the listview *
+     */
+    String[] countries = new String[]{
+            "Student1",
+            "Student2",
+            "Student3",
 		"Student4",
 		"Student5",
 		"Student6"
