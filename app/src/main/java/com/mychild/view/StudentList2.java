@@ -1,4 +1,4 @@
-package com.freelancing.connect;
+package com.mychild.view;
 
 import android.os.Bundle;
 import android.util.SparseBooleanArray;

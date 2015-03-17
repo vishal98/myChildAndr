@@ -1,4 +1,4 @@
-package com.freelancing.connect;
+package com.mychild.view;
 
 import android.content.Context;
 import android.os.Bundle;

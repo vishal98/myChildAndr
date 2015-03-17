@@ -1,4 +1,4 @@
-package com.freelancing.connect;
+package com.mychild.view;
 
 /**
  * Created by vijay on 2/26/2015.

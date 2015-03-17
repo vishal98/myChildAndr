@@ -1,4 +1,4 @@
-package com.freelancing.utils;
+package com.mychild.utils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,9 +9,6 @@ import android.content.DialogInterface;
  * Created by vijay on 2/25/2015.
  */
 public abstract class Constants {
-
-    public static String userID = "myschool".trim();
-    public static String pwd = "123456".trim();
     public static ProgressDialog progress;
 
     public static void showMessage(Context context, String title, String message){
@@ -35,7 +32,6 @@ public abstract class Constants {
         progress.show();
     }
     public static void stopProgress(Context context){
-
         progress.dismiss();
     }
 }

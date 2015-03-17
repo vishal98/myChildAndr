@@ -1,4 +1,4 @@
-package com.freelancing.Networkcall;
+package com.mychild.Networkcall;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,7 +17,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.freelancing.volley.AppController;
+import com.mychild.volley.AppController;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -49,42 +49,35 @@ public class WebServiceCall {
         LinkedHashMap<String, String> parmKeyValue = new LinkedHashMap<String, String>();
         parmKeyValue.put("username", userName);
         parmKeyValue.put("password", Password);
-//        headerBodyParam = new JSONObject(parmKeyValue);
         Gson gson = new Gson();
         String parmsToJson = gson.toJson(parmKeyValue);
-//        Log.d("parmKeyValue2", parmsToJson);
-//        Log.d("parmKeyValue2.1", gson.toJsonTree(parmsToJson).toString());
-//        JsonParser parser= new JsonParser();
-//        parser.parse(parmsToJson).getAsJsonObject();
 //        Log.d("parmKeyValue2.2", new JsonParser().parse(parmsToJson).getAsJsonObject().toString());
-
         try {
             headerBodyParam = new JSONObject(parmsToJson);
         } catch (JSONException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-        Log.d("parmKeyValue3", headerBodyParam.toString());
-
+//        Log.d("parmKeyValue3", headerBodyParam.toString());
         JsonObjectRequest req;
         try {
             req = new JsonObjectRequest(Request.Method.POST, request_URL, headerBodyParam,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            // handle response
-                            Log.d("JSON Response", response.toString());
-                            mRequestCompletion.onRequestCompletion(response);
+               new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // handle response
+                        Log.d("JSON Response", response.toString());
+                        mRequestCompletion.onRequestCompletion(response);
 
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            handleNetworkError(error);
-                        }
-                    }) {
-
+                    }
+               },
+               new Response.ErrorListener() {
+                   @Override
+                   public void onErrorResponse(VolleyError error) {
+                       handleNetworkError(error);
+                   }
+               })
+            {
                 @Override
                 public Map<String, String> getHeaders() {
                     HashMap<String, String> headers = new HashMap<String, String>();

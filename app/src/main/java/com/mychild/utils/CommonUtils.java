@@ -1,4 +1,4 @@
-package com.freelancing.utils;
+package com.mychild.utils;
 
 import android.util.Log;
 

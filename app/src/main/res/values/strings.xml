@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Connect</string>
+    <string name="app_name">MyChild</string>
     <string name="action_settings">Settings</string>
     <string name="login_text">Please login to connect</string>
     <string name="userid_hint">Enter User ID</string>
@@ -13,6 +13,8 @@
     <string name="home_text_to_send_lbl">Please enter text to send.</string>
     <string name="home_text_to_send_hint">Type your message here...</string>
     <string name="home_select_student">Select Student</string>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="title_activity_Login">LoginActivity</string>
     <string name="title_activity_home">HomeActivity</string>
 
     <!--Spinner for select subject-->
@@ -27,5 +29,5 @@
         <item>Chemistry</item>
     </string-array>
 
-    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+
 </resources>
