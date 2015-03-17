@@ -1,7 +1,6 @@
 package com.freelancing.connect;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -15,9 +14,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.freelancing.connect.R;
-
-public class HomeActivity extends ActionBarActivity {
+public class HomeActivity extends BaseActivity {
     Spinner sp;
     Button selectStudent;
     String msgToStudentText;

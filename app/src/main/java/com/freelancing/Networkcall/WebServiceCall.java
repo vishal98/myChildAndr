@@ -32,13 +32,14 @@ import java.util.Map;
  */
 public class WebServiceCall {
 
-    private RequestCompletion mRequestCompletion;
-    private static  Activity mContext;
-    Context context;
     public static String getToken;
-    public WebServiceCall(Activity context){
+    private static Activity mContext;
+    Context context;
+    private RequestCompletion mRequestCompletion;
+
+    public WebServiceCall(Activity context) {
         this.mContext = context;
-        mRequestCompletion=(RequestCompletion)mContext;
+        mRequestCompletion = (RequestCompletion) mContext;
     }
 
 
@@ -67,7 +68,7 @@ public class WebServiceCall {
 
         JsonObjectRequest req;
         try {
-            req = new JsonObjectRequest(Request.Method.POST,request_URL,headerBodyParam,
+            req = new JsonObjectRequest(Request.Method.POST, request_URL, headerBodyParam,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -82,14 +83,13 @@ public class WebServiceCall {
                         public void onErrorResponse(VolleyError error) {
                             handleNetworkError(error);
                         }
-                    })
-            {
+                    }) {
 
                 @Override
-                public Map<String, String> getHeaders()  {
+                public Map<String, String> getHeaders() {
                     HashMap<String, String> headers = new HashMap<String, String>();
                     headers.put("Content-Type", "application/json");
-                    System.out.println("Headers: = "+headers);
+                    System.out.println("Headers: = " + headers);
                     return headers;
                 }
             };
@@ -101,19 +101,56 @@ public class WebServiceCall {
                             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             // Adding request to volley request queue.
             AppController.getInstance().addToRequestQueue(req);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
+    public void callRequest(JSONObject object, String url) {
+        JsonObjectRequest req;
+        try {
+            req = new JsonObjectRequest(Request.Method.POST, url, object,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d("JSON Response", response.toString());
+                            mRequestCompletion.onRequestCompletion(response);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            handleNetworkError(error);
+                        }
+                    }) {
+
+                @Override
+                public Map<String, String> getHeaders() {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/json");
+                    System.out.println("Headers: = " + headers);
+                    return headers;
+                }
+            };
+            Log.d("Req", req.toString());
+            req.setRetryPolicy(
+                    new DefaultRetryPolicy(
+                            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                            0,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            // Adding request to volley request queue.
+            AppController.getInstance().addToRequestQueue(req);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
     /**
-     *
      * @param error volley netwotrk error handling
      */
-    public void handleNetworkError(VolleyError error){
+    public void handleNetworkError(VolleyError error) {
 
         // Handle your error types accordingly.For Timeout & No connection error, you can show 'retry' button.
         // For AuthFailure, you can re login with user credentials.
@@ -122,31 +159,31 @@ public class WebServiceCall {
         // For ServerError 5xx, you can do retry or handle accordingly.
         NetworkResponse response = error.networkResponse;
         String json = null;
-        if(response != null && response.data != null){
-            switch(response.statusCode){
+        if (response != null && response.data != null) {
+            switch (response.statusCode) {
                 case 400:
                 case 401:
                     json = new String(response.data);
-                    Log.d("Volley error",""+json);
+                    Log.d("Volley error", "" + json);
 //                     json = trimMessage(json, "message");
 //                     if(json != null) displayMessage(json);
                     break;
             }
         }
-        if( error instanceof NetworkError) {
-        } else if( error instanceof ClientError) {
+        if (error instanceof NetworkError) {
+        } else if (error instanceof ClientError) {
             Log.d("ClientError", error.getMessage());
-        } else if( error instanceof ServerError) {
+        } else if (error instanceof ServerError) {
             Log.d("ServerError", error.getMessage());
-        } else if( error instanceof AuthFailureError) {
-           // Log.d("AuthFailureError", error.getMessage());
+        } else if (error instanceof AuthFailureError) {
+            // Log.d("AuthFailureError", error.getMessage());
             mRequestCompletion.onRequestCompletionError("AuthFailureError");
-        } else if( error instanceof ParseError) {
+        } else if (error instanceof ParseError) {
             Log.d("ParseError", error.getMessage());
-        } else if( error instanceof NoConnectionError) {
+        } else if (error instanceof NoConnectionError) {
             Log.d("NoConnectionError", error.getMessage());
             mRequestCompletion.onRequestCompletionError("Please connect to network...");
-        } else if( error instanceof TimeoutError) {
+        } else if (error instanceof TimeoutError) {
 //			Log.d("TimeoutError", error.getMessage());
             mRequestCompletion.onRequestCompletionError("TimeoutError");
         }

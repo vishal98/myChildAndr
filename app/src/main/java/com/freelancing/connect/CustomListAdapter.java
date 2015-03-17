@@ -3,9 +3,6 @@ package com.freelancing.connect;
 /**
  * Created by vijay on 2/26/2015.
  */
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -14,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class CustomListAdapter extends BaseAdapter {
@@ -40,11 +40,6 @@ public class CustomListAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
-    }
-
-    static class ViewHolder {
-        protected TextView text;
-        protected CheckBox checkbox;
     }
 
     @Override
@@ -76,6 +71,11 @@ public class CustomListAdapter extends BaseAdapter {
         holder.text.setText(studentData.get(position).get("studentName"));
 //        holder.checkbox.setChecked(list.get(position).isSelected());
         return view;
+    }
+
+    static class ViewHolder {
+        protected TextView text;
+        protected CheckBox checkbox;
     }
 
 }

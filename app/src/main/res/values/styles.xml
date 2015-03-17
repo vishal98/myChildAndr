@@ -5,4 +5,14 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="hdpi_login_textfield_style">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textColorHint">@color/blue</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:background">@drawable/login_textbox_selector</item>
+    </style>
 </resources>
