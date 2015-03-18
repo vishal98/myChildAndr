@@ -67,9 +67,12 @@ public class LoginActivity extends BaseActivity implements RequestCompletion,Vie
 
     }
     public void UpdateUI(String roleUser){
-        if(roleUser.contains("ROLE_USER")){
+        if(roleUser.contains("ROLE_PARENT")){
             Log.i("userRole",roleUser);
             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+        }
+        else {
+            //TODO:Teacher home screen
         }
     }
 
