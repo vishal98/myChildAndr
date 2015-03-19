@@ -39,7 +39,7 @@
             android:name="com.mychild.view.LoginActivity"
             android:label="@string/title_activity_Login"></activity>
         <activity
-            android:name="com.mychild.view.HomeActivity"
+            android:name=".ParentHomeActivity"
             android:label="@string/title_activity_home"></activity>
         <activity android:name="com.mychild.view.StudentList2" />
 

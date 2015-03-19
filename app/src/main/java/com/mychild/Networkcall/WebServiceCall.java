@@ -17,8 +17,9 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.mychild.volley.AppController;
 import com.google.gson.Gson;
+import com.mychild.sharedPreference.PrefManager;
+import com.mychild.volley.AppController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +35,7 @@ public class WebServiceCall {
 
     public static String getToken;
     private static Activity mContext;
+    static PrefManager sharedPref;
     Context context;
     private RequestCompletion mRequestCompletion;
 
@@ -51,14 +53,12 @@ public class WebServiceCall {
         parmKeyValue.put("password", Password);
         Gson gson = new Gson();
         String parmsToJson = gson.toJson(parmKeyValue);
-//        Log.d("parmKeyValue2.2", new JsonParser().parse(parmsToJson).getAsJsonObject().toString());
         try {
             headerBodyParam = new JSONObject(parmsToJson);
         } catch (JSONException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-//        Log.d("parmKeyValue3", headerBodyParam.toString());
         JsonObjectRequest req;
         try {
             req = new JsonObjectRequest(Request.Method.POST, request_URL, headerBodyParam,
@@ -67,8 +67,8 @@ public class WebServiceCall {
                     public void onResponse(JSONObject response) {
                         // handle response
                         Log.d("JSON Response", response.toString());
+                        TokenID(response);
                         mRequestCompletion.onRequestCompletion(response);
-
                     }
                },
                new Response.ErrorListener() {
@@ -140,6 +140,47 @@ public class WebServiceCall {
         }
     }
 
+    public void getCallRequest(String url) {
+        JsonObjectRequest req;
+        try {
+            req = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d("Parent Details.", response.toString());
+                            mRequestCompletion.onRequestCompletion(response);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            handleNetworkError(error);
+                        }
+                    }) {
+
+                @Override
+                public Map<String, String> getHeaders() {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/json");
+                    headers.put("X-Auth-Token",getToken);
+                    System.out.println("Headers: = " + headers);
+                    return headers;
+                }
+            };
+            Log.d("Req", req.toString());
+            req.setRetryPolicy(
+                    new DefaultRetryPolicy(
+                            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                            0,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            // Adding request to volley request queue.
+            AppController.getInstance().addToRequestQueue(req);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
     /**
      * @param error volley netwotrk error handling
      */
@@ -165,11 +206,10 @@ public class WebServiceCall {
         }
         if (error instanceof NetworkError) {
         } else if (error instanceof ClientError) {
-            Log.d("ClientError", error.getMessage());
+            mRequestCompletion.onRequestCompletionError("ClientError");
         } else if (error instanceof ServerError) {
             Log.d("ServerError", error.getMessage());
         } else if (error instanceof AuthFailureError) {
-            // Log.d("AuthFailureError", error.getMessage());
             mRequestCompletion.onRequestCompletionError("AuthFailureError");
         } else if (error instanceof ParseError) {
             Log.d("ParseError", error.getMessage());
@@ -177,9 +217,26 @@ public class WebServiceCall {
             Log.d("NoConnectionError", error.getMessage());
             mRequestCompletion.onRequestCompletionError("Please connect to network...");
         } else if (error instanceof TimeoutError) {
-//			Log.d("TimeoutError", error.getMessage());
             mRequestCompletion.onRequestCompletionError("TimeoutError");
         }
 
     }
+
+    /**
+     * Storing the login data in shared preference
+     */
+    public static String TokenID(JSONObject response){
+        Log.d("Enterted...", "TokenID");
+        sharedPref = new PrefManager(mContext);
+        try {
+            getToken = response.getString("access_token");
+            sharedPref.SaveLoginTokenInInSharedPref(getToken);
+            Log.d("getToken", getToken);
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return getToken;
+    }
+
 }

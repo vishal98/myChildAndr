@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 
 public class LoginActivity extends BaseActivity implements RequestCompletion,View.OnClickListener {
+    public static final String TAG = LoginActivity.class.getSimpleName();
     Button login_btn;
 
     @Override
@@ -36,8 +37,7 @@ public class LoginActivity extends BaseActivity implements RequestCompletion,Vie
 
     @Override
     public void onRequestCompletion(JSONObject response) {
-//        Toast.makeText(this, "onRequestCompletion", Toast.LENGTH_LONG).show();
-        Log.i("Login",response.toString());
+        Log.i(TAG,response.toString());
         String userRole = validatingUser(response);
         Log.i("CompletionuserRole",userRole);
         UpdateUI(userRole);
@@ -47,7 +47,7 @@ public class LoginActivity extends BaseActivity implements RequestCompletion,Vie
     @Override
     public void onRequestCompletionError(String error) {
         Constants.stopProgress(this);
-        Constants.showMessage(this,"Sorry","Invalid user login");
+        Constants.showMessage(this,"Sorry",error);
         Log.i("Login",error);
 
     }
@@ -69,7 +69,7 @@ public class LoginActivity extends BaseActivity implements RequestCompletion,Vie
     public void UpdateUI(String roleUser){
         if(roleUser.contains("ROLE_PARENT")){
             Log.i("userRole",roleUser);
-            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            startActivity(new Intent(LoginActivity.this, ParentHomeActivity.class));
         }
         else {
             //TODO:Teacher home screen
