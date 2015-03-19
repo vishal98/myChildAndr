@@ -10,6 +10,7 @@ import android.content.DialogInterface;
  */
 public abstract class Constants {
     public static ProgressDialog progress;
+    public static String GET_PARENT_REQUEST_URL = "http://default-environment-8tpprium54.elasticbeanstalk.com/Parent//username/ravi";
 
     public static void showMessage(Context context, String title, String message){
         AlertDialog alert = new AlertDialog.Builder(context).create();
@@ -18,7 +19,7 @@ public abstract class Constants {
         alert.setButton(Dialog.BUTTON_POSITIVE, "ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
+        // TODO Auto-generated method stub
             }
         });
         alert.show();
