@@ -3,6 +3,8 @@ package com.mychild.view;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.pushbots.push.Pushbots;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,11 +15,13 @@ public class SplashScreenActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                finish();
+                Pushbots.sharedInstance().init(SplashScreenActivity.this);
                 startActivity(new Intent().setClass(SplashScreenActivity.this, LoginActivity.class));
+                finish();
             }
         };
         timer = new Timer();
