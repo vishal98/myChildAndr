@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- res/drawable/rounded_edittext.xml -->
+<?xml version="1.0" encoding="utf-8"?><!-- res/drawable/rounded_edittext.xml -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="line">
 
@@ -13,5 +12,10 @@
     <stroke
         android:width="1dp"
         android:color="@color/color_password" />
+    <padding
+        android:bottom="0dp"
+        android:left="5dp"
+        android:right="5dp"
+        android:top="15dp" />
 
 </shape>

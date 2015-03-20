@@ -10,7 +10,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="20dp">
-        
 
 
         <ImageView
@@ -30,14 +29,15 @@
             android:text="@string/login_parent_teacher_txt"
             android:layout_below="@+id/logo_iv"
             android:textStyle="bold"
-            android:textColor="@color/grey"/>
+            android:textColor="@color/grey" />
 
         <View
             android:id="@+id/view_parent_teacher"
             android:layout_width="fill_parent"
             android:layout_height="2dp"
             android:layout_below="@+id/parent_teacher_txt"
-            android:background="@drawable/login_btn_selector"/>
+            android:layout_marginTop="4dp"
+            android:background="@color/green" />
 
         <EditText
             android:id="@+id/user_id"
@@ -46,10 +46,17 @@
             android:layout_height="@dimen/hdpi_textfield_height"
             android:layout_below="@+id/view_parent_teacher"
             android:layout_marginTop="40dp"
-            android:background="@drawable/login_textbox_selector"
+            android:background="@null"
             android:hint="@string/userid_hint"
             android:inputType="textPersonName"
             android:typeface="sans" />
+
+        <View
+            android:id="@+id/userid_line"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/user_id"
+            android:background="@color/color_password" />
 
         <EditText
             android:id="@+id/password"
@@ -58,14 +65,21 @@
             android:layout_height="@dimen/hdpi_textfield_height"
             android:layout_below="@+id/user_id"
             android:layout_marginTop="15dp"
-            android:background="@drawable/login_textbox_selector"
             android:hint="@string/password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:background="@null" />
+
+        <View
+            android:id="@+id/password_line"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/password"
+            android:background="@color/color_password" />
 
         <Button
             android:id="@+id/login_btn"
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/hdpi_textfield_height"
+            android:layout_height="@dimen/hdpi_login_height"
             android:layout_below="@+id/password"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
@@ -82,15 +96,15 @@
             android:layout_width="fill_parent"
             android:layout_height="5dp"
             android:layout_below="@+id/login_btn"
-            android:background="@color/Darkgreen"/>
+            android:background="@color/Darkgreen" />
 
         <TextView
             android:id="@+id/login_footer"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text = "@string/login_footer_txt"
-            android:gravity="center"/>
+            android:text="@string/login_footer_txt"
+            android:gravity="center" />
 
         <!--  <Button
               android:id="@+id/reset_btn"

@@ -9,9 +9,9 @@
         <item name="android:textColor">@color/color_username</item>
         <item name="android:textColorHint">@color/color_password</item>
         <item name="android:textSize">15sp</item>
-        <item name="android:paddingLeft">10dp</item>
-        <item name="android:paddingRight">10dp</item>
-        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingBottom">0dp</item>
         <item name="android:paddingTop">5dp</item>
         <item name="android:background">@drawable/login_textbox_selector</item>
     </style>

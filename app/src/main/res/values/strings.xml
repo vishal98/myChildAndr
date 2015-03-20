@@ -31,5 +31,6 @@
         <item>Chemistry</item>
     </string-array>
 
+    <string name="no_network_connection">No Network connection</string>
 
 </resources>

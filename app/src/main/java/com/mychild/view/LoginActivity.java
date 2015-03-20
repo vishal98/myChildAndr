@@ -3,19 +3,21 @@ package com.mychild.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
+import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class LoginActivity extends BaseActivity implements RequestCompletion,View.OnClickListener {
+public class LoginActivity extends BaseActivity implements RequestCompletion, View.OnClickListener {
     public static final String TAG = LoginActivity.class.getSimpleName();
     Button login_btn;
 
@@ -27,19 +29,13 @@ public class LoginActivity extends BaseActivity implements RequestCompletion,Vie
         login_btn.setOnClickListener(LoginActivity.this);
     }
 
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
+        Log.i(TAG, responseJson.toString());
+        CommonUtils.getLogs("Response : " + responseJson);
 
-    @Override
-    public void onRequestCompletion(JSONObject responseJson,JSONArray responseArray) {
-        Log.i(TAG,responseJson.toString());
         String userRole = validatingUser(responseJson);
-        Log.i("CompletionuserRole",userRole);
+        Log.i("CompletionuserRole", userRole);
         UpdateUI(userRole);
         Constants.stopProgress(this);
     }
@@ -47,46 +43,48 @@ public class LoginActivity extends BaseActivity implements RequestCompletion,Vie
     @Override
     public void onRequestCompletionError(String error) {
         Constants.stopProgress(this);
-        Constants.showMessage(this,"Sorry",error);
-        Log.i("Login",error);
+        Constants.showMessage(this, "Sorry", error);
+        Log.i("Login", error);
 
     }
 
     @Override
     public void onClick(View v) {
-      final EditText usedID = (EditText) findViewById(R.id.user_id);
-      final EditText pwd = (EditText) findViewById(R.id.password);
-        if(usedID.getText().length()==0 && pwd.getText().length()==0){
-            Constants.showMessage(this,"Sorry","UserName & Password cannot be empty.");
+        final EditText usedID = (EditText) findViewById(R.id.user_id);
+        final EditText pwd = (EditText) findViewById(R.id.password);
+        if (usedID.getText().length() == 0 && pwd.getText().length() == 0) {
+            Constants.showMessage(this, "Sorry", "UserName & Password cannot be empty.");
+        } else {
+            if (CommonUtils.isNetworkAvailable(this)) {
+                Constants.showProgress(LoginActivity.this);
+                WebServiceCall call = new WebServiceCall(LoginActivity.this);
+                call.LoginRequestApi(usedID.getText().toString(), pwd.getText().toString());
+            } else {
+                CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
+            }
         }
-        else{
-            Constants.showProgress(LoginActivity.this);
-            WebServiceCall call = new WebServiceCall(LoginActivity.this);
-            call.LoginRequestApi(usedID.getText().toString(),pwd.getText().toString());
-        }
-
     }
-    public void UpdateUI(String roleUser){
-        if(roleUser.contains("ROLE_PARENT")){
-            Log.i("userRole",roleUser);
+
+    public void UpdateUI(String roleUser) {
+        if (roleUser.contains("ROLE_PARENT")) {
+            Log.i("userRole", roleUser);
             startActivity(new Intent(LoginActivity.this, ParentHomeActivity.class));
-        }
-        else {
+        } else {
             //TODO:Teacher home screen
         }
     }
 
-    public String validatingUser(JSONObject response){
+    public String validatingUser(JSONObject response) {
         String role = null;
         try {
-            String accessToken =response.getString("access_token");
-            Log.i("loginActivity",accessToken);
+            String accessToken = response.getString("access_token");
+            Log.i("loginActivity", accessToken);
             JSONArray user = response.getJSONArray("roles");
-            for (int i = 0; i<user.length();i++){
-                role=user.getString(i);
-                Log.i("inside loop",role);
+            for (int i = 0; i < user.length(); i++) {
+                role = user.getString(i);
+                Log.i("inside loop", role);
             }
-            Log.i("loginActivity",accessToken+ "," + role);
+            Log.i("loginActivity", accessToken + "," + role);
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
