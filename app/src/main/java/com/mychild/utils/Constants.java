@@ -10,8 +10,8 @@ import android.content.DialogInterface;
  */
 public abstract class Constants {
     public static ProgressDialog progress;
-    public static String GET_PARENT_REQUEST_URL = "http://default-environment-8tpprium54.elasticbeanstalk.com/Parent//username/ravi";
-
+    public static String GET_PARENT_REQUEST_URL = "http://default-environment-8tpprium54.elasticbeanstalk.com/Parent/username/ravi";
+    public static String GET_TEACHER_REQUEST_URL = "http://default-environment-8tpprium54.elasticbeanstalk.com/Teacher/id/test_teacher";
     public static void showMessage(Context context, String title, String message){
         AlertDialog alert = new AlertDialog.Builder(context).create();
         alert.setTitle(title);

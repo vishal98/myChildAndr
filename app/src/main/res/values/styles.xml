@@ -6,8 +6,8 @@
     </style>
 
     <style name="hdpi_login_textfield_style">
-        <item name="android:textColor">@color/blue</item>
-        <item name="android:textColorHint">@color/blue</item>
+        <item name="android:textColor">@color/color_username</item>
+        <item name="android:textColorHint">@color/color_password</item>
         <item name="android:textSize">15sp</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>

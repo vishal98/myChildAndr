@@ -36,9 +36,9 @@ public class LoginActivity extends BaseActivity implements RequestCompletion,Vie
     }
 
     @Override
-    public void onRequestCompletion(JSONObject response) {
-        Log.i(TAG,response.toString());
-        String userRole = validatingUser(response);
+    public void onRequestCompletion(JSONObject responseJson,JSONArray responseArray) {
+        Log.i(TAG,responseJson.toString());
+        String userRole = validatingUser(responseJson);
         Log.i("CompletionuserRole",userRole);
         UpdateUI(userRole);
         Constants.stopProgress(this);

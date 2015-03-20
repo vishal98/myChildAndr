@@ -16,14 +16,14 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.mychild.sharedPreference.PrefManager;
 import com.mychild.volley.AppController;
-
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -64,11 +64,11 @@ public class WebServiceCall {
             req = new JsonObjectRequest(Request.Method.POST, request_URL, headerBodyParam,
                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(JSONObject responseJson) {
                         // handle response
-                        Log.d("JSON Response", response.toString());
-                        TokenID(response);
-                        mRequestCompletion.onRequestCompletion(response);
+                        Log.d("JSON Response", responseJson.toString());
+                        TokenID(responseJson);
+                        mRequestCompletion.onRequestCompletion(responseJson,null);
                     }
                },
                new Response.ErrorListener() {
@@ -106,9 +106,9 @@ public class WebServiceCall {
             req = new JsonObjectRequest(Request.Method.POST, url, object,
                     new Response.Listener<JSONObject>() {
                         @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d("JSON Response", response.toString());
-                            mRequestCompletion.onRequestCompletion(response);
+                        public void onResponse(JSONObject responseJson) {
+                            Log.d("JSON Response", responseJson.toString());
+                            mRequestCompletion.onRequestCompletion(responseJson,null);
                         }
                     },
                     new Response.ErrorListener() {
@@ -141,25 +141,24 @@ public class WebServiceCall {
     }
 
     public void getCallRequest(String url) {
-        JsonObjectRequest req;
-        try {
-            req = new JsonObjectRequest(Request.Method.GET, url, null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d("Parent Details.", response.toString());
-                            mRequestCompletion.onRequestCompletion(response);
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            handleNetworkError(error);
-                        }
-                    }) {
 
+        try {
+            JsonArrayRequest req = new JsonArrayRequest(url,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            Log.d("Tag", response.toString());
+                            mRequestCompletion.onRequestCompletion(null,response);
+                        }
+                    }, new Response.ErrorListener() {
                 @Override
-                public Map<String, String> getHeaders() {
+                public void onErrorResponse(VolleyError error) {
+                    handleNetworkError(error);
+                }
+            })
+            {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
                     HashMap<String, String> headers = new HashMap<String, String>();
                     headers.put("Content-Type", "application/json");
                     headers.put("X-Auth-Token",getToken);
@@ -167,13 +166,14 @@ public class WebServiceCall {
                     return headers;
                 }
             };
+
             Log.d("Req", req.toString());
             req.setRetryPolicy(
                     new DefaultRetryPolicy(
                             DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
                             0,
                             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            // Adding request to volley request queue.
+            // Adding request to volley request queue
             AppController.getInstance().addToRequestQueue(req);
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -212,6 +212,7 @@ public class WebServiceCall {
         } else if (error instanceof AuthFailureError) {
             mRequestCompletion.onRequestCompletionError("AuthFailureError");
         } else if (error instanceof ParseError) {
+            mRequestCompletion.onRequestCompletionError("ParseError..");
             Log.d("ParseError", error.getMessage());
         } else if (error instanceof NoConnectionError) {
             Log.d("NoConnectionError", error.getMessage());

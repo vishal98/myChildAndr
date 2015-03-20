@@ -14,8 +14,10 @@ import android.widget.Toast;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
+import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ParentHomeActivity extends BaseActivity implements RequestCompletion{
@@ -65,8 +67,9 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     }
 
     @Override
-    public void onRequestCompletion(JSONObject response) {
-        Log.i(TAG, response.toString());
+    public void onRequestCompletion(JSONObject responseJson,JSONArray responseArray) {
+        CommonUtils.getLogs("Parent Response");
+        Log.i(TAG, responseArray.toString());
         Constants.stopProgress(this);
     }
 
