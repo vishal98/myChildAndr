@@ -19,7 +19,7 @@ import org.json.JSONObject;
 
 public class LoginActivity extends BaseActivity implements RequestCompletion, View.OnClickListener {
     public static final String TAG = LoginActivity.class.getSimpleName();
-    Button login_btn;
+    private Button login_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,6 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         Log.i(TAG, responseJson.toString());
-        CommonUtils.getLogs("Response : " + responseJson);
-
         String userRole = validatingUser(responseJson);
         Log.i("CompletionuserRole", userRole);
         UpdateUI(userRole);
@@ -45,7 +43,6 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
         Constants.stopProgress(this);
         Constants.showMessage(this, "Sorry", error);
         Log.i("Login", error);
-
     }
 
     @Override
@@ -56,6 +53,7 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
             Constants.showMessage(this, "Sorry", "UserName & Password cannot be empty.");
         } else {
             if (CommonUtils.isNetworkAvailable(this)) {
+                CommonUtils.getLogs("Clicked");
                 Constants.showProgress(LoginActivity.this);
                 WebServiceCall call = new WebServiceCall(LoginActivity.this);
                 call.LoginRequestApi(usedID.getText().toString(), pwd.getText().toString());
@@ -69,8 +67,10 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
         if (roleUser.contains("ROLE_PARENT")) {
             Log.i("userRole", roleUser);
             startActivity(new Intent(LoginActivity.this, ParentHomeActivity.class));
-        } else {
-            //TODO:Teacher home screen
+            finish();
+        } else if (roleUser.contains("ROLE_TEACHER")) {
+            startActivity(new Intent(LoginActivity.this, TeacherHomeActivity.class));
+            finish();
         }
     }
 

@@ -37,11 +37,19 @@
         </activity>
         <activity
             android:name="com.mychild.view.LoginActivity"
-            android:label="@string/title_activity_Login"></activity>
+            android:label="@string/title_activity_Login"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ParentHomeActivity"
-            android:label="@string/title_activity_home"></activity>
-        <activity android:name="com.mychild.view.StudentList2" />
+            android:label="@string/title_activity_home"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".TeacherHomeActivity"
+            android:label="@string/title_activity_home"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.mychild.view.StudentList2"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.pushbots.google.gcm.GCMBroadcastReceiver"

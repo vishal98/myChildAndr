@@ -31,6 +31,9 @@
         <item>Chemistry</item>
     </string-array>
 
+    //urls
+    <string name="url_teacher_student_list">http://Default-Environment-8tpprium54.elasticbeanstalk.com/Teacher/studentList/1</string>
+
     <string name="no_network_connection">No Network connection</string>
 
 </resources>
