@@ -6,10 +6,10 @@ import android.widget.Button;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
-import com.mychild.dto.StudentDTO;
-import com.mychild.jsonparser.TeacherHomeJsonParser;
+import com.mychild.model.StudentDTO;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
+import com.mychild.webserviceparser.TeacherHomeJsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -1,6 +1,6 @@
-package com.mychild.jsonparser;
+package com.mychild.webserviceparser;
 
-import com.mychild.dto.StudentDTO;
+import com.mychild.model.StudentDTO;
 
 import org.json.JSONArray;
 import org.json.JSONException;

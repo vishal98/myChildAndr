@@ -1,4 +1,4 @@
-package com.mychild.dto;
+package com.mychild.model;
 
 /**
  * Created by Sandeep on 21-03-2015.
