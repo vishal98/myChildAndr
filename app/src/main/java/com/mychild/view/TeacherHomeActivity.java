@@ -24,22 +24,36 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_home);
-        ((Button) findViewById(R.id.button)).setOnClickListener(this);
+        ((Button) findViewById(R.id.message_btn)).setOnClickListener(this);
+        ((Button) findViewById(R.id.profile_btn)).setOnClickListener(this);
+        ((Button) findViewById(R.id.inbox_btn)).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (CommonUtils.isNetworkAvailable(this)) {
-            Constants.showProgress(this);
-            WebServiceCall call = new WebServiceCall(TeacherHomeActivity.this);
-            call.getCallRequest(getString(R.string.url_teacher_student_list));
-        } else {
-            CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
+        int id = v.getId();
+        switch (id) {
+            case R.id.message_btn:
+                if (CommonUtils.isNetworkAvailable(this)) {
+                    Constants.showProgress(this);
+                    WebServiceCall call = new WebServiceCall(TeacherHomeActivity.this);
+                    call.getCallRequest(getString(R.string.url_teacher_student_list));
+                } else {
+                    CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
+                }
+                break;
+            case R.id.profile_btn:
+                break;
+            case R.id.inbox_btn:
+                break;
+            default:
         }
+
     }
 
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
+        CommonUtils.getLogs("Response :" + responseArray);
         Constants.stopProgress(this);
         ArrayList<StudentDTO> studentsList = TeacherHomeJsonParser.getInstance().getStudentsList(responseArray);
     }

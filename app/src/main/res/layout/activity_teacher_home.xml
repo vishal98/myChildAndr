@@ -4,11 +4,32 @@
     android:layout_height="match_parent">
 
     <Button
+
+        android:id="@+id/message_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true"
+        android:text="Messages" />
+
+    <Button
+
+        android:id="@+id/profile_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/message_btn"
+        android:layout_alignLeft="@id/message_btn"
+        android:layout_alignRight="@+id/message_btn"
+        android:layout_centerHorizontal="true"
+        android:text="Profile" />
+
+    <Button
+
+        android:id="@+id/inbox_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_btn"
+        android:layout_alignLeft="@id/message_btn"
+        android:layout_alignRight="@+id/message_btn"
+        android:layout_centerHorizontal="true"
+        android:text="Inbox" />
 </RelativeLayout>
