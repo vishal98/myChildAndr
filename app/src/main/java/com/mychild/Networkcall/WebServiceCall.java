@@ -50,7 +50,7 @@ public class WebServiceCall {
 
 
     public void LoginRequestApi(String userName, String Password) {
-        String request_URL = mContext.getString(R.string.BASE_URL)+mContext.getString(R.string.LOGIN_URL_ENDPOINT);
+        String request_URL = mContext.getString(R.string.base_url)+mContext.getString(R.string.login_url_endpoint);
         Log.d("LOGIN URL", request_URL);
         JSONObject headerBodyParam = null;
         LinkedHashMap<String, String> parmKeyValue = new LinkedHashMap<String, String>();

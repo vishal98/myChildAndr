@@ -79,7 +79,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
             Constants.showProgress(ParentHomeActivity.this);
             SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
             if(saredpreferences.contains("UserName")){
-                Url_parent_details=getString(R.string.BASE_URL)+getString(R.string.PARENT_URL_ENDPOINT)+sharedPref.getUserNameFromSharedPref();
+                Url_parent_details=getString(R.string.base_url)+getString(R.string.parent_url_endpoint)+sharedPref.getUserNameFromSharedPref();
                 Log.i("===Url_parent===", Url_parent_details);
             }
             WebServiceCall call = new WebServiceCall(ParentHomeActivity.this);
