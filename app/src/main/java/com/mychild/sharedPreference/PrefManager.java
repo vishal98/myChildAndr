@@ -15,6 +15,7 @@ public class PrefManager {
 	int PRIVATE_MODE = 0; 
 	private static final String RESPONSE = "Response";
 	public static final String KEY_LOGIN_TOKEN = "Login_Token";
+    public static final String KEY_User_Name = "UserName";
 	public PrefManager(Context context){
 	
 		this.context = context;
@@ -44,5 +45,29 @@ public class PrefManager {
 		Log.d("Get login token =", gettoken);
 		return gettoken;
 	}
+
+    /**
+     *
+     * @param Username
+     */
+
+    public void SaveUserNameInInSharedPref(String Username){
+        Log.d(" Set Username=", Username);
+        editor.putString(KEY_User_Name,Username);
+        editor.commit();
+        Log.d("Username after store", pref.getString(KEY_User_Name, null));
+    }
+
+    /**
+     *
+     * @return stored username .
+     */
+    public String getUserNameFromSharedPref(){
+        Log.d("get UserNAme", pref.getString(KEY_User_Name, null));
+        String getUserName = pref.getString(KEY_User_Name, null);
+        Log.d("Get UserName =", getUserName);
+        return getUserName;
+    }
+
 	
 }

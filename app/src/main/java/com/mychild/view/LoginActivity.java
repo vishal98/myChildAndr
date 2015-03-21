@@ -9,6 +9,8 @@ import android.widget.EditText;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
+import com.mychild.model.LoginModel;
+import com.mychild.sharedPreference.PrefManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 
@@ -31,6 +33,7 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
 
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
+        CommonUtils.getLogs("Login Response");
         Log.i(TAG, responseJson.toString());
         String userRole = validatingUser(responseJson);
         Log.i("CompletionuserRole", userRole);
@@ -76,15 +79,22 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
 
     public String validatingUser(JSONObject response) {
         String role = null;
+        PrefManager sharedPref = new PrefManager(this);
         try {
-            String accessToken = response.getString("access_token");
-            Log.i("loginActivity", accessToken);
-            JSONArray user = response.getJSONArray("roles");
-            for (int i = 0; i < user.length(); i++) {
-                role = user.getString(i);
-                Log.i("inside loop", role);
+            if (response != null) {
+                LoginModel loginModel = new LoginModel();
+                if (response.has("username")) {
+                    Log.i("Username", response.getString("username"));
+                    sharedPref.SaveUserNameInInSharedPref(response.getString("username"));
+                }
+                JSONArray user = response.getJSONArray("roles");
+                for (int i = 0; i < user.length(); i++) {
+                    role = user.getString(i);
+                    Log.i("inside loop", role);
+                }
+                Log.i("loginActivity", "role ="+ role);
             }
-            Log.i("loginActivity", accessToken + "," + role);
+
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
