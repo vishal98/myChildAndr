@@ -31,9 +31,12 @@
         <item>Chemistry</item>
     </string-array>
 
-    //urls
-    <string name="url_teacher_student_list">http://Default-Environment-8tpprium54.elasticbeanstalk.com/Teacher/studentList/1</string>
 
+    <!--Endpoint urls -->
+    <string name="BASE_URL">http://default-environment-8tpprium54.elasticbeanstalk.com</string>
+    <string name="LOGIN_URL_ENDPOINT">/api/login</string>
+    <string name="url_teacher_student_list">http://Default-Environment-8tpprium54.elasticbeanstalk.com/Teacher/studentList/1</string>
+    <string name="PARENT_URL_ENDPOINT">/Parent/username/</string>
     <string name="no_network_connection">No Network connection</string>
 
 </resources>

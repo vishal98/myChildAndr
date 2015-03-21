@@ -20,10 +20,14 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.mychild.sharedPreference.PrefManager;
+import com.mychild.utils.CommonUtils;
+import com.mychild.view.R;
 import com.mychild.volley.AppController;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -46,7 +50,8 @@ public class WebServiceCall {
 
 
     public void LoginRequestApi(String userName, String Password) {
-        String request_URL = "http://default-environment-8tpprium54.elasticbeanstalk.com/api/login";
+        String request_URL = mContext.getString(R.string.BASE_URL)+mContext.getString(R.string.LOGIN_URL_ENDPOINT);
+        Log.d("LOGIN URL", request_URL);
         JSONObject headerBodyParam = null;
         LinkedHashMap<String, String> parmKeyValue = new LinkedHashMap<String, String>();
         parmKeyValue.put("username", userName);
@@ -227,6 +232,7 @@ public class WebServiceCall {
      * Storing the login data in shared preference
      */
     public static String TokenID(JSONObject response){
+        CommonUtils.getLogs("Login Access Token Stored");
         Log.d("Enterted...", "TokenID");
         sharedPref = new PrefManager(mContext);
         try {
