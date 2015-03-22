@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context="com.mychild.view.AssignTaskActivity">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/green">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/teacher_details_rl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/header"
+        android:background="@color/black">
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/teacher_details_rl"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="20dp">
+
+        <TextView
+            style="@style/hdpi_assign_task_label_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_class" />
+
+        <Spinner
+            android:id="@+id/class_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/hdpi_textfield_height"
+            android:layout_weight="0.5"
+            android:background="@drawable/login_textbox_selector"
+            android:scrollbars="none"
+            android:spinnerMode="dropdown" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

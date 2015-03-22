@@ -1,5 +1,6 @@
 package com.mychild.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -57,6 +58,7 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.inbox_btn:
+                startActivity(new Intent(this, AssignTaskActivity.class));
                 break;
             default:
         }

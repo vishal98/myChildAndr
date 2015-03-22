@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mychild.view.SelectStudentActivity"
+    android:background="@drawable/background">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/green">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/teacher_details_rl"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/header"
+        android:layout_height="50dp"
+        android:background="@color/black">
+
+    </RelativeLayout>
+
+</RelativeLayout>
