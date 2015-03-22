@@ -37,7 +37,7 @@
             style="@style/hdpi_assign_task_label_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/choose_class" />
+            android:text="@string/choose_class_caps" />
 
         <Spinner
             android:id="@+id/class_spinner"

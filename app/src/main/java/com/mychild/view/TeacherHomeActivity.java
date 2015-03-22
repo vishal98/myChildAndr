@@ -58,7 +58,7 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.inbox_btn:
-                startActivity(new Intent(this, AssignTaskActivity.class));
+                startActivity(new Intent(this, SelectStudentActivity.class));
                 break;
             default:
         }

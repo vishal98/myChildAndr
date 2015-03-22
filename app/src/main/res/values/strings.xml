@@ -44,13 +44,20 @@
     <string name="hello_world">Hello world!</string>
 
     <!--assigntask-->
-    <string name="choose_class">CHOOSE CLASS *</string>
-    <string name="choose_subject">CHOOSE SUBJECT</string>
-    <string name="task_to_do">TASK TO DO</string>
-    <string name="select_students">SELECT STUDENTS</string>
-    <string name="all_students">ALL STUDENTS</string>
+    <string name="choose_class_caps">CHOOSE CLASS *</string>
+    <string name="choose_subject_caps">CHOOSE SUBJECT</string>
+    <string name="task_to_do_caps">TASK TO DO</string>
+    <string name="select_students_caps">SELECT STUDENTS</string>
+    <string name="all_students_caps">ALL STUDENTS</string>
     <string name="selected_students">Selected Students</string>
-    <string name="assign_task">ASSIGN TASK</string>
+    <string name="assign_task_caps">ASSIGN TASK</string>
     <string name="title_activity_select_student">SelectStudentActivity</string>
+
+
+    <!--selectestudent activity-->
+    <string name="start_typing_name">Start typing a name</string>
+    <string name="all_students">All Students</string>
+    <string name="select_students">Select Students</string>
+    <string name="done_caps">DONE</string>
 
 </resources>

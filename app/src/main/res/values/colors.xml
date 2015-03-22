@@ -7,5 +7,6 @@
     <color name="grey">#747474</color>
     <color name="color_username">#5a5a5a</color>
     <color name="color_password">#5a5a5a</color>
+    <color name="done_red_color">#fffa5559</color>
 
 </resources>
