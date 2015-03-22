@@ -1,5 +1,6 @@
 package com.mychild.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
  * Created by Sandeep on 20-03-2015.
  */
 public class TeacherHomeActivity extends BaseActivity implements View.OnClickListener, RequestCompletion {
+    String teacherName = "test_teacher";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,13 +41,24 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
                     Constants.showProgress(this);
                     WebServiceCall call = new WebServiceCall(TeacherHomeActivity.this);
                     call.getCallRequest(getString(R.string.url_teacher_student_list));
+                    CommonUtils.getLogs("URL is : " + getString(R.string.url_teacher_student_list));
+
                 } else {
                     CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
                 }
                 break;
             case R.id.profile_btn:
+                if (CommonUtils.isNetworkAvailable(this)) {
+                    Constants.showProgress(this);
+                    WebServiceCall call = new WebServiceCall(TeacherHomeActivity.this);
+                    call.getCallRequest(getString(R.string.base_url) + getString(R.string.url_teachers_list) + teacherName);
+                    CommonUtils.getLogs("URL is : " + getString(R.string.base_url) + getString(R.string.url_teachers_list) + teacherName);
+                } else {
+                    CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
+                }
                 break;
             case R.id.inbox_btn:
+                startActivity(new Intent(this, AssignTaskActivity.class));
                 break;
             default:
         }
