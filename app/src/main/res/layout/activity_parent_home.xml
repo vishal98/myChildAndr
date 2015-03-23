@@ -5,12 +5,49 @@
     android:orientation="vertical"
     android:background="@drawable/background">
 
-    <LinearLayout
+    <include android:id="@+id/actionBar"
+    layout="@layout/topbar"/>
+
+    <RelativeLayout
         android:id="@+id/parent_layout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/parent_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/person"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ParentName"
+            android:layout_toRightOf="@+id/parent_image"
+            android:layout_marginTop="20dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Switch Child"
+            android:layout_marginLeft="10dp"
+            android:paddingLeft="10dp"
+            android:background="@drawable/switchchild_btn_selector"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp" />
+
+        </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/parent_layout2"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/parent_layout1">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -28,10 +65,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/parent_layout2"
+        android:id="@+id/parent_layout3"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:layout_below="@+id/parent_layout1"
+        android:layout_below="@+id/parent_layout2"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:paddingTop="20dp"
@@ -56,7 +93,7 @@
 
 
     <LinearLayout
-        android:id="@+id/parent_layout3"
+        android:id="@+id/parent_layout4"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:layout_below="@+id/parent_layout2"
