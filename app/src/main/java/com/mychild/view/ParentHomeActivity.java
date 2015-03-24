@@ -6,10 +6,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
+import com.mychild.customView.CustomDialogClass;
 import com.mychild.sharedPreference.PrefManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
@@ -28,30 +30,19 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_home);
-//        sp = (Spinner) findViewById(R.id.select_subject);
-//        selectStudent = (Button) findViewById(R.id.select_student);
-//        mesToStudent = (EditText)findViewById(R.id.texttosend);
-////      String spinnerText = sp.getSelectedItem().toString();
-//        msgToStudentText = mesToStudent.getText().toString();
-//        selectStudent.setEnabled(false);
-//        spinnerData();
-//        mesToStudent.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                enableDisableView();
-//            }
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                enableDisableView();
-//            }
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                Toast.makeText(ParentHomeActivity.this,"afterTextChanged",Toast.LENGTH_LONG).show();
-//                enableDisableView();
-//            }
-//        });
-//        selectStudent.setOnClickListener(ParentHomeActivity.this);
-    }
+
+        ImageView homeWork = (ImageView) findViewById(R.id.homework);
+        homeWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomDialogClass customDialogue=new CustomDialogClass(ParentHomeActivity.this);
+                customDialogue.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                customDialogue.show();
+            }
+        });
+
+
+  }
 
     @Override
     public void onRequestCompletion(JSONObject responseJson,JSONArray responseArray) {
@@ -66,6 +57,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         Constants.showMessage(this,"Sorry",error);
 
     }
+
     @Override
     public void onClick(View v) {
         String Url_parent_details = null ;
@@ -83,23 +75,4 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
             CommonUtils.getToastMessage(ParentHomeActivity.this, getString(R.string.no_network_connection));
         }
     }
-
-//    public  void spinnerData(){
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-//                android.R.layout.simple_spinner_item, getResources()
-//                .getStringArray(R.array.subject_array));
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        sp.setAdapter(adapter);
-//    }
-//
-//    public void enableDisableView(){
-//        if (!TextUtils.isEmpty(mesToStudent.getText().toString())) {
-//            // is not empty
-//            selectStudent.setEnabled(true);
-//        }
-//        else {
-//            // is empty
-//            selectStudent.setEnabled(false);
-//        }
-//    }
 }
