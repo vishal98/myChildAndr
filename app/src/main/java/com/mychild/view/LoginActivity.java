@@ -1,5 +1,8 @@
 package com.mychild.view;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,8 +39,8 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
         Log.i(TAG, responseJson.toString());
         String userRole = validatingUser(responseJson);
         Log.i("CompletionuserRole", userRole);
-        UpdateUI(userRole);
-        Constants.stopProgress(this);
+        pushNotification("Need Notification?",userRole);
+
     }
 
     @Override
@@ -97,5 +100,25 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
             e1.printStackTrace();
         }
         return role;
+    }
+
+    public void pushNotification(String title, final String role){
+        AlertDialog alert = new AlertDialog.Builder(LoginActivity.this).create();
+        alert.setMessage(title);
+        alert.setButton(Dialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                UpdateUI(role);
+                Constants.stopProgress(LoginActivity.this);
+            }
+        });
+        alert.setButton(Dialog.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                UpdateUI(role);
+                Constants.stopProgress(LoginActivity.this);
+            }
+        });
+        alert.show();
     }
 }

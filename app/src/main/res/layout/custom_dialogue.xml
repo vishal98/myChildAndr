@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/custom_dialogue_selector"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@color/done_red_color">
+        <TextView
+            android:id="@+id/txt_dia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:text="Switch Child"
+            android:textColor="@android:color/white"
+            android:textSize="15dp"
+            android:textStyle="bold"/>
+        </LinearLayout>
+
+
+
+    <RelativeLayout
+        android:id="@+id/mychild1_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <ImageView
+            android:id="@+id/mychild1_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/person"/>
+        <TextView
+            android:id="@+id/mychild1_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/mychild1_image"
+            android:text="#1233"
+            android:layout_marginLeft="10dp" />
+        <TextView
+            android:id="@+id/mychild1_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/mychild1_image"
+            android:text="Rahul"
+            android:layout_below="@+id/mychild1_id"
+            android:layout_marginLeft="10dp" />
+
+        <RadioButton
+            android:id="@+id/mychild1_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/mychild2_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <ImageView
+            android:id="@+id/mychild2_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/person"/>
+        <TextView
+            android:id="@+id/mychild2_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/mychild2_image"
+            android:text="#1233"
+            android:layout_marginLeft="10dp" />
+        <TextView
+            android:id="@+id/mychild2_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/mychild2_image"
+            android:text="Rahul"
+            android:layout_below="@+id/mychild2_id"
+            android:layout_marginLeft="10dp" />
+
+        <RadioButton
+            android:id="@+id/mychild2_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+
+</LinearLayout>
