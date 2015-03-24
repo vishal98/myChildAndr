@@ -44,6 +44,7 @@
     <string name="hello_world">Hello world!</string>
 
     <!--assigntask-->
+    <string name="assign_task_title">Assign Task</string>
     <string name="choose_class_caps">CHOOSE CLASS *</string>
     <string name="choose_subject_caps">CHOOSE SUBJECT</string>
     <string name="task_to_do_caps">TASK TO DO</string>
@@ -51,6 +52,7 @@
     <string name="all_students_caps">ALL STUDENTS</string>
     <string name="selected_students">Selected Students</string>
     <string name="assign_task_caps">ASSIGN TASK</string>
+    <string name="mondatory_fields">* Mondatory fields</string>
     <string name="title_activity_select_student">SelectStudentActivity</string>
 
 

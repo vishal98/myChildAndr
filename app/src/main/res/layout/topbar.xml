@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="60dp"
     android:layout_alignParentTop="true"
-    android:background="@color/green">
+    android:background="@color/green"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
+
+    <ImageView
+        android:id="@+id/back_arrow_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/back_arrow"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/back_arrow_iv"
+        android:id="@+id/title_tv"
+        android:layout_marginLeft="10dp"
+        android:textSize="25sp"
+        android:text="AssignTask"
+        android:textColor="@color/white" />
 
 
-</LinearLayout>
+</RelativeLayout>
