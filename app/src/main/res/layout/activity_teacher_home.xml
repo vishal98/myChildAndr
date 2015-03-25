@@ -3,11 +3,130 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+    <com.mychild.utils.TopBar
+        android:id="@+id/topBar"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"></com.mychild.utils.TopBar>
+
+    <RelativeLayout
+        android:id="@+id/teacher_details_rl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/topBar"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp">
+
+        <ImageView
+            android:id="@+id/imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/search_small" />
+
+        <TextView
+            android:id="@+id/teacher_id_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/imageview"
+            android:text="#012"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/teacher_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/teacher_id_tv"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/imageview"
+            android:text="Richard Parker"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <TableRow
+        android:id="@+id/tr1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/teacher_details_rl"
+        android:weightSum="1"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/assign_task_iv"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:src="@drawable/teacher_tab1"
+            android:layout_weight="0.5" />
+
+        <ImageView
+            android:id="@+id/time_table_iv"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:src="@drawable/teacher_tab2"
+            android:layout_weight="0.5" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tr2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tr1"
+        android:layout_marginTop="20dp"
+        android:weightSum="1"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <ImageView
+            android:id="@+id/exams_iv"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:src="@drawable/teacher_tab3"
+            android:layout_weight="0.5" />
+
+        <ImageView
+            android:id="@+id/mail_box_iv"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:src="@drawable/teacher_tab4"
+            android:layout_weight="0.5" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tr3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tr2"
+        android:layout_marginTop="20dp"
+        android:weightSum="1"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <ImageView
+            android:id="@+id/chat_iv"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:src="@drawable/teacher_tab5"
+            android:layout_weight="0.5" />
+
+        <ImageView
+            android:id="@+id/calender_iv"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:src="@drawable/teacher_tab6"
+            android:layout_weight="0.5" />
+    </TableRow>
+    <!--<Button
 
         android:id="@+id/message_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tr3"
         android:layout_centerHorizontal="true"
         android:text="Messages" />
 
@@ -31,5 +150,5 @@
         android:layout_alignLeft="@id/message_btn"
         android:layout_alignRight="@+id/message_btn"
         android:layout_centerHorizontal="true"
-        android:text="Inbox" />
+        android:text="Inbox" />-->
 </RelativeLayout>

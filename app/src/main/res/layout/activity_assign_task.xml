@@ -122,6 +122,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:text="@string/choose_a_due_date_caps" />
+
+            <EditText
+                android:id="@+id/choose_date_et"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/hdpi_login_height"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/searchview_selector"
+                android:gravity="top|left"
+                android:inputType="textPersonName"
+                android:singleLine="true"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp" />
+
+            <TextView
+                style="@style/hdpi_assign_task_label_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:text="@string/select_students_caps" />
 
             <RadioGroup

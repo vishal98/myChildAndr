@@ -26,7 +26,7 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
     private Button assignTaskBtn;
     private final int REQUEST_CODE = 1234;
     private boolean updateCheckStatus = false;
-    String teacherName = "test_teacher";
+    String teacherName = "Mathew";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +39,10 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
         selectStudioRG = (RadioGroup) findViewById(R.id.select_students_rg);
         assignTaskBtn = (Button) findViewById(R.id.assign_task_btn);
         if (CommonUtils.isNetworkAvailable(this)) {
-           /* Constants.showProgress(this);
-            WebServiceCall call = new WebServiceCall(AssignTaskActivity.this);
-            call.getCallRequest(getString(R.string.base_url) + getString(R.string.url_teachers_list) + teacherName);*/
-            CommonUtils.getLogs("URL is : " + getString(R.string.base_url) + getString(R.string.url_teachers_list) + teacherName);
+            //Constants.showProgress(this);
+           /* WebServiceCall call = new WebServiceCall(AssignTaskActivity.this);
+            call.getCallRequest(getString(R.string.base_url) + getString(R.string.url_teacher_deatils) + teacherName);*/
+            CommonUtils.getLogs("URL is : " + getString(R.string.base_url) + getString(R.string.url_teacher_deatils) + teacherName);
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }
