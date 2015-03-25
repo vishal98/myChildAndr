@@ -1,54 +1,203 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
     tools:context="com.mychild.view.AssignTaskActivity">
 
-    <RelativeLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/green">
-
-    </RelativeLayout>
+    <com.mychild.utils.TopBar
+        android:id="@+id/topBar"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"></com.mychild.utils.TopBar>
 
     <RelativeLayout
         android:id="@+id/teacher_details_rl"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/header"
-        android:background="@color/black">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp">
 
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/teacher_details_rl"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:paddingBottom="20dp"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
-        android:paddingTop="20dp">
-
-        <TextView
-            style="@style/hdpi_assign_task_label_style"
+        <ImageView
+            android:id="@+id/imageview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/choose_class_caps" />
+            android:layout_centerVertical="true"
+            android:src="@drawable/search_small" />
 
-        <Spinner
-            android:id="@+id/class_spinner"
+        <TextView
+            android:id="@+id/teacher_id_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/imageview"
+            android:text="#012"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/teacher_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/teacher_id_tv"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/imageview"
+            android:text="Richard Parker"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/hdpi_textfield_height"
-            android:layout_weight="0.5"
-            android:background="@drawable/login_textbox_selector"
-            android:scrollbars="none"
-            android:spinnerMode="dropdown" />
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingBottom="15dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="15dp">
 
+            <TextView
+                style="@style/hdpi_assign_task_label_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/choose_class_caps" />
 
-    </LinearLayout>
+            <Spinner
+                android:id="@+id/class_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/hdpi_login_height"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/searchview_selector"
+                android:gravity="center_vertical"
+                android:scrollbars="none"
+                android:spinnerMode="dropdown" />
 
-</RelativeLayout>
+            <TextView
+                style="@style/hdpi_assign_task_label_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/choose_subject_caps" />
+
+            <EditText
+                android:id="@+id/subject_et"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/hdpi_login_height"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/searchview_selector"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp" />
+
+            <TextView
+                style="@style/hdpi_assign_task_label_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/task_to_do_caps" />
+
+            <EditText
+                android:id="@+id/task_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/searchview_selector"
+                android:gravity="top|left"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp" />
+
+            <TextView
+                style="@style/hdpi_assign_task_label_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/choose_a_due_date_caps" />
+
+            <EditText
+                android:id="@+id/choose_date_et"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/hdpi_login_height"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/searchview_selector"
+                android:gravity="top|left"
+                android:inputType="textPersonName"
+                android:singleLine="true"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp" />
+
+            <TextView
+                style="@style/hdpi_assign_task_label_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/select_students_caps" />
+
+            <RadioGroup
+                android:id="@+id/select_students_rg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/select_all_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:button="@drawable/radiobutton_selector"
+                    android:singleLine="true"
+                    android:text="@string/all_students"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/select_few_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:button="@drawable/radiobutton_selector"
+                    android:singleLine="true"
+                    android:text="@string/selected_students"></RadioButton>
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/assign_task_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/hdpi_login_height"
+                android:layout_below="@+id/password"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/assign_task_btn_selector"
+                android:paddingBottom="10dp"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+                android:paddingTop="10dp"
+                android:text="@string/assign_task_caps"
+                android:textColor="@color/white" />
+
+            <View
+                android:id="@+id/login_btn_border"
+                android:layout_width="fill_parent"
+                android:layout_height="5dp"
+                android:layout_below="@+id/assign_task_btn"
+                android:background="@color/done_dark_red_color" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:text="@string/mondatory_fields" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

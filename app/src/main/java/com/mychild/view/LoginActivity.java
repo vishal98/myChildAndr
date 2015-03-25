@@ -15,6 +15,7 @@ import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.sharedPreference.PrefManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
+import com.pushbots.push.Pushbots;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +40,7 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
         Log.i(TAG, responseJson.toString());
         String userRole = validatingUser(responseJson);
         Log.i("CompletionuserRole", userRole);
-        pushNotification("Need Notification?",userRole);
+        pushNotification("Activate Notification?", userRole);
 
     }
 
@@ -102,12 +103,14 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
         return role;
     }
 
-    public void pushNotification(String title, final String role){
+    public void pushNotification(String title, final String role) {
         AlertDialog alert = new AlertDialog.Builder(LoginActivity.this).create();
         alert.setMessage(title);
         alert.setButton(Dialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                CommonUtils.getLogs("Possitive Clicked");
+                Pushbots.sharedInstance().init(LoginActivity.this);
                 UpdateUI(role);
                 Constants.stopProgress(LoginActivity.this);
             }

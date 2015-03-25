@@ -1,5 +1,6 @@
 package com.mychild.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,23 +11,31 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mychild.adapters.StudentsListAdapter;
-import com.mychild.utils.CommonUtils;
+import com.mychild.utils.IOnCheckedChangeListener;
+import com.mychild.utils.TopBar;
 
 import java.util.ArrayList;
 
 
-public class SelectStudentActivity extends BaseActivity implements View.OnClickListener {
+public class SelectStudentActivity extends BaseActivity implements View.OnClickListener, IOnCheckedChangeListener {
 
     private ListView studentsLV;
     private TextView allStudentsTV;
     private EditText searchET;
+    private TopBar topBar;
     StudentsListAdapter studentsListAdapter = null;
     private Button doneBtn;
+    private int selectedStudentsSize = 0;
+    private final int RESPONSE_CODE = 4321;
+    private boolean userSelected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_student);
+        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar.initTopBar();
+        topBar.titleTV.setText(getString(R.string.assign_task_title));
         studentsLV = (ListView) findViewById(R.id.students_lv);
         allStudentsTV = (TextView) findViewById(R.id.all_students_tv);
         searchET = (EditText) findViewById(R.id.search_et);
@@ -58,12 +67,10 @@ public class SelectStudentActivity extends BaseActivity implements View.OnClickL
     private TextWatcher watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            CommonUtils.getLogs("Watcher : " + s.toString());
             studentsListAdapter.getFilters(s.toString().toLowerCase());
         }
 
@@ -74,6 +81,28 @@ public class SelectStudentActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
+        userSelected = true;
+        onBackPressed();
+    }
 
+    @Override
+    public void checkedStateChanged(int size) {
+        selectedStudentsSize = size;
+        if (size > 0) {
+            doneBtn.setVisibility(View.VISIBLE);
+        } else {
+            doneBtn.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = null;
+        if (userSelected) {
+            intent = new Intent();
+        }
+        setResult(RESPONSE_CODE, intent);
+        intent = null;
+        super.onBackPressed();
     }
 }
