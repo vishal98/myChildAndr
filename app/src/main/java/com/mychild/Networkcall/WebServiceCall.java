@@ -50,7 +50,7 @@ public class WebServiceCall {
 
 
     public void LoginRequestApi(String userName, String Password) {
-        String request_URL = mContext.getString(R.string.base_url)+mContext.getString(R.string.login_url_endpoint);
+        String request_URL = mContext.getString(R.string.base_url) + mContext.getString(R.string.login_url_endpoint);
         Log.d("LOGIN URL", request_URL);
         JSONObject headerBodyParam = null;
         LinkedHashMap<String, String> parmKeyValue = new LinkedHashMap<String, String>();
@@ -67,22 +67,21 @@ public class WebServiceCall {
         JsonObjectRequest req;
         try {
             req = new JsonObjectRequest(Request.Method.POST, request_URL, headerBodyParam,
-               new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject responseJson) {
-                        // handle response
-                        Log.d("JSON Response", responseJson.toString());
-                        TokenID(responseJson);
-                        mRequestCompletion.onRequestCompletion(responseJson,null);
-                    }
-               },
-               new Response.ErrorListener() {
-                   @Override
-                   public void onErrorResponse(VolleyError error) {
-                       handleNetworkError(error);
-                   }
-               })
-            {
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject responseJson) {
+                            // handle response
+                            Log.d("JSON Response", responseJson.toString());
+                            TokenID(responseJson);
+                            mRequestCompletion.onRequestCompletion(responseJson, null);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            handleNetworkError(error);
+                        }
+                    }) {
                 @Override
                 public Map<String, String> getHeaders() {
                     HashMap<String, String> headers = new HashMap<String, String>();
@@ -108,12 +107,12 @@ public class WebServiceCall {
     public void callRequest(JSONObject object, String url) {
         JsonObjectRequest req;
         try {
-            req = new JsonObjectRequest(Request.Method.POST, url, object,
+            req = new JsonObjectRequest(Request.Method.GET, url, object,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject responseJson) {
                             Log.d("JSON Response", responseJson.toString());
-                            mRequestCompletion.onRequestCompletion(responseJson,null);
+                            mRequestCompletion.onRequestCompletion(responseJson, null);
                         }
                     },
                     new Response.ErrorListener() {
@@ -153,20 +152,19 @@ public class WebServiceCall {
                         @Override
                         public void onResponse(JSONArray response) {
                             Log.d("Tag", response.toString());
-                            mRequestCompletion.onRequestCompletion(null,response);
+                            mRequestCompletion.onRequestCompletion(null, response);
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     handleNetworkError(error);
                 }
-            })
-            {
+            }) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     HashMap<String, String> headers = new HashMap<String, String>();
                     headers.put("Content-Type", "application/json");
-                    headers.put("X-Auth-Token",getToken);
+                    headers.put("X-Auth-Token", getToken);
                     System.out.println("Headers: = " + headers);
                     return headers;
                 }
@@ -231,7 +229,7 @@ public class WebServiceCall {
     /**
      * Storing the login data in shared preference
      */
-    public static String TokenID(JSONObject response){
+    public static String TokenID(JSONObject response) {
         CommonUtils.getLogs("Login Access Token Stored");
         Log.d("Enterted...", "TokenID");
         sharedPref = new PrefManager(mContext);

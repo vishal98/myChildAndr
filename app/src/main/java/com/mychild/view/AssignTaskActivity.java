@@ -9,6 +9,8 @@ import android.widget.Spinner;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.adapters.CustomAdapter;
+import com.mychild.threads.HttpConnectThread;
+import com.mychild.utils.AsyncTaskInterface;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.TopBar;
 
@@ -18,7 +20,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class AssignTaskActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, RequestCompletion {
+public class AssignTaskActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, RequestCompletion, AsyncTaskInterface {
 
     private TopBar topBar;
     private Spinner classSpinner;
@@ -26,7 +28,8 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
     private Button assignTaskBtn;
     private final int REQUEST_CODE = 1234;
     private boolean updateCheckStatus = false;
-    String teacherName = "Mathew";
+    String teacherName = "/test_teacher";
+    private String base_url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/Teacher/id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +42,13 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
         selectStudioRG = (RadioGroup) findViewById(R.id.select_students_rg);
         assignTaskBtn = (Button) findViewById(R.id.assign_task_btn);
         if (CommonUtils.isNetworkAvailable(this)) {
-            //Constants.showProgress(this);
-           /* WebServiceCall call = new WebServiceCall(AssignTaskActivity.this);
-            call.getCallRequest(getString(R.string.base_url) + getString(R.string.url_teacher_deatils) + teacherName);*/
-            CommonUtils.getLogs("URL is : " + getString(R.string.base_url) + getString(R.string.url_teacher_deatils) + teacherName);
+            httpConnectThread = new HttpConnectThread(this, null, this);
+            httpConnectThread.execute(base_url + teacherName);
+           /* Constants.showProgress(this);
+            WebServiceCall call = new WebServiceCall(AssignTaskActivity.this);
+          //  call.getCallRequest(getString(R.string.base_url) + getString(R.string.url_teacher_deatils) + teacherName);
+            call.getCallRequest(test_url);
+            CommonUtils.getLogs("URL is : " + getString(R.string.base_url) + getString(R.string.url_teacher_deatils) + teacherName);*/
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }
@@ -124,5 +130,10 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onRequestCompletionError(String error) {
 
+    }
+
+    @Override
+    public void setAsyncTaskCompletionListener(String object) {
+        CommonUtils.getLogs("Response:::" + object);
     }
 }
