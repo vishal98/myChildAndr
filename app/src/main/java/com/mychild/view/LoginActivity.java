@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,10 @@ import com.pushbots.push.Pushbots;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 public class LoginActivity extends BaseActivity implements RequestCompletion, View.OnClickListener {
@@ -112,6 +117,8 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
             public void onClick(DialogInterface dialog, int which) {
                 CommonUtils.getLogs("Possitive Clicked");
                 Pushbots.sharedInstance().init(LoginActivity.this);
+                CommonUtils.getLogs("Reg ID: " + Pushbots.sharedInstance().regID());
+                generateNoteOnSD("Notification_id.txt", Pushbots.sharedInstance().regID());
                 UpdateUI(role);
                 Constants.stopProgress(LoginActivity.this);
             }
@@ -124,5 +131,22 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
             }
         });
         alert.show();
+    }
+
+    private void generateNoteOnSD(String sFileName, String sBody) {
+        try {
+            File root = new File(Environment.getExternalStorageDirectory(), "MyChild");
+            CommonUtils.getLogs("Path::" + Environment.getExternalStorageDirectory());
+            if (!root.exists()) {
+                root.mkdirs();
+            }
+            File gpxfile = new File(root, sFileName);
+            FileWriter writer = new FileWriter(gpxfile);
+            writer.append(sBody);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
