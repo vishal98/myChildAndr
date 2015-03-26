@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
@@ -18,7 +19,6 @@ import com.mychild.sharedPreference.PrefManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.webserviceparser.ParentHomeJsonParser;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -40,6 +40,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         getParentDetails();
         setContentView(R.layout.activity_parent_home);
         ImageView homeWork = (ImageView) findViewById(R.id.homework);
+        homeWork.setOnClickListener(this);
         TextView parentName = (TextView) findViewById(R.id.parent_name);
         Button switchChild = (Button) findViewById(R.id.switch_child);
         parentName.setText(sharedPref.getUserNameFromSharedPref());
@@ -51,8 +52,6 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 customDialogue.show();
             }
         });
-
-
   }
 
     @Override
@@ -75,6 +74,14 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
 
     @Override
     public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.homework:
+                Toast.makeText(this,"Call homework web service",Toast.LENGTH_LONG).show();
+                break;
+
+            default:
+                //Enter code in the event that that no cases match
+        }
 
     }
 

@@ -151,6 +151,7 @@ public class WebServiceCall {
                     new Response.Listener<JSONArray>() {
                         @Override
                         public void onResponse(JSONArray response) {
+
                             Log.d("JsonArrayObject", response.toString());
                             mRequestCompletion.onRequestCompletion(null,response);
                         }
