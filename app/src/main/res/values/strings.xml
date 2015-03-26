@@ -19,6 +19,9 @@
     <string name="title_activity_Login">LoginActivity</string>
     <string name="title_activity_home">HomeActivity</string>
 
+    <!--ParentHomeActivity-->
+    <string name="switch_child">SWITCH CHILD</string>
+
     <!--Spinner for select subject-->
     <string-array name="subject_array">
         <item>Choose Subject</item>
@@ -41,8 +44,6 @@
     <string name="parent_url_endpoint">/Parent/username/</string>
     <string name="no_network_connection">No Network connection</string>
     <string name="title_activity_assign_task">AssignTaskActivity</string>
-
-    <string name="hello_world">Hello world!</string>
 
     <!--assigntask-->
     <string name="assign_task_title">Assign Task</string>

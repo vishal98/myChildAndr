@@ -23,18 +23,20 @@
             android:layout_marginLeft="20dp" />
 
         <TextView
+            android:id="@+id/parent_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ParentName"
+            android:textStyle="bold"
             android:layout_toRightOf="@+id/parent_image"
             android:layout_marginTop="20dp" />
 
         <Button
+            android:id="@+id/switch_child"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Switch Child"
-            android:layout_marginLeft="10dp"
-            android:paddingLeft="10dp"
+            android:layout_height="40dp"
+            android:text="@string/switch_child"
+            android:textColor="@color/grey"
             android:background="@drawable/switchchild_btn_selector"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp" />
@@ -53,13 +55,13 @@
             android:id="@+id/homework"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon"
+            android:background="@drawable/teacher_tab1"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon"
+            android:background="@drawable/teacher_tab2"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
 
@@ -79,14 +81,14 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon"
+            android:background="@drawable/teacher_tab3"
 
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon"
+            android:background="@drawable/teacher_tab4"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
 
@@ -107,19 +109,17 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon"
+            android:background="@drawable/teacher_tab5"
 
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon"
+            android:background="@drawable/teacher_tab6"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
 
     </LinearLayout>
-
-
 
 </LinearLayout>
