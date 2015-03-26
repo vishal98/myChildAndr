@@ -152,7 +152,7 @@ public class WebServiceCall {
                     new Response.Listener<JSONArray>() {
                         @Override
                         public void onResponse(JSONArray response) {
-                            Log.d("Tag", response.toString());
+                            Log.d("JsonArrayObject", response.toString());
                             mRequestCompletion.onRequestCompletion(null,response);
                         }
                     }, new Response.ErrorListener() {
@@ -181,6 +181,39 @@ public class WebServiceCall {
             // Adding request to volley request queue
             AppController.getInstance().addToRequestQueue(req);
         } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void getJsonObjectResponse(String url ) {
+        JsonObjectRequest req;
+        try {
+            req = new JsonObjectRequest(Request.Method.GET,url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(final JSONObject response) {
+                            // handle response
+                            Log.d("JsonObject", response.toString());
+                            mRequestCompletion.onRequestCompletion(response,null);
+                        }
+                    }
+                    ,new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    handleNetworkError(error);
+                }
+            });
+            req.setRetryPolicy(
+                    new DefaultRetryPolicy(
+                            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                            0,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            req.setShouldCache(true);
+            // Adding request to volley request queue
+            AppController.getInstance().addToRequestQueue(req);
+        }
+        catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

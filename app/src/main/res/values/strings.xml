@@ -19,6 +19,9 @@
     <string name="title_activity_Login">LoginActivity</string>
     <string name="title_activity_home">HomeActivity</string>
 
+    <!--ParentHomeActivity-->
+    <string name="switch_child">SWITCH CHILD</string>
+
     <!--Spinner for select subject-->
     <string-array name="subject_array">
         <item>Choose Subject</item>
@@ -42,8 +45,6 @@
     <string name="no_network_connection">No Network connection</string>
     <string name="title_activity_assign_task">AssignTaskActivity</string>
 
-    <string name="hello_world">Hello world!</string>
-
     <!--assigntask-->
     <string name="assign_task_title">Assign Task</string>
     <string name="choose_class_caps">CHOOSE CLASS *</string>
@@ -63,5 +64,7 @@
     <string name="all_students">All Students</string>
     <string name="select_students">Select Students</string>
     <string name="done_caps">DONE</string>
+
+
 
 </resources>

@@ -24,7 +24,6 @@ public class TeacherHomeJsonParser {
         }
         return teacherHomeJsonParser;
     }
-
     public ArrayList<StudentDTO> getStudentsList(JSONArray jsonArray) {
         ArrayList<StudentDTO> studentList = new ArrayList<StudentDTO>();
         if (jsonArray != null) {
