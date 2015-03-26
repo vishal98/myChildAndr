@@ -15,7 +15,7 @@ import com.mychild.view.R;
 /**
  * Created by Vijay on 3/23/15.
  */
-public class CustomDialogClass  extends Dialog {
+public class CustomDialogClass  extends Dialog  {
 
     public Activity activity;
     public Dialog dialog;
