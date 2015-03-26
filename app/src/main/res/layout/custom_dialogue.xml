@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:background="@color/done_red_color">
+        android:background="@drawable/custom_dialogue_header">
         <TextView
             android:id="@+id/txt_dia"
             android:layout_width="wrap_content"
