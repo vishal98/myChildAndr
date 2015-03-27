@@ -51,7 +51,7 @@
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".StudentList2"
+            android:name=".HomeWorkActivity"
             android:screenOrientation="portrait" />
 
         <receiver

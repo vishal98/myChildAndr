@@ -1,13 +1,12 @@
 package com.mychild.view;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,39 +18,27 @@ import com.mychild.sharedPreference.PrefManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.webserviceparser.ParentHomeJsonParser;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ParentHomeActivity extends BaseActivity implements RequestCompletion,View.OnClickListener{
     public static final String TAG = ParentHomeActivity.class.getSimpleName();
-    Spinner sp;
-    Button selectStudent;
-    String msgToStudentText;
-    EditText mesToStudent;
+
     PrefManager sharedPref;
     ArrayList<String> childrenList = null;
+    ArrayList<HashMap<String, String>> childrenGradeAndSection = null;
     CustomDialogueAdapter customDialogueAdapter= null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPref = new PrefManager(this);
-        getParentDetails();
+        getParentDetailsWebservicescall();
         setContentView(R.layout.activity_parent_home);
-        ImageView homeWork = (ImageView) findViewById(R.id.homework);
-        homeWork.setOnClickListener(this);
-        TextView parentName = (TextView) findViewById(R.id.parent_name);
-        Button switchChild = (Button) findViewById(R.id.switch_child);
-        parentName.setText(sharedPref.getUserNameFromSharedPref());
-        switchChild.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CustomDialogClass customDialogue=new CustomDialogClass(ParentHomeActivity.this,customDialogueAdapter);
-                customDialogue.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                customDialogue.show();
-            }
-        });
+        setOnClickListener();
   }
 
     @Override
@@ -60,6 +47,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         Log.i(TAG, responseArray.toString());
         Constants.stopProgress(this);
         childrenList = ParentHomeJsonParser.getInstance().getChildrenList(responseArray);
+        childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenGradeAndSection(responseArray);
         customDialogueAdapter = new CustomDialogueAdapter(this,childrenList);
 
     }
@@ -75,8 +63,29 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     @Override
     public void onClick(View v) {
         switch(v.getId()) {
+            case R.id.switch_child:
+                Toast.makeText(this,"Switch Child",Toast.LENGTH_LONG).show();
+                CustomDialogClass customDialogue=new CustomDialogClass(ParentHomeActivity.this,customDialogueAdapter);
+                customDialogue.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                customDialogue.show();
+                break;
             case R.id.homework:
-                Toast.makeText(this,"Call homework web service",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(ParentHomeActivity.this, HomeWorkActivity.class));
+                break;
+            case R.id.time_table:
+                Toast.makeText(this,"Time Table",Toast.LENGTH_LONG).show();
+                break;
+            case R.id.exams:
+                Toast.makeText(this,"Exams",Toast.LENGTH_LONG).show();
+                break;
+            case R.id.mail_box:
+                Toast.makeText(this,"Mail Box",Toast.LENGTH_LONG).show();
+                break;
+            case R.id.chat:
+                Toast.makeText(this,"Chat",Toast.LENGTH_LONG).show();
+                break;
+            case R.id.calender:
+                Toast.makeText(this,"Calender",Toast.LENGTH_LONG).show();
                 break;
 
             default:
@@ -85,7 +94,27 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
 
     }
 
-    public void getParentDetails(){
+    public void setOnClickListener(){
+
+        TextView parentName = (TextView) findViewById(R.id.parent_name);
+        Button switchChild = (Button) findViewById(R.id.switch_child);
+        ImageView homeWork = (ImageView) findViewById(R.id.homework);
+        ImageView timeTable = (ImageView) findViewById(R.id.time_table);
+        ImageView exams = (ImageView) findViewById(R.id.exams);
+        ImageView mailBox = (ImageView) findViewById(R.id.mail_box);
+        ImageView chat = (ImageView) findViewById(R.id.chat);
+        ImageView calender = (ImageView) findViewById(R.id.calender);
+        homeWork.setOnClickListener(this);
+        timeTable.setOnClickListener(this);
+        exams.setOnClickListener(this);
+        mailBox.setOnClickListener(this);
+        chat.setOnClickListener(this);
+        calender.setOnClickListener(this);
+        switchChild.setOnClickListener(this);
+        parentName.setText(sharedPref.getUserNameFromSharedPref());
+    }
+
+    public void getParentDetailsWebservicescall(){
         String Url_parent_details = null ;
 
         if (CommonUtils.isNetworkAvailable(this)) {
