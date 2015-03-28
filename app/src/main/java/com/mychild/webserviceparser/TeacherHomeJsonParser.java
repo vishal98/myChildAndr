@@ -2,6 +2,7 @@ package com.mychild.webserviceparser;
 
 import com.mychild.model.GradeModel;
 import com.mychild.model.StudentDTO;
+import com.mychild.model.SubjectModel;
 import com.mychild.model.TeacherModel;
 
 import org.json.JSONArray;
@@ -104,6 +105,49 @@ public class TeacherHomeJsonParser {
                 }
                 teacherModel.setGradeModels(gradesList);
                 gradesList = null;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return teacherModel;
+    }
+
+    public TeacherModel getSubjectsList(String str) {
+        TeacherModel teacherModel = new TeacherModel();
+        try {
+            JSONObject jsonObject = new JSONObject(str);
+            if (jsonObject.has("teacherId")) {
+                teacherModel.setTeacherId(Integer.parseInt(jsonObject.getString("teacherId")));
+            }
+            if (jsonObject.has("username")) {
+                teacherModel.setTeacherName(jsonObject.getString("username"));
+            }
+            if (jsonObject.has("grade")) {
+                teacherModel.setTeacherGrade(jsonObject.getString("grade"));
+            }
+            if (jsonObject.has("section")) {
+                teacherModel.setTeacherSection(jsonObject.getString("section"));
+            }
+            if (jsonObject.has("subjects")) {
+                JSONArray subjectsArray = jsonObject.getJSONArray("subjects");
+                int size = subjectsArray.length();
+                ArrayList<SubjectModel> subjectsList = new ArrayList<SubjectModel>();
+                for (int i = 0; i < size; i++) {
+                    JSONObject subjectObj = subjectsArray.getJSONObject(i);
+                    SubjectModel subjectModel = new SubjectModel();
+                    if (subjectObj.has("subjectId")) {
+                        subjectModel.setSubjectId(subjectObj.getInt("subjectId"));
+                    }
+                    if (subjectObj.has("subjectName")) {
+                        subjectModel.setSubjectName(subjectObj.getString("subjectName"));
+                    }
+                    subjectsList.add(subjectModel);
+                    subjectModel = null;
+                    subjectObj = null;
+                }
+                teacherModel.setSubjectsList(subjectsList);
+                subjectsList = null;
+                subjectsArray = null;
             }
         } catch (JSONException e) {
             e.printStackTrace();

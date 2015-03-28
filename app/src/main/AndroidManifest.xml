@@ -77,11 +77,15 @@
         <activity
             android:name=".AssignTaskActivity"
             android:label="@string/title_activity_assign_task"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SelectStudentActivity"
             android:label="@string/title_activity_select_student"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ExamsActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_exams"></activity>
     </application>
 
 </manifest>

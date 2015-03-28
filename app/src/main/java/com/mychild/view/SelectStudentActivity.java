@@ -29,6 +29,7 @@ public class SelectStudentActivity extends BaseActivity implements View.OnClickL
     private int selectedStudentsSize = 0;
     private final int RESPONSE_CODE = 4321;
     private boolean userSelected = false;
+    private ArrayList<StudentDTO> selectedStudents = new ArrayList<StudentDTO>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,9 +86,13 @@ public class SelectStudentActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
-    public void checkedStateChanged(int size) {
-        selectedStudentsSize = size;
-        if (size > 0) {
+    public void checkedStateChanged(StudentDTO studentDTO, boolean isChecked) {
+        if (isChecked) {
+            selectedStudents.add(studentDTO);
+        } else {
+            selectedStudents.remove(studentDTO);
+        }
+        if (selectedStudents.size() > 0) {
             doneBtn.setVisibility(View.VISIBLE);
         } else {
             doneBtn.setVisibility(View.GONE);
@@ -99,6 +104,7 @@ public class SelectStudentActivity extends BaseActivity implements View.OnClickL
         Intent intent = null;
         if (userSelected) {
             intent = new Intent();
+            intent.putExtra(getString(R.string.students_data), selectedStudents);
         }
         setResult(RESPONSE_CODE, intent);
         intent = null;

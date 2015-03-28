@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.mychild.model.SubjectModel;
 import com.mychild.view.R;
 
 import java.util.List;
@@ -15,9 +16,9 @@ import java.util.List;
 /**
  * Created by Sandeep on 28-03-2015.
  */
-public class SubjectSpinnerAdapter extends ArrayAdapter<String> {
+public class SubjectSpinnerAdapter extends ArrayAdapter<SubjectModel> {
     private LayoutInflater inflater;
-    private List<String> gradesList;
+    private List<SubjectModel> gradesList;
     private Typeface typeface;
 
     /**
@@ -27,7 +28,7 @@ public class SubjectSpinnerAdapter extends ArrayAdapter<String> {
      * @param resource layout resource
      * @param objects  list of drop down items
      */
-    public SubjectSpinnerAdapter(Context context, int resource, List<String> objects) {
+    public SubjectSpinnerAdapter(Context context, int resource, List<SubjectModel> objects) {
         super(context, resource, objects);
         inflater = LayoutInflater.from(context);
         gradesList = objects;
@@ -51,7 +52,7 @@ public class SubjectSpinnerAdapter extends ArrayAdapter<String> {
         }
         //GradeModel model = gradesList.get(position);
         holder.spinnerTV.setTag(getItem(position));
-        holder.spinnerTV.setText(getItem(position));
+        holder.spinnerTV.setText(getItem(position).getSubjectName());
         return convertView;
     }
 

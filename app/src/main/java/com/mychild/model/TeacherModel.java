@@ -10,6 +10,35 @@ public class TeacherModel implements Serializable {
     private int teacherId;
     private String teacherName = "";
     private String teacherEmail = "";
+    private String teacherGrade = "";
+
+    public ArrayList<SubjectModel> getSubjectsList() {
+        return subjectsList;
+    }
+
+    public void setSubjectsList(ArrayList<SubjectModel> subjectsList) {
+        this.subjectsList = subjectsList;
+    }
+
+    private ArrayList<SubjectModel> subjectsList;
+
+    public String getTeacherSection() {
+        return teacherSection;
+    }
+
+    public void setTeacherSection(String teacherSection) {
+        this.teacherSection = teacherSection;
+    }
+
+    public String getTeacherGrade() {
+        return teacherGrade;
+    }
+
+    public void setTeacherGrade(String teacherGrade) {
+        this.teacherGrade = teacherGrade;
+    }
+
+    private String teacherSection = "";
 
     public ArrayList<GradeModel> getGradeModels() {
         return gradeModels;

@@ -44,7 +44,7 @@ public class WebServiceCall {
 
     public WebServiceCall(Activity context) {
         this.mContext = context;
-        mRequestCompletion = (RequestCompletion) mContext;
+        mRequestCompletion = (RequestCompletion) context;
     }
 
 
@@ -96,23 +96,27 @@ public class WebServiceCall {
     }
 
     public void postToServer(JSONObject jsonData, String postURL) {
-        String request_URL = mContext.getString(R.string.base_url) + mContext.getString(R.string.login_url_endpoint);
+        //  String request_URL = mContext.getString(R.string.base_url) + mContext.getString(R.string.login_url_endpoint);
         Log.d("postURL", postURL);
         JsonObjectRequest req;
         try {
-            req = new JsonObjectRequest(Request.Method.POST, request_URL, jsonData,
+            CommonUtils.getLogs("POST DATA::" + jsonData);
+            req = new JsonObjectRequest(Request.Method.POST, postURL, jsonData,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject responseJson) {
+
+                            CommonUtils.getLogs("===Response:::" + responseJson);
                             // handle response
                             Log.d("JSON Response", responseJson.toString());
-                            TokenID(responseJson);
+                            //   TokenID(responseJson);
                             mRequestCompletion.onRequestCompletion(responseJson, null);
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            CommonUtils.getLogs("ErroRRR:::" + error);
                             handleNetworkError(error);
                         }
                     }) {
@@ -120,16 +124,16 @@ public class WebServiceCall {
                 public Map<String, String> getHeaders() {
                     HashMap<String, String> headers = new HashMap<String, String>();
                     headers.put("Content-Type", "application/json");
+                    headers.put("X-Auth-Token", getToken);
                     System.out.println("Headers: = " + headers);
                     return headers;
                 }
             };
             Log.d("Req", req.toString());
-            req.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,0,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            req.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             // Adding request to volley request queue.
             AppController.getInstance().addToRequestQueue(req);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -183,7 +187,7 @@ public class WebServiceCall {
                         public void onResponse(JSONArray response) {
 
                             Log.d("JsonArrayObject", response.toString());
-                            mRequestCompletion.onRequestCompletion(null,response);
+                            mRequestCompletion.onRequestCompletion(null, response);
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -215,19 +219,19 @@ public class WebServiceCall {
         }
     }
 
-    public void getJsonObjectResponse(String url ) {
+    public void getJsonObjectResponse(String url) {
         JsonObjectRequest req;
         try {
-            req = new JsonObjectRequest(Request.Method.GET,url, null,
+            req = new JsonObjectRequest(Request.Method.GET, url, null,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(final JSONObject response) {
                             // handle response
                             Log.d("JsonObject", response.toString());
-                            mRequestCompletion.onRequestCompletion(response,null);
+                            mRequestCompletion.onRequestCompletion(response, null);
                         }
                     }
-                    ,new Response.ErrorListener() {
+                    , new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     handleNetworkError(error);
@@ -241,8 +245,7 @@ public class WebServiceCall {
             req.setShouldCache(true);
             // Adding request to volley request queue
             AppController.getInstance().addToRequestQueue(req);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

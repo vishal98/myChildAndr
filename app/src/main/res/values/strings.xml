@@ -38,6 +38,7 @@
     <!--Endpoint urls -->
     <string name="base_url">http://default-environment-8tpprium54.elasticbeanstalk.com</string>
     <string name="login_url_endpoint">/api/login</string>
+    <string name="url_exams">MyChild/Parent/username/</string>
     <!--<string name="url_teacher_student_list">http://Default-Environment-8tpprium54.elasticbeanstalk.com/Teacher/studentList/1</string>-->
     <string name="url_teacher_deatils">/Teacher/id/</string>
     <string name="url_teachers_list">/Teacher/id/</string>
@@ -83,6 +84,12 @@
 
     <string name="pref_access_token">access_token</string>
     <string name="students_data">Students data</string>
+    <string name="title_activity_exams">ExamsActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+
+    <!--Exams-->
+    <string name="exams_title">Exams</string>
 
 
 </resources>

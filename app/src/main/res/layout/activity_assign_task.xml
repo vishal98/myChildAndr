@@ -88,15 +88,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/choose_a_due_date_caps" />
+                android:text="@string/choose_a_due_date_caps"
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/choose_date_tv"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/hdpi_login_height"
                 android:layout_marginTop="15dp"
+                style="@style/hdpi_assign_task_label_style"
+                android:hint="@string/choose_a_due_date_caps"
                 android:background="@drawable/searchview_selector"
-                android:gravity="top|left"
+                android:gravity="left|center_vertical"
                 android:singleLine="true"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp" />

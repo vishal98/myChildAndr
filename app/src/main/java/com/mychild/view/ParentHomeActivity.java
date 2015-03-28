@@ -25,16 +25,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ParentHomeActivity extends BaseActivity implements RequestCompletion,View.OnClickListener{
+public class ParentHomeActivity extends BaseActivity implements RequestCompletion, View.OnClickListener {
     public static final String TAG = ParentHomeActivity.class.getSimpleName();
 
     PrefManager sharedPref;
     ArrayList<String> childrenList = null;
     ArrayList<HashMap<String, String>> childrenGradeAndSection = null;
     CustomDialogClass customDialogue;
-    CustomDialogueAdapter customDialogueAdapter= null;
+    CustomDialogueAdapter customDialogueAdapter = null;
     private TopBar topBar;
     private SwitchChildView switchChild;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,16 +45,16 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         setTopBar();
         switchChildBar();
         setOnClickListener();
-  }
+    }
 
     @Override
-    public void onRequestCompletion(JSONObject responseJson,JSONArray responseArray) {
+    public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         CommonUtils.getLogs("Parent Response success");
         Log.i(TAG, responseArray.toString());
         Constants.stopProgress(this);
         //childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenGradeAndSection(responseArray);
-        childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenListwithID(this,responseArray);
-        customDialogueAdapter = new CustomDialogueAdapter(this,childrenGradeAndSection);
+        childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenListwithID(this, responseArray);
+        customDialogueAdapter = new CustomDialogueAdapter(this, childrenGradeAndSection);
 
     }
 
@@ -61,16 +62,16 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     public void onRequestCompletionError(String error) {
         CommonUtils.getLogs("Parent Response Failure");
         Constants.stopProgress(this);
-        Constants.showMessage(this,"Sorry",error);
+        Constants.showMessage(this, "Sorry", error);
 
     }
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.switch_child:
-                Toast.makeText(this,"Switch Child",Toast.LENGTH_LONG).show();
-                customDialogue=new CustomDialogClass(ParentHomeActivity.this,customDialogueAdapter);
+                Toast.makeText(this, "Switch Child", Toast.LENGTH_LONG).show();
+                customDialogue = new CustomDialogClass(ParentHomeActivity.this, customDialogueAdapter);
                 customDialogue.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 customDialogue.setCancelable(true);
                 customDialogue.show();
@@ -80,20 +81,21 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 startActivity(new Intent(ParentHomeActivity.this, ChildHomeWorkActivity.class));
                 break;
             case R.id.time_table:
-                Toast.makeText(this,"Time Table",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Time Table", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(ParentHomeActivity.this, ChildrenTimeTableActivity.class));
                 break;
             case R.id.exams:
-                Toast.makeText(this,"Exams",Toast.LENGTH_LONG).show();
+                //Toast.makeText(this,"Exams",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, ExamsActivity.class));
                 break;
             case R.id.mail_box:
-                Toast.makeText(this,"Mail Box",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Mail Box", Toast.LENGTH_LONG).show();
                 break;
             case R.id.chat:
-                Toast.makeText(this,"Chat",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Chat", Toast.LENGTH_LONG).show();
                 break;
             case R.id.calender:
-                Toast.makeText(this,"Calender",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Calender", Toast.LENGTH_LONG).show();
                 break;
 
             default:
@@ -102,21 +104,20 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
 
     }
 
-    public void setTopBar(){
+    public void setTopBar() {
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.titleTV.setText(getString(R.string.my_child));
     }
 
-    public void switchChildBar(){
+    public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
         switchChild.parentNameTV.setText(sharedPref.getUserNameFromSharedPref());
     }
 
 
-
-    public void setOnClickListener(){
+    public void setOnClickListener() {
 
         ImageView homeWork = (ImageView) findViewById(R.id.homework);
         ImageView timeTable = (ImageView) findViewById(R.id.time_table);
@@ -133,14 +134,14 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         switchChild.switchChildBT.setOnClickListener(this);
     }
 
-    public void getParentDetailsWebservicescall(){
-        String Url_parent_details = null ;
+    public void getParentDetailsWebservicescall() {
+        String Url_parent_details = null;
 
         if (CommonUtils.isNetworkAvailable(this)) {
             Constants.showProgress(ParentHomeActivity.this);
             SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
-            if(saredpreferences.contains("UserName")){
-                Url_parent_details=getString(R.string.base_url)+getString(R.string.parent_url_endpoint)+sharedPref.getUserNameFromSharedPref();
+            if (saredpreferences.contains("UserName")) {
+                Url_parent_details = getString(R.string.base_url) + getString(R.string.parent_url_endpoint) + sharedPref.getUserNameFromSharedPref();
                 Log.i("===Url_parent===", Url_parent_details);
             }
             WebServiceCall call = new WebServiceCall(ParentHomeActivity.this);

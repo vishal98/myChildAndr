@@ -54,19 +54,21 @@ public class StudentsListAdapter extends ArrayAdapter<StudentDTO> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if (mSelectedItemsIds.get(position)) {
+        StudentDTO studentDTO = getItem(position);
+        if (mSelectedItemsIds.get(studentDTO.getStudentId())) {
             holder.checkBox.setChecked(true);
         }
-        holder.checkBox.setTag(position);
+        holder.checkBox.setTag(getItem(position));
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                int pos = Integer.parseInt((buttonView).getTag().toString());
+                // int pos = Integer.parseInt((buttonView).getTag().toString());
+                StudentDTO dto = (StudentDTO) buttonView.getTag();
                 if (isChecked)
-                    mSelectedItemsIds.put(pos, true);
+                    mSelectedItemsIds.put(dto.getStudentId(), true);
                 else
-                    mSelectedItemsIds.delete(pos);
-                iOnCheckedChangeListener.checkedStateChanged(mSelectedItemsIds.size());
+                    mSelectedItemsIds.delete(dto.getStudentId());
+                iOnCheckedChangeListener.checkedStateChanged(dto, isChecked);
             }
         });
         StudentDTO dto = getItem(position);
