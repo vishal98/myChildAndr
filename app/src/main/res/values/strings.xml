@@ -42,11 +42,19 @@
     <string name="url_teacher_deatils">/Teacher/id/</string>
     <string name="url_teachers_list">/Teacher/id/</string>
     <string name="parent_url_endpoint">/Parent/username/</string>
-    <string name="home_work">/app/getHomework/</string>
+    <string name="home_work_student_id">/app/getHomework/student/</string>
+    <string name="home_work_student_assigned_date">/app/getHomework/student/</string>
+    <string name="timrtable_child">/app/timetable</string>
 
 
     <string name="no_network_connection">No Network connection</string>
     <string name="title_activity_assign_task">AssignTaskActivity</string>
+
+
+    <!--Parent Top bar-->
+    <string name="my_child">My Child</string>
+    <string name="home_work">Home Work</string>
+    <string name="time_tabel">Time Tabel</string>
 
     <!--assigntask-->
     <string name="assign_task_title">Assign Task</string>

@@ -3,14 +3,17 @@ package com.mychild.view;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.CalendarView;
 import android.widget.ListView;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.adapters.ChildHomeworkAdapter;
+import com.mychild.customView.SwitchChildView;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
+import com.mychild.utils.TopBar;
 import com.mychild.webserviceparser.ChildHomeWorkJsonParser;
 
 import org.json.JSONArray;
@@ -22,12 +25,14 @@ import java.util.HashMap;
 /**
  * Created by Vijay on 3/27/15.
  */
-public class HomeWorkActivity extends BaseActivity implements RequestCompletion {
-    public static final String TAG = HomeWorkActivity.class.getSimpleName();
+public class ChildHomeWorkActivity extends BaseActivity implements RequestCompletion, View.OnClickListener{
+    public static final String TAG = ChildHomeWorkActivity.class.getSimpleName();
 
     ListView homeWorkList;
     CalendarView calender;
     ArrayList<HashMap<String,String>> childrenGradeAndSection;
+    private TopBar topBar;
+    private SwitchChildView switchChild;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +40,8 @@ public class HomeWorkActivity extends BaseActivity implements RequestCompletion 
         //calender = (CalendarView) findViewById(R.id.homework_calender);
         getChildHomworkWebservicescall();
         setContentView(R.layout.activity_child_homework);
-
+        setTopBar();
+        switchChildBar();
     }
 
     @Override
@@ -56,20 +62,45 @@ public class HomeWorkActivity extends BaseActivity implements RequestCompletion 
         Constants.showMessage(this,"Sorry",error);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+    @Override
+    public void onClick(View v) {
+        onBackPressed();
+    }
+
+    public void setTopBar(){
+        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar.initTopBar();
+        topBar.backArrowIV.setOnClickListener(this);
+        topBar.titleTV.setText(getString(R.string.home_work));
+
+    }
+
+    public void switchChildBar(){
+        switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
+        switchChild.initSwitchChildBar();
+        switchChild.parentNameTV.setText("Name");
+    }
+
+
     public void getChildHomworkWebservicescall(){
         String Url_home_work = null ;
         if (CommonUtils.isNetworkAvailable(this)) {
             SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
             if(saredpreferences.contains("UserName")){
                 Url_home_work = "http://default-environment-8tpprium54.elasticbeanstalk.com/Parent/studentId/1/teacher/2";
-               // Url_home_work=getString(R.string.base_url)+getString(R.string.home_work)+"5/"+"a";
+
                 Log.i("===Url_Homework===", Url_home_work);
             }
-            WebServiceCall call = new WebServiceCall(HomeWorkActivity.this);
+            WebServiceCall call = new WebServiceCall(ChildHomeWorkActivity.this);
             call.getCallRequest(Url_home_work);
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }
     }
+
 
 }

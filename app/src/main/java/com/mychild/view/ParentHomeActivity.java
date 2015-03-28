@@ -5,18 +5,18 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.adapters.CustomDialogueAdapter;
 import com.mychild.customView.CustomDialogClass;
+import com.mychild.customView.SwitchChildView;
 import com.mychild.sharedPreference.PrefManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
+import com.mychild.utils.TopBar;
 import com.mychild.webserviceparser.ParentHomeJsonParser;
 
 import org.json.JSONArray;
@@ -31,13 +31,18 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     PrefManager sharedPref;
     ArrayList<String> childrenList = null;
     ArrayList<HashMap<String, String>> childrenGradeAndSection = null;
+    CustomDialogClass customDialogue;
     CustomDialogueAdapter customDialogueAdapter= null;
+    private TopBar topBar;
+    private SwitchChildView switchChild;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPref = new PrefManager(this);
         getParentDetailsWebservicescall();
         setContentView(R.layout.activity_parent_home);
+        setTopBar();
+        switchChildBar();
         setOnClickListener();
   }
 
@@ -46,9 +51,9 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         CommonUtils.getLogs("Parent Response success");
         Log.i(TAG, responseArray.toString());
         Constants.stopProgress(this);
-        childrenList = ParentHomeJsonParser.getInstance().getChildrenList(responseArray);
-        childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenGradeAndSection(responseArray);
-        customDialogueAdapter = new CustomDialogueAdapter(this,childrenList);
+        //childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenGradeAndSection(responseArray);
+        childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenListwithID(this,responseArray);
+        customDialogueAdapter = new CustomDialogueAdapter(this,childrenGradeAndSection);
 
     }
 
@@ -65,15 +70,18 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         switch(v.getId()) {
             case R.id.switch_child:
                 Toast.makeText(this,"Switch Child",Toast.LENGTH_LONG).show();
-                CustomDialogClass customDialogue=new CustomDialogClass(ParentHomeActivity.this,customDialogueAdapter);
+                customDialogue=new CustomDialogClass(ParentHomeActivity.this,customDialogueAdapter);
                 customDialogue.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                customDialogue.setCancelable(true);
                 customDialogue.show();
+
                 break;
             case R.id.homework:
-                startActivity(new Intent(ParentHomeActivity.this, HomeWorkActivity.class));
+                startActivity(new Intent(ParentHomeActivity.this, ChildHomeWorkActivity.class));
                 break;
             case R.id.time_table:
                 Toast.makeText(this,"Time Table",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(ParentHomeActivity.this, ChildrenTimeTableActivity.class));
                 break;
             case R.id.exams:
                 Toast.makeText(this,"Exams",Toast.LENGTH_LONG).show();
@@ -94,10 +102,22 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
 
     }
 
+    public void setTopBar(){
+        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar.initTopBar();
+        topBar.titleTV.setText(getString(R.string.my_child));
+    }
+
+    public void switchChildBar(){
+        switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
+        switchChild.initSwitchChildBar();
+        switchChild.parentNameTV.setText(sharedPref.getUserNameFromSharedPref());
+    }
+
+
+
     public void setOnClickListener(){
 
-        TextView parentName = (TextView) findViewById(R.id.parent_name);
-        Button switchChild = (Button) findViewById(R.id.switch_child);
         ImageView homeWork = (ImageView) findViewById(R.id.homework);
         ImageView timeTable = (ImageView) findViewById(R.id.time_table);
         ImageView exams = (ImageView) findViewById(R.id.exams);
@@ -110,8 +130,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         mailBox.setOnClickListener(this);
         chat.setOnClickListener(this);
         calender.setOnClickListener(this);
-        switchChild.setOnClickListener(this);
-        parentName.setText(sharedPref.getUserNameFromSharedPref());
+        switchChild.switchChildBT.setOnClickListener(this);
     }
 
     public void getParentDetailsWebservicescall(){
@@ -130,4 +149,5 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }
     }
+
 }
