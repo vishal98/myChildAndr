@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mychild.adapters.StudentsListAdapter;
+import com.mychild.model.StudentDTO;
 import com.mychild.utils.IOnCheckedChangeListener;
 import com.mychild.utils.TopBar;
 
@@ -36,29 +37,19 @@ public class SelectStudentActivity extends BaseActivity implements View.OnClickL
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.titleTV.setText(getString(R.string.assign_task_title));
+        topBar.backArrowIV.setOnClickListener(this);
+        Bundle bundle = getIntent().getExtras();
+
         studentsLV = (ListView) findViewById(R.id.students_lv);
         allStudentsTV = (TextView) findViewById(R.id.all_students_tv);
         searchET = (EditText) findViewById(R.id.search_et);
         searchET.addTextChangedListener(watcher);
-        ArrayList<String> studentNameList = new ArrayList<String>();
-        studentNameList.add("Sandeep");
-        studentNameList.add("Ravi");
-        studentNameList.add("Akhil");
-        studentNameList.add("Raju");
-        studentNameList.add("Shiva");
-        studentNameList.add("Sai");
-        studentNameList.add("Santhosh");
-        studentNameList.add("Sachin");
-        studentNameList.add("Dhoni");
-        studentNameList.add("Dravid");
-        studentNameList.add("Laxman");
-        studentNameList.add("Anil");
-        studentNameList.add("Ganguly");
-        studentNameList.add("Lara");
-        studentsListAdapter = new StudentsListAdapter(this, R.layout.select_student_list_item, studentNameList);
-        studentsLV.setAdapter(studentsListAdapter);
-        allStudentsTV.append(" (" + studentNameList.size() + ")");
-
+        if (bundle != null) {
+            ArrayList<StudentDTO> studentsList = (ArrayList<StudentDTO>) bundle.getSerializable(getString(R.string.students_data));
+            allStudentsTV.append(" (" + studentsList.size() + ")");
+            studentsListAdapter = new StudentsListAdapter(this, R.layout.select_student_list_item, studentsList);
+            studentsLV.setAdapter(studentsListAdapter);
+        }
         doneBtn = (Button) findViewById(R.id.done_btn);
         doneBtn.setOnClickListener(this);
 
@@ -81,8 +72,16 @@ public class SelectStudentActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        userSelected = true;
-        onBackPressed();
+        int id = v.getId();
+        switch (id) {
+            case R.id.back_arrow_iv:
+                onBackPressed();
+                break;
+            case R.id.done_btn:
+                userSelected = true;
+                onBackPressed();
+                break;
+        }
     }
 
     @Override

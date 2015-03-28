@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.TextView;
 
+import com.mychild.model.StudentDTO;
 import com.mychild.utils.IOnCheckedChangeListener;
 import com.mychild.view.R;
 
@@ -20,19 +21,19 @@ import java.util.List;
 /**
  * Created by Sandeep on 22-03-2015.
  */
-public class StudentsListAdapter extends ArrayAdapter<String> {
-    private List<String> list;
+public class StudentsListAdapter extends ArrayAdapter<StudentDTO> {
+    private List<StudentDTO> list;
     private int resource;
     private LayoutInflater inflater;
-    private ArrayList<String> temporaryStorage;
+    private ArrayList<StudentDTO> temporaryStorage;
     public SparseBooleanArray mSelectedItemsIds;
     private IOnCheckedChangeListener iOnCheckedChangeListener = null;
 
-    public StudentsListAdapter(Context context, int resource, List<String> list) {
+    public StudentsListAdapter(Context context, int resource, List<StudentDTO> list) {
         super(context, resource, list);
         this.list = list;
         mSelectedItemsIds = new SparseBooleanArray();
-        temporaryStorage = new ArrayList<String>();
+        temporaryStorage = new ArrayList<StudentDTO>();
         temporaryStorage.addAll(list);
         this.resource = resource;
         iOnCheckedChangeListener = (IOnCheckedChangeListener) context;
@@ -68,8 +69,9 @@ public class StudentsListAdapter extends ArrayAdapter<String> {
                 iOnCheckedChangeListener.checkedStateChanged(mSelectedItemsIds.size());
             }
         });
-        holder.studentIdTV.setText("#100" + position + "");
-        holder.studentNameTV.setText(getItem(position));
+        StudentDTO dto = getItem(position);
+        holder.studentIdTV.setText(dto.getStudentId() + "");
+        holder.studentNameTV.setText(dto.getStundentName());
         return convertView;
     }
 
@@ -88,10 +90,10 @@ public class StudentsListAdapter extends ArrayAdapter<String> {
         if (str.length() == 0) {
             list.addAll(temporaryStorage);
         } else {
-            for (String string : temporaryStorage) {
-                String name = string.toLowerCase();
+            for (StudentDTO dto : temporaryStorage) {
+                String name = dto.getStundentName().toLowerCase();
                 if (name.contains(str)) {
-                    list.add(name);
+                    list.add(dto);
                 }
             }
         }

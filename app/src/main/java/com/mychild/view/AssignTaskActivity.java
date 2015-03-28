@@ -1,35 +1,56 @@
 package com.mychild.view;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.adapters.CustomAdapter;
+import com.mychild.adapters.SubjectSpinnerAdapter;
+import com.mychild.model.GradeModel;
+import com.mychild.model.TeacherModel;
 import com.mychild.threads.HttpConnectThread;
 import com.mychild.utils.AsyncTaskInterface;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.TopBar;
+import com.mychild.webserviceparser.TeacherHomeJsonParser;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
-public class AssignTaskActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, RequestCompletion, AsyncTaskInterface {
+public class AssignTaskActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, RequestCompletion, AsyncTaskInterface, AdapterView.OnItemSelectedListener {
 
     private TopBar topBar;
-    private Spinner classSpinner;
+    private Spinner classSpinner, subjectSpinner;
     private RadioGroup selectStudioRG;
     private Button assignTaskBtn;
+    private TextView chooseDateTV;
     private final int REQUEST_CODE = 1234;
     private boolean updateCheckStatus = false;
     String teacherName = "/test_teacher";
     private String base_url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/Teacher/id";
+    private String post_url = "/app/teacher/homework/save";
+    private TeacherModel teacherModel = null;
+    private int selectedGrade = 0;
+
+    enum RequestType {
+        TYPE_TEACHER_DETAILS, TYPE_SUBJECTS, TYPE_POST_DATA;
+    }
+
+    ;
+    RequestType type = RequestType.TYPE_TEACHER_DETAILS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +60,13 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
         topBar.initTopBar();
         topBar.titleTV.setText(getString(R.string.assign_task_title));
         classSpinner = (Spinner) findViewById(R.id.class_spinner);
+        classSpinner.setOnItemSelectedListener(this);
+        subjectSpinner = (Spinner) findViewById(R.id.subject_spinner);
+        subjectSpinner.setOnItemSelectedListener(this);
         selectStudioRG = (RadioGroup) findViewById(R.id.select_students_rg);
         assignTaskBtn = (Button) findViewById(R.id.assign_task_btn);
+        chooseDateTV = (TextView) findViewById(R.id.choose_date_tv);
+        chooseDateTV.setOnClickListener(this);
         if (CommonUtils.isNetworkAvailable(this)) {
             httpConnectThread = new HttpConnectThread(this, null, this);
             httpConnectThread.execute(base_url + teacherName);
@@ -56,22 +82,11 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
         assignTaskBtn.setOnClickListener(this);
         topBar.backArrowIV.setOnClickListener(this);
         selectStudioRG.setOnCheckedChangeListener(this);
-        ArrayList<String> studentNameList = new ArrayList<String>();
-        studentNameList.add("Sandeep");
-        studentNameList.add("Ravi");
-        studentNameList.add("Akhil");
-        studentNameList.add("Raju");
-        studentNameList.add("Shiva");
-        studentNameList.add("Sai");
-        studentNameList.add("Santhosh");
-        studentNameList.add("Sachin");
-        studentNameList.add("Dhoni");
-        studentNameList.add("Dravid");
-        studentNameList.add("Laxman");
-        studentNameList.add("Anil");
-        studentNameList.add("Ganguly");
-        studentNameList.add("Lara");
-        CustomAdapter adapter = new CustomAdapter(this, R.layout.drop_down_item, studentNameList);
+
+    }
+
+    private void setClassSpinner() {
+        CustomAdapter adapter = new CustomAdapter(this, R.layout.drop_down_item, teacherModel.getGradeModels());
         classSpinner.setAdapter(adapter);
         adapter = null;
     }
@@ -83,7 +98,11 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
             case R.id.back_arrow_iv:
                 onBackPressed();
                 break;
+            case R.id.choose_date_tv:
+                showDatePicker();
+                break;
             case R.id.assign_task_btn:
+                postAssignTaskData();
                 break;
             default:
         }
@@ -98,8 +117,12 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
             case R.id.select_all_rb:
                 break;
             case R.id.select_few_rb:
-                if (!updateCheckStatus)
-                    startActivityForResult(new Intent(this, SelectStudentActivity.class), REQUEST_CODE);
+                if (!updateCheckStatus) {
+                    Intent intent = new Intent(this, SelectStudentActivity.class);
+                    intent.putExtra(getString(R.string.students_data), teacherModel.getGradeModels().get(selectedGrade).getStudentsModels());
+                    startActivityForResult(intent, REQUEST_CODE);
+                }
+
                 break;
         }
     }
@@ -132,8 +155,113 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
 
     }
 
+    private void showDatePicker() {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DAY_OF_YEAR, 1);
+        final DatePickerDialog dateDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            boolean fired = false;
+
+            public void onDateSet(final DatePicker view, final int year, final int monthOfYear, final int dayOfMonth) {
+                CommonUtils.getLogs("Double Fired::" + year + ":" + monthOfYear + ":" + dayOfMonth);
+                if (fired == true) {
+                    CommonUtils.getLogs("Double fire occured. Silently-ish returning");
+                    return;
+                } else {
+                    //first time fired
+                    fired = true;
+                }
+                //Normal date picking logic goes here
+            }
+        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+        dateDialog.show();
+    }
+
+    private void setSubjectAdapter() {
+        ArrayList<String> subjects = new ArrayList<String>();
+        subjects.add("english");
+        subjects.add("maths");
+        subjects.add("science");
+        subjects.add("social");
+
+        SubjectSpinnerAdapter subjectSpinnerAdapter = new SubjectSpinnerAdapter(this, R.layout.drop_down_item, subjects);
+        subjectSpinner.setAdapter(subjectSpinnerAdapter);
+    }
+
     @Override
     public void setAsyncTaskCompletionListener(String object) {
-        CommonUtils.getLogs("Response:::" + object);
+        switch (type) {
+            case TYPE_TEACHER_DETAILS:
+                try {
+                    JSONObject obj = new JSONObject(object);
+                    teacherModel = TeacherHomeJsonParser.getInstance().getTeacherDetails(obj);
+                    setClassSpinner();
+                    setSubjectAdapter();
+                    obj = null;
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case TYPE_SUBJECTS:
+                break;
+            case TYPE_POST_DATA:
+                break;
+            default:
+        }
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        int spinnserID = parent.getId();
+        switch (spinnserID) {
+            case R.id.class_spinner:
+                selectedGrade = position;
+                TextView tv = (TextView) view.findViewById(R.id.drop_down_item);
+                GradeModel gradeModel = (GradeModel) tv.getTag();
+                CommonUtils.getLogs("Class Selected::::" + position);
+                break;
+            case R.id.subject_spinner:
+                CommonUtils.getLogs("Subject Selected::::" + position);
+                break;
+            default:
+        }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    private void postAssignTaskData() {
+        if (CommonUtils.isNetworkAvailable(this)) {
+            type = RequestType.TYPE_POST_DATA;
+
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("gradeFlag", "g");
+                jsonObject.put("grade", "5");
+                jsonObject.put("section", "A");
+                jsonObject.put("subject", "english");
+                jsonObject.put("homework", "English Homework");
+                jsonObject.put("duedata", "12-04-2015");
+                jsonObject.put("message", "A");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            CommonUtils.getLogs("AssignTask");
+            httpConnectThread = new HttpConnectThread(this, jsonObject, this);
+            httpConnectThread.execute(getString(R.string.base_url) + post_url);
+           /* Constants.showProgress(this);
+            WebServiceCall call = new WebServiceCall(AssignTaskActivity.this);
+          //  call.getCallRequest(getString(R.string.base_url) + getString(R.string.url_teacher_deatils) + teacherName);
+            call.getCallRequest(test_url);
+            CommonUtils.getLogs("URL is : " + getString(R.string.base_url) + getString(R.string.url_teacher_deatils) + teacherName);*/
+        } else {
+            CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
+        }
     }
 }

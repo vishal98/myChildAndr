@@ -1,4 +1,4 @@
-package com.mychild.utils;
+package com.mychild.sharedPreference;
 
 import android.content.Context;
 import android.content.SharedPreferences;

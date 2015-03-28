@@ -1,9 +1,11 @@
 package com.mychild.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Sandeep on 21-03-2015.
  */
-public class StudentDTO {
+public class StudentDTO implements Serializable {
 
     private String stundentName = "";
     private int studentId = 0;

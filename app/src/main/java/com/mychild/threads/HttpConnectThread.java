@@ -113,11 +113,13 @@ public class HttpConnectThread extends AsyncTask<String, Integer, String> {
             HttpClient httpClient = new DefaultHttpClient();
             HttpContext localContext = new BasicHttpContext();
             HttpPost httpPost = new HttpPost(url);
+            //httpPost.setHeader("X-Auth-Token", WebServiceCall.getToken);
+
             HttpEntity entity;
             StringEntity s = new StringEntity(jObject.toString());
             s.setContentType("application/json");
-            // s.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE,
-            // "application/json; charset=utf-8"));
+
+            //   s.setContentEncoding(new BasicHeader("X-Auth-Token", WebServiceCall.getToken));
             entity = s;
             httpPost.setEntity(entity);
 

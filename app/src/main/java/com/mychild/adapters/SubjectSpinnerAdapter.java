@@ -8,15 +8,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.mychild.model.GradeModel;
 import com.mychild.view.R;
 
 import java.util.List;
 
-
-public class CustomAdapter extends ArrayAdapter<GradeModel> {
+/**
+ * Created by Sandeep on 28-03-2015.
+ */
+public class SubjectSpinnerAdapter extends ArrayAdapter<String> {
     private LayoutInflater inflater;
-    private List<GradeModel> gradesList;
+    private List<String> gradesList;
     private Typeface typeface;
 
     /**
@@ -26,7 +27,7 @@ public class CustomAdapter extends ArrayAdapter<GradeModel> {
      * @param resource layout resource
      * @param objects  list of drop down items
      */
-    public CustomAdapter(Context context, int resource, List<GradeModel> objects) {
+    public SubjectSpinnerAdapter(Context context, int resource, List<String> objects) {
         super(context, resource, objects);
         inflater = LayoutInflater.from(context);
         gradesList = objects;
@@ -48,9 +49,9 @@ public class CustomAdapter extends ArrayAdapter<GradeModel> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        GradeModel model = gradesList.get(position);
-        holder.spinnerTV.setTag(model);
-        holder.spinnerTV.setText(model.getGradeName() + " " + model.getSection());
+        //GradeModel model = gradesList.get(position);
+        holder.spinnerTV.setTag(getItem(position));
+        holder.spinnerTV.setText(getItem(position));
         return convertView;
     }
 

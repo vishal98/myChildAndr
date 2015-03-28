@@ -67,8 +67,11 @@
 
     <string name="network_error">Network error</string>
     <string name="loading_text">Loading...</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 
     <string name="pref_access_token">access_token</string>
+    <string name="students_data">Students data</string>
 
 
 </resources>
