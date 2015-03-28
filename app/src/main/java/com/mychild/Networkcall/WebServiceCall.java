@@ -138,45 +138,45 @@ public class WebServiceCall {
         }
     }
 
-    public void callRequest(JSONObject object, String url) {
-        JsonObjectRequest req;
-        try {
-            req = new JsonObjectRequest(Request.Method.GET, url, object,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject responseJson) {
-                            Log.d("JSON Response", responseJson.toString());
-                            mRequestCompletion.onRequestCompletion(responseJson, null);
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            handleNetworkError(error);
-                        }
-                    }) {
-
-                @Override
-                public Map<String, String> getHeaders() {
-                    HashMap<String, String> headers = new HashMap<String, String>();
-                    headers.put("Content-Type", "application/json");
-                    System.out.println("Headers: = " + headers);
-                    return headers;
-                }
-            };
-            Log.d("Req", req.toString());
-            req.setRetryPolicy(
-                    new DefaultRetryPolicy(
-                            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
-                            0,
-                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            // Adding request to volley request queue.
-            AppController.getInstance().addToRequestQueue(req);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+//    public void callRequest(JSONObject object, String url) {
+//        JsonObjectRequest req;
+//        try {
+//            req = new JsonObjectRequest(Request.Method.GET, url, object,
+//                    new Response.Listener<JSONObject>() {
+//                        @Override
+//                        public void onResponse(JSONObject responseJson) {
+//                            Log.d("JSON Response", responseJson.toString());
+//                            mRequestCompletion.onRequestCompletion(responseJson, null);
+//                        }
+//                    },
+//                    new Response.ErrorListener() {
+//                        @Override
+//                        public void onErrorResponse(VolleyError error) {
+//                            handleNetworkError(error);
+//                        }
+//                    }) {
+//
+//                @Override
+//                public Map<String, String> getHeaders() {
+//                    HashMap<String, String> headers = new HashMap<String, String>();
+//                    headers.put("Content-Type", "application/json");
+//                    System.out.println("Headers: = " + headers);
+//                    return headers;
+//                }
+//            };
+//            Log.d("Req", req.toString());
+//            req.setRetryPolicy(
+//                    new DefaultRetryPolicy(
+//                            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+//                            0,
+//                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//            // Adding request to volley request queue.
+//            AppController.getInstance().addToRequestQueue(req);
+//        } catch (Exception e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//    }
 
     public void getCallRequest(String url) {
 

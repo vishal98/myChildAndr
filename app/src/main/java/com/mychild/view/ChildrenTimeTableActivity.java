@@ -3,26 +3,32 @@ package com.mychild.view;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
+import com.mychild.adapters.ChildTimeTabelAdapter;
 import com.mychild.customView.SwitchChildView;
-import com.mychild.sharedPreference.PrefManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
+import com.mychild.webserviceparser.ChildTimeTabelParser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Vijay on 3/28/15.
  */
 public class ChildrenTimeTableActivity extends BaseActivity implements RequestCompletion, View.OnClickListener{
     public static final String TAG = ChildrenTimeTableActivity.class.getSimpleName();
-    PrefManager sharedPref;
     private TopBar topBar;
     private SwitchChildView switchChild;
+    ChildTimeTabelAdapter adapter;
+    ListView timeTabelList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +43,10 @@ public class ChildrenTimeTableActivity extends BaseActivity implements RequestCo
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         CommonUtils.getLogs("timetable Response success");
         Log.i(TAG, responseArray.toString());
+        timeTabelList = (ListView) findViewById(R.id.child_time_table_list);
+        ArrayList<HashMap<String,String>> childrenTimeTable = ChildTimeTabelParser.getInstance().getChildrenTimeTabel(responseArray);
+        adapter = new ChildTimeTabelAdapter(this, childrenTimeTable);
+        timeTabelList.setAdapter(adapter);
         Constants.stopProgress(this);
     }
 
@@ -75,10 +85,10 @@ public class ChildrenTimeTableActivity extends BaseActivity implements RequestCo
         String Url_TimeTable = null ;
 
         if (CommonUtils.isNetworkAvailable(this)) {
-            Url_TimeTable=getString(R.string.base_url)+getString(R.string.timrtable_child)+"/5/a";
+            Url_TimeTable=getString(R.string.base_url)+getString(R.string.timrtable_child)+"/5/a/wednesday";
             Log.i("TimetableURL", Url_TimeTable);
             WebServiceCall call = new WebServiceCall(ChildrenTimeTableActivity.this);
-            call.getJsonObjectResponse(Url_TimeTable);
+            call.getCallRequest("http://default-environment-8tpprium54.elasticbeanstalk.com/app/timetable/5/a/wednesday");
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }
