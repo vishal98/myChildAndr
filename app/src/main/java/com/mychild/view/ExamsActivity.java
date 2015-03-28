@@ -2,8 +2,10 @@ package com.mychild.view;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 
 import com.mychild.Networkcall.RequestCompletion;
+import com.mychild.customView.SwitchChildView;
 import com.mychild.threads.HttpConnectThread;
 import com.mychild.utils.AsyncTaskInterface;
 import com.mychild.utils.CommonUtils;
@@ -14,10 +16,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 
-public class ExamsActivity extends BaseActivity implements RequestCompletion, AsyncTaskInterface {
+public class ExamsActivity extends BaseActivity implements View.OnClickListener, RequestCompletion, AsyncTaskInterface {
 
     //private String url  = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/Parent/username/";
-    private String url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/app/subject/5";
+    private String url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/Parent/exam/1";
+    private SwitchChildView switchChild;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,10 @@ public class ExamsActivity extends BaseActivity implements RequestCompletion, As
         TopBar topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.titleTV.setText(getString(R.string.exams_title));
+        switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
+        switchChild.initSwitchChildBar();
+        switchChild.parentNameTV.setText("Name");
+        switchChild.switchChildBT.setOnClickListener(this);
         callExamsWebservice();
 
     }
@@ -63,5 +70,14 @@ public class ExamsActivity extends BaseActivity implements RequestCompletion, As
     @Override
     public void setAsyncTaskCompletionListener(String object) {
         CommonUtils.getLogs("Response::::" + object);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.switch_child:
+                break;
+        }
     }
 }

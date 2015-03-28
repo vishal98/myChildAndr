@@ -100,7 +100,6 @@ public class WebServiceCall {
         Log.d("postURL", postURL);
         JsonObjectRequest req;
         try {
-            CommonUtils.getLogs("POST DATA::" + jsonData);
             req = new JsonObjectRequest(Request.Method.POST, postURL, jsonData,
                     new Response.Listener<JSONObject>() {
                         @Override

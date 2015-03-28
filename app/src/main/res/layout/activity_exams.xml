@@ -9,5 +9,10 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"></com.mychild.utils.TopBar>
 
+    <com.mychild.customView.SwitchChildView
+        android:id="@+id/switchchildBar"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"></com.mychild.customView.SwitchChildView>
+
 
 </RelativeLayout>

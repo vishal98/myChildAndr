@@ -148,7 +148,6 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
             selectedStudents = (ArrayList<StudentDTO>) data.getExtras().getSerializable(getString(R.string.students_data));
         } else {
             CommonUtils.getToastMessage(this, "Nothing Selected");
-            selectedStudents.clear();
             selectedStudents = null;
             updateCheckStatus = true;
             selectStudioRG.clearCheck();
@@ -157,9 +156,32 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
-        CommonUtils.getLogs("Response::::" + responseJson);
-        CommonUtils.getLogs("Response::::" + responseArray);
         Constants.stopProgress(this);
+        if (responseJson.has("status")) {
+            try {
+                if (responseJson.getString("status").equals("success")) {
+                    if (responseJson.has("message")) {
+                        CommonUtils.getToastMessage(AssignTaskActivity.this, responseJson.getString("message"));
+                        resetData();
+                    }
+                } else {
+                    if (responseJson.has("message")) {
+                        CommonUtils.getToastMessage(AssignTaskActivity.this, responseJson.getString("message"));
+                    }
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void resetData() {
+        calendar = Calendar.getInstance();
+        chooseDateTV.setText("");
+        taskET.setText("");
+        updateCheckStatus = true;
+        selectStudioRG.clearCheck();
     }
 
     @Override
@@ -265,10 +287,6 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
                 CommonUtils.getToastMessage(this, "Please Select Subject");
                 return;
             } else {
-                String classText = classSpinner.getSelectedItem().toString();
-                String subjectText = subjectSpinner.getSelectedItem().toString();
-                CommonUtils.getLogs("Subject:::" + subjectText);
-                CommonUtils.getLogs("SSSSS:" + subjectSpinner);
                 String messageText = taskET.getText().toString();
                 String dueDateText = chooseDateTV.getText().toString();
                /* if(classText.equals("")){
@@ -295,13 +313,13 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
                             for (StudentDTO dto : selectedStudents) {
                                 array.put(dto.getStudentId() + "");
                             }
-                            jsonObject.put("studentsList", array);
+                            jsonObject.put("studentList", array);
                         }
                         jsonObject.put("grade", teacherModel.getGradeModels().get(selectedGrade).getGradeName());
                         jsonObject.put("section", teacherModel.getGradeModels().get(selectedGrade).getSection());
                         jsonObject.put("subject", teacherModel.getSubjectsList().get(SelectedSubject).getSubjectName());
                         jsonObject.put("homework", teacherModel.getSubjectsList().get(SelectedSubject).getSubjectName() + " Homework");
-                        jsonObject.put("duedata", dueDateText);
+                        jsonObject.put("dueDate", dueDateText);
                         jsonObject.put("message", messageText);
                     } catch (JSONException e) {
                         e.printStackTrace();
