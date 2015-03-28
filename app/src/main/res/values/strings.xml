@@ -10,7 +10,7 @@
     <string name="login_parent_teacher_txt">Parent Login</string>
     <string name="login_footer_txt">Powered by my child</string>
 
-    <!--home.xml used text-->
+    <!--activity_child_homeworkvity_child_homework.xml used text-->
     <string name="text_to_send_hint">Type here...</string>
     <string name="home_text_to_send_lbl">Please enter text to send.</string>
     <string name="home_text_to_send_hint">Type your message here...</string>
@@ -42,8 +42,19 @@
     <string name="url_teacher_deatils">/Teacher/id/</string>
     <string name="url_teachers_list">/Teacher/id/</string>
     <string name="parent_url_endpoint">/Parent/username/</string>
+    <string name="home_work_student_id">/app/getHomework/student/</string>
+    <string name="home_work_student_assigned_date">/app/getHomework/student/</string>
+    <string name="timrtable_child">/app/timetable</string>
+
+
     <string name="no_network_connection">No Network connection</string>
     <string name="title_activity_assign_task">AssignTaskActivity</string>
+
+
+    <!--Parent Top bar-->
+    <string name="my_child">My Child</string>
+    <string name="home_work">Home Work</string>
+    <string name="time_tabel">Time Tabel</string>
 
     <!--assigntask-->
     <string name="assign_task_title">Assign Task</string>

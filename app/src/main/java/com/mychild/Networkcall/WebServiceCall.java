@@ -18,7 +18,6 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.gson.Gson;
 import com.mychild.sharedPreference.PrefManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.view.R;
@@ -52,18 +51,10 @@ public class WebServiceCall {
     public void LoginRequestApi(String userName, String Password) {
         String request_URL = mContext.getString(R.string.base_url) + mContext.getString(R.string.login_url_endpoint);
         Log.d("LOGIN URL", request_URL);
-        JSONObject headerBodyParam = null;
         LinkedHashMap<String, String> parmKeyValue = new LinkedHashMap<String, String>();
         parmKeyValue.put("username", userName);
         parmKeyValue.put("password", Password);
-        Gson gson = new Gson();
-        String parmsToJson = gson.toJson(parmKeyValue);
-        try {
-            headerBodyParam = new JSONObject(parmsToJson);
-        } catch (JSONException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
+        JSONObject headerBodyParam = new JSONObject(parmKeyValue);
         JsonObjectRequest req;
         try {
             req = new JsonObjectRequest(Request.Method.POST, request_URL, headerBodyParam,
@@ -96,6 +87,45 @@ public class WebServiceCall {
                             DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
                             0,
                             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            // Adding request to volley request queue.
+            AppController.getInstance().addToRequestQueue(req);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void postToServer(JSONObject jsonData, String postURL) {
+        String request_URL = mContext.getString(R.string.base_url) + mContext.getString(R.string.login_url_endpoint);
+        Log.d("postURL", postURL);
+        JsonObjectRequest req;
+        try {
+            req = new JsonObjectRequest(Request.Method.POST, request_URL, jsonData,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject responseJson) {
+                            // handle response
+                            Log.d("JSON Response", responseJson.toString());
+                            TokenID(responseJson);
+                            mRequestCompletion.onRequestCompletion(responseJson, null);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            handleNetworkError(error);
+                        }
+                    }) {
+                @Override
+                public Map<String, String> getHeaders() {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/json");
+                    System.out.println("Headers: = " + headers);
+                    return headers;
+                }
+            };
+            Log.d("Req", req.toString());
+            req.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,0,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             // Adding request to volley request queue.
             AppController.getInstance().addToRequestQueue(req);
         } catch (Exception e) {

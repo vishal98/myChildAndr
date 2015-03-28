@@ -51,7 +51,10 @@
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".StudentList2"
+            android:name=".ChildHomeWorkActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ChildrenTimeTableActivity"
             android:screenOrientation="portrait" />
 
         <receiver

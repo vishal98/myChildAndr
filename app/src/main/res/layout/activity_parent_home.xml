@@ -5,43 +5,17 @@
     android:orientation="vertical"
     android:background="@drawable/background">
 
-    <include android:id="@+id/actionBar"
-    layout="@layout/topbar"/>
+    <com.mychild.utils.TopBar
+        android:id="@+id/topBar"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp">
+        </com.mychild.utils.TopBar>
 
-    <RelativeLayout
-        android:id="@+id/parent_layout1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
-
-        <ImageView
-            android:id="@+id/parent_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/person"
-            android:layout_marginLeft="20dp" />
-
-        <TextView
-            android:id="@+id/parent_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ParentName"
-            android:textStyle="bold"
-            android:layout_toRightOf="@+id/parent_image"
-            android:layout_marginTop="20dp" />
-
-        <Button
-            android:id="@+id/switch_child"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="@string/switch_child"
-            android:textColor="@color/grey"
-            android:background="@drawable/switchchild_btn_selector"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp" />
-
-        </RelativeLayout>
+    <com.mychild.customView.SwitchChildView
+        android:id="@+id/switchchildBar"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp">
+        </com.mychild.customView.SwitchChildView>
 
     <LinearLayout
         android:id="@+id/parent_layout2"
@@ -59,6 +33,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
         <ImageView
+            android:id="@+id/time_table"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/teacher_tab2"
@@ -79,13 +54,14 @@
         android:layout_marginRight="20dp">
 
         <ImageView
+            android:id="@+id/exams"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/teacher_tab3"
-
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
         <ImageView
+            android:id="@+id/mail_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/teacher_tab4"
@@ -107,13 +83,14 @@
         android:layout_marginRight="20dp">
 
         <ImageView
+            android:id="@+id/chat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/teacher_tab5"
-
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
         <ImageView
+            android:id="@+id/calender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/teacher_tab6"
