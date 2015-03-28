@@ -54,7 +54,7 @@
     <!--Parent Top bar-->
     <string name="my_child">My Child</string>
     <string name="home_work">Home Work</string>
-    <string name="time_tabel">Time Tabel</string>
+    <string name="time_tabel">Time Table</string>
 
     <!--assigntask-->
     <string name="assign_task_title">Assign Task</string>
