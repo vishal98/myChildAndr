@@ -48,7 +48,7 @@
             android:layout_marginTop="40dp"
             android:background="@null"
             android:hint="@string/userid_hint"
-            android:text="test_teacher"
+            android:text="ravi@test.com"
             android:inputType="textPersonName"
             android:typeface="sans" />
 

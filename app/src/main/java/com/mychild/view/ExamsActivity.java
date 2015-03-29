@@ -3,17 +3,23 @@ package com.mychild.view;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 
 import com.mychild.Networkcall.RequestCompletion;
+import com.mychild.adapters.ExamsListviewAdapter;
 import com.mychild.customView.SwitchChildView;
+import com.mychild.model.ExamModel;
 import com.mychild.threads.HttpConnectThread;
 import com.mychild.utils.AsyncTaskInterface;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
+import com.mychild.webserviceparser.ExamsJsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 public class ExamsActivity extends BaseActivity implements View.OnClickListener, RequestCompletion, AsyncTaskInterface {
@@ -21,6 +27,8 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
     //private String url  = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/Parent/username/";
     private String url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/Parent/exam/1";
     private SwitchChildView switchChild;
+    private ListView examsListView;
+    private int selectedExam = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +41,7 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
         switchChild.initSwitchChildBar();
         switchChild.parentNameTV.setText("Name");
         switchChild.switchChildBT.setOnClickListener(this);
+        examsListView = (ListView)findViewById(R.id.exams_listview);
         callExamsWebservice();
 
     }
@@ -69,7 +78,15 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void setAsyncTaskCompletionListener(String object) {
+        ArrayList<ExamModel> examsList = ExamsJsonParser.getInstance().getExamsList(object);
         CommonUtils.getLogs("Response::::" + object);
+        setExamScheduleListAdapter(examsList);
+
+    }
+
+    private void setExamScheduleListAdapter(ArrayList<ExamModel> examsList) {
+      ExamsListviewAdapter examsListviewAdapter = new ExamsListviewAdapter(this, R.layout.exams_schedule_list_item, examsList.get(selectedExam).getExamScheduleList());
+      examsListView.setAdapter(examsListviewAdapter);
     }
 
     @Override
