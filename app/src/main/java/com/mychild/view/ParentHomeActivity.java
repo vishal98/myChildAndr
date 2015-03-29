@@ -13,11 +13,11 @@ import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.adapters.CustomDialogueAdapter;
 import com.mychild.customView.CustomDialogClass;
 import com.mychild.customView.SwitchChildView;
+import com.mychild.sharedPreference.ListOfChildrenPreference;
 import com.mychild.sharedPreference.PrefManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
-import com.mychild.webserviceparser.ParentHomeJsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -53,8 +53,11 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         Log.i(TAG, responseArray.toString());
         Constants.stopProgress(this);
         //childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenGradeAndSection(responseArray);
-        childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenListwithID(this, responseArray);
-        customDialogueAdapter = new CustomDialogueAdapter(this, childrenGradeAndSection);
+        //childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenListwithID(this, responseArray);
+        //customDialogueAdapter = new CustomDialogueAdapter(this, childrenGradeAndSection);
+        //Storing to Shared preference to cache the child list for the parent
+        ListOfChildrenPreference manager = new ListOfChildrenPreference(this);
+        manager.SaveChildrenListToPreference(responseArray);
 
     }
 
@@ -71,8 +74,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         switch (v.getId()) {
             case R.id.switch_child:
                 Toast.makeText(this, "Switch Child", Toast.LENGTH_LONG).show();
-                customDialogue = new CustomDialogClass(ParentHomeActivity.this, customDialogueAdapter);
-                customDialogue.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                customDialogue = new CustomDialogClass(this);
                 customDialogue.setCancelable(true);
                 customDialogue.show();
 

@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.ListView;
-import android.widget.RadioButton;
 
 import com.mychild.adapters.CustomDialogueAdapter;
 import com.mychild.view.R;
@@ -18,16 +17,15 @@ public class CustomDialogClass  extends Dialog {
 
     public Activity activity;
     public Dialog dialog;
-    public RadioButton mychild1;
-    public RadioButton mychild2;
-    CustomDialogueAdapter adapter;
+    //CustomDialogueAdapter adapter;
 
 
 
-    public CustomDialogClass(Activity activity, CustomDialogueAdapter adapter) {
+    public CustomDialogClass(Activity activity) {
         super(activity);
         this.activity = activity;
-        this.adapter = adapter;
+        this.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        //this.adapter = adapter;
     }
 
     @Override
@@ -35,9 +33,12 @@ public class CustomDialogClass  extends Dialog {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.listforcustomdialogue);
-
+        CustomDialogueAdapter adapter = new CustomDialogueAdapter(activity);
         ListView childList = (ListView) findViewById(R.id.childlist);
         childList.setAdapter(adapter);
+
+
+
     }
 
 

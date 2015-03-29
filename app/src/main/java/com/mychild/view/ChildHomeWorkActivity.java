@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.adapters.ChildHomeworkAdapter;
+import com.mychild.customView.CustomDialogClass;
 import com.mychild.customView.SwitchChildView;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
@@ -68,7 +69,21 @@ public class ChildHomeWorkActivity extends BaseActivity implements RequestComple
     }
     @Override
     public void onClick(View v) {
-        onBackPressed();
+
+
+        switch (v.getId()) {
+            case R.id.back_arrow_iv:
+                onBackPressed();
+                break;
+
+            case R.id.switch_child:
+                CustomDialogClass dialogue = new CustomDialogClass(this);
+                dialogue.show();
+                break;
+
+            default:
+                //Enter code in the event that that no cases match
+        }
     }
 
     public void setTopBar(){
@@ -83,6 +98,7 @@ public class ChildHomeWorkActivity extends BaseActivity implements RequestComple
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
         switchChild.parentNameTV.setText("Name");
+        switchChild.switchChildBT.setOnClickListener(this);
     }
 
 

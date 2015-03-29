@@ -2,6 +2,7 @@ package com.mychild.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mychild.customView.CustomDialogClass;
 import com.mychild.model.ChildDetailsModel;
+import com.mychild.sharedPreference.ListOfChildrenPreference;
 import com.mychild.view.R;
 
 import java.util.ArrayList;
@@ -26,9 +29,15 @@ public class CustomDialogueAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ArrayList<HashMap<String,String>> numberOfChild;
 
-    public CustomDialogueAdapter(Activity context,ArrayList<HashMap<String,String>> numberOfChild) {
+
+    public CustomDialogueAdapter(Activity context) {
         this.context = context;
-        this.numberOfChild = numberOfChild;
+        ListOfChildrenPreference preference = new ListOfChildrenPreference(context);
+        SharedPreferences saredpreferences = context.getSharedPreferences("ChildrenList", 0);
+        if(saredpreferences != null){
+            this.numberOfChild = preference.getChildrenListFromPreference();
+        }
+
     }
 
     @Override
@@ -84,6 +93,8 @@ public class CustomDialogueAdapter extends BaseAdapter {
                 Toast.makeText(context, "" + numberOfChild.get(position).get("studentName"), Toast.LENGTH_LONG).show();
                 ChildDetailsModel childData = new ChildDetailsModel();
                 childData.setStudentId(numberOfChild.get(position).get("studentId"));
+                CustomDialogClass dialog = new CustomDialogClass(context);
+                dialog.hide();
 
             }
         });
