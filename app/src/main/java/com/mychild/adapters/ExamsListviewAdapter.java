@@ -7,17 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.Filter;
 import android.widget.TextView;
 
 import com.mychild.model.ExamScheduleModel;
-import com.mychild.model.StudentDTO;
 import com.mychild.utils.CommonUtils;
-import com.mychild.utils.IOnCheckedChangeListener;
 import com.mychild.view.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,22 +57,11 @@ public class ExamsListviewAdapter extends ArrayAdapter<ExamScheduleModel> {
         holder.dateTV.setText(CommonUtils.getDate(examScheduleModel.getExamsStartTime()));
         //ExamScheduleModel studentDTO = getItem(position);
         holder.checkBox.setTag(getItem(position));
-        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // int pos = Integer.parseInt((buttonView).getTag().toString());
-                StudentDTO dto = (StudentDTO) buttonView.getTag();
-                if (isChecked)
-                    mSelectedItemsIds.put(dto.getStudentId(), true);
-                else
-                    mSelectedItemsIds.delete(dto.getStudentId());
-            }
-        });
         return convertView;
     }
 
     private class ViewHolder {
-        TextView dateTV, monthTV,timeTV, weekTV, subjectTV;
+        TextView dateTV, monthTV, timeTV, weekTV, subjectTV;
         CheckBox checkBox;
     }
 
