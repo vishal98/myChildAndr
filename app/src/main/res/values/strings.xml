@@ -49,8 +49,6 @@
     <string name="parent_chat">/app/conversations/get</string>
 
 
-
-
     <string name="no_network_connection">No Network connection</string>
     <string name="title_activity_assign_task">AssignTaskActivity</string>
 
@@ -88,8 +86,13 @@
     <string name="cancel">Cancel</string>
 
     <string name="pref_access_token">access_token</string>
+    <string name="pref_username">username</string>
+    <string name="pref_role">user_role</string>
+
+
     <string name="students_data">Students data</string>
     <string name="title_activity_exams">ExamsActivity</string>
+    <string name="list_of_exams">List of Exams</string>
 
     <string name="hello_world">Hello world!</string>
 
@@ -108,11 +111,8 @@
     <string name="search_mail_contacts">Search by Name/Subject</string>
 
 
-
     <!--ParentChatActivity-->
     <string name="all_contact">ALL</string>
-
-
 
 
 </resources>

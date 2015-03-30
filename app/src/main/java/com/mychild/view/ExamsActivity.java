@@ -3,6 +3,7 @@ package com.mychild.view;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.mychild.Networkcall.RequestCompletion;
@@ -13,6 +14,7 @@ import com.mychild.threads.HttpConnectThread;
 import com.mychild.utils.AsyncTaskInterface;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
+import com.mychild.utils.CustomDialog;
 import com.mychild.utils.TopBar;
 import com.mychild.webserviceparser.ExamsJsonParser;
 
@@ -28,7 +30,9 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
     private String url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/Parent/exam/1";
     private SwitchChildView switchChild;
     private ListView examsListView;
-    private int selectedExam = 0;
+    private int selectedExam = 0, selectedExamId = 0;
+    private ImageView examsIV;
+    private ArrayList<ExamModel> examsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,9 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
         switchChild.initSwitchChildBar();
         switchChild.parentNameTV.setText("Name");
         switchChild.switchChildBT.setOnClickListener(this);
-        examsListView = (ListView)findViewById(R.id.exams_listview);
+        examsListView = (ListView) findViewById(R.id.exams_listview);
+        examsIV = (ImageView) findViewById(R.id.exams_iv);
+        examsIV.setOnClickListener(this);
         callExamsWebservice();
 
     }
@@ -78,15 +84,16 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void setAsyncTaskCompletionListener(String object) {
-        ArrayList<ExamModel> examsList = ExamsJsonParser.getInstance().getExamsList(object);
+        examsList = ExamsJsonParser.getInstance().getExamsList(object);
+        selectedExamId = Integer.parseInt(examsList.get(0).getExamId());
         CommonUtils.getLogs("Response::::" + object);
         setExamScheduleListAdapter(examsList);
 
     }
 
     private void setExamScheduleListAdapter(ArrayList<ExamModel> examsList) {
-      ExamsListviewAdapter examsListviewAdapter = new ExamsListviewAdapter(this, R.layout.exams_schedule_list_item, examsList.get(selectedExam).getExamScheduleList());
-      examsListView.setAdapter(examsListviewAdapter);
+        ExamsListviewAdapter examsListviewAdapter = new ExamsListviewAdapter(this, R.layout.exams_schedule_list_item, examsList.get(selectedExam).getExamScheduleList());
+        examsListView.setAdapter(examsListviewAdapter);
     }
 
     @Override
@@ -95,6 +102,8 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
         switch (id) {
             case R.id.switch_child:
                 break;
+            case R.id.exams_iv:
+                CustomDialog.getExamsDialog(this, examsList, selectedExamId);
         }
     }
 }

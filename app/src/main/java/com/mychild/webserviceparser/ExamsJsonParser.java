@@ -2,7 +2,6 @@ package com.mychild.webserviceparser;
 
 import com.mychild.model.ExamModel;
 import com.mychild.model.ExamScheduleModel;
-import com.mychild.utils.CommonUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,28 +47,25 @@ public class ExamsJsonParser {
                         ArrayList<ExamScheduleModel> examsScheduleList = new ArrayList<ExamScheduleModel>();
                         int subjectsSize = examScheduleArray.length();
                         for (int j = 0; j < subjectsSize; j++) {
-                            JSONObject temp = examScheduleArray.getJSONObject(j);
-                            if (temp.has("examSchedule")) {
-                                JSONObject subjectObj = temp.getJSONObject("examSchedule");
-                                ExamScheduleModel examScheduleModel = new ExamScheduleModel();
-                                if (subjectObj.has("subjectName")) {
-                                    examScheduleModel.setSubjectName(subjectObj.getString("subjectName"));
-                                }
-                                if (subjectObj.has("subjectSyllabus")) {
-                                    examScheduleModel.setSubjectSyllabus(subjectObj.getString("subjectSyllabus"));
-                                }
-                                if (subjectObj.has("teacherName")) {
-                                    examScheduleModel.setTeacherName(subjectObj.getString("teacherName"));
-                                }
-                                if (subjectObj.has("examStartTime")) {
-                                    examScheduleModel.setExamsStartTime(subjectObj.getString("examStartTime"));
-                                }
-                                if (subjectObj.has("examEndTime")) {
-                                    examScheduleModel.setExamsEndTime(subjectObj.getString("examEndTime"));
-                                }
-                                examsScheduleList.add(examScheduleModel);
-                                examScheduleModel = null;
+                            JSONObject subjectObj = examScheduleArray.getJSONObject(j);
+                            ExamScheduleModel examScheduleModel = new ExamScheduleModel();
+                            if (subjectObj.has("subjectName")) {
+                                examScheduleModel.setSubjectName(subjectObj.getString("subjectName"));
                             }
+                            if (subjectObj.has("subjectSyllabus")) {
+                                examScheduleModel.setSubjectSyllabus(subjectObj.getString("subjectSyllabus"));
+                            }
+                            if (subjectObj.has("teacherName")) {
+                                examScheduleModel.setTeacherName(subjectObj.getString("teacherName"));
+                            }
+                            if (subjectObj.has("examStartTime")) {
+                                examScheduleModel.setExamsStartTime(subjectObj.getString("examStartTime"));
+                            }
+                            if (subjectObj.has("examEndTime")) {
+                                examScheduleModel.setExamsEndTime(subjectObj.getString("examEndTime"));
+                            }
+                            examsScheduleList.add(examScheduleModel);
+                            examScheduleModel = null;
                         }
                         examModel.setExamScheduleList(examsScheduleList);
                         examsScheduleList = null;
@@ -77,9 +73,31 @@ public class ExamsJsonParser {
                     examsList.add(examModel);
                 }
             }
+            examsList.add(dummyData());
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return examsList;
+    }
+
+    private ExamModel dummyData() {
+        ExamModel examModel = new ExamModel();
+        examModel.setExamId("2");
+        examModel.setExamType("Anual exams");
+        ArrayList<ExamScheduleModel> list = new ArrayList<ExamScheduleModel>();
+        ExamScheduleModel model1 = new ExamScheduleModel();
+        model1.setExamsEndTime("Tuesday, 11 February 2014, 05:30:00 AM");
+        model1.setExamsStartTime("Tuesday, 11 February 2014, 05:30:00 AM");
+        model1.setTeacherName("AAAAAA");
+        model1.setSubjectName("MATHS");
+        list.add(model1);
+        ExamScheduleModel model2 = new ExamScheduleModel();
+        model2.setExamsEndTime("Tuesday, 11 February 2014, 05:30:00 AM");
+        model2.setExamsStartTime("Tuesday, 11 February 2014, 05:30:00 AM");
+        model2.setTeacherName("AAAAAA");
+        model2.setSubjectName("MATHS");
+        list.add(model2);
+        examModel.setExamScheduleList(list);
+        return examModel;
     }
 }
