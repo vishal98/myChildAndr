@@ -19,28 +19,31 @@
         android:layout_width="match_parent"
         android:layout_height="70dp">
 
-        <LinearLayout
-            android:layout_width="0dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.8"
-            android:orientation="vertical">
+            android:layout_toLeftOf="@+id/exams_iv"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <TextView
                 android:id="@+id/exam_type_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ddfsbhvfklhklfs"
-                android:textColor="@color/black"
+                android:textColor="@color/done_red_color"
+                android:textStyle="bold"
                 android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/date_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ddfsbhvfklhklfs"
+                android:layout_below="@+id/exam_type_tv"
                 android:textColor="@color/black"
                 android:textSize="13sp" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/exams_iv"
@@ -48,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+
             android:src="@drawable/person" />
     </RelativeLayout>
 

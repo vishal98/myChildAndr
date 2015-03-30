@@ -83,7 +83,7 @@ public class ExamsJsonParser {
     private ExamModel dummyData() {
         ExamModel examModel = new ExamModel();
         examModel.setExamId("2");
-        examModel.setExamType("Anual exams");
+        examModel.setExamType("Annual exams");
         ArrayList<ExamScheduleModel> list = new ArrayList<ExamScheduleModel>();
         ExamScheduleModel model1 = new ExamScheduleModel();
         model1.setExamsEndTime("Tuesday, 11 February 2014, 05:30:00 AM");
