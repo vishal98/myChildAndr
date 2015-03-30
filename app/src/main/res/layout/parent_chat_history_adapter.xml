@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/teacherimageIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:background="@drawable/person"
+            >
+        </com.android.volley.toolbox.NetworkImageView>
+
+
+        <TextView
+            android:id="@+id/teacherNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Teacher Name"
+            android:layout_toRightOf="@+id/teacherimageIV"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/subjectNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Subject Name"
+            android:layout_toRightOf="@+id/teacherimageIV"
+            android:layout_below="@+id/teacherNameTV"
+
+            />
+
+        <TextView
+            android:id="@+id/dateTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/teacherNameTV"
+            android:layout_marginTop="10dp" />
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

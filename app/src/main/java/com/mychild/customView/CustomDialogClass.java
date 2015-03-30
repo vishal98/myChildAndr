@@ -37,8 +37,6 @@ public class CustomDialogClass  extends Dialog {
         ListView childList = (ListView) findViewById(R.id.childlist);
         childList.setAdapter(adapter);
 
-
-
     }
 
 
