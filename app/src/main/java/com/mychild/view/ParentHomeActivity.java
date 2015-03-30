@@ -1,5 +1,6 @@
 package com.mychild.view;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,11 +14,15 @@ import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.adapters.CustomDialogueAdapter;
 import com.mychild.customView.CustomDialogClass;
 import com.mychild.customView.SwitchChildView;
+import com.mychild.interfaces.IOnSwichChildListener;
+import com.mychild.model.ParentModel;
 import com.mychild.sharedPreference.ListOfChildrenPreference;
 import com.mychild.sharedPreference.PrefManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
+import com.mychild.volley.AppController;
+import com.mychild.webserviceparser.ParentHomeJsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,7 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ParentHomeActivity extends BaseActivity implements RequestCompletion, View.OnClickListener {
+public class ParentHomeActivity extends BaseActivity implements RequestCompletion, View.OnClickListener, IOnSwichChildListener {
     public static final String TAG = ParentHomeActivity.class.getSimpleName();
 
     PrefManager sharedPref;
@@ -35,6 +40,10 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     CustomDialogueAdapter customDialogueAdapter = null;
     private TopBar topBar;
     private SwitchChildView switchChild;
+    private Dialog dialog = null;
+    private ParentModel parentModel = null;
+    private int selectedChildPosition = 0;
+    private AppController appController = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +54,18 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         setTopBar();
         switchChildBar();
         setOnClickListener();
+        appController = (AppController) getApplicationContext();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        selectedChildPosition = appController.getSelectedChild();
     }
 
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
-        CommonUtils.getLogs("Parent Response success");
+        CommonUtils.getLogs("Parent Response success" + responseArray);
         Log.i(TAG, responseArray.toString());
         Constants.stopProgress(this);
         //childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenGradeAndSection(responseArray);
@@ -57,6 +73,12 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         //customDialogueAdapter = new CustomDialogueAdapter(this, childrenGradeAndSection);
 
         //Storing to Shared preference to cache the child list for the parent
+        parentModel = ParentHomeJsonParser.getInstance().getParentDetails(responseArray);
+
+        appController.setParentData(parentModel);
+        if (parentModel.getNumberOfChildren() >= 0) {
+            appController.setSelectedChild(0);
+        }
         ListOfChildrenPreference manager = new ListOfChildrenPreference(this);
         manager.SaveChildrenListToPreference(responseArray);
 
@@ -74,10 +96,12 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.switch_child:
-                Toast.makeText(this, "Switch Child", Toast.LENGTH_LONG).show();
+                dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
+                /*Toast.makeText(this, "Switch Child", Toast.LENGTH_LONG).show();
                 customDialogue = new CustomDialogClass(this);
                 customDialogue.setCancelable(true);
-                customDialogue.show();
+                customDialogue.show();*/
+
 
                 break;
             case R.id.homework:
@@ -89,7 +113,10 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 break;
             case R.id.exams:
                 //Toast.makeText(this,"Exams",Toast.LENGTH_LONG).show();
-                startActivity(new Intent(this, ExamsActivity.class));
+                Intent intent = new Intent(this, ExamsActivity.class);
+                intent.putExtra(getString(R.string.key_from), getString(R.string.key_from_parent));
+                startActivity(intent);
+                intent = null;
                 break;
             case R.id.mail_box:
                 startActivity(new Intent(this, ChildInboxActivity.class));
@@ -154,4 +181,10 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         }
     }
 
+    @Override
+    public void onSwitchChild(int selectedChildPosition) {
+        this.selectedChildPosition = selectedChildPosition;
+        appController.setSelectedChild(selectedChildPosition);
+        dialog.dismiss();
+    }
 }

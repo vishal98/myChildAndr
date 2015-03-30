@@ -4,21 +4,18 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.Window;
-import android.widget.ListView;
 
-import com.mychild.adapters.CustomDialogueAdapter;
 import com.mychild.view.R;
 
 
 /**
  * Created by Vijay on 3/23/15.
  */
-public class CustomDialogClass  extends Dialog {
+public class CustomDialogClass extends Dialog {
 
     public Activity activity;
     public Dialog dialog;
     //CustomDialogueAdapter adapter;
-
 
 
     public CustomDialogClass(Activity activity) {
@@ -33,10 +30,9 @@ public class CustomDialogClass  extends Dialog {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.listforcustomdialogue);
-        CustomDialogueAdapter adapter = new CustomDialogueAdapter(activity);
+       /* CustomDialogueAdapter adapter = new CustomDialogueAdapter(activity);
         ListView childList = (ListView) findViewById(R.id.childlist);
-        childList.setAdapter(adapter);
-
+        childList.setAdapter(adapter);*/
 
 
     }
