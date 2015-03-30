@@ -131,4 +131,12 @@ public class CommonUtils {
         }
         return month;
     }
+
+    public static void getSwitchChildDialog(Context context) {
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.listforcustomdialogue);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setCancelable(true);
+    }
 }

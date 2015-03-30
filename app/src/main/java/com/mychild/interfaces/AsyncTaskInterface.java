@@ -1,4 +1,4 @@
-package com.mychild.utils;
+package com.mychild.interfaces;
 
 /**
  * Interface class that generates an event whenever an async task thread is finished.
