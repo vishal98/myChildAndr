@@ -32,8 +32,12 @@ public class CustomDialogClass extends Dialog {
         setContentView(R.layout.listforcustomdialogue);
        /* CustomDialogueAdapter adapter = new CustomDialogueAdapter(activity);
         ListView childList = (ListView) findViewById(R.id.childlist);
+<<<<<<< HEAD
         childList.setAdapter(adapter);*/
 
+=======
+        childList.setAdapter(adapter);
+>>>>>>> 1b3a194a894df13aba23ffc45ddda745c3bc2ed4
 
     }
 

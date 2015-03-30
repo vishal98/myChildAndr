@@ -47,43 +47,46 @@ public class ListOfChildrenPreference {
      *
      * @return ChildrenList .
      */
-    public ArrayList<HashMap<String,String>> getChildrenListFromPreference(){
-        String userData ;
-        JSONArray showdata= null;
+    public ArrayList<HashMap<String,String>> getChildrenListFromPreference() {
+        String userData;
+        JSONArray showdata = null;
         ArrayList<HashMap<String, String>> getChildrenList = null;
         LinkedHashMap<String, String> childrenNameAndIdHashMap = null;
-        userData= pref.getString(KEY_CHILDREN_LIST,null);
-        Log.d("ChildList>>>>", userData);
-        try {
-            showdata = new JSONArray(userData);
-            {
-                int size = showdata.length();
-                for (int i = 0; i < size; i++) {
-                    try {
-                        JSONObject object = showdata.getJSONObject(i);
-                        JSONArray childrenArray = object.getJSONArray("children");
-                        getChildrenList = new ArrayList<HashMap<String, String>>();
-                        for(int j= 0; j<childrenArray.length();j++ ){
-                            childrenNameAndIdHashMap = new LinkedHashMap<String, String>();
-                            JSONObject noOfStudent = childrenArray.getJSONObject(j);
-                            if (noOfStudent.has("studentId")) {
-                                childrenNameAndIdHashMap.put("studentId", noOfStudent.getString("studentId"));
+        userData = pref.getString(KEY_CHILDREN_LIST, null);
+        if (userData != null) {
+            Log.d("ChildList>>>>", userData);
+            try {
+                showdata = new JSONArray(userData);
+                {
+                    int size = showdata.length();
+                    for (int i = 0; i < size; i++) {
+                        try {
+                            JSONObject object = showdata.getJSONObject(i);
+                            JSONArray childrenArray = object.getJSONArray("children");
+                            getChildrenList = new ArrayList<HashMap<String, String>>();
+                            for (int j = 0; j < childrenArray.length(); j++) {
+                                childrenNameAndIdHashMap = new LinkedHashMap<String, String>();
+                                JSONObject noOfStudent = childrenArray.getJSONObject(j);
+                                if (noOfStudent.has("studentId")) {
+                                    childrenNameAndIdHashMap.put("studentId", noOfStudent.getString("studentId"));
+                                }
+                                if (noOfStudent.has("studentName")) {
+                                    childrenNameAndIdHashMap.put("studentName", noOfStudent.getString("studentName"));
+                                }
+                                getChildrenList.add(childrenNameAndIdHashMap);
                             }
-                            if (noOfStudent.has("studentName")) {
-                                childrenNameAndIdHashMap.put("studentName", noOfStudent.getString("studentName"));
-                            }
-                            getChildrenList.add(childrenNameAndIdHashMap);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
                 }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
         Log.i("ChildataPreference", getChildrenList.toString());
         return getChildrenList;
     }
+
 }
