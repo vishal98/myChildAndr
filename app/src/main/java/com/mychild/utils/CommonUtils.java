@@ -11,11 +11,22 @@ import android.widget.Toast;
 
 import com.mychild.view.R;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by Sandeep on 17-03-2015.
  */
 public class CommonUtils {
     private static final String TAG = "=====MyChild====";
+    private static String[] weeks = {"SUN", "MON", "TUE","WED", "THU","FRI","SAT"};
+    private static String[] months = {"JAN", "FEB", "MAR","APR", "MAY","JUN","JUL", "AUG", "SEP","OCT", "NOV","DEC"};
+    private static String format = "yyyy-MM-dd hh:mm";
+    private static String timeFormat = "hh:mm a";
+
 
     public static void getLogs(String str) {
         Log.i(TAG, "======" + str + "=====");
@@ -56,5 +67,81 @@ public class CommonUtils {
         ConnectivityManager connectivityManager = (ConnectivityManager) cntx.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+    public static String getWeekName(String str){
+        SimpleDateFormat df = new SimpleDateFormat(format);
+        int week = 0;
+        try {
+            Date date = df.parse(str);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            week = cal.get(Calendar.DAY_OF_WEEK);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return weeks[week-1];
+    }
+    public static String getDate(String str){
+        SimpleDateFormat df = new SimpleDateFormat(format);
+        int dateNumber = 1;
+        try {
+            Date date = df.parse(str);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            dateNumber = cal.get(Calendar.DATE);
+            CommonUtils.getLogs("WEEK:::"+dateNumber);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dateNumber+"";
+    }
+    public static String getMonth(String str){
+        SimpleDateFormat df = new SimpleDateFormat(format);
+        int month = 0;
+        try {
+            Date date = df.parse(str);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            month = cal.get(Calendar.MONTH);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return months[month];
+    }
+    public static String getTime(String str1, String str2){
+        SimpleDateFormat df = new SimpleDateFormat(format);
+        String[] apPm = {"AM","PM"};
+        String month = "";
+        try {
+            Date date1 = df.parse(str1);
+            Calendar cal1 = Calendar.getInstance();
+            cal1.setTime(date1);
+            month = cal1.get(Calendar.HOUR_OF_DAY)+":"+cal1.get(Calendar.MINUTE)+apPm[cal1.get(Calendar.AM_PM)];
+
+            Calendar cal2 = Calendar.getInstance();
+            Date date2 = df.parse(str2);
+            cal2.setTime(date2);
+            month = month+"-"+cal2.get(Calendar.HOUR_OF_DAY)+":"+cal2.get(Calendar.MINUTE)+apPm[cal1.get(Calendar.AM_PM)];
+            CommonUtils.getLogs("HOUR:::"+month);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return month;
+        /*String hour1 = "", hour2 = "";
+        try {
+            DateFormat df = new SimpleDateFormat(timeFormat);
+            CommonUtils.getLogs("st1:::"+str1);
+            CommonUtils.getLogs("str2:::" +str2);
+            hour1 = df.format(str1);
+            hour2 = df.format(str2);
+
+            CommonUtils.getLogs("HOur1:::"+hour1);
+            CommonUtils.getLogs("WEEK:::" +hour2);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return hour1+"-"+hour2;*/
     }
 }

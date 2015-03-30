@@ -1,7 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.mychild.view.ExamsActivity">
 
     <com.mychild.utils.TopBar
@@ -14,5 +15,17 @@
         android:layout_width="wrap_content"
         android:layout_height="70dp"></com.mychild.customView.SwitchChildView>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
 
-</RelativeLayout>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/exams_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/done_red_color"
+        android:dividerHeight="1dp"></ListView>
+
+</LinearLayout>
