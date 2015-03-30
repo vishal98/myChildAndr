@@ -91,7 +91,6 @@ public class CommonUtils {
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
             dateNumber = cal.get(Calendar.DATE);
-            CommonUtils.getLogs("WEEK:::" + dateNumber);
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -127,25 +126,9 @@ public class CommonUtils {
             Date date2 = df.parse(str2);
             cal2.setTime(date2);
             month = month + "-" + cal2.get(Calendar.HOUR_OF_DAY) + ":" + cal2.get(Calendar.MINUTE) + apPm[cal1.get(Calendar.AM_PM)];
-            CommonUtils.getLogs("HOUR:::" + month);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return month;
-        /*String hour1 = "", hour2 = "";
-        try {
-            DateFormat df = new SimpleDateFormat(timeFormat);
-            CommonUtils.getLogs("st1:::"+str1);
-            CommonUtils.getLogs("str2:::" +str2);
-            hour1 = df.format(str1);
-            hour2 = df.format(str2);
-
-            CommonUtils.getLogs("HOur1:::"+hour1);
-            CommonUtils.getLogs("WEEK:::" +hour2);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return hour1+"-"+hour2;*/
     }
 }

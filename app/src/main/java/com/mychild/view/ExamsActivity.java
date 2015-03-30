@@ -1,20 +1,25 @@
 package com.mychild.view;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.adapters.ExamsListviewAdapter;
+import com.mychild.adapters.ExamsTypesListviewAdapter;
 import com.mychild.customView.SwitchChildView;
+import com.mychild.interfaces.IOnExamChangedListener;
 import com.mychild.model.ExamModel;
+import com.mychild.model.ExamScheduleModel;
 import com.mychild.threads.HttpConnectThread;
 import com.mychild.utils.AsyncTaskInterface;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
-import com.mychild.utils.CustomDialog;
 import com.mychild.utils.TopBar;
 import com.mychild.webserviceparser.ExamsJsonParser;
 
@@ -24,15 +29,16 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class ExamsActivity extends BaseActivity implements View.OnClickListener, RequestCompletion, AsyncTaskInterface {
+public class ExamsActivity extends BaseActivity implements View.OnClickListener, RequestCompletion, AsyncTaskInterface, IOnExamChangedListener {
 
     //private String url  = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/Parent/username/";
     private String url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/Parent/exam/1";
     private SwitchChildView switchChild;
     private ListView examsListView;
-    private int selectedExam = 0, selectedExamId = 0;
+    private int selectedExam = 0, selectedExamposition = 0;
     private ImageView examsIV;
     private ArrayList<ExamModel> examsList;
+    private Dialog examsTypeDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,14 +91,14 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void setAsyncTaskCompletionListener(String object) {
         examsList = ExamsJsonParser.getInstance().getExamsList(object);
-        selectedExamId = Integer.parseInt(examsList.get(0).getExamId());
+        selectedExamposition = 0;
         CommonUtils.getLogs("Response::::" + object);
-        setExamScheduleListAdapter(examsList);
+        setExamScheduleListAdapter(examsList.get(selectedExamposition).getExamScheduleList());
 
     }
 
-    private void setExamScheduleListAdapter(ArrayList<ExamModel> examsList) {
-        ExamsListviewAdapter examsListviewAdapter = new ExamsListviewAdapter(this, R.layout.exams_schedule_list_item, examsList.get(selectedExam).getExamScheduleList());
+    private void setExamScheduleListAdapter(ArrayList<ExamScheduleModel> examsList) {
+        ExamsListviewAdapter examsListviewAdapter = new ExamsListviewAdapter(this, R.layout.exams_schedule_list_item, examsList);
         examsListView.setAdapter(examsListviewAdapter);
     }
 
@@ -103,7 +109,37 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
             case R.id.switch_child:
                 break;
             case R.id.exams_iv:
-                CustomDialog.getExamsDialog(this, examsList, selectedExamId);
+                examsTypeDialog = getExamsDialog(examsList, selectedExamposition);
+                break;
+            case R.id.cancel_btn:
+                examsTypeDialog.dismiss();
+                break;
+            default:
+        }
+    }
+
+    private Dialog getExamsDialog(ArrayList<ExamModel> list, int examPosition) {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_exams);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setCancelable(true);
+        Button cancelBtn = (Button) dialog.findViewById(R.id.cancel_btn);
+        cancelBtn.setOnClickListener(this);
+        //cancelBtn.setOnClickListener();
+        ListView examsListview = (ListView) dialog.findViewById(R.id.exams_types_lv);
+        ExamsTypesListviewAdapter examsTypesListviewAdapter = new ExamsTypesListviewAdapter(this, R.layout.exam_type_listview_item, list, examPosition);
+        examsListview.setAdapter(examsTypesListviewAdapter);
+        dialog.show();
+        return dialog;
+    }
+
+    @Override
+    public void onExamChanged(int position, boolean isChecked) {
+        if (isChecked) {
+            examsTypeDialog.dismiss();
+            selectedExamposition = position;
+            setExamScheduleListAdapter(examsList.get(selectedExamposition).getExamScheduleList());
         }
     }
 }

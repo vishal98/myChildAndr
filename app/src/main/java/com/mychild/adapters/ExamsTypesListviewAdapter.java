@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.mychild.interfaces.IOnExamChangedListener;
 import com.mychild.model.ExamModel;
 import com.mychild.view.R;
 
@@ -23,6 +25,8 @@ public class ExamsTypesListviewAdapter extends ArrayAdapter<ExamModel> {
     private LayoutInflater inflater;
     public SparseBooleanArray mSelectedItemsIds;
     private int examId;
+    private IOnExamChangedListener iOnExamChangedListener;
+    private boolean involveOnCheckedListener = false;
 
     public ExamsTypesListviewAdapter(Context context, int resource, List<ExamModel> list, int examId) {
         super(context, resource, list);
@@ -31,6 +35,7 @@ public class ExamsTypesListviewAdapter extends ArrayAdapter<ExamModel> {
         this.resource = resource;
         this.examId = examId;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        iOnExamChangedListener = (IOnExamChangedListener) context;
     }
 
     @Override
@@ -41,8 +46,7 @@ public class ExamsTypesListviewAdapter extends ArrayAdapter<ExamModel> {
             holder = new ViewHolder();
             holder.examTypeTV = (TextView) convertView.findViewById(R.id.exam_type_tv);
             holder.dateTV = (TextView) convertView.findViewById(R.id.date_tv);
-            holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
-
+            holder.radioButton = (RadioButton) convertView.findViewById(R.id.radio_button);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -50,15 +54,28 @@ public class ExamsTypesListviewAdapter extends ArrayAdapter<ExamModel> {
         ExamModel examModel = getItem(position);
         holder.examTypeTV.setText(examModel.getExamType());
         holder.dateTV.setText("23 Mar - 05 April 2015");
-        holder.checkBox.setTag(getItem(position));
-        if (examId == Integer.parseInt(examModel.getExamId())) {
-            holder.checkBox.setChecked(true);
+        holder.radioButton.setTag(position);
+        if (examId == position) {
+            holder.radioButton.setChecked(true);
+            //    involveOnCheckedListener = true;
+        } else {
+            holder.radioButton.setChecked(false);
         }
+        holder.radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                int value = Integer.parseInt(buttonView.getTag().toString());
+                if (isChecked && value != examId) {
+                    notifyDataSetChanged();
+                    iOnExamChangedListener.onExamChanged(value, isChecked);
+                }
+            }
+        });
         return convertView;
     }
 
     private class ViewHolder {
         TextView examTypeTV, dateTV;
-        CheckBox checkBox;
+        RadioButton radioButton;
     }
 }

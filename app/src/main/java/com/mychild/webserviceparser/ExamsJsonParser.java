@@ -95,7 +95,7 @@ public class ExamsJsonParser {
         model2.setExamsEndTime("Tuesday, 11 February 2014, 05:30:00 AM");
         model2.setExamsStartTime("Tuesday, 11 February 2014, 05:30:00 AM");
         model2.setTeacherName("AAAAAA");
-        model2.setSubjectName("MATHS");
+        model2.setSubjectName("SOCIAL");
         list.add(model2);
         examModel.setExamScheduleList(list);
         return examModel;
