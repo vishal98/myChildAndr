@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.mychild.Networkcall.WebServiceCall;
-import com.mychild.utils.AsyncTaskInterface;
+import com.mychild.interfaces.AsyncTaskInterface;
 import com.mychild.utils.CommonUtils;
 import com.mychild.view.R;
 

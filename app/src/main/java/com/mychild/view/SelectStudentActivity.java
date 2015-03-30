@@ -11,8 +11,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mychild.adapters.StudentsListAdapter;
+import com.mychild.interfaces.IOnCheckedChangeListener;
 import com.mychild.model.StudentDTO;
-import com.mychild.utils.IOnCheckedChangeListener;
 import com.mychild.utils.TopBar;
 
 import java.util.ArrayList;

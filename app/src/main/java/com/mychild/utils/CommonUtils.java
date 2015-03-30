@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.mychild.view.R;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,9 +21,10 @@ import java.util.Date;
  */
 public class CommonUtils {
     private static final String TAG = "=====MyChild====";
-    private static String[] weeks = {"SUN", "MON", "TUE","WED", "THU","FRI","SAT"};
-    private static String[] months = {"JAN", "FEB", "MAR","APR", "MAY","JUN","JUL", "AUG", "SEP","OCT", "NOV","DEC"};
-    private static String format = "yyyy-MM-dd hh:mm";
+    private static String[] weeks = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
+    private static String[] months = {"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
+    //private static String format = "yyyy-MM-dd hh:mm";
+    private static String format = "EEEE,dd MMMM yyyy,hh:mm:ss a";
     private static String timeFormat = "hh:mm a";
 
 
@@ -68,7 +68,8 @@ public class CommonUtils {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-    public static String getWeekName(String str){
+
+    public static String getWeekName(String str) {
         SimpleDateFormat df = new SimpleDateFormat(format);
         int week = 0;
         try {
@@ -79,9 +80,10 @@ public class CommonUtils {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return weeks[week-1];
+        return weeks[week - 1];
     }
-    public static String getDate(String str){
+
+    public static String getDate(String str) {
         SimpleDateFormat df = new SimpleDateFormat(format);
         int dateNumber = 1;
         try {
@@ -89,14 +91,14 @@ public class CommonUtils {
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
             dateNumber = cal.get(Calendar.DATE);
-            CommonUtils.getLogs("WEEK:::"+dateNumber);
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return dateNumber+"";
+        return dateNumber + "";
     }
-    public static String getMonth(String str){
+
+    public static String getMonth(String str) {
         SimpleDateFormat df = new SimpleDateFormat(format);
         int month = 0;
         try {
@@ -109,39 +111,32 @@ public class CommonUtils {
         }
         return months[month];
     }
-    public static String getTime(String str1, String str2){
+
+    public static String getTime(String str1, String str2) {
         SimpleDateFormat df = new SimpleDateFormat(format);
-        String[] apPm = {"AM","PM"};
+        String[] apPm = {"AM", "PM"};
         String month = "";
         try {
             Date date1 = df.parse(str1);
             Calendar cal1 = Calendar.getInstance();
             cal1.setTime(date1);
-            month = cal1.get(Calendar.HOUR_OF_DAY)+":"+cal1.get(Calendar.MINUTE)+apPm[cal1.get(Calendar.AM_PM)];
+            month = cal1.get(Calendar.HOUR_OF_DAY) + ":" + cal1.get(Calendar.MINUTE) + apPm[cal1.get(Calendar.AM_PM)];
 
             Calendar cal2 = Calendar.getInstance();
             Date date2 = df.parse(str2);
             cal2.setTime(date2);
-            month = month+"-"+cal2.get(Calendar.HOUR_OF_DAY)+":"+cal2.get(Calendar.MINUTE)+apPm[cal1.get(Calendar.AM_PM)];
-            CommonUtils.getLogs("HOUR:::"+month);
+            month = month + "-" + cal2.get(Calendar.HOUR_OF_DAY) + ":" + cal2.get(Calendar.MINUTE) + apPm[cal1.get(Calendar.AM_PM)];
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return month;
-        /*String hour1 = "", hour2 = "";
-        try {
-            DateFormat df = new SimpleDateFormat(timeFormat);
-            CommonUtils.getLogs("st1:::"+str1);
-            CommonUtils.getLogs("str2:::" +str2);
-            hour1 = df.format(str1);
-            hour2 = df.format(str2);
+    }
 
-            CommonUtils.getLogs("HOur1:::"+hour1);
-            CommonUtils.getLogs("WEEK:::" +hour2);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return hour1+"-"+hour2;*/
+    public static void getSwitchChildDialog(Context context) {
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.listforcustomdialogue);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setCancelable(true);
     }
 }

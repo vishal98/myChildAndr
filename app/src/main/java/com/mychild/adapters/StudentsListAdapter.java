@@ -11,8 +11,8 @@ import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.TextView;
 
+import com.mychild.interfaces.IOnCheckedChangeListener;
 import com.mychild.model.StudentDTO;
-import com.mychild.utils.IOnCheckedChangeListener;
 import com.mychild.view.R;
 
 import java.util.ArrayList;

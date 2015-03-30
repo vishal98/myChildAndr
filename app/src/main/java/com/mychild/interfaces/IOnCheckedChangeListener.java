@@ -1,4 +1,4 @@
-package com.mychild.utils;
+package com.mychild.interfaces;
 
 import com.mychild.model.StudentDTO;
 
