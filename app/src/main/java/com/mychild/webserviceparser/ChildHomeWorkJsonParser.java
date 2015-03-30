@@ -27,47 +27,40 @@ public class ChildHomeWorkJsonParser {
         return childHomeWorkJsonParser;
     }
 
-    public static ArrayList<HashMap<String, String>> getChildrenHomework(JSONArray jsonArray) {
+    public static ArrayList<HashMap<String, String>> getChildrenHomework(JSONObject jsonObject) {
         ArrayList<HashMap<String, String>> childHomeWork = null;
         LinkedHashMap<String, String> childHomeWorkMap = null;
         try {
-            if (jsonArray != null) {
-                int size = jsonArray.length();
+            if (jsonObject != null) {
+                int size = jsonObject.length();
                 for (int i = 0; i < size; i++) {
-                    JSONObject object = jsonArray.getJSONObject(i);
-                    Log.i("homeworkList", object.getString("homeworkList"));
-                    childHomeWork =  new ArrayList<HashMap<String, String>>();
+                    JSONArray conversationArray = jsonObject.getJSONArray("homeworks");
+                    childHomeWork = new ArrayList<HashMap<String, String>>();
+                    for (int j = 0 ;j < conversationArray.length();j++){
+                        childHomeWorkMap = new LinkedHashMap<String, String>();
+                        JSONObject homeworkData = conversationArray.getJSONObject(j);
 
-                    if(object.has("homeworkList")){
-                        for (int j = 0 ;j < object.length();j++){
-                            childHomeWorkMap = new LinkedHashMap<String, String>();
-                            JSONObject childName = object.getJSONObject("homeworkList");
-                            if (childName.has("homework")) {
-                                String homeworkName = childName.getString("homework");
-                                childHomeWorkMap.put("homework",homeworkName);
-                            }
-                            if (childName.has("subject")) {
-                                String homeworkSubject = childName.getString("subject");
-                                childHomeWorkMap.put("subject",homeworkSubject);
-                            }
-                            if (childName.has("message")) {
-                                String homeworkMessage = childName.getString("message");
-                                childHomeWorkMap.put("message",homeworkMessage);
-                            }
-                            Log.i("childHomeWorkMap", childHomeWorkMap.toString());
-                            childHomeWork.add(childHomeWorkMap);
-                            Log.i("childHomeWorkArrayList", childHomeWork.toString());
+                        if (homeworkData.has("message")) {
+                            String message = homeworkData.getString("message");
+                            childHomeWorkMap.put("message",message);
                         }
+
+                        if (homeworkData.has("subject")) {
+                            String subject = homeworkData.getString("subject");
+                            childHomeWorkMap.put("subject",subject);
+                        }
+                        childHomeWork.add(childHomeWorkMap);
+                        Log.i("childHomeWorkMap", childHomeWorkMap.toString());
                     }
+
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        Log.i("childHomeWorkArrayList", childHomeWork.toString());
+        Log.i("chatArrayList", childHomeWork.toString());
         return childHomeWork;
     }
-
 
 }

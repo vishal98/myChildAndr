@@ -48,9 +48,9 @@ public class ChildHomeWorkActivity extends BaseActivity implements RequestComple
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         CommonUtils.getLogs("Homework Response success");
-        Log.i(TAG, responseArray.toString());
+        Log.i(TAG, responseJson.toString());
         homeWorkList = (ListView) findViewById(R.id.homework);
-        childrenGradeAndSection = ChildHomeWorkJsonParser.getInstance().getChildrenHomework(responseArray);
+        childrenGradeAndSection = ChildHomeWorkJsonParser.getInstance().getChildrenHomework(responseJson);
         ChildHomeworkAdapter homeworkAdapter = new ChildHomeworkAdapter(this,childrenGradeAndSection);
         homeWorkList.setAdapter(homeworkAdapter);
         Constants.stopProgress(this);
@@ -107,12 +107,12 @@ public class ChildHomeWorkActivity extends BaseActivity implements RequestComple
         if (CommonUtils.isNetworkAvailable(this)) {
             SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
             if(saredpreferences.contains("UserName")){
-                Url_home_work = "http://default-environment-8tpprium54.elasticbeanstalk.com/Parent/studentId/1/teacher/2";
+                Url_home_work ="http://default-environment-8tpprium54.elasticbeanstalk.com/app/getHomework/student/1/30-03-2015";
 
                 Log.i("===Url_Homework===", Url_home_work);
             }
             WebServiceCall call = new WebServiceCall(ChildHomeWorkActivity.this);
-            call.getCallRequest(Url_home_work);
+            call.getJsonObjectResponse(Url_home_work);
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }

@@ -18,32 +18,11 @@
         android:layout_height="70dp">
     </com.mychild.customView.SwitchChildView>
 
-
-
-
-    <!--<CalendarView-->
-        <!--android:id="@+id/homework_calender"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content">-->
-
-    <!--</CalendarView>-->
-
-
     <ListView
         android:id="@+id/homework"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         >
     </ListView>
-
-    <View
-        android:id="@+id/login_btn_border"
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:layout_below="@+id/homework"
-        android:background="@color/done_red_color"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp" />
 
 </LinearLayout>
