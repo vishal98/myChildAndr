@@ -55,6 +55,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         //childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenGradeAndSection(responseArray);
         //childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenListwithID(this, responseArray);
         //customDialogueAdapter = new CustomDialogueAdapter(this, childrenGradeAndSection);
+
         //Storing to Shared preference to cache the child list for the parent
         ListOfChildrenPreference manager = new ListOfChildrenPreference(this);
         manager.SaveChildrenListToPreference(responseArray);
@@ -91,10 +92,10 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 startActivity(new Intent(this, ExamsActivity.class));
                 break;
             case R.id.mail_box:
-                Toast.makeText(this, "Mail Box", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, ChildInboxActivity.class));
                 break;
             case R.id.chat:
-                Toast.makeText(this, "Chat", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(ParentHomeActivity.this, ParentChatAvtivity.class));
                 break;
             case R.id.calender:
                 Toast.makeText(this, "Calender", Toast.LENGTH_LONG).show();

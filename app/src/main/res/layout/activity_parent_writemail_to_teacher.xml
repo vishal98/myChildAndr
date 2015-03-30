@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background">
+
+    <com.mychild.utils.TopBar
+        android:id="@+id/topBar"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp">
+    </com.mychild.utils.TopBar>
+
+    <com.mychild.customView.SwitchChildView
+        android:id="@+id/switchchildBar"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp">
+    </com.mychild.customView.SwitchChildView>
+
+
+    <RelativeLayout
+        android:id="@+id/new_emialRV"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_below="@+id/switchchildBar">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_arrow"
+            android:layout_marginRight="10dp" />
+
+        <ImageView
+            android:id="@+id/write_mailIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/back"
+            android:background="@drawable/new_email"
+            android:layout_marginRight="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/write_mailIV"
+            android:text="@string/write_mail"
+            android:layout_marginTop="10dp" />
+
+        <RelativeLayout
+            android:id="@+id/mailinfobarRV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:layout_marginRight="10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/date"
+                android:textColor="@color/done_red_color"
+                android:layout_height="wrap_content"
+                android:text="@string/day"
+                android:textStyle="bold"
+                android:gravity="left" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="15dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="15dp">
+
+
+            <EditText
+                android:id="@+id/mail_toET"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/hdpi_write_email"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/writemail_text_selector"
+                android:gravity="center_vertical"
+                android:hint="@string/write_mail_to"/>
+
+
+
+            <EditText
+                android:id="@+id/mail_subjectET"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/hdpi_write_email"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/writemail_text_selector"
+                android:gravity="center_vertical"
+                android:hint="@string/write_mail_subject"
+                />
+
+            <EditText
+                android:id="@+id/mail_messageET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/writemail_text_selector"
+                android:inputType="textMultiLine"
+                android:hint="@string/write_mail_message"
+                android:lines="4"
+                 />
+
+
+            <Button
+                android:id="@+id/assign_task_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/hdpi_login_height"
+                android:layout_below="@+id/password"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/writemail_btn_selector"
+                android:paddingBottom="10dp"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+                android:paddingTop="10dp"
+                android:text="@string/send_mail"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
+
+

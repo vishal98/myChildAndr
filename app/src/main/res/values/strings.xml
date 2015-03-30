@@ -45,7 +45,10 @@
     <string name="parent_url_endpoint">/Parent/username/</string>
     <string name="home_work_student_id">/app/getHomework/student/</string>
     <string name="home_work_student_assigned_date">/app/getHomework/student/</string>
-    <string name="timrtable_child">/app/timetable</string>
+    <string name="timetable_child">/app/timetable</string>
+    <string name="parent_chat">/app/conversations/get</string>
+
+
 
 
     <string name="no_network_connection">No Network connection</string>
@@ -56,6 +59,8 @@
     <string name="my_child">My Child</string>
     <string name="home_work">Home Work</string>
     <string name="time_tabel">Time Table</string>
+    <string name="inbox">Inbox</string>
+    <string name="chat">Chat</string>
 
     <!--assigntask-->
     <string name="assign_task_title">Assign Task</string>
@@ -90,6 +95,24 @@
 
     <!--Exams-->
     <string name="exams_title">Exams</string>
+
+    <!--ChildInboxActivity-->
+    <string name="all_mails">ALL MAILS</string>
+    <string name="date">25 MAR 2015</string>
+    <string name="day">Today</string>
+    <string name="write_mail">Write Mail</string>
+    <string name="write_mail_to">To</string>
+    <string name="write_mail_subject">Subject</string>
+    <string name="write_mail_message">Message</string>
+    <string name="send_mail">SEND MAIL</string>
+    <string name="search_mail_contacts">Search by Name/Subject</string>
+
+
+
+    <!--ParentChatActivity-->
+    <string name="all_contact">ALL</string>
+
+
 
 
 </resources>

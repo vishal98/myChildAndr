@@ -41,7 +41,7 @@ public class ChildrenTimeTableActivity extends BaseActivity implements RequestCo
 
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
-        CommonUtils.getLogs("timetable Response success");
+        CommonUtils.getLogs("Timetable Response success");
         Log.i(TAG, responseArray.toString());
         timeTabelList = (ListView) findViewById(R.id.child_time_table_list);
         ArrayList<HashMap<String,String>> childrenTimeTable = ChildTimeTabelParser.getInstance().getChildrenTimeTabel(responseArray);
@@ -85,7 +85,7 @@ public class ChildrenTimeTableActivity extends BaseActivity implements RequestCo
         String Url_TimeTable = null ;
 
         if (CommonUtils.isNetworkAvailable(this)) {
-            Url_TimeTable=getString(R.string.base_url)+getString(R.string.timrtable_child)+"/5/a/wednesday";
+            Url_TimeTable=getString(R.string.base_url)+getString(R.string.timetable_child)+"/5/a/wednesday";
             Log.i("TimetableURL", Url_TimeTable);
             WebServiceCall call = new WebServiceCall(ChildrenTimeTableActivity.this);
             call.getCallRequest("http://default-environment-8tpprium54.elasticbeanstalk.com/app/timetable/5/a/wednesday");

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background">
+
+    <com.mychild.utils.TopBar
+        android:id="@+id/topBar"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp">
+    </com.mychild.utils.TopBar>
+
+    <com.mychild.customView.SwitchChildView
+        android:id="@+id/switchchildBar"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/topBar"
+        android:layout_height="70dp">
+    </com.mychild.customView.SwitchChildView>
+
+    <RelativeLayout
+        android:id="@+id/new_emialRV"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_below="@+id/switchchildBar">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/all_mails"/>
+
+        <RelativeLayout
+            android:id="@+id/mailinfobarRV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
+            <ImageView
+                android:id="@+id/write_mailIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/new_email"
+                android:layout_marginRight="10dp" />
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_toRightOf="@+id/write_mailIV"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:layout_marginRight="10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_toRightOf="@+id/write_mailIV"
+                android:layout_below="@+id/date"
+                android:textColor="@color/done_red_color"
+                android:layout_height="wrap_content"
+                android:text="@string/day"/>
+
+            <ImageView
+                android:id="@+id/searchIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/calender"
+                android:layout_toRightOf="@+id/date"
+                android:layout_marginRight="10dp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/searchET"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/new_emialRV"
+        android:background="@drawable/searchview_selector"
+        android:drawableRight="@drawable/search_small"
+        android:hint="@string/search_mail_contacts"
+        android:inputType="text"
+        android:padding="5dp" />
+
+    <ListView
+        android:id="@+id/child_time_table_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/searchET">
+    </ListView>
+
+</RelativeLayout>
