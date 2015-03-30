@@ -16,11 +16,14 @@ import com.mychild.adapters.ExamsTypesListviewAdapter;
 import com.mychild.customView.SwitchChildView;
 import com.mychild.interfaces.AsyncTaskInterface;
 import com.mychild.interfaces.IOnExamChangedListener;
+import com.mychild.interfaces.IOnSwichChildListener;
 import com.mychild.model.ExamModel;
+import com.mychild.model.ParentModel;
 import com.mychild.threads.HttpConnectThread;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
+import com.mychild.volley.AppController;
 import com.mychild.webserviceparser.ExamsJsonParser;
 
 import org.json.JSONArray;
@@ -29,17 +32,20 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class ExamsActivity extends BaseActivity implements View.OnClickListener, RequestCompletion, AsyncTaskInterface, IOnExamChangedListener {
+public class ExamsActivity extends BaseActivity implements View.OnClickListener, RequestCompletion, AsyncTaskInterface, IOnExamChangedListener, IOnSwichChildListener {
 
     //private String url  = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/Parent/username/";
     private String url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/Parent/exam/1";
     private SwitchChildView switchChild;
     private ListView examsListView;
-    private int selectedExam = 0, selectedExamposition = 0;
+    private int selectedChildPosition = 0, selectedExamposition = 0;
     private ImageView examsIV;
     private TextView examTypeTV, dateTV;
     private ArrayList<ExamModel> examsList;
     private Dialog examsTypeDialog = null;
+    private ParentModel parentModel = null;
+    private AppController appController = null;
+    private Dialog dialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +64,20 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
         examTypeTV = (TextView) findViewById(R.id.exam_type_tv);
         dateTV = (TextView) findViewById(R.id.date_tv);
         examsIV.setOnClickListener(this);
+        Bundle buddle = getIntent().getExtras();
+        if (buddle != null) {
+            String fromKey = buddle.getString(getString(R.string.key_from));
+            if (fromKey.equals(getString(R.string.key_from_parent))) {
+                switchChild.switchChildBT.setVisibility(View.VISIBLE);
+                appController = (AppController) getApplicationContext();
+                parentModel = appController.getParentsData();
+                selectedChildPosition = appController.getSelectedChild();
+            } else if (fromKey.equals(getString(R.string.key_from_teacher))) {
+                switchChild.switchChildBT.setVisibility(View.GONE);
+            }
+        }
         callExamsWebservice();
+
 
     }
 
@@ -113,6 +132,7 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
         int id = v.getId();
         switch (id) {
             case R.id.switch_child:
+                dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
                 break;
             case R.id.exams_iv:
                 examsTypeDialog = getExamsDialog(examsList, selectedExamposition);
@@ -150,5 +170,12 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
             selectedExamposition = position;
             setExamScheduleListAdapter(examsList.get(selectedExamposition));
         }
+    }
+
+    @Override
+    public void onSwitchChild(int selectedChildPosition) {
+        this.selectedChildPosition = selectedChildPosition;
+        appController.setSelectedChild(selectedChildPosition);
+        dialog.dismiss();
     }
 }

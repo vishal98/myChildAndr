@@ -1,31 +1,23 @@
 package com.mychild.view;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.adapters.CustomDialogueAdapter;
-import com.mychild.adapters.ExamsTypesListviewAdapter;
 import com.mychild.customView.CustomDialogClass;
 import com.mychild.customView.SwitchChildView;
-import com.mychild.model.ChildDetailsModel;
-import com.mychild.model.ExamModel;
 import com.mychild.sharedPreference.ListOfChildrenPreference;
 import com.mychild.sharedPreference.PrefManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
-import com.mychild.webserviceparser.ParentHomeJsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -42,10 +34,8 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     CustomDialogClass customDialogue;
     CustomDialogueAdapter customDialogueAdapter = null;
     private TopBar topBar;
-    private int selectedposition = 0;
     private SwitchChildView switchChild;
     ListOfChildrenPreference manager;
-    private ArrayList<ChildDetailsModel> childList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +58,6 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         //customDialogueAdapter = new CustomDialogueAdapter(this, childrenGradeAndSection);
 
         //Storing to Shared preference to cache the child list for the parent
-        childList = ParentHomeJsonParser.getInstance().getChildrenListwithID(responseArray);
-
         if(responseArray != null){
             manager = new ListOfChildrenPreference(this);
             manager.SaveChildrenListToPreference(responseArray);
@@ -128,21 +116,6 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 //Enter code in the event that that no cases match
         }
 
-    }
-    private Dialog getExamsDialog(ArrayList<ExamModel> list, int examPosition) {
-        Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_exams);
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.setCancelable(true);
-        Button cancelBtn = (Button) dialog.findViewById(R.id.cancel_btn);
-        cancelBtn.setOnClickListener(this);
-        //cancelBtn.setOnClickListener();
-        ListView examsListview = (ListView) dialog.findViewById(R.id.exams_types_lv);
-        ExamsTypesListviewAdapter examsTypesListviewAdapter = new ExamsTypesListviewAdapter(this, R.layout.exam_type_listview_item, list, examPosition);
-        examsListview.setAdapter(examsTypesListviewAdapter);
-        dialog.show();
-        return dialog;
     }
 
     public void setTopBar() {

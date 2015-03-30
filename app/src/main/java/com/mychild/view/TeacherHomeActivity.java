@@ -53,7 +53,10 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
                 CommonUtils.getToastMessage(this, "Under Developent");
                 break;
             case R.id.exams_iv:
-                startActivity(new Intent(this, ExamsActivity.class));
+                Intent intent = new Intent(this, ExamsActivity.class);
+                intent.putExtra(getString(R.string.key_from), getString(R.string.key_from_teacher));
+                startActivity(intent);
+                intent = null;
                 break;
             case R.id.mail_box_iv:
                 CommonUtils.getToastMessage(this, "Under Developent");

@@ -6,13 +6,17 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 import android.view.Window;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mychild.adapters.CustomDialogueAdapter;
+import com.mychild.model.StudentDTO;
 import com.mychild.view.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -132,11 +136,16 @@ public class CommonUtils {
         return month;
     }
 
-    public static void getSwitchChildDialog(Context context) {
+    public static Dialog getSwitchChildDialog(Context context, ArrayList<StudentDTO> childsList, int position) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.listforcustomdialogue);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        ListView childListview = (ListView) dialog.findViewById(R.id.childlistview);
+        CustomDialogueAdapter customDialogueAdapter = new CustomDialogueAdapter(context, R.layout.custom_dialogue, childsList, position);
+        childListview.setAdapter(customDialogueAdapter);
         dialog.setCancelable(true);
+        dialog.show();
+        return dialog;
     }
 }

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.sharedPreference.PrefManager;
+import com.mychild.sharedPreference.StorageManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.pushbots.push.Pushbots;
@@ -94,10 +95,15 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
                 if (response.has("username")) {
                     Log.i("Username", response.getString("username"));
                     sharedPref.SaveUserNameInInSharedPref(response.getString("username"));
+                    StorageManager.writeString(this, getString(R.string.pref_username), response.getString("username"));
+                }
+                if (response.has("access_token")) {
+                    StorageManager.writeString(this, getString(R.string.pref_access_token), response.getString("access_token"));
                 }
                 JSONArray user = response.getJSONArray("roles");
                 for (int i = 0; i < user.length(); i++) {
                     role = user.getString(i);
+                    StorageManager.writeString(this, getString(R.string.pref_role), response.getString("role"));
                     Log.i("inside loop", role);
                 }
                 Log.i("loginActivity", "role =" + role);

@@ -1,105 +1,83 @@
 package com.mychild.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.mychild.customView.CustomDialogClass;
-import com.mychild.model.ChildDetailsModel;
-import com.mychild.sharedPreference.ListOfChildrenPreference;
+import com.mychild.interfaces.IOnSwichChildListener;
+import com.mychild.model.StudentDTO;
 import com.mychild.view.R;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Vijay on 3/25/15.
  */
-public class CustomDialogueAdapter extends BaseAdapter {
+public class CustomDialogueAdapter extends ArrayAdapter<StudentDTO> {
 
-    public Activity context;
+    private List<StudentDTO> list;
+    private int resource;
     private LayoutInflater inflater;
-    private ArrayList<HashMap<String,String>> numberOfChild;
+    public SparseBooleanArray mSelectedItemsIds;
+    private int examId;
+    private IOnSwichChildListener iOnSwichChildListener;
+    private boolean involveOnCheckedListener = false;
+
+    public CustomDialogueAdapter(Context context, int resource, List<StudentDTO> list, int examId) {
+        super(context, resource, list);
+        this.list = list;
+        mSelectedItemsIds = new SparseBooleanArray();
+        this.resource = resource;
+        this.examId = examId;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        iOnSwichChildListener = (IOnSwichChildListener) context;
+    }
 
 
-    public CustomDialogueAdapter(Activity context) {
-        this.context = context;
-        ListOfChildrenPreference preference = new ListOfChildrenPreference(context);
-        SharedPreferences saredpreferences = context.getSharedPreferences("ChildrenList", 0);
-        if(saredpreferences != null){
-            this.numberOfChild = preference.getChildrenListFromPreference();
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder = null;
+        if (convertView == null) {
+            convertView = inflater.inflate(resource, null);
+            holder = new ViewHolder();
+            holder.childIdTV = (TextView) convertView.findViewById(R.id.child_id);
+            holder.childNameTV = (TextView) convertView.findViewById(R.id.child_name);
+            holder.radioButton = (RadioButton) convertView.findViewById(R.id.radio_button);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
-
-    }
-
-    @Override
-    public int getCount() {
-        return numberOfChild.size();
-    }
-
-    @Override
-    public Object getItem(int location) {
-        return numberOfChild.get(location);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-//        if (convertView == null) {
-//            LayoutInflater inflator = context.getLayoutInflater();
-//            view = inflator.inflate(R.layout.custom_dialogue, null);
-//            final ViewHolder viewHolder = new ViewHolder();
-//            viewHolder.userImage = (ImageView) view.findViewById(R.id.mychild1_image);
-//            viewHolder.mychildId = (TextView) view.findViewById(R.id.mychild1_id);
-//            viewHolder.mychildName = (TextView) view.findViewById(R.id.mychild1_name);
-//            viewHolder.radioBtn = (RadioButton) view.findViewById(R.id.mychild1_check);
-//
-//            view.setTag(viewHolder);
-//            viewHolder.radioBtn.setTag(numberOfChild.get(position));
-//        } else {
-//            view = convertView;
-//            ((ViewHolder) view.getTag()).radioBtn.setTag(numberOfChild.get(position));
-//        }
-//        ViewHolder holder = (ViewHolder) view.getTag();
-//        holder.mychildName.setText(numberOfChild.get(position).get("studentName"));
-//        holder.mychildId.setText(numberOfChild.get(position).get("studentId"));
-//
-//        return view;
-//
-        if (inflater == null)
-            inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (convertView == null)
-            convertView = inflater.inflate(R.layout.custom_dialogue, null);
-        ImageView userImage = (ImageView) convertView.findViewById(R.id.mychild1_image);
-        TextView mychildId = (TextView) convertView.findViewById(R.id.mychild1_id);
-        TextView mychildName = (TextView) convertView.findViewById(R.id.mychild1_name);
-        RadioButton radioBtn = (RadioButton) convertView.findViewById(R.id.mychild1_check);
-        radioBtn.setOnClickListener(new View.OnClickListener() {
+        StudentDTO studentDTO = getItem(position);
+        holder.childIdTV.setText(studentDTO.getStudentId() + "");
+        holder.childNameTV.setText(studentDTO.getStundentName());
+        holder.radioButton.setTag(position);
+        if (examId == position) {
+            holder.radioButton.setChecked(true);
+            //    involveOnCheckedListener = true;
+        } else {
+            holder.radioButton.setChecked(false);
+        }
+        holder.radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "" + numberOfChild.get(position).get("studentName"), Toast.LENGTH_LONG).show();
-                ChildDetailsModel childData = new ChildDetailsModel();
-                childData.setStudentId(numberOfChild.get(position).get("studentId"));
-                CustomDialogClass dialog = new CustomDialogClass(context);
-                dialog.hide();
-
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                int value = Integer.parseInt(buttonView.getTag().toString());
+                if (isChecked && value != examId) {
+                    notifyDataSetChanged();
+                    iOnSwichChildListener.onSwitchChild(value);
+                }
             }
         });
-        mychildName.setText(numberOfChild.get(position).get("studentName"));
-        mychildId.setText("#"+numberOfChild.get(position).get("studentId"));
         return convertView;
+    }
+
+    private class ViewHolder {
+        TextView childIdTV, childNameTV;
+        RadioButton radioButton;
     }
 }

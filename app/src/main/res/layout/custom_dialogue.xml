@@ -5,19 +5,19 @@
     android:orientation="vertical">
 
     <!--<LinearLayout-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:background="@drawable/custom_dialogue_header">-->
-        <!--<TextView-->
-            <!--android:id="@+id/title"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_margin="10dp"-->
-            <!--android:text="Switch Child"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textSize="15dp"-->
-            <!--android:textStyle="bold"/>-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:background="@drawable/custom_dialogue_header">-->
+    <!--<TextView-->
+    <!--android:id="@+id/title"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_margin="10dp"-->
+    <!--android:text="Switch Child"-->
+    <!--android:textColor="@android:color/white"-->
+    <!--android:textSize="15dp"-->
+    <!--android:textStyle="bold"/>-->
     <!--</LinearLayout>-->
 
     <RelativeLayout
@@ -33,27 +33,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:background="@drawable/person"/>
+            android:background="@drawable/person" />
+
         <TextView
-            android:id="@+id/mychild1_id"
+            android:id="@+id/child_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/mychild1_image"
             android:text="#1233"
             android:layout_marginLeft="10dp" />
+
         <TextView
-            android:id="@+id/mychild1_name"
+            android:id="@+id/child_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/mychild1_image"
-            android:layout_below="@+id/mychild1_id"
+            android:layout_below="@+id/child_id"
             android:layout_marginLeft="10dp" />
 
         <RadioButton
-            android:id="@+id/mychild1_check"
+            android:id="@+id/radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:button="@drawable/radiobutton_selector" />
     </RelativeLayout>
 
 </LinearLayout>

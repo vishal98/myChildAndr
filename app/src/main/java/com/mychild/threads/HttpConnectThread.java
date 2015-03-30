@@ -5,8 +5,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.interfaces.AsyncTaskInterface;
+import com.mychild.sharedPreference.StorageManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.view.R;
 
@@ -153,7 +153,7 @@ public class HttpConnectThread extends AsyncTask<String, Integer, String> {
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost(url);
             httppost.setHeader("Content-type", "application/json; charset=utf-8");
-            httppost.setHeader("X-Auth-Token", WebServiceCall.getToken);
+            httppost.setHeader("X-Auth-Token", StorageManager.readString(ctx, ctx.getString(R.string.pref_access_token), ""));
             HttpResponse response = httpclient.execute(httppost);
             HttpEntity entity = response.getEntity();
 
