@@ -3,6 +3,9 @@ package com.mychild.view;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.mychild.Networkcall.WebServiceCall;
+import com.mychild.sharedPreference.StorageManager;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,7 +20,20 @@ public class SplashScreenActivity extends BaseActivity {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                startActivity(new Intent().setClass(SplashScreenActivity.this, LoginActivity.class));
+                String access_token = StorageManager.readString(SplashScreenActivity.this, getString(R.string.pref_access_token), "");
+                Intent intent = null;
+                if (!access_token.equals("")) {
+                    WebServiceCall.getToken = access_token;
+                    String role = StorageManager.readString(SplashScreenActivity.this, getString(R.string.pref_role), "");
+                    if (role.equals("ROLE_PARENT")) {
+                        intent = new Intent(SplashScreenActivity.this, ParentHomeActivity.class);
+                    } else {
+                        intent = new Intent(SplashScreenActivity.this, TeacherHomeActivity.class);
+                    }
+                } else {
+                    intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+                }
+                startActivity(intent);
                 finish();
             }
         };

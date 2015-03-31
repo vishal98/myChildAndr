@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
 
     <com.mychild.utils.TopBar
         android:id="@+id/topBar"
@@ -22,19 +23,49 @@
         android:paddingRight="20dp"
         android:weightSum="1">
 
-        <ImageView
-            android:id="@+id/assign_task_iv"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:src="@drawable/teacher_tab1" />
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/time_table_iv"
+            <ImageView
+                android:id="@+id/assign_task_iv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_calender" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:textSize="17sp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/assign_task" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:src="@drawable/teacher_tab2" />
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/time_table_iv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_tt" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:textSize="17sp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/time_tabel" />
+        </LinearLayout>
     </TableRow>
 
     <TableRow
@@ -47,19 +78,49 @@
         android:paddingRight="20dp"
         android:weightSum="1">
 
-        <ImageView
-            android:id="@+id/exams_iv"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:src="@drawable/teacher_tab3" />
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/mail_box_iv"
+            <ImageView
+                android:id="@+id/exams_iv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_exam" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:textSize="17sp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/exmas" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:src="@drawable/teacher_tab4" />
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/mail_box_iv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_mail" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:textSize="17sp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/mail_box" />
+        </LinearLayout>
     </TableRow>
 
     <TableRow
@@ -72,48 +133,49 @@
         android:paddingRight="20dp"
         android:weightSum="1">
 
-        <ImageView
-            android:id="@+id/chat_iv"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:src="@drawable/teacher_tab5" />
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/calender_iv"
+            <ImageView
+                android:id="@+id/chat_iv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_chat" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:textSize="17sp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/chat" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:src="@drawable/teacher_tab6" />
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/calender_iv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_calender" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:textSize="17sp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/calendar" />
+        </LinearLayout>
     </TableRow>
-    <!--<Button
 
-        android:id="@+id/message_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tr3"
-        android:layout_centerHorizontal="true"
-        android:text="Messages" />
-
-    <Button
-
-        android:id="@+id/profile_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/message_btn"
-        android:layout_alignLeft="@id/message_btn"
-        android:layout_alignRight="@+id/message_btn"
-        android:layout_centerHorizontal="true"
-        android:text="Profile" />
-
-    <Button
-
-        android:id="@+id/inbox_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_btn"
-        android:layout_alignLeft="@id/message_btn"
-        android:layout_alignRight="@+id/message_btn"
-        android:layout_centerHorizontal="true"
-        android:text="Inbox" />-->
 </RelativeLayout>

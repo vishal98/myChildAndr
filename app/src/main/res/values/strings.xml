@@ -60,6 +60,14 @@
     <string name="inbox">Inbox</string>
     <string name="chat">Chat</string>
 
+    <!--techaer_homescreen-->
+    <string name="assign_task">Assign Task</string>
+    <string name="time_table">Time Table</string>
+    <string name="exmas">Exams</string>
+    <string name="mail_box">Mail Box</string>
+    <string name="calendar">Calendar</string>
+
+
     <!--assigntask-->
     <string name="assign_task_title">Assign Task</string>
     <string name="choose_class_caps">CHOOSE CLASS *</string>

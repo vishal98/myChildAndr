@@ -24,6 +24,7 @@ public class ParentChatAvtivity extends BaseActivity implements RequestCompletio
     private TopBar topBar;
     private SwitchChildView switchChild;
     PrefManager sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,24 +57,24 @@ public class ParentChatAvtivity extends BaseActivity implements RequestCompletio
     public void onRequestCompletionError(String error) {
         CommonUtils.getLogs("Chat Response Failure");
         Constants.stopProgress(this);
-        Constants.showMessage(this,"Sorry",error);
+        Constants.showMessage(this, "Sorry", error);
     }
 
-    public void setTopBar(){
+    public void setTopBar() {
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
         topBar.titleTV.setText(getString(R.string.chat));
     }
 
-    public void switchChildBar(){
+    public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
         switchChild.parentNameTV.setText("Name");
     }
 
-    public void getChatHistoryWebserviceCall(){
-        String Url_ChatHistory = null ;
+    public void getChatHistoryWebserviceCall() {
+        String Url_ChatHistory = null;
 
         if (CommonUtils.isNetworkAvailable(this)) {
             SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);

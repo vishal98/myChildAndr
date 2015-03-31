@@ -36,18 +36,18 @@ public class ChildHomeWorkJsonParser {
                 for (int i = 0; i < size; i++) {
                     JSONArray conversationArray = jsonObject.getJSONArray("homeworks");
                     childHomeWork = new ArrayList<HashMap<String, String>>();
-                    for (int j = 0 ;j < conversationArray.length();j++){
+                    for (int j = 0; j < conversationArray.length(); j++) {
                         childHomeWorkMap = new LinkedHashMap<String, String>();
                         JSONObject homeworkData = conversationArray.getJSONObject(j);
 
                         if (homeworkData.has("message")) {
                             String message = homeworkData.getString("message");
-                            childHomeWorkMap.put("message",message);
+                            childHomeWorkMap.put("message", message);
                         }
 
                         if (homeworkData.has("subject")) {
                             String subject = homeworkData.getString("subject");
-                            childHomeWorkMap.put("subject",subject);
+                            childHomeWorkMap.put("subject", subject);
                         }
                         childHomeWork.add(childHomeWorkMap);
                         Log.i("childHomeWorkMap", childHomeWorkMap.toString());

@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.model.StudentDTO;
+import com.mychild.sharedPreference.StorageManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
@@ -37,6 +39,7 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
         ((ImageView) findViewById(R.id.mail_box_iv)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.chat_iv)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.calender_iv)).setOnClickListener(this);
+        ((TextView) findViewById(R.id.teacher_name_tv)).setText(StorageManager.readString(this, getString(R.string.pref_username), ""));
 
 
     }

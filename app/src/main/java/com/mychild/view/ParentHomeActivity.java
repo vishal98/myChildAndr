@@ -75,30 +75,19 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         //childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenListwithID(this, responseArray);
         //customDialogueAdapter = new CustomDialogueAdapter(this, childrenGradeAndSection);
 
-        if(responseArray != null){
-            parentModel = ParentHomeJsonParser.getInstance().getParentDetails(responseArray);
-            if (parentModel != null){
-                appController.setParentData(parentModel);
-                if (parentModel.getNumberOfChildren() >= 0) {
-                    appController.setSelectedChild(0);
-                }
-            }
-        }
-        else{
-            Toast.makeText(this, "No Child data found..",Toast.LENGTH_LONG).show();
-        }
-
         //Storing to Shared preference to cache the child list for the parent
-//        ListOfChildrenPreference manager = new ListOfChildrenPreference(this);
-//        manager.SaveChildrenListToPreference(responseArray);
-//
-//        if(responseArray != null){
-//            manager = new ListOfChildrenPreference(this);
-//            manager.SaveChildrenListToPreference(responseArray);
-//        }
-//        else {
-//            Toast.makeText(this, "No data..",Toast.LENGTH_LONG).show();
-//        }
+        if (responseArray != null) {
+            parentModel = ParentHomeJsonParser.getInstance().getParentDetails(responseArray);
+
+            appController.setParentData(parentModel);
+            if (parentModel.getNumberOfChildren() >= 0) {
+                appController.setSelectedChild(0);
+            }
+            ListOfChildrenPreference manager = new ListOfChildrenPreference(this);
+            manager.SaveChildrenListToPreference(responseArray);
+        } else {
+            Toast.makeText(this, "No data..", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -113,11 +102,11 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.switch_child:
-                if(parentModel!=null){
+                dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
+                if (parentModel != null) {
                     dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
-                }
-                else{
-                    Toast.makeText(this, "No Child data found..",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
                 }
 
                 /*Toast.makeText(this, "Switch Child", Toast.LENGTH_LONG).show();

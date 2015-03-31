@@ -195,7 +195,7 @@ public class WebServiceCall {
                 public void onErrorResponse(VolleyError error) {
                     handleNetworkError(error);
                 }
-            }){
+            }) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     HashMap<String, String> headers = new HashMap<String, String>();
@@ -246,7 +246,7 @@ public class WebServiceCall {
         } else if (error instanceof ClientError) {
             mRequestCompletion.onRequestCompletionError("Something woring.Please try again.");
         } else if (error instanceof ServerError) {
-            mRequestCompletion.onRequestCompletionError("ServerError::"+"Something woring.Please try again.");
+            mRequestCompletion.onRequestCompletionError("ServerError::" + "Something woring.Please try again.");
             Log.d("ServerError", error.getMessage());
         } else if (error instanceof AuthFailureError) {
             mRequestCompletion.onRequestCompletionError("Something woring.Please try again.");

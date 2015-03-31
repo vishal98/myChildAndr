@@ -23,11 +23,12 @@ import java.util.HashMap;
 /**
  * Created by Vijay on 3/29/15.
  */
-public class ChildInboxActivity extends  BaseActivity implements RequestCompletion, View.OnClickListener {
+public class ChildInboxActivity extends BaseActivity implements RequestCompletion, View.OnClickListener {
     public static final String TAG = ChildInboxActivity.class.getSimpleName();
     private TopBar topBar;
     private SwitchChildView switchChild;
     ImageView writeMail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,32 +77,32 @@ public class ChildInboxActivity extends  BaseActivity implements RequestCompleti
     public void onRequestCompletionError(String error) {
         CommonUtils.getLogs("Inbox Response Failure");
         Constants.stopProgress(this);
-        Constants.showMessage(this,"Sorry",error);
+        Constants.showMessage(this, "Sorry", error);
     }
 
-    public void setOnClickListener(){
+    public void setOnClickListener() {
         writeMail = (ImageView) findViewById(R.id.write_mailIV);
         writeMail.setOnClickListener(this);
     }
 
-    public void setTopBar(){
+    public void setTopBar() {
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
         topBar.titleTV.setText(getString(R.string.inbox));
     }
 
-    public void switchChildBar(){
+    public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
         switchChild.parentNameTV.setText("Name");
     }
 
 
-    public void inboxWebServiceCall(){
-        String Url_inbox = null ;
+    public void inboxWebServiceCall() {
+        String Url_inbox = null;
         if (CommonUtils.isNetworkAvailable(this)) {
-            Url_inbox=getString(R.string.base_url)+getString(R.string.parent_chat);
+            Url_inbox = getString(R.string.base_url) + getString(R.string.parent_chat);
             Log.i("TimetableURL", Url_inbox);
             WebServiceCall call = new WebServiceCall(this);
             call.getJsonObjectResponse(Url_inbox);

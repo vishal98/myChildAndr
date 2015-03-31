@@ -73,31 +73,9 @@ public class ExamsJsonParser {
                     examsList.add(examModel);
                 }
             }
-            examsList.add(dummyData());
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return examsList;
-    }
-
-    private ExamModel dummyData() {
-        ExamModel examModel = new ExamModel();
-        examModel.setExamId("2");
-        examModel.setExamType("Annual exams");
-        ArrayList<ExamScheduleModel> list = new ArrayList<ExamScheduleModel>();
-        ExamScheduleModel model1 = new ExamScheduleModel();
-        model1.setExamsEndTime("Tuesday, 11 February 2014, 05:30:00 AM");
-        model1.setExamsStartTime("Tuesday, 11 February 2014, 05:30:00 AM");
-        model1.setTeacherName("AAAAAA");
-        model1.setSubjectName("MATHS");
-        list.add(model1);
-        ExamScheduleModel model2 = new ExamScheduleModel();
-        model2.setExamsEndTime("Tuesday, 11 February 2014, 05:30:00 AM");
-        model2.setExamsStartTime("Tuesday, 11 February 2014, 05:30:00 AM");
-        model2.setTeacherName("AAAAAA");
-        model2.setSubjectName("SOCIAL");
-        list.add(model2);
-        examModel.setExamScheduleList(list);
-        return examModel;
     }
 }

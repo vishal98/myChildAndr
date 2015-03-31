@@ -29,17 +29,18 @@ import java.util.HashMap;
 /**
  * Created by Vijay on 3/27/15.
  */
-public class ChildHomeWorkActivity extends BaseActivity implements RequestCompletion, View.OnClickListener,IOnSwichChildListener {
+public class ChildHomeWorkActivity extends BaseActivity implements RequestCompletion, View.OnClickListener, IOnSwichChildListener {
     public static final String TAG = ChildHomeWorkActivity.class.getSimpleName();
 
     ListView homeWorkList;
     private ParentModel parentModel = null;
-    ArrayList<HashMap<String,String>> childrenGradeAndSection;
+    ArrayList<HashMap<String, String>> childrenGradeAndSection;
     private TopBar topBar;
     private SwitchChildView switchChild;
     private Dialog dialog = null;
     private int selectedChildPosition = 0;
     private AppController appController = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +64,7 @@ public class ChildHomeWorkActivity extends BaseActivity implements RequestComple
         Log.i(TAG, responseJson.toString());
         homeWorkList = (ListView) findViewById(R.id.homework);
         childrenGradeAndSection = ChildHomeWorkJsonParser.getInstance().getChildrenHomework(responseJson);
-        ChildHomeworkAdapter homeworkAdapter = new ChildHomeworkAdapter(this,childrenGradeAndSection);
+        ChildHomeworkAdapter homeworkAdapter = new ChildHomeworkAdapter(this, childrenGradeAndSection);
         homeWorkList.setAdapter(homeworkAdapter);
         Constants.stopProgress(this);
 
@@ -79,13 +80,14 @@ public class ChildHomeWorkActivity extends BaseActivity implements RequestComple
     public void onRequestCompletionError(String error) {
         CommonUtils.getLogs("HomeWork Response Failure");
         Constants.stopProgress(this);
-        Constants.showMessage(this,"Sorry",error);
+        Constants.showMessage(this, "Sorry", error);
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
+
     @Override
     public void onClick(View v) {
 
@@ -96,10 +98,9 @@ public class ChildHomeWorkActivity extends BaseActivity implements RequestComple
                 break;
 
             case R.id.switch_child:
-                if(parentModel.getChildList()!=null){
-                dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
-                }
-                else {
+                if (parentModel.getChildList() != null) {
+                    dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
+                } else {
                     Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
                 }
 
@@ -112,7 +113,7 @@ public class ChildHomeWorkActivity extends BaseActivity implements RequestComple
         }
     }
 
-    public void setTopBar(){
+    public void setTopBar() {
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
@@ -120,7 +121,7 @@ public class ChildHomeWorkActivity extends BaseActivity implements RequestComple
 
     }
 
-    public void switchChildBar(){
+    public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
         switchChild.parentNameTV.setText("Name");
@@ -128,12 +129,12 @@ public class ChildHomeWorkActivity extends BaseActivity implements RequestComple
     }
 
 
-    public void getChildHomworkWebservicescall(){
-        String Url_home_work = null ;
+    public void getChildHomworkWebservicescall() {
+        String Url_home_work = null;
         if (CommonUtils.isNetworkAvailable(this)) {
             SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
-            if(saredpreferences.contains("UserName")){
-                Url_home_work ="http://default-environment-8tpprium54.elasticbeanstalk.com/app/getHomework/student/1/30-03-2015";
+            if (saredpreferences.contains("UserName")) {
+                Url_home_work = "http://default-environment-8tpprium54.elasticbeanstalk.com/app/getHomework/student/1/30-03-2015";
 
                 Log.i("===Url_Homework===", Url_home_work);
             }

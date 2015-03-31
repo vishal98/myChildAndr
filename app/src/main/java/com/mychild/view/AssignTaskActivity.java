@@ -21,6 +21,7 @@ import com.mychild.model.GradeModel;
 import com.mychild.model.StudentDTO;
 import com.mychild.model.SubjectModel;
 import com.mychild.model.TeacherModel;
+import com.mychild.sharedPreference.StorageManager;
 import com.mychild.threads.HttpConnectThread;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
@@ -79,6 +80,7 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
         assignTaskBtn = (Button) findViewById(R.id.assign_task_btn);
         taskET = (EditText) findViewById(R.id.task_et);
         chooseDateTV = (TextView) findViewById(R.id.choose_date_tv);
+        ((TextView) findViewById(R.id.teacher_name_tv)).setText(StorageManager.readString(this, getString(R.string.pref_username), ""));
         chooseDateTV.setOnClickListener(this);
         if (CommonUtils.isNetworkAvailable(this)) {
             RequestType type = RequestType.TYPE_TEACHER_DETAILS;

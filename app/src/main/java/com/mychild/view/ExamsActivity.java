@@ -57,7 +57,7 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
         topBar.backArrowIV.setOnClickListener(this);
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
-        switchChild.parentNameTV.setText("Name");
+
         switchChild.switchChildBT.setOnClickListener(this);
         examsListView = (ListView) findViewById(R.id.exams_listview);
         examsIV = (ImageView) findViewById(R.id.exams_iv);
@@ -71,6 +71,8 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
                 switchChild.switchChildBT.setVisibility(View.VISIBLE);
                 appController = (AppController) getApplicationContext();
                 parentModel = appController.getParentsData();
+                switchChild.parentNameTV.setText(parentModel.getName());
+
                 selectedChildPosition = appController.getSelectedChild();
             } else if (fromKey.equals(getString(R.string.key_from_teacher))) {
                 switchChild.switchChildBT.setVisibility(View.GONE);
