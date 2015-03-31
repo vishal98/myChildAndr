@@ -1,5 +1,6 @@
 package com.mychild.view;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,11 +14,15 @@ import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.adapters.CustomDialogueAdapter;
 import com.mychild.customView.CustomDialogClass;
 import com.mychild.customView.SwitchChildView;
+import com.mychild.interfaces.IOnSwichChildListener;
+import com.mychild.model.ParentModel;
 import com.mychild.sharedPreference.ListOfChildrenPreference;
 import com.mychild.sharedPreference.PrefManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
+import com.mychild.volley.AppController;
+import com.mychild.webserviceparser.ParentHomeJsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,7 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ParentHomeActivity extends BaseActivity implements RequestCompletion, View.OnClickListener {
+public class ParentHomeActivity extends BaseActivity implements RequestCompletion, View.OnClickListener, IOnSwichChildListener {
     public static final String TAG = ParentHomeActivity.class.getSimpleName();
 
     PrefManager sharedPref;
@@ -34,37 +39,66 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     CustomDialogClass customDialogue;
     CustomDialogueAdapter customDialogueAdapter = null;
     private TopBar topBar;
+    private int selectedposition = 0;
     private SwitchChildView switchChild;
+    private Dialog dialog = null;
+    private ParentModel parentModel = null;
+    private int selectedChildPosition = 0;
+    private AppController appController = null;
     ListOfChildrenPreference manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appController = (AppController) getApplicationContext();
         sharedPref = new PrefManager(this);
         getParentDetailsWebservicescall();
         setContentView(R.layout.activity_parent_home);
         setTopBar();
         switchChildBar();
         setOnClickListener();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        selectedChildPosition = appController.getSelectedChild();
     }
 
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
-        CommonUtils.getLogs("Parent Response success");
+        CommonUtils.getLogs("Parent Response success" + responseArray);
         Log.i(TAG, responseArray.toString());
         Constants.stopProgress(this);
         //childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenGradeAndSection(responseArray);
         //childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenListwithID(this, responseArray);
         //customDialogueAdapter = new CustomDialogueAdapter(this, childrenGradeAndSection);
 
-        //Storing to Shared preference to cache the child list for the parent
         if(responseArray != null){
-            manager = new ListOfChildrenPreference(this);
-            manager.SaveChildrenListToPreference(responseArray);
+            parentModel = ParentHomeJsonParser.getInstance().getParentDetails(responseArray);
+            if (parentModel != null){
+                appController.setParentData(parentModel);
+                if (parentModel.getNumberOfChildren() >= 0) {
+                    appController.setSelectedChild(0);
+                }
+            }
         }
-        else {
-            Toast.makeText(this, "No data..",Toast.LENGTH_LONG).show();
+        else{
+            Toast.makeText(this, "No Child data found..",Toast.LENGTH_LONG).show();
         }
+
+        //Storing to Shared preference to cache the child list for the parent
+//        ListOfChildrenPreference manager = new ListOfChildrenPreference(this);
+//        manager.SaveChildrenListToPreference(responseArray);
+//
+//        if(responseArray != null){
+//            manager = new ListOfChildrenPreference(this);
+//            manager.SaveChildrenListToPreference(responseArray);
+//        }
+//        else {
+//            Toast.makeText(this, "No data..",Toast.LENGTH_LONG).show();
+//        }
     }
 
     @Override
@@ -79,17 +113,27 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.switch_child:
-               if(manager != null){
-                   Toast.makeText(this, "Switch Child", Toast.LENGTH_LONG).show();
-                   customDialogue = new CustomDialogClass(this);
-                   customDialogue.setCancelable(true);
-                   customDialogue.show();
-               }
-            else {
-                   Toast.makeText(this, "No Child data found..",Toast.LENGTH_LONG).show();
-               }
+                if(parentModel!=null){
+                    dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
+                }
+                else{
+                    Toast.makeText(this, "No Child data found..",Toast.LENGTH_LONG).show();
+                }
 
+                /*Toast.makeText(this, "Switch Child", Toast.LENGTH_LONG).show();
+                customDialogue = new CustomDialogClass(this);
+                customDialogue.setCancelable(true);
+                customDialogue.show();*/
 
+//               if(manager != null){
+//                   Toast.makeText(this, "Switch Child", Toast.LENGTH_LONG).show();
+//                   customDialogue = new CustomDialogClass(this);
+//                   customDialogue.setCancelable(true);
+//                   customDialogue.show();
+//               }
+//            else {
+//                   Toast.makeText(this, "No Child data found..",Toast.LENGTH_LONG).show();
+//               }
                 break;
             case R.id.homework:
                 startActivity(new Intent(ParentHomeActivity.this, ChildHomeWorkActivity.class));
@@ -100,7 +144,10 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 break;
             case R.id.exams:
                 //Toast.makeText(this,"Exams",Toast.LENGTH_LONG).show();
-                startActivity(new Intent(this, ExamsActivity.class));
+                Intent intent = new Intent(this, ExamsActivity.class);
+                intent.putExtra(getString(R.string.key_from), getString(R.string.key_from_parent));
+                startActivity(intent);
+                intent = null;
                 break;
             case R.id.mail_box:
                 startActivity(new Intent(this, ChildInboxActivity.class));
@@ -165,4 +212,10 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         }
     }
 
+    @Override
+    public void onSwitchChild(int selectedChildPosition) {
+        this.selectedChildPosition = selectedChildPosition;
+        appController.setSelectedChild(selectedChildPosition);
+        dialog.dismiss();
+    }
 }

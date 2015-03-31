@@ -103,7 +103,7 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
                 JSONArray user = response.getJSONArray("roles");
                 for (int i = 0; i < user.length(); i++) {
                     role = user.getString(i);
-                    StorageManager.writeString(this, getString(R.string.pref_role), response.getString("role"));
+                    StorageManager.writeString(this, getString(R.string.pref_role), response.getString("roles"));
                     Log.i("inside loop", role);
                 }
                 Log.i("loginActivity", "role =" + role);

@@ -13,22 +13,22 @@ import java.util.LinkedHashMap;
 /**
  * Created by MAST_HODC\vramz on 3/30/15.
  */
-public class ParentChatHistoryParser {
+public class ParentMailBoxParser {
 
-    public static ParentChatHistoryParser parentChatHistoryParser = null;
+    public static ParentMailBoxParser parentMailBoxParser = null;
 
-    private ParentChatHistoryParser() {
+    private ParentMailBoxParser() {
 
     }
 
-    public static ParentChatHistoryParser getInstance() {
-        if (parentChatHistoryParser == null) {
-            parentChatHistoryParser = new ParentChatHistoryParser();
+    public static ParentMailBoxParser getInstance() {
+        if (parentMailBoxParser == null) {
+            parentMailBoxParser = new ParentMailBoxParser();
         }
-        return parentChatHistoryParser;
+        return parentMailBoxParser;
     }
 
-    public static ArrayList<HashMap<String, String>> getTeacherListForChat(JSONObject jsonObject) {
+    public static ArrayList<HashMap<String, String>> getParentMailBox(JSONObject jsonObject) {
         ArrayList<HashMap<String, String>> chatArrayList = new ArrayList<HashMap<String, String>>();;
         LinkedHashMap<String, String> chatMap = null;
         try {

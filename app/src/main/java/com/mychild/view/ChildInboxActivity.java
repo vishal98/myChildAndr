@@ -10,16 +10,21 @@ import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.customView.SwitchChildView;
 import com.mychild.utils.CommonUtils;
+import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
+import com.mychild.webserviceparser.ParentMailBoxParser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Vijay on 3/29/15.
  */
 public class ChildInboxActivity extends  BaseActivity implements RequestCompletion, View.OnClickListener {
-
+    public static final String TAG = ChildInboxActivity.class.getSimpleName();
     private TopBar topBar;
     private SwitchChildView switchChild;
     ImageView writeMail;
@@ -30,6 +35,7 @@ public class ChildInboxActivity extends  BaseActivity implements RequestCompleti
         setOnClickListener();
         setTopBar();
         switchChildBar();
+        inboxWebServiceCall();
 
 
     }
@@ -60,12 +66,17 @@ public class ChildInboxActivity extends  BaseActivity implements RequestCompleti
 
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
-
+        CommonUtils.getLogs("INbox Response success");
+        Log.i(TAG, responseJson.toString());
+        ArrayList<HashMap<String, String>> mailBox = ParentMailBoxParser.getInstance().getParentMailBox(responseJson);
+        Constants.stopProgress(this);
     }
 
     @Override
     public void onRequestCompletionError(String error) {
-
+        CommonUtils.getLogs("Inbox Response Failure");
+        Constants.stopProgress(this);
+        Constants.showMessage(this,"Sorry",error);
     }
 
     public void setOnClickListener(){
@@ -88,12 +99,12 @@ public class ChildInboxActivity extends  BaseActivity implements RequestCompleti
 
 
     public void inboxWebServiceCall(){
-        String Url_Chat = null ;
+        String Url_inbox = null ;
         if (CommonUtils.isNetworkAvailable(this)) {
-            Url_Chat=getString(R.string.base_url)+getString(R.string.timetable_child)+"/5/a/wednesday";
-            Log.i("TimetableURL", Url_Chat);
+            Url_inbox=getString(R.string.base_url)+getString(R.string.parent_chat);
+            Log.i("TimetableURL", Url_inbox);
             WebServiceCall call = new WebServiceCall(this);
-            call.getCallRequest("http://default-environment-8tpprium54.elasticbeanstalk.com/app/timetable/5/a/wednesday");
+            call.getJsonObjectResponse(Url_inbox);
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }
