@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
-* Created by Vijay on 3/28/15.
-*/
+ * Created by Vijay on 3/28/15.
+ */
 public class ListOfChildrenPreference {
     // Shared Preferences
     SharedPreferences pref;
@@ -23,7 +23,8 @@ public class ListOfChildrenPreference {
     int PRIVATE_MODE = 0;
     private static final String RESPONSE = "ChildrenList";
     public static final String KEY_CHILDREN_LIST = "Childen_List";
-    public ListOfChildrenPreference(Context context){
+
+    public ListOfChildrenPreference(Context context) {
 
         this.context = context;
         pref = this.context.getSharedPreferences(RESPONSE, PRIVATE_MODE);
@@ -31,23 +32,21 @@ public class ListOfChildrenPreference {
     }
 
     /**
-     *
      * @param ChildrenList
      */
 
-    public void SaveChildrenListToPreference(JSONArray ChildrenList){
+    public void SaveChildrenListToPreference(JSONArray ChildrenList) {
 
         Log.d("Setchildlist=", ChildrenList.toString());
-        editor.putString(KEY_CHILDREN_LIST,ChildrenList.toString());
+        editor.putString(KEY_CHILDREN_LIST, ChildrenList.toString());
         editor.commit();
         Log.d("Setchildlistafterstore", pref.getString(KEY_CHILDREN_LIST, null));
     }
 
     /**
-     *
      * @return ChildrenList .
      */
-    public ArrayList<HashMap<String,String>> getChildrenListFromPreference() {
+    public ArrayList<HashMap<String, String>> getChildrenListFromPreference() {
         String userData;
         JSONArray showdata = null;
         ArrayList<HashMap<String, String>> getChildrenList = null;

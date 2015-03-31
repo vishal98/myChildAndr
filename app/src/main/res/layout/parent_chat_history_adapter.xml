@@ -7,15 +7,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/teacherimageIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:paddingRight="10dp"
-            android:background="@drawable/person"
-            >
-        </com.android.volley.toolbox.NetworkImageView>
+            android:background="@drawable/person"></com.android.volley.toolbox.NetworkImageView>
 
 
         <TextView
