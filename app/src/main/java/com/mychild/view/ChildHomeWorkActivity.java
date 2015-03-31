@@ -1,20 +1,23 @@
 package com.mychild.view;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.CalendarView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.adapters.ChildHomeworkAdapter;
-import com.mychild.customView.CustomDialogClass;
 import com.mychild.customView.SwitchChildView;
+import com.mychild.interfaces.IOnSwichChildListener;
+import com.mychild.model.ParentModel;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
+import com.mychild.volley.AppController;
 import com.mychild.webserviceparser.ChildHomeWorkJsonParser;
 
 import org.json.JSONArray;
@@ -26,19 +29,22 @@ import java.util.HashMap;
 /**
  * Created by Vijay on 3/27/15.
  */
-public class ChildHomeWorkActivity extends BaseActivity implements RequestCompletion, View.OnClickListener{
+public class ChildHomeWorkActivity extends BaseActivity implements RequestCompletion, View.OnClickListener,IOnSwichChildListener {
     public static final String TAG = ChildHomeWorkActivity.class.getSimpleName();
 
     ListView homeWorkList;
-    CalendarView calender;
+    private ParentModel parentModel = null;
     ArrayList<HashMap<String,String>> childrenGradeAndSection;
     private TopBar topBar;
     private SwitchChildView switchChild;
+    private Dialog dialog = null;
+    private int selectedChildPosition = 0;
+    private AppController appController = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appController = (AppController) getApplicationContext();
         Constants.showProgress(this);
-        //calender = (CalendarView) findViewById(R.id.homework_calender);
         getChildHomworkWebservicescall();
         setContentView(R.layout.activity_child_homework);
         setTopBar();
@@ -46,14 +52,27 @@ public class ChildHomeWorkActivity extends BaseActivity implements RequestComple
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        selectedChildPosition = appController.getSelectedChild();
+    }
+
+    @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         CommonUtils.getLogs("Homework Response success");
-        Log.i(TAG, responseArray.toString());
+        Log.i(TAG, responseJson.toString());
         homeWorkList = (ListView) findViewById(R.id.homework);
-        childrenGradeAndSection = ChildHomeWorkJsonParser.getInstance().getChildrenHomework(responseArray);
+        childrenGradeAndSection = ChildHomeWorkJsonParser.getInstance().getChildrenHomework(responseJson);
         ChildHomeworkAdapter homeworkAdapter = new ChildHomeworkAdapter(this,childrenGradeAndSection);
         homeWorkList.setAdapter(homeworkAdapter);
         Constants.stopProgress(this);
+
+
+        parentModel = new ParentModel();
+        appController.setParentData(parentModel);
+        if (parentModel.getNumberOfChildren() >= 0) {
+            appController.setSelectedChild(0);
+        }
     }
 
     @Override
@@ -77,8 +96,15 @@ public class ChildHomeWorkActivity extends BaseActivity implements RequestComple
                 break;
 
             case R.id.switch_child:
-                CustomDialogClass dialogue = new CustomDialogClass(this);
-                dialogue.show();
+                if(parentModel.getChildList()!=null){
+                dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
+                }
+                else {
+                    Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
+                }
+
+//                CustomDialogClass dialogue = new CustomDialogClass(this);
+//                dialogue.show();
                 break;
 
             default:
@@ -107,16 +133,23 @@ public class ChildHomeWorkActivity extends BaseActivity implements RequestComple
         if (CommonUtils.isNetworkAvailable(this)) {
             SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
             if(saredpreferences.contains("UserName")){
-                Url_home_work = "http://default-environment-8tpprium54.elasticbeanstalk.com/Parent/studentId/1/teacher/2";
+                Url_home_work ="http://default-environment-8tpprium54.elasticbeanstalk.com/app/getHomework/student/1/30-03-2015";
 
                 Log.i("===Url_Homework===", Url_home_work);
             }
             WebServiceCall call = new WebServiceCall(ChildHomeWorkActivity.this);
-            call.getCallRequest(Url_home_work);
+            call.getJsonObjectResponse(Url_home_work);
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }
     }
 
 
+    @Override
+    public void onSwitchChild(int selectedChildPosition) {
+        this.selectedChildPosition = selectedChildPosition;
+        appController.setSelectedChild(selectedChildPosition);
+        dialog.dismiss();
+
+    }
 }

@@ -1,9 +1,7 @@
 package com.mychild.webserviceparser;
 
-import android.app.Activity;
 import android.util.Log;
 
-import com.mychild.adapters.CustomDialogueAdapter;
 import com.mychild.model.AddressModel;
 import com.mychild.model.ParentModel;
 import com.mychild.model.StudentDTO;
@@ -121,61 +119,41 @@ public class ParentHomeJsonParser {
         }
         return parentModel;
     }
-//    public static ArrayList<String> getChildrenList(JSONArray jsonArray) {
-//        ArrayList<String> childrenArrayList = null;
+
+//    public static ArrayList<HashMap<String, String>> getChildrenListwithID(JSONArray jsonArray) {
+//        ArrayList<HashMap<String, String>> childrenNameAndIdArraylist = null;
+//        LinkedHashMap<String, String> childrenNameAndIdHashMap = null;
+//        CustomDialogueAdapter customDialogueAdapter ;
 //        if (jsonArray != null) {
 //            int size = jsonArray.length();
 //            for (int i = 0; i < size; i++) {
 //                try {
 //                    JSONObject object = jsonArray.getJSONObject(i);
 //                    JSONArray childrenArray = object.getJSONArray("children");
-//                    childrenArrayList = new ArrayList<String>();
+//                    childrenNameAndIdArraylist = new ArrayList<HashMap<String, String>>();
 //                    for(int j= 0; j<childrenArray.length();j++ ){
+//                        childrenNameAndIdHashMap = new LinkedHashMap<String, String>();
 //                        JSONObject noOfStudent = childrenArray.getJSONObject(j);
-//                        if (noOfStudent.has("studentName")) {
-//                            childrenArrayList.add(noOfStudent.getString("studentName"));
+//                        if (noOfStudent.has("studentId")) {
+//                            childrenNameAndIdHashMap.put("studentId", noOfStudent.getString("studentId"));
 //                        }
+//                        if (noOfStudent.has("studentName")) {
+//                            childrenNameAndIdHashMap.put("studentName", noOfStudent.getString("studentName"));
+//                        }
+//                        childrenNameAndIdArraylist.add(childrenNameAndIdHashMap);
 //                    }
 //                } catch (JSONException e) {
 //                    e.printStackTrace();
 //                }
 //            }
 //        }
-//        Log.i("StudentName", childrenArrayList.toString());
-//        return childrenArrayList;
+//        //customDialogueAdapter = new CustomDialogueAdapter(activity,childrenNameAndIdArraylist);
+//        Log.i("Childata", childrenNameAndIdArraylist.toString());
+//        return childrenNameAndIdArraylist;
 //    }
 
-    public static ArrayList<HashMap<String, String>> getChildrenListwithID(Activity activity, JSONArray jsonArray) {
-        ArrayList<HashMap<String, String>> childrenNameAndIdArraylist = null;
-        LinkedHashMap<String, String> childrenNameAndIdHashMap = null;
-        CustomDialogueAdapter customDialogueAdapter;
-        if (jsonArray != null) {
-            int size = jsonArray.length();
-            for (int i = 0; i < size; i++) {
-                try {
-                    JSONObject object = jsonArray.getJSONObject(i);
-                    JSONArray childrenArray = object.getJSONArray("children");
-                    childrenNameAndIdArraylist = new ArrayList<HashMap<String, String>>();
-                    for (int j = 0; j < childrenArray.length(); j++) {
-                        childrenNameAndIdHashMap = new LinkedHashMap<String, String>();
-                        JSONObject noOfStudent = childrenArray.getJSONObject(j);
-                        if (noOfStudent.has("studentId")) {
-                            childrenNameAndIdHashMap.put("studentId", noOfStudent.getString("studentId"));
-                        }
-                        if (noOfStudent.has("studentName")) {
-                            childrenNameAndIdHashMap.put("studentName", noOfStudent.getString("studentName"));
-                        }
-                        childrenNameAndIdArraylist.add(childrenNameAndIdHashMap);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        //customDialogueAdapter = new CustomDialogueAdapter(activity,childrenNameAndIdArraylist);
-        Log.i("Childata", childrenNameAndIdArraylist.toString());
-        return childrenNameAndIdArraylist;
-    }
+
+
 
     public static ArrayList<HashMap<String, String>> getChildrenGradeAndSection(JSONArray jsonArray) {
         ArrayList<HashMap<String, String>> childrenGradeAndSection = null;

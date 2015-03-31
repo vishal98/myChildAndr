@@ -39,23 +39,26 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     CustomDialogClass customDialogue;
     CustomDialogueAdapter customDialogueAdapter = null;
     private TopBar topBar;
+    private int selectedposition = 0;
     private SwitchChildView switchChild;
     private Dialog dialog = null;
     private ParentModel parentModel = null;
     private int selectedChildPosition = 0;
     private AppController appController = null;
     ListOfChildrenPreference manager;
+>>>>>>> 1b3a194a894df13aba23ffc45ddda745c3bc2ed4
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appController = (AppController) getApplicationContext();
         sharedPref = new PrefManager(this);
         getParentDetailsWebservicescall();
         setContentView(R.layout.activity_parent_home);
         setTopBar();
         switchChildBar();
         setOnClickListener();
-        appController = (AppController) getApplicationContext();
+
     }
 
     @Override
@@ -86,6 +89,10 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         } else {
             Toast.makeText(this, "No data..", Toast.LENGTH_LONG).show();
         }
+        else {
+            Toast.makeText(this, "No data..",Toast.LENGTH_LONG).show();
+        }
+>>>>>>> 1b3a194a894df13aba23ffc45ddda745c3bc2ed4
     }
 
     @Override
@@ -101,6 +108,27 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         switch (v.getId()) {
             case R.id.switch_child:
                 dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
+                if(parentModel!=null){
+                    dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
+                }
+                else{
+                    Toast.makeText(this, "No Child data found..",Toast.LENGTH_LONG).show();
+                }
+
+                /*Toast.makeText(this, "Switch Child", Toast.LENGTH_LONG).show();
+                customDialogue = new CustomDialogClass(this);
+                customDialogue.setCancelable(true);
+                customDialogue.show();*/
+
+//               if(manager != null){
+//                   Toast.makeText(this, "Switch Child", Toast.LENGTH_LONG).show();
+//                   customDialogue = new CustomDialogClass(this);
+//                   customDialogue.setCancelable(true);
+//                   customDialogue.show();
+//               }
+//            else {
+//                   Toast.makeText(this, "No Child data found..",Toast.LENGTH_LONG).show();
+//               }
                 break;
             case R.id.homework:
                 startActivity(new Intent(ParentHomeActivity.this, ChildHomeWorkActivity.class));

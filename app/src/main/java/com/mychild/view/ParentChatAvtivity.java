@@ -12,13 +12,9 @@ import com.mychild.sharedPreference.PrefManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
-import com.mychild.webserviceparser.ParentChatHistoryParser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Vijay on 3/29/15.
@@ -54,7 +50,7 @@ public class ParentChatAvtivity extends BaseActivity implements RequestCompletio
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         CommonUtils.getLogs("Chat Response success");
         Log.i(TAG, responseJson.toString());
-        ArrayList<HashMap<String, String>> chatList = ParentChatHistoryParser.getInstance().getTeacherListForChat(responseJson);
+        //ArrayList<HashMap<String, String>> chatList = ParentChatHistoryParser.getInstance().getTeacherListForChat(responseJson);
     }
 
     @Override

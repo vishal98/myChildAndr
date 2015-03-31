@@ -46,7 +46,7 @@
     <string name="home_work_student_id">/app/getHomework/student/</string>
     <string name="home_work_student_assigned_date">/app/getHomework/student/</string>
     <string name="timetable_child">/app/timetable</string>
-    <string name="parent_chat">/app/conversations/get</string>
+    <string name="parent_chat">/app/conversations/get/</string>
 
 
     <string name="no_network_connection">No Network connection</string>

@@ -33,12 +33,7 @@ public class CustomDialogClass extends Dialog {
        /* CustomDialogueAdapter adapter = new CustomDialogueAdapter(activity);
         ListView childList = (ListView) findViewById(R.id.childlist);
 
-        childList.setAdapter(adapter);
-
-
         childList.setAdapter(adapter);*/
-
-
     }
 
 
