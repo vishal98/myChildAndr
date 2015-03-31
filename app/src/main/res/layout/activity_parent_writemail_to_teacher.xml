@@ -29,7 +29,7 @@
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/back_arrow"
+            android:background="@drawable/icon_back_dark"
             android:layout_marginRight="10dp" />
 
         <ImageView
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/back"
-            android:background="@drawable/new_email"
+            android:background="@drawable/icon_new_mail"
             android:layout_marginRight="10dp" />
 
         <TextView

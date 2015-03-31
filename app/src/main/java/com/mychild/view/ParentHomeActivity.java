@@ -102,7 +102,6 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.switch_child:
-                dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
                 if (parentModel != null) {
                     dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
                 } else {

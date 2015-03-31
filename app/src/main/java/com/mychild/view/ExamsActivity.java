@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.adapters.ExamsListviewAdapter;
@@ -134,7 +135,11 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
         int id = v.getId();
         switch (id) {
             case R.id.switch_child:
-                dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
+                if (parentModel.getChildList() != null) {
+                    dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
+                } else {
+                    Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.exams_iv:
                 examsTypeDialog = getExamsDialog(examsList, selectedExamposition);

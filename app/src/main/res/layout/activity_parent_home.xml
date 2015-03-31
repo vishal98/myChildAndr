@@ -28,19 +28,51 @@
         android:paddingRight="20dp"
         android:weightSum="1">
 
-        <ImageView
-            android:id="@+id/homework"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:src="@drawable/teacher_tab1" />
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/time_table"
+            <ImageView
+                android:id="@+id/homework"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_homework" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:textSize="17sp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/home_work" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:src="@drawable/teacher_tab2" />
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/time_table"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_tt" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:textSize="17sp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/time_tabel" />
+        </LinearLayout>
+
+
     </TableRow>
 
     <TableRow
@@ -52,20 +84,51 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:weightSum="1">
-
-        <ImageView
-            android:id="@+id/exams"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:src="@drawable/teacher_tab3" />
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/mail_box"
+            <ImageView
+                android:id="@+id/exams"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_exam" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:textSize="17sp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/exmas" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:src="@drawable/teacher_tab4" />
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/mail_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_mail" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:textSize="17sp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/mail_box" />
+        </LinearLayout>
+
+
     </TableRow>
 
     <TableRow
@@ -77,103 +140,51 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:weightSum="1">
-
-        <ImageView
-            android:id="@+id/chat"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:src="@drawable/teacher_tab5" />
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/calender"
+            <ImageView
+                android:id="@+id/chat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_chat" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:textSize="17sp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/chat" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:src="@drawable/teacher_tab6" />
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/calender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_calender" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:textSize="17sp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/calendar" />
+        </LinearLayout>
+
     </TableRow>
 
-
-    <!--<LinearLayout-->
-        <!--android:id="@+id/parent_layout2"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_marginLeft="20dp"-->
-        <!--android:layout_marginRight="20dp"-->
-        <!--android:layout_below="@+id/parent_layout1">-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/homework"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/teacher_tab1"-->
-            <!--android:layout_marginLeft="20dp"-->
-            <!--android:layout_marginRight="20dp" />-->
-        <!--<ImageView-->
-            <!--android:id="@+id/time_table"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/teacher_tab2"-->
-            <!--android:layout_marginLeft="20dp"-->
-            <!--android:layout_marginRight="20dp" />-->
-
-    <!--</LinearLayout>-->
-
-    <!--<LinearLayout-->
-        <!--android:id="@+id/parent_layout3"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_below="@+id/parent_layout2"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:paddingTop="20dp"-->
-        <!--android:layout_marginLeft="20dp"-->
-        <!--android:layout_marginRight="20dp">-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/exams"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/teacher_tab3"-->
-            <!--android:layout_marginLeft="20dp"-->
-            <!--android:layout_marginRight="20dp" />-->
-        <!--<ImageView-->
-            <!--android:id="@+id/mail_box"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/teacher_tab4"-->
-            <!--android:layout_marginLeft="20dp"-->
-            <!--android:layout_marginRight="20dp" />-->
-
-    <!--</LinearLayout>-->
-
-
-    <!--<LinearLayout-->
-        <!--android:id="@+id/parent_layout4"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_below="@+id/parent_layout2"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:paddingTop="20dp"-->
-        <!--android:layout_marginLeft="20dp"-->
-        <!--android:layout_marginRight="20dp">-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/chat"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/teacher_tab5"-->
-            <!--android:layout_marginLeft="20dp"-->
-            <!--android:layout_marginRight="20dp" />-->
-        <!--<ImageView-->
-            <!--android:id="@+id/calender"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/teacher_tab6"-->
-            <!--android:layout_marginLeft="20dp"-->
-            <!--android:layout_marginRight="20dp" />-->
-
-    <!--</LinearLayout>-->
 
 </LinearLayout>

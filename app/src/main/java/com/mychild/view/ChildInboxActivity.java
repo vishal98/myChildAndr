@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
+import com.mychild.adapters.ParentInboxAdapter;
 import com.mychild.customView.SwitchChildView;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
@@ -32,6 +34,7 @@ public class ChildInboxActivity extends BaseActivity implements RequestCompletio
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Constants.showProgress(this);
         setContentView(R.layout.activity_child_inbox);
         setOnClickListener();
         setTopBar();
@@ -70,6 +73,9 @@ public class ChildInboxActivity extends BaseActivity implements RequestCompletio
         CommonUtils.getLogs("INbox Response success");
         Log.i(TAG, responseJson.toString());
         ArrayList<HashMap<String, String>> mailBox = ParentMailBoxParser.getInstance().getParentMailBox(responseJson);
+        ParentInboxAdapter adapter = new ParentInboxAdapter(this,mailBox);
+        ListView listView = (ListView) findViewById(R.id.child_time_table_list);
+        listView.setAdapter(adapter);
         Constants.stopProgress(this);
     }
 
