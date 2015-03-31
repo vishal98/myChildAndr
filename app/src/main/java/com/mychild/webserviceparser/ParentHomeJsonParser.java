@@ -153,8 +153,6 @@ public class ParentHomeJsonParser {
 //    }
 
 
-
-
     public static ArrayList<HashMap<String, String>> getChildrenGradeAndSection(JSONArray jsonArray) {
         ArrayList<HashMap<String, String>> childrenGradeAndSection = null;
         LinkedHashMap<String, String> childrenGradeAndSectionMap = null;

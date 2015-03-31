@@ -9,12 +9,13 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
+
         <ImageView
             android:id="@+id/homework_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/person"/>
-        
+            android:background="@drawable/person" />
+
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
@@ -30,9 +31,9 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/homework_image"
             android:layout_below="@+id/title"
-            android:text="descreption"/>
+            android:text="descreption" />
 
-        </RelativeLayout>
+    </RelativeLayout>
 
     <View
         android:id="@+id/divider"
@@ -43,8 +44,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp" />
-
-
 
 
 </RelativeLayout>
