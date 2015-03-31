@@ -169,6 +169,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.titleTV.setText(getString(R.string.my_child));
+        topBar.backArrowIV.setImageResource(R.drawable.icon_home);
     }
 
     public void switchChildBar() {

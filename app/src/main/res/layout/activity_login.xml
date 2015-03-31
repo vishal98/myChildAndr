@@ -17,9 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/parent_logo" />
+            android:src="@drawable/login_logo" />
 
         <TextView
             android:id="@+id/parent_teacher_txt"
