@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.interfaces.AsyncTaskInterface;
 import com.mychild.sharedPreference.StorageManager;
 import com.mychild.utils.CommonUtils;
@@ -16,6 +17,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -119,7 +121,7 @@ public class HttpConnectThread extends AsyncTask<String, Integer, String> {
             StringEntity s = new StringEntity(jObject.toString());
             s.setContentType("application/json");
 
-            //   s.setContentEncoding(new BasicHeader("X-Auth-Token", WebServiceCall.getToken));
+            s.setContentEncoding(new BasicHeader("X-Auth-Token", WebServiceCall.getToken));
             entity = s;
             httpPost.setEntity(entity);
 

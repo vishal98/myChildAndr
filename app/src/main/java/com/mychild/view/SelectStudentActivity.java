@@ -39,6 +39,7 @@ public class SelectStudentActivity extends BaseActivity implements View.OnClickL
         topBar.initTopBar();
         topBar.titleTV.setText(getString(R.string.assign_task_title));
         topBar.backArrowIV.setOnClickListener(this);
+        topBar.logoutIV.setVisibility(View.GONE);
         Bundle bundle = getIntent().getExtras();
 
         studentsLV = (ListView) findViewById(R.id.students_lv);

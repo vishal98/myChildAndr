@@ -13,7 +13,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.mychild.Networkcall.RequestCompletion;
-import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.adapters.CustomAdapter;
 import com.mychild.adapters.SubjectSpinnerAdapter;
 import com.mychild.interfaces.AsyncTaskInterface;
@@ -251,6 +250,23 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
                 setSubjectAdapter(teacherModel.getSubjectsList());
                 break;
             case TYPE_POST_DATA:
+                try {
+                    JSONObject responseJson = new JSONObject(object);
+                    if (responseJson.has("status")) {
+                        if (responseJson.getString("status").equals("success")) {
+                            if (responseJson.has("message")) {
+                                CommonUtils.getToastMessage(AssignTaskActivity.this, responseJson.getString("message"));
+                                resetData();
+                            }
+                        } else {
+                            if (responseJson.has("message")) {
+                                CommonUtils.getToastMessage(AssignTaskActivity.this, responseJson.getString("message"));
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 break;
             default:
         }
@@ -305,7 +321,7 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
                 } else {
                     type = RequestType.TYPE_POST_DATA;
                     JSONObject jsonObject = new JSONObject();
-                    Constants.showProgress(AssignTaskActivity.this);
+                    //   Constants.showProgress(AssignTaskActivity.this);
                     try {
                         if (selectStudioRG.getCheckedRadioButtonId() == R.id.select_all_rb) {
                             jsonObject.put("gradeFlag", "g");
@@ -327,10 +343,10 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
                         e.printStackTrace();
                     }
                     CommonUtils.getLogs("POST data::" + jsonObject);
-                    WebServiceCall webServiceCall = new WebServiceCall(this);
-                    webServiceCall.postToServer(jsonObject, base_and_post_url);
-            /*httpConnectThread = new HttpConnectThread(this, jsonObject, this);
-            httpConnectThread.execute(getString(R.string.base_url) + post_url);*/
+                  /*  WebServiceCall webServiceCall = new WebServiceCall(this);
+                    webServiceCall.postToServer(jsonObject, base_and_post_url);*/
+                    httpConnectThread = new HttpConnectThread(this, jsonObject, this);
+                    httpConnectThread.execute(base_and_post_url);
            /* Constants.showProgress(this);
             WebServiceCall call = new WebServiceCall(AssignTaskActivity.this);
           //  call.getCallRequest(getString(R.string.base_url) + getString(R.string.url_teacher_deatils) + teacherName);
