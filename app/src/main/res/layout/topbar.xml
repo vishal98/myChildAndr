@@ -26,5 +26,15 @@
         android:text="AssignTask"
         android:textColor="@color/white" />
 
+    <ImageView
+        android:id="@+id/logoutIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/logout"
+        android:layout_marginTop="10dp" />
+
+
+
 
 </RelativeLayout>

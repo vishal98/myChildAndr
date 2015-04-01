@@ -15,6 +15,7 @@ import com.mychild.view.R;
 public class TopBar extends RelativeLayout {
     public ImageView backArrowIV;
     public TextView titleTV;
+    public ImageView logoutIV;
 
     public TopBar(Context context) {
         super(context);
@@ -37,5 +38,7 @@ public class TopBar extends RelativeLayout {
         inflater.inflate(R.layout.topbar, this);
         backArrowIV = (ImageView) findViewById(R.id.back_arrow_iv);
         titleTV = (TextView) findViewById(R.id.title_tv);
+        logoutIV = (ImageView) findViewById(R.id.logoutIV);
+
     }
 }

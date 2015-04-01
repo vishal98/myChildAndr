@@ -46,6 +46,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     private int selectedChildPosition = 0;
     private AppController appController = null;
     ListOfChildrenPreference manager;
+    SharedPreferences clearSharedPreferenceForLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +148,16 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 Toast.makeText(this, "Calender", Toast.LENGTH_LONG).show();
                 break;
 
+            case R.id.logoutIV:
+                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
+                clearSharedPreferenceForLogout = getSharedPreferences("Response", 0);
+                clearSharedPreferenceForLogout = getSharedPreferences("MyChild_Preferences", 0);
+                SharedPreferences.Editor editor = clearSharedPreferenceForLogout.edit();
+                editor.clear();
+                editor.commit();
+                finish();
+                startActivity(new Intent(this, LoginActivity.class));
+
             default:
                 //Enter code in the event that that no cases match
         }
@@ -158,6 +169,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         topBar.initTopBar();
         topBar.titleTV.setText(getString(R.string.my_child));
         topBar.backArrowIV.setImageResource(R.drawable.icon_home);
+        topBar.logoutIV.setOnClickListener(this);
     }
 
     public void switchChildBar() {

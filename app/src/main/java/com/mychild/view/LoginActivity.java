@@ -40,6 +40,7 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
         login_btn.setOnClickListener(LoginActivity.this);
     }
 
+
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         CommonUtils.getLogs("Login Response" + responseJson);
