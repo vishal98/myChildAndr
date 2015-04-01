@@ -1,10 +1,12 @@
 package com.mychild.view;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.model.StudentDTO;
@@ -33,6 +35,7 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
         topBar.initTopBar();
         topBar.backArrowIV.setVisibility(View.INVISIBLE);
         topBar.titleTV.setText(getString(R.string.app_name));
+        topBar.logoutIV.setOnClickListener(this);
         ((ImageView) findViewById(R.id.assign_task_iv)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.time_table_iv)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.exams_iv)).setOnClickListener(this);
@@ -70,6 +73,16 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
             case R.id.calender_iv:
                 CommonUtils.getToastMessage(this, "Under Developent");
                 break;
+
+            case R.id.logoutIV:
+                SharedPreferences clearSharedPreferenceForLogout;
+                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
+                clearSharedPreferenceForLogout = getSharedPreferences("MyChild_Preferences", 0);
+                SharedPreferences.Editor editor = clearSharedPreferenceForLogout.edit();
+                editor.clear();
+                editor.commit();
+                finish();
+                startActivity(new Intent(this, LoginActivity.class));
 
            /* case R.id.message_btn:
                 if (CommonUtils.isNetworkAvailable(this)) {
