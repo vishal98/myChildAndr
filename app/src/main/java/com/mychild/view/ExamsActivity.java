@@ -20,6 +20,7 @@ import com.mychild.interfaces.IOnExamChangedListener;
 import com.mychild.interfaces.IOnSwichChildListener;
 import com.mychild.model.ExamModel;
 import com.mychild.model.ParentModel;
+import com.mychild.sharedPreference.StorageManager;
 import com.mychild.threads.HttpConnectThread;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
@@ -58,7 +59,7 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
         topBar.backArrowIV.setOnClickListener(this);
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
-
+        switchChild.parentNameTV.setText(StorageManager.readString(this, getString(R.string.pref_username), ""));
         switchChild.switchChildBT.setOnClickListener(this);
         examsListView = (ListView) findViewById(R.id.exams_listview);
         examsIV = (ImageView) findViewById(R.id.exams_iv);
@@ -73,7 +74,6 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
                 appController = (AppController) getApplicationContext();
                 parentModel = appController.getParentsData();
                 switchChild.parentNameTV.setText(parentModel.getName());
-
                 selectedChildPosition = appController.getSelectedChild();
             } else if (fromKey.equals(getString(R.string.key_from_teacher))) {
                 switchChild.switchChildBT.setVisibility(View.GONE);

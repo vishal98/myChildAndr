@@ -44,12 +44,16 @@ public class ChildHomeWorkActivity extends BaseActivity implements RequestComple
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_child_homework);
         appController = (AppController) getApplicationContext();
         Constants.showProgress(this);
-        getChildHomworkWebservicescall();
-        setContentView(R.layout.activity_child_homework);
         setTopBar();
         switchChildBar();
+        getChildHomworkWebservicescall();
+        parentModel = appController.getParentsData();
+        if (parentModel != null && parentModel.getNumberOfChildren() >= 0) {
+            selectedChildPosition = appController.getSelectedChild();
+        }
     }
 
     @Override
@@ -69,11 +73,8 @@ public class ChildHomeWorkActivity extends BaseActivity implements RequestComple
         Constants.stopProgress(this);
 
 
-        parentModel = new ParentModel();
-        appController.setParentData(parentModel);
-        if (parentModel.getNumberOfChildren() >= 0) {
-            appController.setSelectedChild(0);
-        }
+        //  parentModel = new ParentModel();
+
     }
 
     @Override

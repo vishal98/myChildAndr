@@ -47,7 +47,6 @@
             android:layout_marginTop="40dp"
             android:background="@null"
             android:hint="@string/userid_hint"
-            android:text="ravi@test.com"
             android:inputType="textPersonName"
             android:typeface="sans" />
 
@@ -65,7 +64,6 @@
             android:layout_height="@dimen/hdpi_textfield_height"
             android:layout_below="@+id/user_id"
             android:layout_marginTop="15dp"
-            android:text="123"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:background="@null" />
