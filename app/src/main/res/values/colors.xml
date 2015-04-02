@@ -9,5 +9,6 @@
     <color name="color_password">#5a5a5a</color>
     <color name="done_red_color">#fffa5559</color>
     <color name="done_dark_red_color">#ffd9484b</color>
+    <color name="cal_time">#FC3135</color>
 
 </resources>

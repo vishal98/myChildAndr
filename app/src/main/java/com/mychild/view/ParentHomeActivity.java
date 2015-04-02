@@ -145,7 +145,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 startActivity(new Intent(ParentHomeActivity.this, ParentChatAvtivity.class));
                 break;
             case R.id.calender:
-                Toast.makeText(this, "Calender", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(ParentHomeActivity.this, CalendarActivity.class));
                 break;
 
             case R.id.logoutIV:

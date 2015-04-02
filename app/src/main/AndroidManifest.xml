@@ -97,6 +97,12 @@
             android:name=".ExamsActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_exams"></activity>
+
+        <activity
+            android:name=".CalendarActivity"
+            android:label="@string/title_activity_calendar"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

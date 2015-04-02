@@ -18,6 +18,7 @@
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
     <string name="title_activity_Login">LoginActivity</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_calendar">Calendar Activity</string>
 
     <!--ParentHomeActivity-->
     <string name="switch_child">SWITCH CHILD</string>
@@ -47,6 +48,7 @@
     <string name="home_work_student_assigned_date">/app/getHomework/student/</string>
     <string name="timetable_child">/app/timetable</string>
     <string name="parent_chat">/app/conversations/get/</string>
+    <string name="calendar_task">/app/events/student/1/</string>
 
 
     <string name="no_network_connection">No Network connection</string>

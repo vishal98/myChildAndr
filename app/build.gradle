@@ -26,5 +26,5 @@ dependencies {
     compile files('libs/volley.jar')
     compile 'com.pushbots:pushbots-lib:2.0.11@aar'
     compile 'com.android.support:support-v4:21.0.0'
-
+    compile project(":myCalendar")
 }
