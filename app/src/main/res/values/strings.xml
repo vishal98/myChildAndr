@@ -50,6 +50,7 @@
     <string name="parent_chat">/app/conversations/get/</string>
     <string name="calendar_task">/app/events/student/1/</string>
 
+    <string name="url_teacher_email">/app/conversations/get/</string>
 
     <string name="no_network_connection">No Network connection</string>
     <string name="title_activity_assign_task">AssignTaskActivity</string>
@@ -61,7 +62,6 @@
     <string name="time_tabel">Time Table</string>
     <string name="inbox">Inbox</string>
     <string name="chat">Chat</string>
-
 
 
     <!--techaer_homescreen-->
@@ -128,6 +128,8 @@
 
     <!--ParentChatActivity-->
     <string name="all_contact">ALL</string>
+    <string name="title_activity_teacher_emails">TeacherEmailsActivity</string>
+    <string name="title_activity_teacher_write_new_email">TeacherWriteNewEmailActivity</string>
 
 
 </resources>

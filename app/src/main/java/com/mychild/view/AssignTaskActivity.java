@@ -45,7 +45,7 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
     private EditText taskET;
     private final int REQUEST_CODE = 1234;
     private boolean updateCheckStatus = false;
-    String teacherName = "/test_teacher";
+    String teacherName = "";
     private String base_url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/Teacher/id";
     private String base_and_post_url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/app/teacher/homework/save";
     private String post_url = "/app/teacher/homework/save";
@@ -81,6 +81,7 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
         chooseDateTV = (TextView) findViewById(R.id.choose_date_tv);
         ((TextView) findViewById(R.id.teacher_name_tv)).setText(StorageManager.readString(this, getString(R.string.pref_username), ""));
         chooseDateTV.setOnClickListener(this);
+        teacherName = "/" + StorageManager.readString(this, getString(R.string.pref_username), "");
         if (CommonUtils.isNetworkAvailable(this)) {
             RequestType type = RequestType.TYPE_TEACHER_DETAILS;
             httpConnectThread = new HttpConnectThread(this, null, this);

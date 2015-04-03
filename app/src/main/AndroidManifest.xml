@@ -59,11 +59,9 @@
         <activity
             android:name=".ChildInboxActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ParentChatAvtivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ParentWriteMailToTeacher"
             android:screenOrientation="portrait" />
@@ -95,14 +93,18 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ExamsActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_exams"></activity>
-
+            android:label="@string/title_activity_exams"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CalendarActivity"
             android:label="@string/title_activity_calendar"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".TeacherEmailsActivity"
+            android:label="@string/title_activity_teacher_emails"></activity>
+        <activity
+            android:name=".TeacherWriteNewEmailActivity"
+            android:label="@string/title_activity_teacher_write_new_email"></activity>
     </application>
 
 </manifest>
