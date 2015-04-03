@@ -58,8 +58,7 @@ public class ChildHomeWorkJsonParser {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        Log.i("chatArrayList", childHomeWork.toString());
+        Log.i("ArrayList", childHomeWork.toString());
         return childHomeWork;
     }
 
