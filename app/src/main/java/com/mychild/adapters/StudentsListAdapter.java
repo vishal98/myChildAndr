@@ -101,4 +101,11 @@ public class StudentsListAdapter extends ArrayAdapter<StudentDTO> {
         }
         notifyDataSetChanged();
     }
+
+    public void selectAll() {
+        for (StudentDTO dto : list) {
+            mSelectedItemsIds.put(dto.getStudentId(), true);
+        }
+        notifyDataSetChanged();
+    }
 }
