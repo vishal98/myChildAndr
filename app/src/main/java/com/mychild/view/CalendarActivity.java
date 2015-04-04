@@ -52,7 +52,7 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
             switchChildBar();
 			//	Calendar minYear = Calendar.getInstance();
 			//			minYear.add(Calendar.YEAR, -1);
-			//			
+			//
 			//			Calendar maxYear = Calendar.getInstance();
 			//			maxYear.add(Calendar.DAY_OF_WEEK, 1);
 			//			CalendarPickerView calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
@@ -227,26 +227,25 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
         switchChild.switchChildBT.setOnClickListener(this);
     }
 
-	public String getMonth(int month) 
+	public String getMonth(int month)
 	{
-		switch (month) 
+		switch (month)
 		{
-		case 1: return "JANUARY"; 
-		case 2: return "FEBRUARY";  
-		case 3: return "MARCH";  
-		case 4: return "APRIL"; 
-		case 5: return "MAY";  
-		case 6: return "JUNE"; 
-		case 7: return "JULY";  
-		case 8: return "AUGUST";  
-		case 9: return "SEPTEMBER";  
-		case 10: return "OCTOBER";  
-		case 11: return "NOVEMBER"; 
-		case 12: return "DECEMBER";  
-		default: return "";   
+		case 1: return "JANUARY";
+		case 2: return "FEBRUARY";
+		case 3: return "MARCH";
+		case 4: return "APRIL";
+		case 5: return "MAY";
+		case 6: return "JUNE";
+		case 7: return "JULY";
+		case 8: return "AUGUST";
+		case 9: return "SEPTEMBER";
+		case 10: return "OCTOBER";
+		case 11: return "NOVEMBER";
+		case 12: return "DECEMBER";
+		default: return "";
 		}
 	}
-
 
     @Override
     public void onSwitchChild(int selectedChildPosition) {

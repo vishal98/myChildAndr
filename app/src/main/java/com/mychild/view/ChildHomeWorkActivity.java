@@ -54,7 +54,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
     private ParentModel parentModel = null;
     private AppController appController = null;
     InfiniteViewPager viewPager;
-    int currentIndicator=0;
+    int currentIndicator = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,17 +73,19 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
         viewPager.setAdapter(new MyInfinitePagerAdapter(0));
         viewPager.setOnInfinitePageChangeListener(new InfiniteViewPager.OnInfinitePageChangeListener() {
             @Override
-            public void onPageScrolled(final Object indicator, final float positionOffset,final int positionOffsetPixels) {
-                Calendar cal = null ;
+            public void onPageScrolled(final Object indicator, final float positionOffset, final int positionOffsetPixels) {
+                Calendar cal = null;
                 cal = Calendar.getInstance();
-                cal.add(Calendar.DAY_OF_YEAR, (Integer.parseInt(String.valueOf(indicator))*7));
+                cal.add(Calendar.DAY_OF_YEAR, (Integer.parseInt(String.valueOf(indicator)) * 7));
                 //((TextView)findViewById(R.id.todayDate)).setText(getMonth( cal.get(Calendar.MONTH) +1) +" "+cal.get(Calendar.YEAR) );
             }
+
             @Override
             public void onPageSelected(final Object indicator) {
                 Log.d("InfiniteViewPager", "onPageSelected " + indicator.toString());
-                currentIndicator =Integer.parseInt(""+indicator.toString());
+                currentIndicator = Integer.parseInt("" + indicator.toString());
             }
+
             @Override
             public void onPageScrollStateChanged(final int state) {
                 Log.d("InfiniteViewPager", "state " + String.valueOf(state));
@@ -96,10 +98,10 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
                 this, android.R.layout.simple_list_item_1, getDaysOfWeek());
         weekdayGridView.setAdapter(weekdaysAdapter);
         Calendar cal = Calendar.getInstance();
-        String homeWorkDate = "0" + cal.get(Calendar.DAY_OF_MONTH)+"-"+"0"+cal.get(Calendar.MONTH)+"-"+cal.get(Calendar.YEAR);
-        ((TextView)findViewById(R.id.todayDate)).setText(cal.get(Calendar.DAY_OF_MONTH)+" "+getMonth(cal.get(Calendar.MONTH) + 1).substring(0,3)+" "+cal.get(Calendar.YEAR) );
+        String homeWorkDate = "0" + cal.get(Calendar.DAY_OF_MONTH) + "-" + "0" + cal.get(Calendar.MONTH) + "-" + cal.get(Calendar.YEAR);
+        ((TextView) findViewById(R.id.todayDate)).setText(cal.get(Calendar.DAY_OF_MONTH) + " " + getMonth(cal.get(Calendar.MONTH) + 1).substring(0, 3) + " " + cal.get(Calendar.YEAR));
 
-        final CaldroidFragment dialogCaldroidFragment = CaldroidFragment.newInstance("Select a date",cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR) ,1);
+        final CaldroidFragment dialogCaldroidFragment = CaldroidFragment.newInstance("Select a date", cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), 1);
         final CaldroidListener listener = new CaldroidListener() {
             @Override
             public void onSelectDate(Date date, View view) {
@@ -109,28 +111,31 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
                 dialogCaldroidFragment.dismiss();
                 getChildHomworkWebservicescall(getDayFull(cal.get(Calendar.DATE)));
             }
+
             @Override
             public void onChangeMonth(int month, int year) {
             }
+
             @Override
             public void onLongClickDate(Date date, View view) {
             }
+
             @Override
             public void onCaldroidViewCreated() {
             }
         };
         dialogCaldroidFragment.setCaldroidListener(listener);
 
-        ((View)findViewById(R.id.handleImg)).setOnClickListener(new View.OnClickListener() {
+        ((View) findViewById(R.id.handleImg)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                dialogCaldroidFragment.show(getSupportFragmentManager(),"myDialog");
+                dialogCaldroidFragment.show(getSupportFragmentManager(), "myDialog");
             }
         });
 
 
-        Log.i("homeWorkDate",homeWorkDate);
+        Log.i("homeWorkDate", homeWorkDate);
         getChildHomworkWebservicescall(homeWorkDate);
 
     }
@@ -205,7 +210,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
         switchChild.switchChildBT.setOnClickListener(this);
     }
 
-    public void setSwitchChildDialogueData(){
+    public void setSwitchChildDialogueData() {
         appController = (AppController) getApplicationContext();
         parentModel = appController.getParentsData();
         if (parentModel != null && parentModel.getNumberOfChildren() >= 0) {
@@ -221,7 +226,6 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
             //if (saredpreferences.contains("UserName")) {
             if (!StorageManager.readString(this, "username", "").isEmpty()){
                 Url_home_work = getString(R.string.base_url) +"/app/getHomework/student/1/02-04-2015";
-
                 Log.i("===Url_Homework===", Url_home_work);
             }
             WebServiceCall call = new WebServiceCall(ChildHomeWorkActivity.this);
@@ -245,7 +249,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
         @Override
         public void onClick(View v) {
             // TODO Auto-generated method stub
-            TextView tv  = (TextView)v;
+            TextView tv = (TextView) v;
             String selectedDate = tv.getTag().toString();
 
             Toast.makeText(ChildHomeWorkActivity.this, selectedDate, Toast.LENGTH_LONG).show();
@@ -279,73 +283,72 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
             TextView text5 = (TextView) layout.findViewById(R.id.text5);
             TextView text6 = (TextView) layout.findViewById(R.id.text6);
             TextView text7 = (TextView) layout.findViewById(R.id.text7);
-            Calendar cal = null ;
-            if(indicator==0)
-            {
+            Calendar cal = null;
+            if (indicator == 0) {
                 cal = Calendar.getInstance();
                 cal.add(Calendar.DAY_OF_YEAR, -3);
 
             }
-            if(indicator<0)
-            {
+            if (indicator < 0) {
                 cal = Calendar.getInstance();
-                cal.add(Calendar.DAY_OF_YEAR, (indicator*7)-3);
+                cal.add(Calendar.DAY_OF_YEAR, (indicator * 7) - 3);
             }
-            if(indicator>0)
-            {
+            if (indicator > 0) {
                 cal = Calendar.getInstance();
-                if(indicator==1)
+                if (indicator == 1)
                     cal.add(Calendar.DAY_OF_YEAR, 4);
                 else
-                    cal.add(Calendar.DAY_OF_YEAR, (indicator*7)-3);
+                    cal.add(Calendar.DAY_OF_YEAR, (indicator * 7) - 3);
             }
-            text1.setText(""+cal.get(Calendar.DATE));
+            text1.setText("" + cal.get(Calendar.DATE));
             text1.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
             text1.setOnClickListener(new onDateClickListner());
 
             cal.add(Calendar.DAY_OF_YEAR, 1);
-            text2.setText(""+cal.get(Calendar.DATE));
+            text2.setText("" + cal.get(Calendar.DATE));
             text2.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
             text2.setOnClickListener(new onDateClickListner());
 
             cal.add(Calendar.DAY_OF_YEAR, 1);
-            text3.setText(""+cal.get(Calendar.DATE));
+            text3.setText("" + cal.get(Calendar.DATE));
             text3.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
             text3.setOnClickListener(new onDateClickListner());
 
             cal.add(Calendar.DAY_OF_YEAR, 1);
-            text4.setText(""+cal.get(Calendar.DATE));
+            text4.setText("" + cal.get(Calendar.DATE));
             text4.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
             text4.setOnClickListener(new onDateClickListner());
 
             cal.add(Calendar.DAY_OF_YEAR, 1);
-            text5.setText(""+cal.get(Calendar.DATE));
+            text5.setText("" + cal.get(Calendar.DATE));
             text5.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
             text5.setOnClickListener(new onDateClickListner());
 
             cal.add(Calendar.DAY_OF_YEAR, 1);
-            text6.setText(""+cal.get(Calendar.DATE));
+            text6.setText("" + cal.get(Calendar.DATE));
             text6.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
             text6.setOnClickListener(new onDateClickListner());
 
             cal.add(Calendar.DAY_OF_YEAR, 1);
-            text7.setText(""+cal.get(Calendar.DATE));
+            text7.setText("" + cal.get(Calendar.DATE));
             text7.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
             text7.setOnClickListener(new onDateClickListner());
 
             layout.setTag(indicator);
-            if(indicator==0)
-            {
+            if (indicator == 0) {
                 text4.setTextColor(Color.parseColor("#FF0000"));
                 //				myTypefaceLight = Typeface.createFromAsset(getActivity().getAssets(),
                 //						"font/roboto_black.ttf");
                 //				text4.setTypeface(myTypefaceLight);
-            }	return layout;
+            }
+            return layout;
         }
+
         @Override
         public Integer getNextIndicator() {
             return getCurrentIndicator() + 1;
         }
+
         @Override
         public Integer getPreviousIndicator() {
             return getCurrentIndicator() - 1;
@@ -361,47 +364,36 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
             return Integer.valueOf(representation);
         }
 
-        public void checkAndChangeSelectedcolor(TextView tv ,Date current )
-        {
+        public void checkAndChangeSelectedcolor(TextView tv, Date current) {
         }
     }
 
-    protected ArrayList<String> getDaysOfWeek()
-    {
+    protected ArrayList<String> getDaysOfWeek() {
         ArrayList<String> list = new ArrayList<String>();
-        Calendar cal =   Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_YEAR, -3);
-        for (int i = 0; i < 7; i++)
-        {
+        for (int i = 0; i < 7; i++) {
             list.add(getDay(cal.get(Calendar.DAY_OF_WEEK)));
             cal.add(Calendar.DAY_OF_YEAR, 1);
         }
         return list;
     }
 
-    public String getDayFull(int dayOfWeek)
-    {
+    public String getDayFull(int dayOfWeek) {
         String weekDay = "";
-        if (Calendar.MONDAY == dayOfWeek)
-        {
+        if (Calendar.MONDAY == dayOfWeek) {
             weekDay = "monday";
-        } else if (Calendar.TUESDAY == dayOfWeek)
-        {
+        } else if (Calendar.TUESDAY == dayOfWeek) {
             weekDay = "tuesday";
-        } else if (Calendar.WEDNESDAY == dayOfWeek)
-        {
+        } else if (Calendar.WEDNESDAY == dayOfWeek) {
             weekDay = "wednesday";
-        } else if (Calendar.THURSDAY == dayOfWeek)
-        {
+        } else if (Calendar.THURSDAY == dayOfWeek) {
             weekDay = "thursday";
-        } else if (Calendar.FRIDAY == dayOfWeek)
-        {
+        } else if (Calendar.FRIDAY == dayOfWeek) {
             weekDay = "friday";
-        } else if (Calendar.SATURDAY == dayOfWeek)
-        {
+        } else if (Calendar.SATURDAY == dayOfWeek) {
             weekDay = "saturday";
-        } else if (Calendar.SUNDAY == dayOfWeek)
-        {
+        } else if (Calendar.SUNDAY == dayOfWeek) {
             weekDay = "sunday";
         }
         return weekDay;
@@ -429,26 +421,36 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
 
     }
 
-    public String getMonth(int month)
-    {
-        switch (month)
-        {
-            case 1: return "JANUARY";
-            case 2: return "FEBRUARY";
-            case 3: return "MARCH";
-            case 4: return "APRIL";
-            case 5: return "MAY";
-            case 6: return "JUNE";
-            case 7: return "JULY";
-            case 8: return "AUGUST";
-            case 9: return "SEPTEMBER";
-            case 10: return "OCTOBER";
-            case 11: return "NOVEMBER";
-            case 12: return "DECEMBER";
-            default: return "";
+    public String getMonth(int month) {
+        switch (month) {
+            case 1:
+                return "JANUARY";
+            case 2:
+                return "FEBRUARY";
+            case 3:
+                return "MARCH";
+            case 4:
+                return "APRIL";
+            case 5:
+                return "MAY";
+            case 6:
+                return "JUNE";
+            case 7:
+                return "JULY";
+            case 8:
+                return "AUGUST";
+            case 9:
+                return "SEPTEMBER";
+            case 10:
+                return "OCTOBER";
+            case 11:
+                return "NOVEMBER";
+            case 12:
+                return "DECEMBER";
+            default:
+                return "";
         }
     }
-
 
 
 }

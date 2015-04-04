@@ -46,10 +46,10 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
     private final int REQUEST_CODE = 1234;
     private boolean updateCheckStatus = false;
     String teacherName = "";
-    private String base_url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/Teacher/id";
-    private String base_and_post_url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/app/teacher/homework/save";
+    //private String base_url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/Teacher/id";
+    // private String base_and_post_url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/app/teacher/homework/save";
     private String post_url = "/app/teacher/homework/save";
-    private String subject_base_url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com";
+    //private String subject_base_url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com";
     private TeacherModel teacherModel = null;
     private int selectedGrade = 0, SelectedSubject = 0;
     private CustomAdapter classNamesAdapter = null;
@@ -85,7 +85,8 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
         if (CommonUtils.isNetworkAvailable(this)) {
             RequestType type = RequestType.TYPE_TEACHER_DETAILS;
             httpConnectThread = new HttpConnectThread(this, null, this);
-            httpConnectThread.execute(base_url + teacherName);
+            String url = getString(R.string.base_url) + getString(R.string.url_teacher_deatils);
+            httpConnectThread.execute(url + teacherName);
            /* Constants.showProgress(this);
             WebServiceCall call = new WebServiceCall(AssignTaskActivity.this);
           //  call.getCallRequest(getString(R.string.base_url) + getString(R.string.url_teacher_deatils) + teacherName);
@@ -220,7 +221,7 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
         String postUrl = "/app/subject/" + classSection;
         if (CommonUtils.isNetworkAvailable(this)) {
             httpConnectThread = new HttpConnectThread(this, null, this);
-            httpConnectThread.execute(subject_base_url + postUrl);
+            httpConnectThread.execute(getString(R.string.base_url) + postUrl);
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }
@@ -347,7 +348,7 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
                   /*  WebServiceCall webServiceCall = new WebServiceCall(this);
                     webServiceCall.postToServer(jsonObject, base_and_post_url);*/
                     httpConnectThread = new HttpConnectThread(this, jsonObject, this);
-                    httpConnectThread.execute(base_and_post_url);
+                    httpConnectThread.execute(getString(R.string.base_url) + getString(R.string.url_post_assign_task));
            /* Constants.showProgress(this);
             WebServiceCall call = new WebServiceCall(AssignTaskActivity.this);
           //  call.getCallRequest(getString(R.string.base_url) + getString(R.string.url_teacher_deatils) + teacherName);

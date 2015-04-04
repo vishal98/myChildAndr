@@ -19,11 +19,13 @@
         android:layout_below="@+id/topBar">
 
         <TextView
+            android:id="@+id/all_mails_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text="@string/all_mails"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true" />
 
         <RelativeLayout
             android:id="@+id/mailinfobarRV"

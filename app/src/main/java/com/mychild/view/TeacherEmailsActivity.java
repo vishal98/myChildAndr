@@ -9,11 +9,20 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.mychild.adapters.TeacherEmailsListAdapter;
 import com.mychild.interfaces.AsyncTaskInterface;
+import com.mychild.model.MessageModel;
 import com.mychild.threads.HttpConnectThread;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.TopBar;
+import com.mychild.webserviceparser.EmailJsonParser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 public class TeacherEmailsActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener, AsyncTaskInterface {
@@ -21,6 +30,8 @@ public class TeacherEmailsActivity extends BaseActivity implements View.OnClickL
     private ImageView writeMail;
     private EditText searchET;
     private ListView emailsLV;
+    private TeacherEmailsListAdapter adapter;
+    private TextView allMailsTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +46,7 @@ public class TeacherEmailsActivity extends BaseActivity implements View.OnClickL
         searchET = (EditText) findViewById(R.id.search_et);
         searchET.addTextChangedListener(watcher);
         emailsLV = (ListView) findViewById(R.id.emails_lv);
+        allMailsTV = (TextView) findViewById(R.id.all_mails_tv);
         String url = getString(R.string.base_url) + getString(R.string.url_teacher_email);
         httpConnectThread = new HttpConnectThread(this, null, this);
         httpConnectThread.execute(url);
@@ -47,13 +59,19 @@ public class TeacherEmailsActivity extends BaseActivity implements View.OnClickL
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+            adapter.getFilters(s.toString());
         }
 
         @Override
         public void afterTextChanged(Editable s) {
-
         }
     };
+
+    private void setMailAdapter(ArrayList<MessageModel> mailsList) {
+        adapter = new TeacherEmailsListAdapter(this, R.layout.teacher_email_list_item, mailsList);
+        emailsLV.setAdapter(adapter);
+        allMailsTV.setText(getString(R.string.all_mails) + "(" + mailsList.size() + ")");
+    }
 
     @Override
     public void onClick(View v) {
@@ -63,6 +81,9 @@ public class TeacherEmailsActivity extends BaseActivity implements View.OnClickL
                 Intent intent = new Intent(this, TeacherWriteNewEmailActivity.class);
                 startActivity(intent);
                 intent = null;
+                break;
+            case R.id.back_arrow_iv:
+                onBackPressed();
                 break;
             default:
         }
@@ -76,6 +97,15 @@ public class TeacherEmailsActivity extends BaseActivity implements View.OnClickL
     @Override
     public void setAsyncTaskCompletionListener(String object) {
         CommonUtils.getLogs("Response::::" + object);
+        if (object != null) {
+            try {
+                JSONObject jsonObject = new JSONObject(object);
+                ArrayList<MessageModel> mailsList = EmailJsonParser.getInstance().getEmails(this, jsonObject);
+                setMailAdapter(mailsList);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
