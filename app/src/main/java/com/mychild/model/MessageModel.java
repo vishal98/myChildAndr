@@ -9,6 +9,26 @@ public class MessageModel {
     private String toID;
     private String messageText;
 
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    private String subject;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    private String date;
+
     public String getMessageTime() {
         return messageTime;
     }
