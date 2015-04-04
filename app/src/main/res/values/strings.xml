@@ -55,6 +55,7 @@
     <string name="url_post_assign_task">/app/teacher/homework/save</string>
     <string name="url_teachers_list">/Teacher/id/</string>
     <string name="url_teacher_email">/app/conversations/get/</string>
+    <string name="url_teacher_exam">/Parent/exam/1</string>
 
     <string name="no_network_connection">No Network connection</string>
     <string name="title_activity_assign_task">AssignTaskActivity</string>
