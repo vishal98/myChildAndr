@@ -1,6 +1,5 @@
 package com.mychild.view;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +8,7 @@ import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.customView.SwitchChildView;
 import com.mychild.sharedPreference.PrefManager;
+import com.mychild.sharedPreference.StorageManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
@@ -77,9 +77,9 @@ public class ParentChatAvtivity extends BaseActivity implements RequestCompletio
         String Url_ChatHistory = null;
 
         if (CommonUtils.isNetworkAvailable(this)) {
-            SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
-            if (saredpreferences.contains("UserName")) {
-                Url_ChatHistory = getString(R.string.base_url) + getString(R.string.parent_chat) + sharedPref.getUserNameFromSharedPref();
+            //SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
+            if (!StorageManager.readString(this, "username", "").isEmpty()) {
+                Url_ChatHistory = getString(R.string.base_url) + getString(R.string.parent_chat) + StorageManager.readString(this, "username", "");
                 Log.i("Url_ChatHistory::", Url_ChatHistory);
             }
             WebServiceCall call = new WebServiceCall(this);

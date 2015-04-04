@@ -18,6 +18,7 @@ import com.mychild.interfaces.IOnSwichChildListener;
 import com.mychild.model.ParentModel;
 import com.mychild.sharedPreference.ListOfChildrenPreference;
 import com.mychild.sharedPreference.PrefManager;
+import com.mychild.sharedPreference.StorageManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
@@ -175,7 +176,8 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
-        switchChild.parentNameTV.setText(sharedPref.getUserNameFromSharedPref());
+        StorageManager.readString(this,"username","");
+        switchChild.parentNameTV.setText(StorageManager.readString(this,"username",""));
     }
 
 
@@ -198,15 +200,14 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
 
     public void getParentDetailsWebservicescall() {
         String Url_parent_details = null;
-
         if (CommonUtils.isNetworkAvailable(this)) {
             Constants.showProgress(ParentHomeActivity.this);
-            SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
-            if (saredpreferences.contains("UserName")) {
-                Url_parent_details = getString(R.string.base_url) + getString(R.string.parent_url_endpoint) + sharedPref.getUserNameFromSharedPref();
+            //SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
+            if (!StorageManager.readString(this,"username","").isEmpty()) {
+                Url_parent_details = getString(R.string.base_url) + getString(R.string.parent_url_endpoint) + StorageManager.readString(this,"username","");
                 Log.i("===Url_parent===", Url_parent_details);
             }
-            WebServiceCall call = new WebServiceCall(ParentHomeActivity.this);
+            WebServiceCall call = new WebServiceCall(this);
             call.getCallRequest(Url_parent_details);
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));

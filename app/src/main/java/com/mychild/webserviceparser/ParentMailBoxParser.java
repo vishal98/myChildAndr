@@ -30,7 +30,6 @@ public class ParentMailBoxParser {
 
     public static ArrayList<HashMap<String, String>> getParentMailBox(JSONObject jsonObject) {
         ArrayList<HashMap<String, String>> chatArrayList = new ArrayList<HashMap<String, String>>();
-        ;
         LinkedHashMap<String, String> chatMap = null;
         try {
             if (jsonObject != null) {
@@ -69,6 +68,56 @@ public class ParentMailBoxParser {
         }
 
         Log.i("chatArrayList", chatArrayList.toString());
+        return chatArrayList;
+    }
+
+    public static ArrayList<HashMap<String, String>> getParentMailBoxTeacherList(JSONArray jsonArray) {
+        ArrayList<HashMap<String, String>> chatArrayList = new ArrayList<HashMap<String, String>>();
+        LinkedHashMap<String, String> chatMap = null;
+        try {
+            if (jsonArray != null) {
+                int size = jsonArray.length();
+                for (int i = 0; i < size; i++) {
+                    JSONObject teacherListDataToSendMail = jsonArray.getJSONObject(i);
+                    for (int j = 0; j < teacherListDataToSendMail.length(); j++) {
+                        chatMap = new LinkedHashMap<String, String>();
+                        //JSONObject teacherListDataToSendMail = jsonArray.getJSONObject(j);
+
+                        if (teacherListDataToSendMail.has("teacherEmailId")) {
+                            String subject = teacherListDataToSendMail.getString("teacherEmailId");
+                            chatMap.put("teacherEmailId", subject);
+                        }
+
+                        if (teacherListDataToSendMail.has("teacherName")) {
+                            String teacherName = teacherListDataToSendMail.getString("teacherName");
+                            chatMap.put("teacherName", teacherName);
+                        }
+
+                        if (teacherListDataToSendMail.has("subjects")) {
+                            String subjects = teacherListDataToSendMail.getString("subjects");
+                            chatMap.put("subjects", subjects);
+                        } else {
+                            chatMap.put("subject", "subject");
+                        }
+
+                        if (teacherListDataToSendMail.has("fromDate")) {
+                            String fromDate = teacherListDataToSendMail.getString("fromDate");
+                            chatMap.put("fromDate", fromDate);
+                        } else {
+                            chatMap.put("fromDate", "Date");
+                        }
+
+
+                        Log.i("childHomeWorkMap", chatMap.toString());
+                    }
+                    chatArrayList.add(chatMap);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.i("TeacherArrayList", chatArrayList.toString());
         return chatArrayList;
     }
 }
