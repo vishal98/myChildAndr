@@ -37,12 +37,12 @@
 
 
     <!--Endpoint urls -->
-    <!--<string name="base_url">http://default-environment-8tpprium54.elasticbeanstalk.com</string>-->
     <string name="base_url">http://default-environment-8t9czpvzjh.elasticbeanstalk.com</string>
     <string name="login_url_endpoint">/api/login</string>
     <string name="url_exams">MyChild/Parent/username/</string>
     <!--<string name="url_teacher_student_list">http://Default-Environment-8tpprium54.elasticbeanstalk.com/Teacher/studentList/1</string>-->
-
+    <string name="url_teacher_deatils">/Teacher/id/</string>
+    <string name="url_teachers_list">/Teacher/id/</string>
     <string name="parent_url_endpoint">/Parent/username/</string>
     <string name="home_work_student_id">/app/getHomework/student/</string>
     <string name="home_work_student_assigned_date">/app/getHomework/student/</string>

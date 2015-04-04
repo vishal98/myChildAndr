@@ -211,7 +211,7 @@ public class ChildrenTimeTableActivity extends BaseFragmentActivity implements R
             Url_TimeTable=getString(R.string.base_url)+getString(R.string.timetable_child)+"/5/a/"+day;
             Log.i("TimetableURL", Url_TimeTable);
             WebServiceCall call = new WebServiceCall(this);
-            call.getCallRequest("http://default-environment-8tpprium54.elasticbeanstalk.com/app/timetable/5/a/"+day);
+            call.getCallRequest(Url_TimeTable);
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }

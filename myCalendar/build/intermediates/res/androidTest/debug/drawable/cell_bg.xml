@@ -4,4 +4,4 @@
     <item android:drawable="@color/caldroid_holo_blue_light" android:state_pressed="true"/> <!-- pressed -->
 
 
-</selector><!-- From: file:/Users/vramz/Documents/Freelancing/Code/mychild/myCalendar/src/main/res/drawable/cell_bg.xml --><!-- From: file:/Users/vramz/Documents/Freelancing/Code/mychild/myCalendar/build/intermediates/bundles/debug/res/drawable/cell_bg.xml -->
+</selector><!-- From: file:/C:/Users/Sandeep/git/mychild/myCalendar/src/main/res/drawable/cell_bg.xml --><!-- From: file:/C:/Users/Sandeep/git/mychild/myCalendar/build/intermediates/bundles/debug/res/drawable/cell_bg.xml -->

@@ -202,7 +202,7 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
 			Url_cal=getString(R.string.base_url)+getString(R.string.calendar_task)+date;
 			Log.i("TimetableURL", Url_cal);
 			WebServiceCall call = new WebServiceCall(CalendarActivity.this);
-			call.getCallRequest("http://default-environment-8tpprium54.elasticbeanstalk.com/app/events/student/1/"+date);
+			call.getCallRequest(Url_cal+date);
 		} else {
 			CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
 		}
