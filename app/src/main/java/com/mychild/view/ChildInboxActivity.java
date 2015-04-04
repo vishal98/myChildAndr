@@ -133,7 +133,7 @@ public class ChildInboxActivity extends BaseActivity implements RequestCompletio
     public void inboxWebServiceCall() {
         String Url_inbox = "http://default-environment-8t9czpvzjh.elasticbeanstalk.com/app/parent/getUsers/1";
         if (CommonUtils.isNetworkAvailable(this)) {
-           // Url_inbox = getString(R.string.base_url) + getString(R.string.parent_chat);
+            // Url_inbox = getString(R.string.base_url) + getString(R.string.parent_chat);
             Log.i("TimetableURL", Url_inbox);
             WebServiceCall call = new WebServiceCall(this);
             call.getCallRequest(Url_inbox);

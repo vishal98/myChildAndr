@@ -71,7 +71,7 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.chat_iv:
                 //  CommonUtils.getToastMessage(this, "Under Developent");
-                intent = new Intent(this, AttendenceActivity.class);
+                intent = new Intent(this, AttendenceUpdateActivity.class);
                 startActivity(intent);
                 intent = null;
                 break;

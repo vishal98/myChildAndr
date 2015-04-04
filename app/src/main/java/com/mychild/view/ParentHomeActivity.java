@@ -181,8 +181,8 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
-        StorageManager.readString(this,"username","");
-        switchChild.parentNameTV.setText(StorageManager.readString(this,"username",""));
+        StorageManager.readString(this, "username", "");
+        switchChild.parentNameTV.setText(StorageManager.readString(this, "username", ""));
     }
 
 
@@ -210,8 +210,8 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         if (CommonUtils.isNetworkAvailable(this)) {
             Constants.showProgress(ParentHomeActivity.this);
             //SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
-            if (!StorageManager.readString(this,"username","").isEmpty()) {
-                Url_parent_details = getString(R.string.base_url) + getString(R.string.parent_url_endpoint) + StorageManager.readString(this,"username","");
+            if (!StorageManager.readString(this, "username", "").isEmpty()) {
+                Url_parent_details = getString(R.string.base_url) + getString(R.string.parent_url_endpoint) + StorageManager.readString(this, "username", "");
                 Log.i("===Url_parent===", Url_parent_details);
             }
             WebServiceCall call = new WebServiceCall(this);

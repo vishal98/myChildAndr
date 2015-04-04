@@ -224,8 +224,8 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
         if (CommonUtils.isNetworkAvailable(this)) {
             //SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
             //if (saredpreferences.contains("UserName")) {
-            if (!StorageManager.readString(this, "username", "").isEmpty()){
-                Url_home_work = getString(R.string.base_url) +"/app/getHomework/student/1/02-04-2015";
+            if (!StorageManager.readString(this, "username", "").isEmpty()) {
+                Url_home_work = getString(R.string.base_url) + "/app/getHomework/student/1/02-04-2015";
                 Log.i("===Url_Homework===", Url_home_work);
             }
             WebServiceCall call = new WebServiceCall(ChildHomeWorkActivity.this);

@@ -19,7 +19,7 @@ import org.json.JSONObject;
 /**
  * Created by Vijay on 3/29/15.
  */
-public class ParentWriteMailToTeacher extends  BaseActivity implements RequestCompletion, View.OnClickListener {
+public class ParentWriteMailToTeacher extends BaseActivity implements RequestCompletion, View.OnClickListener {
     private TopBar topBar;
     private SwitchChildView switchChild;
     private ParentModel parentModel = null;
@@ -27,6 +27,7 @@ public class ParentWriteMailToTeacher extends  BaseActivity implements RequestCo
     private int selectedChildPosition = 0;
     private Dialog dialog = null;
     ImageView backButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,22 +75,21 @@ public class ParentWriteMailToTeacher extends  BaseActivity implements RequestCo
 
     }
 
-    public void setTopBar(){
+    public void setTopBar() {
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setVisibility(View.INVISIBLE);
         topBar.titleTV.setText(getString(R.string.inbox));
     }
 
-    public void switchChildBar(){
+    public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
         switchChild.parentNameTV.setText("Name");
     }
 
 
-
-    public void setSwitchChildDialogueData(){
+    public void setSwitchChildDialogueData() {
 
         appController = (AppController) getApplicationContext();
 
@@ -99,12 +99,11 @@ public class ParentWriteMailToTeacher extends  BaseActivity implements RequestCo
         }
     }
 
-    public void postEailToServer(){
+    public void postEailToServer() {
 
         if (CommonUtils.isNetworkAvailable(this)) {
 
-        }
-        else {
+        } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }
 

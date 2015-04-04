@@ -35,26 +35,26 @@ public class ChildTimeTabelParser {
                 int size = jsonArray.length();
                 for (int i = 0; i < size; i++) {
                     JSONObject object = jsonArray.getJSONObject(i);
-                        for (int j = 0 ;j < object.length();j++){
-                            childTimeTableMap = new LinkedHashMap<String, String>();
-                            if (object.has("subject")) {
-                                String subject = object.getString("subject");
-                                childTimeTableMap.put("subject",subject);
-                            }
-                            if (object.has("teacher")) {
-                                String teacher = object.getString("teacher");
-                                childTimeTableMap.put("teacher",teacher);
-                            }
-                            if (object.has("startTime")) {
-                                String startTime = object.getString("startTime");
-                                childTimeTableMap.put("startTime",startTime);
-                            }
-                            if (object.has("endTime")) {
-                                String endTime = object.getString("endTime");
-                                childTimeTableMap.put("endTime",endTime);
-                            }
-                            Log.i("childHomeWorkMap", childTimeTableMap.toString());
+                    for (int j = 0; j < object.length(); j++) {
+                        childTimeTableMap = new LinkedHashMap<String, String>();
+                        if (object.has("subject")) {
+                            String subject = object.getString("subject");
+                            childTimeTableMap.put("subject", subject);
                         }
+                        if (object.has("teacher")) {
+                            String teacher = object.getString("teacher");
+                            childTimeTableMap.put("teacher", teacher);
+                        }
+                        if (object.has("startTime")) {
+                            String startTime = object.getString("startTime");
+                            childTimeTableMap.put("startTime", startTime);
+                        }
+                        if (object.has("endTime")) {
+                            String endTime = object.getString("endTime");
+                            childTimeTableMap.put("endTime", endTime);
+                        }
+                        Log.i("childHomeWorkMap", childTimeTableMap.toString());
+                    }
                     childTimeTableArray.add(childTimeTableMap);
                 }
             }
