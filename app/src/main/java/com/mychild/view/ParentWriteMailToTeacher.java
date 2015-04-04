@@ -98,4 +98,17 @@ public class ParentWriteMailToTeacher extends  BaseActivity implements RequestCo
             selectedChildPosition = appController.getSelectedChild();
         }
     }
+
+    public void postEailToServer(){
+
+        if (CommonUtils.isNetworkAvailable(this)) {
+
+        }
+        else {
+            CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
+        }
+
+    }
+
+
 }

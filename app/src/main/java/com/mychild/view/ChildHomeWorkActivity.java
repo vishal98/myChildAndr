@@ -1,7 +1,6 @@
 package com.mychild.view;
 
 import android.app.Dialog;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +22,7 @@ import com.mychild.adapters.ChildHomeworkAdapter;
 import com.mychild.customView.SwitchChildView;
 import com.mychild.interfaces.IOnSwichChildListener;
 import com.mychild.model.ParentModel;
+import com.mychild.sharedPreference.StorageManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
@@ -222,10 +222,10 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
     public void getChildHomworkWebservicescall(String day) {
         String Url_home_work = null;
         if (CommonUtils.isNetworkAvailable(this)) {
-            SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
-            if (saredpreferences.contains("UserName")) {
-                Url_home_work = getString(R.string.base_url) + "/app/getHomework/student/1/02-04-2015";
-
+            //SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
+            //if (saredpreferences.contains("UserName")) {
+            if (!StorageManager.readString(this, "username", "").isEmpty()){
+                Url_home_work = getString(R.string.base_url) +"/app/getHomework/student/1/02-04-2015";
                 Log.i("===Url_Homework===", Url_home_work);
             }
             WebServiceCall call = new WebServiceCall(ChildHomeWorkActivity.this);

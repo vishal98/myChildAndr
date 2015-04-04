@@ -19,6 +19,7 @@
     <string name="title_activity_Login">LoginActivity</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_calendar">Calendar Activity</string>
+    <string name="title_activity_attendance">Attendance Activity</string>
 
     <!--ParentHomeActivity-->
     <string name="switch_child">SWITCH CHILD</string>
@@ -40,14 +41,14 @@
     <string name="base_url">http://default-environment-8t9czpvzjh.elasticbeanstalk.com</string>
     <string name="login_url_endpoint">/api/login</string>
     <string name="url_exams">MyChild/Parent/username/</string>
-    <!--<string name="url_teacher_student_list">http://Default-Environment-8tpprium54.elasticbeanstalk.com/Teacher/studentList/1</string>-->
-
     <string name="parent_url_endpoint">/Parent/username/</string>
     <string name="home_work_student_id">/app/getHomework/student/</string>
     <string name="home_work_student_assigned_date">/app/getHomework/student/</string>
     <string name="timetable_child">/app/timetable</string>
     <string name="parent_chat">/app/conversations/get/</string>
     <string name="calendar_task">/app/events/student/1/</string>
+    <string name="attendance">/app/attendance/student/1/month/</string>
+
 
     //teacher flow
     <string name="url_teacher_deatils">/Teacher/id</string>

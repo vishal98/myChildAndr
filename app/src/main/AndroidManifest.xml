@@ -65,6 +65,11 @@
         <activity
             android:name=".ParentWriteMailToTeacher"
             android:screenOrientation="portrait" />
+    <activity
+        android:name=".AttendanceActivity"
+        android:label="@string/title_activity_attendance"
+        android:screenOrientation="portrait" >
+    </activity>
 
         <receiver
             android:name="com.pushbots.google.gcm.GCMBroadcastReceiver"
@@ -111,6 +116,9 @@
             android:name=".AttendenceActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_attendence"></activity>
+            android:label="@string/title_activity_teacher_write_new_email"></activity>
+
+
     </application>
 
 </manifest>

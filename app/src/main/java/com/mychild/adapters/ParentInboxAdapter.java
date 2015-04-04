@@ -62,8 +62,8 @@ public class ParentInboxAdapter extends BaseAdapter {
         TextView mailDescription = (TextView) convertView.findViewById(R.id.mailDescriptionTV);
 
 
-        fromTeacher.setText(parentInbox.get(position).get("toId"));
-        mailSubject.setText(parentInbox.get(position).get("subject"));
+        fromTeacher.setText(parentInbox.get(position).get("teacherName"));
+        mailSubject.setText(parentInbox.get(position).get("subjects"));
         mailDescription.setText("Descriptin of the Mail goes here......");
         return convertView;
     }

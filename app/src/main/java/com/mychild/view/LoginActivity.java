@@ -13,7 +13,6 @@ import android.widget.EditText;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
-import com.mychild.sharedPreference.PrefManager;
 import com.mychild.sharedPreference.StorageManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
@@ -90,12 +89,12 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
 
     public String validatingUser(JSONObject response) {
         String role = null;
-        PrefManager sharedPref = new PrefManager(this);
+        //PrefManager sharedPref = new PrefManager(this);
         try {
             if (response != null) {
                 if (response.has("username")) {
                     Log.i("Username", response.getString("username"));
-                    sharedPref.SaveUserNameInInSharedPref(response.getString("username"));
+                    //sharedPref.SaveUserNameInInSharedPref(response.getString("username"));
                     StorageManager.writeString(this, getString(R.string.pref_username), response.getString("username"));
                 }
                 if (response.has("access_token")) {

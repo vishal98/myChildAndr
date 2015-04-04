@@ -34,7 +34,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class AttendenceActivity extends BaseActivity implements View.OnClickListener, AsyncTaskInterface, IOnCheckedChangeListener {
+public class AttendenceUpdateActivity extends BaseActivity implements View.OnClickListener, AsyncTaskInterface, IOnCheckedChangeListener {
 
     private TopBar topBar;
     private String teacherName = "";

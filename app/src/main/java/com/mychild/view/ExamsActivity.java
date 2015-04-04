@@ -36,8 +36,6 @@ import java.util.ArrayList;
 
 public class ExamsActivity extends BaseActivity implements View.OnClickListener, RequestCompletion, AsyncTaskInterface, IOnExamChangedListener, IOnSwichChildListener {
 
-    //private String url  = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/Parent/username/";
-    //  private String url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/Parent/exam/1";
     private SwitchChildView switchChild;
     private ListView examsListView;
     private int selectedChildPosition = 0, selectedExamposition = 0;
@@ -90,7 +88,7 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
             //  Constants.showProgress(ExamsActivity.this);
             SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
             if (saredpreferences.contains("UserName")) {
-                Url_home_work = getString(R.string.base_url) + getString(R.string.url_teacher_exam);
+            Url_home_work = getString(R.string.base_url) + getString(R.string.url_teacher_exam);
                 CommonUtils.getLogs("URL::" + Url_home_work);
             }
             /*WebServiceCall call = new WebServiceCall(ExamsActivity.this);

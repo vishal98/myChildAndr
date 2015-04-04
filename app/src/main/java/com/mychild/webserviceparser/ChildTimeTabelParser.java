@@ -28,7 +28,7 @@ public class ChildTimeTabelParser {
     }
 
     public static ArrayList<HashMap<String, String>> getChildrenTimeTabel(JSONArray jsonArray) {
-        ArrayList<HashMap<String, String>> childTimeTableArray = new ArrayList<HashMap<String, String>>();;
+        ArrayList<HashMap<String, String>> childTimeTableArray = new ArrayList<HashMap<String, String>>();
         LinkedHashMap<String, String> childTimeTableMap = null;
         try {
             if (jsonArray != null) {
