@@ -149,6 +149,11 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 startActivity(new Intent(ParentHomeActivity.this, CalendarActivity.class));
                 break;
 
+            case R.id.attendance:
+                startActivity(new Intent(ParentHomeActivity.this, AttendanceActivity.class));
+                Toast.makeText(this, "Attendance", Toast.LENGTH_LONG).show();
+                break;
+
             case R.id.logoutIV:
                 Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
                 clearSharedPreferenceForLogout = getSharedPreferences("Response", 0);
@@ -189,12 +194,14 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         ImageView mailBox = (ImageView) findViewById(R.id.mail_box);
         ImageView chat = (ImageView) findViewById(R.id.chat);
         ImageView calender = (ImageView) findViewById(R.id.calender);
+        ImageView attendance = (ImageView) findViewById(R.id.attendance);
         homeWork.setOnClickListener(this);
         timeTable.setOnClickListener(this);
         exams.setOnClickListener(this);
         mailBox.setOnClickListener(this);
         chat.setOnClickListener(this);
         calender.setOnClickListener(this);
+        attendance.setOnClickListener(this);
         switchChild.switchChildBT.setOnClickListener(this);
     }
 
