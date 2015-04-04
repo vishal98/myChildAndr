@@ -50,6 +50,7 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         int id = v.getId();
+        Intent intent = null;
         switch (id) {
 
             case R.id.assign_task_iv:
@@ -59,16 +60,19 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
                 CommonUtils.getToastMessage(this, "Under Developent");
                 break;
             case R.id.exams_iv:
-                Intent intent = new Intent(this, ExamsActivity.class);
+                intent = new Intent(this, ExamsActivity.class);
                 intent.putExtra(getString(R.string.key_from), getString(R.string.key_from_teacher));
                 startActivity(intent);
                 intent = null;
                 break;
             case R.id.mail_box_iv:
-                CommonUtils.getToastMessage(this, "Under Developent");
+                intent = new Intent(this, TeacherEmailsActivity.class);
+                startActivity(intent);
                 break;
             case R.id.chat_iv:
-                CommonUtils.getToastMessage(this, "Under Developent");
+                //  CommonUtils.getToastMessage(this, "Under Developent");
+                intent = new Intent(this, TeacherWriteNewEmailActivity.class);
+                startActivity(intent);
                 break;
             case R.id.calender_iv:
                 CommonUtils.getToastMessage(this, "Under Developent");
