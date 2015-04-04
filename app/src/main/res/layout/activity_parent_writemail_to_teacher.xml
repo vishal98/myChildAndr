@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
     android:background="@drawable/background">
 
     <com.mychild.utils.TopBar
@@ -14,6 +13,7 @@
     <com.mychild.customView.SwitchChildView
         android:id="@+id/switchchildBar"
         android:layout_width="wrap_content"
+        android:layout_below="@+id/topBar"
         android:layout_height="70dp">
     </com.mychild.customView.SwitchChildView>
 
@@ -23,6 +23,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:orientation="vertical"
         android:layout_below="@+id/switchchildBar">
 
         <ImageView
@@ -51,6 +52,7 @@
             android:id="@+id/mailinfobarRV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:layout_alignParentRight="true">
 
             <TextView
@@ -72,17 +74,17 @@
 
     </RelativeLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent">
+    <!--<ScrollView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_below="@+id/new_emialRV">-->
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="15dp"
+            android:layout_height="fill_parent"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
+            android:layout_below="@+id/new_emialRV"
             android:paddingTop="15dp">
 
 
@@ -100,7 +102,9 @@
             <EditText
                 android:id="@+id/mail_subjectET"
                 android:layout_width="match_parent"
+                android:paddingTop="10dp"
                 android:layout_height="@dimen/hdpi_write_email"
+                android:layout_below="@+id/mail_toET"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/writemail_text_selector"
                 android:gravity="center_vertical"
@@ -111,6 +115,8 @@
                 android:id="@+id/mail_messageET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/mail_subjectET"
+                android:paddingTop="10dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/writemail_text_selector"
                 android:inputType="textMultiLine"
@@ -123,19 +129,18 @@
                 android:id="@+id/assign_task_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/hdpi_login_height"
-                android:layout_below="@+id/password"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/writemail_btn_selector"
-                android:paddingBottom="10dp"
                 android:paddingLeft="35dp"
                 android:paddingRight="35dp"
                 android:paddingTop="10dp"
                 android:text="@string/send_mail"
-                android:textColor="@color/white" />
-        </LinearLayout>
-    </ScrollView>
+                android:layout_alignParentBottom="true"
+                android:textColor="@color/white"
+                android:layout_marginBottom="10dp" />
+        </RelativeLayout>
+    <!--</ScrollView>-->
 
-</LinearLayout>
+</RelativeLayout>
 
 
