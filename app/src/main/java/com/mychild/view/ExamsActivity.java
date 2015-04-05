@@ -114,11 +114,14 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void setAsyncTaskCompletionListener(String object) {
-        examsList = ExamsJsonParser.getInstance().getExamsList(object);
-        selectedExamposition = 0;
-        CommonUtils.getLogs("Response::::" + object);
-        setExamScheduleListAdapter(examsList.get(selectedExamposition));
-
+        CommonUtils.getLogs("Response::::Exams" + object);
+        if (object != null && !object.equals("")) {
+            examsList = ExamsJsonParser.getInstance().getExamsList(object);
+            if (examsList.size() > 0) {
+                selectedExamposition = 0;
+                setExamScheduleListAdapter(examsList.get(selectedExamposition));
+            }
+        }
     }
 
     private void setExamScheduleListAdapter(ExamModel examModel) {

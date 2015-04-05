@@ -233,44 +233,45 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
     @Override
     public void setAsyncTaskCompletionListener(String object) {
         CommonUtils.getLogs("Response:::" + object);
-        switch (type) {
-            case TYPE_TEACHER_DETAILS:
-                try {
-                    JSONObject obj = new JSONObject(object);
-                    teacherModel = TeacherHomeJsonParser.getInstance().getTeacherDetails(obj);
-                    setClassSpinner();
-                    obj = null;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case TYPE_SUBJECTS:
-                TeacherModel teacherModel = TeacherHomeJsonParser.getInstance().getSubjectsList(object);
-                this.teacherModel.setSubjectsList(teacherModel.getSubjectsList());
-                setSubjectAdapter(teacherModel.getSubjectsList());
-                break;
-            case TYPE_POST_DATA:
-                try {
-                    JSONObject responseJson = new JSONObject(object);
-                    if (responseJson.has("status")) {
-                        if (responseJson.getString("status").equals("success")) {
-                            if (responseJson.has("message")) {
-                                CommonUtils.getToastMessage(AssignTaskActivity.this, responseJson.getString("message"));
-                                resetData();
-                            }
-                        } else {
-                            if (responseJson.has("message")) {
-                                CommonUtils.getToastMessage(AssignTaskActivity.this, responseJson.getString("message"));
+        if (object != null && !object.equals("")) {
+            switch (type) {
+                case TYPE_TEACHER_DETAILS:
+                    try {
+                        JSONObject obj = new JSONObject(object);
+                        teacherModel = TeacherHomeJsonParser.getInstance().getTeacherDetails(obj);
+                        setClassSpinner();
+                        obj = null;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case TYPE_SUBJECTS:
+                    TeacherModel teacherModel = TeacherHomeJsonParser.getInstance().getSubjectsList(object);
+                    this.teacherModel.setSubjectsList(teacherModel.getSubjectsList());
+                    setSubjectAdapter(teacherModel.getSubjectsList());
+                    break;
+                case TYPE_POST_DATA:
+                    try {
+                        JSONObject responseJson = new JSONObject(object);
+                        if (responseJson.has("status")) {
+                            if (responseJson.getString("status").equals("success")) {
+                                if (responseJson.has("message")) {
+                                    CommonUtils.getToastMessage(AssignTaskActivity.this, responseJson.getString("message"));
+                                    resetData();
+                                }
+                            } else {
+                                if (responseJson.has("message")) {
+                                    CommonUtils.getToastMessage(AssignTaskActivity.this, responseJson.getString("message"));
+                                }
                             }
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                break;
-            default:
+                    break;
+                default:
+            }
         }
-
     }
 
     @Override
