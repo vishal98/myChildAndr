@@ -16,6 +16,7 @@ import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.adapters.StudentsListAdapter;
 import com.mychild.interfaces.AsyncTaskInterface;
 import com.mychild.interfaces.IOnCheckedChangeListener;
+import com.mychild.model.GradeModel;
 import com.mychild.model.StudentDTO;
 import com.mychild.model.TeacherModel;
 import com.mychild.sharedPreference.StorageManager;
@@ -26,6 +27,7 @@ import com.mychild.webserviceparser.TeacherHomeJsonParser;
 import com.thehayro.view.InfinitePagerAdapter;
 import com.thehayro.view.InfiniteViewPager;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,9 +42,19 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
     private String teacherName = "";
     private ListView studentsListview;
     private InfiniteViewPager viewPager;
+    private TextView absetntTV, presentTV, resultTV;
     int currentIndicator = 0;
     private TextView doneTV;
     private StudentsListAdapter adapter;
+    private ArrayList<StudentDTO> studentsList = null;
+    private TeacherModel teacherModel = null;
+    private int studentsSize;
+
+    enum RequestType {
+        TYPE_GET, GET_POST;
+    }
+
+    private RequestType type = RequestType.TYPE_GET;
 
 
     @Override
@@ -55,6 +67,10 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
         studentsListview = (ListView) findViewById(R.id.students_listview);
         doneTV = (TextView) findViewById(R.id.done_tv);
         doneTV.setOnClickListener(this);
+        presentTV = (TextView) findViewById(R.id.present_tv);
+        absetntTV = (TextView) findViewById(R.id.absent_tv);
+        resultTV = (TextView) findViewById(R.id.result_tv);
+        resultTV.setText("");
 
         viewPager = (InfiniteViewPager) findViewById(R.id.infinite_viewpager);
         viewPager.setAdapter(new MyInfinitePagerAdapter(0));
@@ -86,11 +102,16 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
         Calendar cal = Calendar.getInstance();
         ((TextView) findViewById(R.id.todayDate)).setText(cal.get(Calendar.DAY_OF_MONTH) + " " + getMonth(cal.get(Calendar.MONTH) + 1).substring(0, 3) + " " + cal.get(Calendar.YEAR));
 
+        if (CommonUtils.isNetworkAvailable(this)) {
+            type = RequestType.TYPE_GET;
+            httpConnectThread = new HttpConnectThread(this, null, this);
+            String url = getString(R.string.base_url) + getString(R.string.url_teacher_deatils);
+            teacherName = "/" + StorageManager.readString(this, getString(R.string.pref_username), "");
+            httpConnectThread.execute(url + teacherName);
+        } else {
+            CommonUtils.getToastMessage(this, getString(R.string.network_error));
+        }
 
-        httpConnectThread = new HttpConnectThread(this, null, this);
-        String url = getString(R.string.base_url) + getString(R.string.url_teacher_deatils);
-        teacherName = "/" + StorageManager.readString(this, getString(R.string.pref_username), "");
-        httpConnectThread.execute(url + teacherName);
     }
 
 
@@ -104,6 +125,7 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
             case R.id.done_tv:
                 if (doneTV.getText().toString().equals(getString(R.string.done_caps))) {
                     CommonUtils.getLogs("DOne");
+                    doneClicked();
                 } else if (doneTV.getText().toString().equals(getString(R.string.start_caps))) {
                     adapter.selectAll();
                     CommonUtils.getLogs("start");
@@ -114,9 +136,49 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
         }
     }
 
+    private void doneClicked() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            if (adapter.mSelectedItemsIds.size() == studentsList.size()) {
+                jsonObject.put("present_flag", "P");
+
+            } else {
+                jsonObject.put("present_flag", "A");
+                JSONArray array = new JSONArray();
+                for (StudentDTO dto : studentsList) {
+                    if (!adapter.mSelectedItemsIds.get(dto.getStudentId())) {
+                        array.put(dto.getStudentId() + "");
+                    }
+                }
+                jsonObject.put("studentList", array);
+            }
+            GradeModel gradeModel = teacherModel.getGradeModels().get(0);
+            jsonObject.put("grade", gradeModel.getGradeName());
+            jsonObject.put("date", "06-04-2015");
+            jsonObject.put("section", gradeModel.getSection());
+            CommonUtils.getLogs("POST Obj : " + jsonObject);
+            if (CommonUtils.isNetworkAvailable(this)) {
+                type = RequestType.GET_POST;
+                httpConnectThread = new HttpConnectThread(this, jsonObject, this);
+                httpConnectThread.execute(getString(R.string.base_url) + getString(R.string.url_save_attendence));
+            } else {
+                CommonUtils.getToastMessage(this, getString(R.string.network_error));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     @Override
     public void checkedStateChanged(StudentDTO studentDTO, boolean isChecked) {
-        if (adapter.mSelectedItemsIds.size() > 0) {
+
+        int presnt = adapter.mSelectedItemsIds.size();
+        int absent = studentsSize - presnt;
+        presentTV.setText(getString(R.string.present_caps) + "  " + presnt);
+        absetntTV.setText(getString(R.string.absent_caps) + "  " + absent);
+        resultTV.setText(presnt + "/" + studentsSize);
+        if (presnt > 0) {
             doneTV.setText(getString(R.string.done_caps));
         } else {
             doneTV.setText(getString(R.string.start_caps));
@@ -125,22 +187,42 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void setAsyncTaskCompletionListener(String object) {
+        CommonUtils.getLogs("Response::::" + object);
         if (object != null) {
-            JSONObject obj = null;
-            try {
-                obj = new JSONObject(object);
-                TeacherModel teacherModel = TeacherHomeJsonParser.getInstance().getTeacherDetails(obj);
+            switch (type) {
+                case TYPE_GET:
+                    JSONObject obj = null;
+                    try {
+                        obj = new JSONObject(object);
+                        teacherModel = TeacherHomeJsonParser.getInstance().getTeacherDetails(obj);
 
-                adapter = new StudentsListAdapter(this, R.layout.select_student_list_item, teacherModel.getGradeModels().get(0).getStudentsModels());
-                studentsListview.setAdapter(adapter);
+                        studentsList = teacherModel.getGradeModels().get(0).getStudentsModels();
+                        studentsSize = studentsList.size();
+                        adapter = new StudentsListAdapter(this, R.layout.select_student_list_item, studentsList);
+                        studentsListview.setAdapter(adapter);
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case GET_POST:
+                    try {
+                        obj = new JSONObject(object);
+                        if (obj.has("message")) {
+                            CommonUtils.getToastMessage(this, obj.getString("message"));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                default:
+
             }
+
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.network_error));
         }
-        CommonUtils.getLogs("Response::::" + object);
+
     }
 
     public void getChildTimeTabel(String day) {

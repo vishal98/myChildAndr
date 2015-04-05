@@ -144,6 +144,7 @@
     <string name="start_caps">START</string>
     <string name="present_caps">PRESENT</string>
     <string name="absent_caps">ABSENT</string>
+    <string name="url_save_attendence">/app/teacher/attendance/save</string>
 
 
 </resources>
