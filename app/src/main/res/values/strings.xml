@@ -19,7 +19,6 @@
     <string name="title_activity_Login">LoginActivity</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_calendar">Calendar Activity</string>
-    <string name="title_activity_attendance">Attendance Activity</string>
 
     <!--ParentHomeActivity-->
     <string name="switch_child">SWITCH CHILD</string>
@@ -48,7 +47,7 @@
     <string name="parent_chat">/app/conversations/get/</string>
     <string name="calendar_task">/app/events/student/1/</string>
     <string name="attendance">/app/attendance/student/1/month/</string>
-
+    <string name="title_activity_attendance">Attendance Activity</string>
 
     //teacher flow
     <string name="url_teacher_deatils">/Teacher/id</string>
