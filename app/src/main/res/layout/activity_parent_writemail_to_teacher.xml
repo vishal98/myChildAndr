@@ -122,7 +122,7 @@
 
 
         <Button
-            android:id="@+id/assign_task_btn"
+            android:id="@+id/send_mail_btn"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/hdpi_login_height"
             android:layout_marginTop="20dp"

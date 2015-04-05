@@ -3,4 +3,4 @@
     android:src="@drawable/calendar_next_arrow"
     android:tileMode="disabled" android:gravity="center" >
 </bitmap>
-<!-- From: file:/C:/Users/Sandeep/git/mychild/myCalendar/src/main/res/drawable/right_arrow.xml --><!-- From: file:/C:/Users/Sandeep/git/mychild/myCalendar/build/intermediates/bundles/debug/res/drawable/right_arrow.xml -->
+<!-- From: file:/Users/vramz/Documents/Freelancing/Code/mychild/myCalendar/src/main/res/drawable/right_arrow.xml --><!-- From: file:/Users/vramz/Documents/Freelancing/Code/mychild/myCalendar/build/intermediates/bundles/debug/res/drawable/right_arrow.xml -->

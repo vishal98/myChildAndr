@@ -57,7 +57,8 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
                 startActivity(new Intent(this, AssignTaskActivity.class));
                 break;
             case R.id.time_table_iv:
-                CommonUtils.getToastMessage(this, "Under Developent");
+                //CommonUtils.getToastMessage(this, "Under Developent");
+                startActivity(new Intent(this, TeacherTimeTabelActivity.class));
                 break;
             case R.id.exams_iv:
                 intent = new Intent(this, ExamsActivity.class);

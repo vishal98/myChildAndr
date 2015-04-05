@@ -19,21 +19,16 @@
     <string name="title_activity_Login">LoginActivity</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_calendar">Calendar Activity</string>
+    <string name="title_activity_attendance">Attendance Activity</string>
 
     <!--ParentHomeActivity-->
     <string name="switch_child">SWITCH CHILD</string>
-
-    <!--Spinner for select subject-->
-    <string-array name="subject_array">
-        <item>Choose Subject</item>
-        <item>Maths I</item>
-        <item>Maths II</item>
-        <item>English I</item>
-        <item>English II</item>
-        <item>Biology</item>
-        <item>Physics</item>
-        <item>Chemistry</item>
-    </string-array>
+    <string name="my_child">My Child</string>
+    <string name="home_work">Home Work</string>
+    <string name="time_tabel">Time Table</string>
+    <string name="inbox">Inbox</string>
+    <string name="chat">Chat</string>
+    <string name="attendence">Attendence</string>
 
 
     <!--Endpoint urls -->
@@ -47,26 +42,18 @@
     <string name="parent_chat">/app/conversations/get/</string>
     <string name="calendar_task">/app/events/student/1/</string>
     <string name="attendance">/app/attendance/student/1/month/</string>
-    <string name="title_activity_attendance">Attendance Activity</string>
+    <string name="parent_email_to_teahcer">/app/conversations/new</string>
+    <string name="timetabel_teacher">/app/teacher/timetable/</string>
 
-    //teacher flow
+
+    <!--teacher flow-->
     <string name="url_teacher_deatils">/Teacher/id</string>
     <string name="url_post_assign_task">/app/teacher/homework/save</string>
     <string name="url_teachers_list">/Teacher/id/</string>
     <string name="url_teacher_email">/app/conversations/get/</string>
     <string name="url_teacher_exam">/Parent/exam/1</string>
-
-
     <string name="no_network_connection">No Network connection</string>
     <string name="title_activity_assign_task">AssignTaskActivity</string>
-
-
-    <!--Parent Top bar-->
-    <string name="my_child">My Child</string>
-    <string name="home_work">Home Work</string>
-    <string name="time_tabel">Time Table</string>
-    <string name="inbox">Inbox</string>
-    <string name="chat">Chat</string>
 
 
     <!--techaer_homescreen-->
@@ -89,6 +76,7 @@
     <string name="assign_task_caps">ASSIGN TASK</string>
     <string name="mondatory_fields">* Mondatory fields</string>
     <string name="title_activity_select_student">SelectStudentActivity</string>
+    <string name="title_teacher_timetabel">TimeTabelActivity</string>
 
 
     <!--selectestudent activity-->
@@ -96,12 +84,10 @@
     <string name="all_students">All Students</string>
     <string name="select_students">Select Students</string>
     <string name="done_caps">DONE</string>
-
     <string name="network_error">Network error</string>
     <string name="loading_text">Loading...</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
-
     <string name="pref_access_token">access_token</string>
     <string name="pref_username">username</string>
     <string name="pref_role">user_role</string>
@@ -113,7 +99,6 @@
     <string name="key_from">key_from</string>
     <string name="key_from_parent">from_parent</string>
     <string name="key_from_teacher">from_teacher</string>
-
     <string name="hello_world">Hello world!</string>
 
     <!--Exams-->
@@ -138,7 +123,7 @@
     <string name="title_activity_attendence">AttendenceActivity</string>
 
 
-    //attendence
+    <!--attendence-->
     <string name="attendence_title">Attendence</string>
     <string name="start_caps">START</string>
     <string name="present_caps">PRESENT</string>

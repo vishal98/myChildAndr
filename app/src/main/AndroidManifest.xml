@@ -116,6 +116,11 @@
             android:screenOrientation="portrait"
             android:label="@string/title_activity_attendence"></activity>
 
+        <activity
+            android:name=".TeacherTimeTabelActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_teacher_timetabel"></activity>
+
 
     </application>
 

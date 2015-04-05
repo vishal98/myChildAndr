@@ -53,7 +53,7 @@ public class ChildTimeTabelAdapter extends BaseAdapter {
         TextView subjectTimingTV = (TextView) convertView.findViewById(R.id.timingTV);
         TextView subjectNameTV = (TextView) convertView.findViewById(R.id.subjectTV);
         String startTime= listTimeTabel.get(position).get("startTime");
-        String endTime= listTimeTabel.get(position).get("startTime");
+        String endTime= listTimeTabel.get(position).get("endTime");
         subjectNameTV.setText(listTimeTabel.get(position).get("subject"));
         if(startTime == "null" && endTime == "null"){
             subjectTimingTV.setText("8:45" +"-"+"9:45");

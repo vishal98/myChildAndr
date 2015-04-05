@@ -43,7 +43,7 @@ public class CommonUtils {
      * @param str     Message that should be displayed as a toast message.
      */
     public static void getToastMessage(Context context, String str) {
-        Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, str, Toast.LENGTH_LONG).show();
     }
 
     public static Dialog getProgressDialog(Context ctx, String txt) {

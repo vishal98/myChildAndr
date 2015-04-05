@@ -60,8 +60,6 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
     enum RequestType {
         TYPE_TEACHER_DETAILS, TYPE_SUBJECTS, TYPE_POST_DATA;
     }
-
-    ;
     RequestType type = RequestType.TYPE_TEACHER_DETAILS;
 
     @Override
