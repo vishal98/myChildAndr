@@ -12,14 +12,12 @@
     <com.mychild.utils.TopBar
         android:id="@+id/topBar"
         android:layout_width="wrap_content"
-        android:layout_height="60dp">
-        </com.mychild.utils.TopBar>
+        android:layout_height="60dp"></com.mychild.utils.TopBar>
 
     <com.mychild.customView.SwitchChildView
         android:id="@+id/switchchildBar"
         android:layout_width="wrap_content"
-        android:layout_height="70dp">
-        </com.mychild.customView.SwitchChildView>
+        android:layout_height="70dp"></com.mychild.customView.SwitchChildView>
 
     <TableRow
         android:id="@+id/parent_layout2"
@@ -86,6 +84,7 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:weightSum="1">
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -142,6 +141,7 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:weightSum="1">
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -197,6 +197,7 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:weightSum="1">
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -221,7 +222,6 @@
 
 
     </TableRow>
-
 
 
 </LinearLayout>

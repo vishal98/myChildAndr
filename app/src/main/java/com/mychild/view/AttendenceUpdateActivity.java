@@ -1,6 +1,5 @@
 package com.mychild.view;
 
-import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,63 +10,68 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.kk.mycalendar.CaldroidFragment;
-import com.kk.mycalendar.CaldroidListener;
 import com.kk.mycalendar.WeekdayArrayAdapter;
-import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
-import com.mychild.adapters.ChildHomeworkAdapter;
-import com.mychild.customView.SwitchChildView;
-import com.mychild.interfaces.IOnSwichChildListener;
-import com.mychild.model.ParentModel;
+import com.mychild.adapters.StudentsListAdapter;
+import com.mychild.interfaces.AsyncTaskInterface;
+import com.mychild.interfaces.IOnCheckedChangeListener;
+import com.mychild.model.GradeModel;
+import com.mychild.model.StudentDTO;
+import com.mychild.model.TeacherModel;
 import com.mychild.sharedPreference.StorageManager;
+import com.mychild.threads.HttpConnectThread;
 import com.mychild.utils.CommonUtils;
-import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
-import com.mychild.volley.AppController;
-import com.mychild.webserviceparser.ChildHomeWorkJsonParser;
+import com.mychild.webserviceparser.TeacherHomeJsonParser;
 import com.thehayro.view.InfinitePagerAdapter;
 import com.thehayro.view.InfiniteViewPager;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 
-/**
- * Created by Vijay on 3/27/15.
- */
-public class ChildHomeWorkActivity extends BaseFragmentActivity implements RequestCompletion, View.OnClickListener, IOnSwichChildListener {
-    public static final String TAG = ChildHomeWorkActivity.class.getSimpleName();
 
-    ListView homeWorkList;
-    ArrayList<HashMap<String, String>> childrenGradeAndSection;
+public class AttendenceUpdateActivity extends BaseActivity implements View.OnClickListener, AsyncTaskInterface, IOnCheckedChangeListener {
+
     private TopBar topBar;
-    private SwitchChildView switchChild;
-    private Dialog dialog = null;
-    private int selectedChildPosition = 0;
-    private ParentModel parentModel = null;
-    private AppController appController = null;
-    InfiniteViewPager viewPager;
+    private String teacherName = "";
+    private ListView studentsListview;
+    private InfiniteViewPager viewPager;
+    private TextView absetntTV, presentTV, resultTV;
     int currentIndicator = 0;
+    private TextView doneTV;
+    private StudentsListAdapter adapter;
+    private ArrayList<StudentDTO> studentsList = null;
+    private TeacherModel teacherModel = null;
+    private int studentsSize;
+
+    enum RequestType {
+        TYPE_GET, GET_POST;
+    }
+
+    private RequestType type = RequestType.TYPE_GET;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setSwitchChildDialogueData();
-        setContentView(R.layout.activity_child_homework);
-        //appController = (AppController) getApplicationContext();
-        Constants.showProgress(this);
-        setTopBar();
-        switchChildBar();
-        //getChildHomworkWebservicescall();
-        //parentModel = appController.getParentsData();
-
+        setContentView(R.layout.activity_attendence);
+        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar.initTopBar();
+        topBar.backArrowIV.setOnClickListener(this);
+        topBar.titleTV.setText(getString(R.string.attendence_title));
+        studentsListview = (ListView) findViewById(R.id.students_listview);
+        doneTV = (TextView) findViewById(R.id.done_tv);
+        doneTV.setOnClickListener(this);
+        presentTV = (TextView) findViewById(R.id.present_tv);
+        absetntTV = (TextView) findViewById(R.id.absent_tv);
+        resultTV = (TextView) findViewById(R.id.result_tv);
+        resultTV.setText("");
 
         viewPager = (InfiniteViewPager) findViewById(R.id.infinite_viewpager);
         viewPager.setAdapter(new MyInfinitePagerAdapter(0));
@@ -94,166 +98,155 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
 
         GridView weekdayGridView = (GridView) findViewById(R.id.weekday_gridview_main);
         weekdayGridView.setVisibility(View.VISIBLE);
-        WeekdayArrayAdapter weekdaysAdapter = new WeekdayArrayAdapter(
-                this, android.R.layout.simple_list_item_1, getDaysOfWeek());
+        WeekdayArrayAdapter weekdaysAdapter = new WeekdayArrayAdapter(this, android.R.layout.simple_list_item_1, getDaysOfWeek());
         weekdayGridView.setAdapter(weekdaysAdapter);
         Calendar cal = Calendar.getInstance();
-        String homeWorkDate = "0" + cal.get(Calendar.DAY_OF_MONTH) + "-" + "0" + cal.get(Calendar.MONTH) + "-" + cal.get(Calendar.YEAR);
         ((TextView) findViewById(R.id.todayDate)).setText(cal.get(Calendar.DAY_OF_MONTH) + " " + getMonth(cal.get(Calendar.MONTH) + 1).substring(0, 3) + " " + cal.get(Calendar.YEAR));
 
-        final CaldroidFragment dialogCaldroidFragment = CaldroidFragment.newInstance("Select a date", cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), 1);
-        final CaldroidListener listener = new CaldroidListener() {
-            @Override
-            public void onSelectDate(Date date, View view) {
-                //Toast.makeText(ChildHomeWorkActivity.this, "Selected date "+date, Toast.LENGTH_LONG).show();
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(date);
-                dialogCaldroidFragment.dismiss();
-                getChildHomworkWebservicescall(getDayFull(cal.get(Calendar.DATE)));
-            }
-
-            @Override
-            public void onChangeMonth(int month, int year) {
-            }
-
-            @Override
-            public void onLongClickDate(Date date, View view) {
-            }
-
-            @Override
-            public void onCaldroidViewCreated() {
-            }
-        };
-        dialogCaldroidFragment.setCaldroidListener(listener);
-
-        ((View) findViewById(R.id.handleImg)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                dialogCaldroidFragment.show(getSupportFragmentManager(), "myDialog");
-            }
-        });
-
-
-        Log.i("homeWorkDate", homeWorkDate);
-        getChildHomworkWebservicescall(homeWorkDate);
+        if (CommonUtils.isNetworkAvailable(this)) {
+            type = RequestType.TYPE_GET;
+            httpConnectThread = new HttpConnectThread(this, null, this);
+            String url = getString(R.string.base_url) + getString(R.string.url_teacher_deatils);
+            teacherName = "/" + StorageManager.readString(this, getString(R.string.pref_username), "");
+            httpConnectThread.execute(url + teacherName);
+        } else {
+            CommonUtils.getToastMessage(this, getString(R.string.network_error));
+        }
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        selectedChildPosition = appController.getSelectedChild();
-    }
-
-    @Override
-    public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
-        CommonUtils.getLogs("Homework Response success");
-        Log.i(TAG, responseJson.toString());
-        homeWorkList = (ListView) findViewById(R.id.homework);
-        childrenGradeAndSection = ChildHomeWorkJsonParser.getInstance().getChildrenHomework(responseJson);
-        ChildHomeworkAdapter homeworkAdapter = new ChildHomeworkAdapter(this, childrenGradeAndSection);
-        homeWorkList.setAdapter(homeworkAdapter);
-        Constants.stopProgress(this);
-
-    }
-
-    @Override
-    public void onRequestCompletionError(String error) {
-        CommonUtils.getLogs("HomeWork Response Failure");
-        Constants.stopProgress(this);
-        Constants.showMessage(this, "Sorry", error);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
 
     @Override
     public void onClick(View v) {
-
-
-        switch (v.getId()) {
+        int id = v.getId();
+        switch (id) {
             case R.id.back_arrow_iv:
                 onBackPressed();
                 break;
-
-            case R.id.switch_child:
-                if (parentModel.getChildList() != null) {
-                    dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
-                } else {
-                    Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
+            case R.id.done_tv:
+                if (doneTV.getText().toString().equals(getString(R.string.done_caps))) {
+                    CommonUtils.getLogs("DOne");
+                    doneClicked();
+                } else if (doneTV.getText().toString().equals(getString(R.string.start_caps))) {
+                    adapter.selectAll();
+                    CommonUtils.getLogs("start");
                 }
-
-//                CustomDialogClass dialogue = new CustomDialogClass(this);
-//                dialogue.show();
                 break;
 
             default:
-                //Enter code in the event that that no cases match
         }
     }
 
-    public void setTopBar() {
-        topBar = (TopBar) findViewById(R.id.topBar);
-        topBar.initTopBar();
-        topBar.backArrowIV.setOnClickListener(this);
-        topBar.titleTV.setText(getString(R.string.home_work));
+    private void doneClicked() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            if (adapter.mSelectedItemsIds.size() == studentsList.size()) {
+                jsonObject.put("present_flag", "P");
 
-    }
-
-    public void switchChildBar() {
-        switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
-        switchChild.initSwitchChildBar();
-        switchChild.parentNameTV.setText("Name");
-        switchChild.switchChildBT.setOnClickListener(this);
-    }
-
-    public void setSwitchChildDialogueData() {
-        appController = (AppController) getApplicationContext();
-        parentModel = appController.getParentsData();
-        if (parentModel != null && parentModel.getNumberOfChildren() >= 0) {
-            selectedChildPosition = appController.getSelectedChild();
-        }
-    }
-
-
-    public void getChildHomworkWebservicescall(String day) {
-        String Url_home_work = null;
-        if (CommonUtils.isNetworkAvailable(this)) {
-            //SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
-            //if (saredpreferences.contains("UserName")) {
-            if (!StorageManager.readString(this, "username", "").isEmpty()) {
-                Url_home_work = getString(R.string.base_url) + "/app/getHomework/student/1/02-04-2015";
-                Log.i("===Url_Homework===", Url_home_work);
+            } else {
+                jsonObject.put("present_flag", "A");
+                JSONArray array = new JSONArray();
+                for (StudentDTO dto : studentsList) {
+                    if (!adapter.mSelectedItemsIds.get(dto.getStudentId())) {
+                        array.put(dto.getStudentId() + "");
+                    }
+                }
+                jsonObject.put("studentList", array);
             }
-            WebServiceCall call = new WebServiceCall(ChildHomeWorkActivity.this);
-            call.getJsonObjectResponse(Url_home_work);
+            GradeModel gradeModel = teacherModel.getGradeModels().get(0);
+            jsonObject.put("grade", gradeModel.getGradeName());
+            jsonObject.put("date", "06-04-2015");
+            jsonObject.put("section", gradeModel.getSection());
+            CommonUtils.getLogs("POST Obj : " + jsonObject);
+            if (CommonUtils.isNetworkAvailable(this)) {
+                type = RequestType.GET_POST;
+                httpConnectThread = new HttpConnectThread(this, jsonObject, this);
+                httpConnectThread.execute(getString(R.string.base_url) + getString(R.string.url_save_attendence));
+            } else {
+                CommonUtils.getToastMessage(this, getString(R.string.network_error));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void checkedStateChanged(StudentDTO studentDTO, boolean isChecked) {
+
+        int presnt = adapter.mSelectedItemsIds.size();
+        int absent = studentsSize - presnt;
+        presentTV.setText(getString(R.string.present_caps) + "  " + presnt);
+        absetntTV.setText(getString(R.string.absent_caps) + "  " + absent);
+        resultTV.setText(presnt + "/" + studentsSize);
+        if (presnt > 0) {
+            doneTV.setText(getString(R.string.done_caps));
+        } else {
+            doneTV.setText(getString(R.string.start_caps));
+        }
+    }
+
+    @Override
+    public void setAsyncTaskCompletionListener(String object) {
+        CommonUtils.getLogs("Response::::" + object);
+        if (object != null) {
+            switch (type) {
+                case TYPE_GET:
+                    JSONObject obj = null;
+                    try {
+                        obj = new JSONObject(object);
+                        teacherModel = TeacherHomeJsonParser.getInstance().getTeacherDetails(obj);
+
+                        studentsList = teacherModel.getGradeModels().get(0).getStudentsModels();
+                        studentsSize = studentsList.size();
+                        adapter = new StudentsListAdapter(this, R.layout.select_student_list_item, studentsList);
+                        studentsListview.setAdapter(adapter);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case GET_POST:
+                    try {
+                        obj = new JSONObject(object);
+                        if (obj.has("message")) {
+                            CommonUtils.getToastMessage(this, obj.getString("message"));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                default:
+
+            }
+
+        } else {
+            CommonUtils.getToastMessage(this, getString(R.string.network_error));
+        }
+
+    }
+
+    public void getChildTimeTabel(String day) {
+        String Url_TimeTable = null;
+        //Constants.showProgress(ChildrenTimeTableActivity.this);
+        if (CommonUtils.isNetworkAvailable(this)) {
+            Url_TimeTable = getString(R.string.base_url) + getString(R.string.timetable_child) + "/5/a/" + day;
+            Log.i("TimetableURL", Url_TimeTable);
+            WebServiceCall call = new WebServiceCall(this);
+            call.getCallRequest(Url_TimeTable);
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }
     }
 
 
-    @Override
-    public void onSwitchChild(int selectedChildPosition) {
-        this.selectedChildPosition = selectedChildPosition;
-        appController.setSelectedChild(selectedChildPosition);
-        dialog.dismiss();
-
-    }
-
-
     class onDateClickListner implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            // TODO Auto-generated method stub
             TextView tv = (TextView) v;
             String selectedDate = tv.getTag().toString();
-
-            Toast.makeText(ChildHomeWorkActivity.this, selectedDate, Toast.LENGTH_LONG).show();
-            getChildHomworkWebservicescall(selectedDate);
+//			Toast.makeText(ChildrenTimeTableActivity.this, selectedDate, Toast.LENGTH_LONG).show();
+            //    getChildTimeTabel(selectedDate);
         }
     }
 
@@ -451,6 +444,4 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
                 return "";
         }
     }
-
-
 }

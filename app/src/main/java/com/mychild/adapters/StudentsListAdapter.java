@@ -72,7 +72,7 @@ public class StudentsListAdapter extends ArrayAdapter<StudentDTO> {
             }
         });
         StudentDTO dto = getItem(position);
-        holder.studentIdTV.setText(dto.getStudentId() + "");
+        holder.studentIdTV.setText("#" + dto.getStudentId() + "");
         holder.studentNameTV.setText(dto.getStundentName());
         return convertView;
     }
@@ -98,6 +98,13 @@ public class StudentsListAdapter extends ArrayAdapter<StudentDTO> {
                     list.add(dto);
                 }
             }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void selectAll() {
+        for (StudentDTO dto : list) {
+            mSelectedItemsIds.put(dto.getStudentId(), true);
         }
         notifyDataSetChanged();
     }

@@ -19,13 +19,11 @@ import java.util.HashMap;
 public class ParentInboxAdapter extends BaseAdapter {
     Context context;
     private LayoutInflater inflater;
-    ArrayList<HashMap<String,String>> parentInbox;
+    ArrayList<HashMap<String, String>> parentInbox;
 
 
     /**
-     *
      * @author Customized List Adapter.
-     *
      */
     public ParentInboxAdapter(Context context, ArrayList<HashMap<String, String>> parentInbox) {
         super();

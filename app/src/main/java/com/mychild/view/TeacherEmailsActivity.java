@@ -40,6 +40,7 @@ public class TeacherEmailsActivity extends BaseActivity implements View.OnClickL
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
+        topBar.logoutIV.setVisibility(View.GONE);
         topBar.titleTV.setText(getString(R.string.inbox));
         writeMail = (ImageView) findViewById(R.id.write_mail_iv);
         writeMail.setOnClickListener(this);
