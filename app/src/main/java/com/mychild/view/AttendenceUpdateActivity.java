@@ -64,6 +64,7 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
+        topBar.titleTV.setText(getString(R.string.attendence_title));
         studentsListview = (ListView) findViewById(R.id.students_listview);
         doneTV = (TextView) findViewById(R.id.done_tv);
         doneTV.setOnClickListener(this);
@@ -245,7 +246,7 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
             TextView tv = (TextView) v;
             String selectedDate = tv.getTag().toString();
 //			Toast.makeText(ChildrenTimeTableActivity.this, selectedDate, Toast.LENGTH_LONG).show();
-            getChildTimeTabel(selectedDate);
+            //    getChildTimeTabel(selectedDate);
         }
     }
 

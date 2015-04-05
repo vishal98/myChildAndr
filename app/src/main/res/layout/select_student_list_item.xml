@@ -3,13 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="5dp"
-    android:paddingTop="5dp">
+    android:paddingTop="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
 
     <TextView
         android:id="@+id/student_id_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="true"
+        android:textStyle="bold"
         android:textSize="14sp" />
 
     <TextView
@@ -18,7 +21,7 @@
         android:singleLine="true"
         android:layout_height="wrap_content"
         android:layout_below="@+id/student_id_tv"
-        android:text="25sp" />
+        android:textSize="18sp" />
 
     <CheckBox
         android:id="@+id/checkbox"

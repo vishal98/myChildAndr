@@ -145,6 +145,7 @@
     <string name="present_caps">PRESENT</string>
     <string name="absent_caps">ABSENT</string>
     <string name="url_save_attendence">/app/teacher/attendance/save</string>
+    <string name="url_new_mail">/app/conversations/new</string>
 
 
 </resources>
