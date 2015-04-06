@@ -117,6 +117,8 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
         CommonUtils.getLogs("Response::::Exams" + object);
         if (object != null && !object.equals("")) {
             examsList = ExamsJsonParser.getInstance().getExamsList(object);
+            CommonUtils.getLogs("ExamsList::" + examsList);
+            CommonUtils.getLogs("ExamsListSSSS::" + examsList.size());
             if (examsList.size() > 0) {
                 selectedExamposition = 0;
                 setExamScheduleListAdapter(examsList.get(selectedExamposition));
@@ -143,7 +145,9 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
                 }
                 break;
             case R.id.exams_iv:
-                examsTypeDialog = getExamsDialog(examsList, selectedExamposition);
+                if (examsList != null) {
+                    examsTypeDialog = getExamsDialog(examsList, selectedExamposition);
+                }
                 break;
             case R.id.cancel_btn:
                 examsTypeDialog.dismiss();
