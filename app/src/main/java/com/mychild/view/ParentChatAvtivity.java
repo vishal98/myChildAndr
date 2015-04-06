@@ -79,7 +79,7 @@ public class ParentChatAvtivity extends BaseActivity implements RequestCompletio
         if (CommonUtils.isNetworkAvailable(this)) {
             //SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
             if (!StorageManager.readString(this, "username", "").isEmpty()) {
-                Url_ChatHistory = getString(R.string.base_url) + getString(R.string.parent_chat) + StorageManager.readString(this, "username", "");
+                Url_ChatHistory = getString(R.string.base_url) + getString(R.string.parent_mail) + StorageManager.readString(this, "username", "");
                 Log.i("Url_ChatHistory::", Url_ChatHistory);
             }
             WebServiceCall call = new WebServiceCall(this);

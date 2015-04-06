@@ -32,6 +32,7 @@ import com.thehayro.view.InfinitePagerAdapter;
 import com.thehayro.view.InfiniteViewPager;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -55,29 +56,23 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
     private AppController appController = null;
     InfiniteViewPager viewPager;
     int currentIndicator = 0;
-
+    Calendar cal = Calendar.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setSwitchChildDialogueData();
         setContentView(R.layout.activity_child_homework);
-        //appController = (AppController) getApplicationContext();
-        Constants.showProgress(this);
         setTopBar();
         switchChildBar();
-        //getChildHomworkWebservicescall();
-        //parentModel = appController.getParentsData();
-
-
         viewPager = (InfiniteViewPager) findViewById(R.id.infinite_viewpager);
         viewPager.setAdapter(new MyInfinitePagerAdapter(0));
         viewPager.setOnInfinitePageChangeListener(new InfiniteViewPager.OnInfinitePageChangeListener() {
             @Override
             public void onPageScrolled(final Object indicator, final float positionOffset, final int positionOffsetPixels) {
-                Calendar cal = null;
-                cal = Calendar.getInstance();
+//                Calendar cal = null;
+//                cal = Calendar.getInstance();
                 cal.add(Calendar.DAY_OF_YEAR, (Integer.parseInt(String.valueOf(indicator)) * 7));
-                //((TextView)findViewById(R.id.todayDate)).setText(getMonth( cal.get(Calendar.MONTH) +1) +" "+cal.get(Calendar.YEAR) );
+//                ((TextView)findViewById(R.id.todayDate)).setText(getMonth( cal.get(Calendar.MONTH) +1) +" "+cal.get(Calendar.YEAR) );
             }
 
             @Override
@@ -98,7 +93,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
                 this, android.R.layout.simple_list_item_1, getDaysOfWeek());
         weekdayGridView.setAdapter(weekdaysAdapter);
         Calendar cal = Calendar.getInstance();
-        String homeWorkDate = "0" + cal.get(Calendar.DAY_OF_MONTH) + "-" + "0" + cal.get(Calendar.MONTH) + "-" + cal.get(Calendar.YEAR);
+        String homeWorkDate = "0"+cal.get(Calendar.DAY_OF_MONTH)+ "-" + "0"+(cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR);
         ((TextView) findViewById(R.id.todayDate)).setText(cal.get(Calendar.DAY_OF_MONTH) + " " + getMonth(cal.get(Calendar.MONTH) + 1).substring(0, 3) + " " + cal.get(Calendar.YEAR));
 
         final CaldroidFragment dialogCaldroidFragment = CaldroidFragment.newInstance("Select a date", cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), 1);
@@ -150,12 +145,17 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         CommonUtils.getLogs("Homework Response success");
         Log.i(TAG, responseJson.toString());
-        homeWorkList = (ListView) findViewById(R.id.homework);
-        childrenGradeAndSection = ChildHomeWorkJsonParser.getInstance().getChildrenHomework(responseJson);
-        ChildHomeworkAdapter homeworkAdapter = new ChildHomeworkAdapter(this, childrenGradeAndSection);
-        homeWorkList.setAdapter(homeworkAdapter);
-        Constants.stopProgress(this);
+        String numberOfHomework = getNumberOfHomeWork(responseJson);
+        if(!numberOfHomework.contains("0")){
+            homeWorkList = (ListView) findViewById(R.id.homework);
+            childrenGradeAndSection = ChildHomeWorkJsonParser.getInstance().getChildrenHomework(responseJson);
+            ChildHomeworkAdapter homeworkAdapter = new ChildHomeworkAdapter(this, childrenGradeAndSection);
+            homeWorkList.setAdapter(homeworkAdapter);
 
+        }else{
+            Constants.showMessage(this,"No Homework","No homework found for the day...");
+        }
+        Constants.stopProgress(this);
     }
 
     @Override
@@ -172,8 +172,6 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
 
     @Override
     public void onClick(View v) {
-
-
         switch (v.getId()) {
             case R.id.back_arrow_iv:
                 onBackPressed();
@@ -185,14 +183,19 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
                 } else {
                     Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
                 }
-
-//                CustomDialogClass dialogue = new CustomDialogClass(this);
-//                dialogue.show();
                 break;
 
             default:
                 //Enter code in the event that that no cases match
         }
+    }
+
+    @Override
+    public void onSwitchChild(int selectedChildPosition) {
+        this.selectedChildPosition = selectedChildPosition;
+        appController.setSelectedChild(selectedChildPosition);
+        dialog.dismiss();
+
     }
 
     public void setTopBar() {
@@ -219,13 +222,12 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
     }
 
 
-    public void getChildHomworkWebservicescall(String day) {
+    public void getChildHomworkWebservicescall(String date) {
+        Constants.showProgress(this);
         String Url_home_work = null;
         if (CommonUtils.isNetworkAvailable(this)) {
-            //SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
-            //if (saredpreferences.contains("UserName")) {
             if (!StorageManager.readString(this, "username", "").isEmpty()) {
-                Url_home_work = getString(R.string.base_url) + "/app/getHomework/student/1/02-04-2015";
+                Url_home_work = getString(R.string.base_url) + "/app/getHomework/student/1/"+date;
                 Log.i("===Url_Homework===", Url_home_work);
             }
             WebServiceCall call = new WebServiceCall(ChildHomeWorkActivity.this);
@@ -236,12 +238,14 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
     }
 
 
-    @Override
-    public void onSwitchChild(int selectedChildPosition) {
-        this.selectedChildPosition = selectedChildPosition;
-        appController.setSelectedChild(selectedChildPosition);
-        dialog.dismiss();
-
+    public String getNumberOfHomeWork(JSONObject responseJson){
+        String numberOfHomeWork = null;
+        try {
+               numberOfHomeWork = responseJson.getString("number_of_homeworks");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return numberOfHomeWork;
     }
 
 
@@ -250,10 +254,11 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
         public void onClick(View v) {
             // TODO Auto-generated method stub
             TextView tv = (TextView) v;
-            String selectedDate = tv.getTag().toString();
-
-            Toast.makeText(ChildHomeWorkActivity.this, selectedDate, Toast.LENGTH_LONG).show();
-            getChildHomworkWebservicescall(selectedDate);
+//            tv.setTextColor(Color.RED);
+//            String selectedDate = tv.getTag().toString();
+            String selectedHomeWorkDate = "0"+tv.getText()+ "-" + "0"+(cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR)  ;
+            Toast.makeText(ChildHomeWorkActivity.this, tv.getText(), Toast.LENGTH_LONG).show();
+            getChildHomworkWebservicescall(selectedHomeWorkDate);
         }
     }
 

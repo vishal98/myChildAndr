@@ -29,6 +29,7 @@
     <string name="inbox">Inbox</string>
     <string name="chat">Chat</string>
     <string name="attendence">Attendence</string>
+    <string name="transport">Transport</string>
 
 
     <!--Endpoint urls -->
@@ -39,7 +40,7 @@
     <string name="home_work_student_id">/app/getHomework/student/</string>
     <string name="home_work_student_assigned_date">/app/getHomework/student/</string>
     <string name="timetable_child">/app/timetable</string>
-    <string name="parent_chat">/app/conversations/get/</string>
+    <string name="parent_mail">/app/conversations/get/</string>
     <string name="calendar_task">/app/events/student/1/</string>
     <string name="attendance">/app/attendance/student/1/month/</string>
     <string name="parent_email_to_teahcer">/app/conversations/new</string>

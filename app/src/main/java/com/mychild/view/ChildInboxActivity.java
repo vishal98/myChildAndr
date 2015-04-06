@@ -95,8 +95,8 @@ public class ChildInboxActivity extends BaseActivity implements RequestCompletio
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         CommonUtils.getLogs("INbox Response success");
-        Log.i(TAG, responseArray.toString());
-        ArrayList<HashMap<String, String>> mailBox = ParentMailBoxParser.getInstance().getParentMailBoxTeacherList(responseArray);
+        Log.i(TAG, responseJson.toString());
+        ArrayList<HashMap<String, String>> mailBox = ParentMailBoxParser.getInstance().getParentMailBox(responseJson);
         ParentInboxAdapter adapter = new ParentInboxAdapter(this, mailBox);
         ListView listView = (ListView) findViewById(R.id.child_time_table_list);
         listView.setAdapter(adapter);
@@ -131,12 +131,12 @@ public class ChildInboxActivity extends BaseActivity implements RequestCompletio
 
 
     public void inboxWebServiceCall() {
-        String Url_inbox = "http://default-environment-8t9czpvzjh.elasticbeanstalk.com/app/parent/getUsers/1";
+        String Url_inbox =null ;
         if (CommonUtils.isNetworkAvailable(this)) {
-            // Url_inbox = getString(R.string.base_url) + getString(R.string.parent_chat);
+            Url_inbox = getString(R.string.base_url) + getString(R.string.parent_mail);
             Log.i("TimetableURL", Url_inbox);
             WebServiceCall call = new WebServiceCall(this);
-            call.getCallRequest(Url_inbox);
+            call.getJsonObjectResponse(Url_inbox);
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }
