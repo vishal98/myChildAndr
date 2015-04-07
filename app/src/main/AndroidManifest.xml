@@ -121,6 +121,11 @@
             android:screenOrientation="portrait"
             android:label="@string/title_teacher_timetabel"></activity>
 
+        <activity
+            android:name=".TeacherCalenderEventsActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_teacher_calender"></activity>
+
 
     </application>
 

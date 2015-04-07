@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.kk.mycalendar.CaldroidFragment;
 import com.kk.mycalendar.CaldroidListener;
 import com.mychild.Networkcall.RequestCompletion;
@@ -24,11 +23,9 @@ import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.volley.AppController;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -104,7 +101,7 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
                     Constants.showProgress(CalendarActivity.this);
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(date);
-                    getChildTimeTabel(cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH));
+                    getChildCalenderEvent(cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH));
                 }
 
                 @Override
@@ -147,7 +144,7 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
         }
         Constants.showProgress(CalendarActivity.this);
         Calendar cal = Calendar.getInstance();
-        getChildTimeTabel(cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH));
+        getChildCalenderEvent(cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH));
     }
 
 
@@ -193,7 +190,7 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
 
     @Override
     public void onRequestCompletionError(String error) {
-        CommonUtils.getLogs("timetable Response Failure");
+        CommonUtils.getLogs("childcalender Response Failure");
         Constants.stopProgress(this);
         Constants.showMessage(this, "Sorry", error);
     }
@@ -207,7 +204,7 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
         }
     }
 
-    public void getChildTimeTabel(String date) {
+    public void getChildCalenderEvent(String date) {
         String Url_cal;
         if (CommonUtils.isNetworkAvailable(this)) {
             Url_cal = getString(R.string.base_url) + getString(R.string.calendar_task) + date;
@@ -223,7 +220,7 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
-        topBar.titleTV.setText(getString(R.string.home_work));
+        topBar.titleTV.setText(getString(R.string.calender));
 
     }
 

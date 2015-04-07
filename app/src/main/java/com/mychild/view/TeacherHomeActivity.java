@@ -42,6 +42,8 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
         ((ImageView) findViewById(R.id.mail_box_iv)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.chat_iv)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.calender_iv)).setOnClickListener(this);
+        ((ImageView) findViewById(R.id.attendance)).setOnClickListener(this);
+        ((ImageView) findViewById(R.id.transport)).setOnClickListener(this);
         ((TextView) findViewById(R.id.teacher_name_tv)).setText(StorageManager.readString(this, getString(R.string.pref_username), ""));
 
 
@@ -71,12 +73,21 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
                 startActivity(intent);
                 break;
             case R.id.chat_iv:
-                //  CommonUtils.getToastMessage(this, "Under Developent");
+                CommonUtils.getToastMessage(this, "Under Developent");
+                break;
+            case R.id.calender_iv:
+                intent = new Intent(this, TeacherCalenderEventsActivity.class);
+                startActivity(intent);
+                intent = null;
+                break;
+
+            case R.id.attendance:
                 intent = new Intent(this, AttendenceUpdateActivity.class);
                 startActivity(intent);
                 intent = null;
                 break;
-            case R.id.calender_iv:
+
+            case R.id.transport:
                 CommonUtils.getToastMessage(this, "Under Developent");
                 break;
 

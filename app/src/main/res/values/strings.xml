@@ -28,6 +28,7 @@
     <string name="time_tabel">Time Table</string>
     <string name="inbox">Inbox</string>
     <string name="chat">Chat</string>
+    <string name="calender">Calender</string>
     <string name="attendence">Attendence</string>
     <string name="transport">Transport</string>
 
@@ -45,6 +46,7 @@
     <string name="attendance">/app/attendance/student/1/month/</string>
     <string name="parent_email_to_teahcer">/app/conversations/new</string>
     <string name="timetabel_teacher">/app/teacher/timetable/</string>
+    <string name="calender_task_teacher">app/events/teacher/</string>
 
 
     <!--teacher flow-->
@@ -63,6 +65,7 @@
     <string name="exmas">Exams</string>
     <string name="mail_box">Mail Box</string>
     <string name="calendar">Calendar</string>
+    <string name="teacher_chat">Chat</string>
 
 
     <!--assigntask-->
@@ -78,6 +81,7 @@
     <string name="mondatory_fields">* Mondatory fields</string>
     <string name="title_activity_select_student">SelectStudentActivity</string>
     <string name="title_teacher_timetabel">TimeTabelActivity</string>
+    <string name="title_teacher_calender">TeacherCalenderActivity</string>
 
 
     <!--selectestudent activity-->

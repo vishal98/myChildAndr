@@ -1,6 +1,7 @@
 package com.mychild.view;
 
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -8,15 +9,20 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kk.mycalendar.CaldroidFragment;
 import com.kk.mycalendar.CaldroidListener;
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
+import com.mychild.customView.SwitchChildView;
+import com.mychild.interfaces.IOnSwichChildListener;
+import com.mychild.model.ParentModel;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
+import com.mychild.utils.TopBar;
+import com.mychild.volley.AppController;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,17 +31,26 @@ import org.json.JSONObject;
 import java.util.Calendar;
 import java.util.Date;
 
-public class AttendanceActivity extends BaseFragmentActivity implements RequestCompletion {
+public class AttendanceActivity extends BaseFragmentActivity implements RequestCompletion,OnClickListener,IOnSwichChildListener
+{
     LinearLayout calendar1;
     ImageView handleImg;
-    ScrollView scrollView;
+    private TopBar topBar;
+    private SwitchChildView switchChild;
+    private int selectedChildPosition = 0;
+    private ParentModel parentModel = null;
+    private AppController appController = null;
+    private Dialog dialog = null;
     public static final String TAG = ChildrenTimeTableActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
+        setSwitchChildDialogueData();
         try {
             setContentView(R.layout.activity_attendance);
+            setTopBar();
+            switchChildBar();
             //	Calendar minYear = Calendar.getInstance();
             //			minYear.add(Calendar.YEAR, -1);
             //
@@ -123,17 +138,7 @@ public class AttendanceActivity extends BaseFragmentActivity implements RequestC
         getAttendance("" + (cal.get(Calendar.MONTH) + 1), "" + cal.get(Calendar.DAY_OF_MONTH));
     }
 
-    public void getAttendance(String month, String year) {
-        String Url_cal = null;
-        if (CommonUtils.isNetworkAvailable(this)) {
-            Url_cal = getString(R.string.base_url) + getString(R.string.attendance) + month + "/" + year;
-            Log.i("Attendance URl", Url_cal);
-            WebServiceCall call = new WebServiceCall(AttendanceActivity.this);
-            call.getJsonObjectResponse(Url_cal);
-        } else {
-            CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
-        }
-    }
+
 
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
@@ -171,6 +176,72 @@ public class AttendanceActivity extends BaseFragmentActivity implements RequestC
 
     }
 
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.back_arrow_iv:
+                onBackPressed();
+                break;
+
+            case R.id.switch_child:
+                if (parentModel.getChildList() != null) {
+                    dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
+                } else {
+                    Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
+                }
+                break;
+
+            default:
+                //Enter code in the event that that no cases match
+        }
+
+
+    }
+
+    @Override
+    public void onSwitchChild(int selectedChildPosition) {
+        this.selectedChildPosition = selectedChildPosition;
+        appController.setSelectedChild(selectedChildPosition);
+        dialog.dismiss();
+
+    }
+
+    public void setSwitchChildDialogueData() {
+        appController = (AppController) getApplicationContext();
+        parentModel = appController.getParentsData();
+        if (parentModel != null && parentModel.getNumberOfChildren() >= 0) {
+            selectedChildPosition = appController.getSelectedChild();
+        }
+    }
+
+    public void getAttendance(String month, String year) {
+        String Url_cal = null;
+        if (CommonUtils.isNetworkAvailable(this)) {
+            Url_cal = getString(R.string.base_url) + getString(R.string.attendance) + month + "/" + year;
+            Log.i("Attendance URl", Url_cal);
+            WebServiceCall call = new WebServiceCall(AttendanceActivity.this);
+            call.getJsonObjectResponse(Url_cal);
+        } else {
+            CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
+        }
+    }
+
+    public void setTopBar() {
+        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar.initTopBar();
+        topBar.backArrowIV.setOnClickListener(this);
+        topBar.titleTV.setText(getString(R.string.attendence));
+
+    }
+
+    public void switchChildBar() {
+        switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
+        switchChild.initSwitchChildBar();
+        switchChild.parentNameTV.setText("Name");
+        switchChild.switchChildBT.setOnClickListener(this);
+    }
+
     public String getMonth(int month) {
         switch (month) {
             case 1:
@@ -201,6 +272,7 @@ public class AttendanceActivity extends BaseFragmentActivity implements RequestC
                 return "";
         }
     }
+
 
 
 }
