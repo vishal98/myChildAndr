@@ -93,7 +93,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
                 this, android.R.layout.simple_list_item_1, getDaysOfWeek());
         weekdayGridView.setAdapter(weekdaysAdapter);
         Calendar cal = Calendar.getInstance();
-        String homeWorkDate = "0"+cal.get(Calendar.DAY_OF_MONTH)+ "-" + "0"+(cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR);
+        String homeWorkDate = cal.get(Calendar.DAY_OF_MONTH)+ "-" +(cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR);
         ((TextView) findViewById(R.id.todayDate)).setText(cal.get(Calendar.DAY_OF_MONTH) + " " + getMonth(cal.get(Calendar.MONTH) + 1).substring(0, 3) + " " + cal.get(Calendar.YEAR));
 
         final CaldroidFragment dialogCaldroidFragment = CaldroidFragment.newInstance("Select a date", cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), 1);
@@ -218,6 +218,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
         parentModel = appController.getParentsData();
         if (parentModel != null && parentModel.getNumberOfChildren() >= 0) {
             selectedChildPosition = appController.getSelectedChild();
+
         }
     }
 
@@ -256,7 +257,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
             TextView tv = (TextView) v;
 //            tv.setTextColor(Color.RED);
 //            String selectedDate = tv.getTag().toString();
-            String selectedHomeWorkDate = "0"+tv.getText()+ "-" + "0"+(cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR)  ;
+            String selectedHomeWorkDate = tv.getText()+ "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR)  ;
             Toast.makeText(ChildHomeWorkActivity.this, tv.getText(), Toast.LENGTH_LONG).show();
             getChildHomworkWebservicescall(selectedHomeWorkDate);
         }

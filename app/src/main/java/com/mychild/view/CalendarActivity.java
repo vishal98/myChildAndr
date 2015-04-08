@@ -208,7 +208,7 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
         String Url_cal;
         if (CommonUtils.isNetworkAvailable(this)) {
             Url_cal = getString(R.string.base_url) + getString(R.string.calendar_task) + date;
-            Log.i("TimetableURL", Url_cal);
+            Log.i("ChildCalenderURL", Url_cal);
             WebServiceCall call = new WebServiceCall(CalendarActivity.this);
             call.getCallRequest(Url_cal + date);
         } else {

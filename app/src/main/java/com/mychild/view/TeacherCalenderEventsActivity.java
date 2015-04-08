@@ -100,7 +100,7 @@ public class TeacherCalenderEventsActivity extends BaseFragmentActivity implemen
 
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(date);
-                    getTeacherCalenderEvent(cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH));
+                    getTeacherCalenderEvent(cal.get(Calendar.DAY_OF_MONTH)+ "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR));
                 }
 
                 @Override
@@ -143,7 +143,7 @@ public class TeacherCalenderEventsActivity extends BaseFragmentActivity implemen
         }
         Constants.showProgress(this);
         Calendar cal = Calendar.getInstance();
-        getTeacherCalenderEvent(cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH));
+        getTeacherCalenderEvent(cal.get(Calendar.DAY_OF_MONTH)+ "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR) );
     }
 
     @Override
