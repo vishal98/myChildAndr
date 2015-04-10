@@ -98,8 +98,8 @@ public class ChildInboxActivity extends BaseActivity implements RequestCompletio
         CommonUtils.getLogs("INbox Response success");
         Log.i(TAG, responseJson.toString());
         String numberOfConversations = getNumberOfConversations(responseJson);
-        if(!numberOfConversations.contains("")){
-            ArrayList<HashMap<String, String>> mailBox = ParentMailBoxParser.getInstance().getParentMailBox(responseJson);
+        if(!numberOfConversations.contains("0")){
+            ArrayList<HashMap<String, String>> mailBox = ParentMailBoxParser.getInstance().getEmails(responseJson);
             ParentInboxAdapter adapter = new ParentInboxAdapter(this, mailBox);
             ListView listView = (ListView) findViewById(R.id.child_time_table_list);
             listView.setAdapter(adapter);
@@ -157,6 +157,7 @@ public class ChildInboxActivity extends BaseActivity implements RequestCompletio
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.i("numberOfConversations>>>>",numberOfConversations);
         return numberOfConversations;
     }
 
