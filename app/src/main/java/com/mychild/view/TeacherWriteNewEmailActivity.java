@@ -66,8 +66,6 @@ public class TeacherWriteNewEmailActivity extends BaseActivity implements View.O
                             jsonObject.put("toId", mailTo);
                             httpConnectThread = new HttpConnectThread(this, jsonObject, this);
                             String url = getString(R.string.base_url) + getString(R.string.url_new_mail);
-                            CommonUtils.getLogs("URL::" + url);
-                            CommonUtils.getLogs("POstObj : " + jsonObject);
                             httpConnectThread.execute(url);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -88,11 +86,21 @@ public class TeacherWriteNewEmailActivity extends BaseActivity implements View.O
         if (object != null) {
             try {
                 JSONObject jsonObject = new JSONObject(object);
-                if (jsonObject.has("message")) {
-                    CommonUtils.getToastMessage(this, jsonObject.getString("message"));
-                    mailToEt.setText("");
-                    mailMessageET.setText("");
-                    mailSubjectET.setText("");
+                if (jsonObject.has("status")) {
+                    if (jsonObject.getString("status").equals("success")) {
+                        mailToEt.setText("");
+                        mailMessageET.setText("");
+                        mailSubjectET.setText("");
+                        if (jsonObject.has("status")) {
+                            CommonUtils.getToastMessage(this, jsonObject.getString("message"));
+                        }
+                    } else if (jsonObject.getString("status").equals("error")) {
+                        if (jsonObject.has("status")) {
+                            CommonUtils.getToastMessage(this, jsonObject.getString("message"));
+                        }
+                    }
+
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

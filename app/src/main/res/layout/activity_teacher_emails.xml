@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context="com.mychild.view.TeacherEmailsActivity">
+    tools:context="com.mychild.view.TeacherEmailsActivity"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
 
     <com.mychild.utils.TopBar
         android:id="@+id/topBar"
@@ -25,6 +27,7 @@
             android:gravity="center_vertical"
             android:text="@string/all_mails"
             android:layout_marginLeft="10dp"
+            android:textStyle="bold"
             android:layout_centerVertical="true" />
 
         <RelativeLayout
