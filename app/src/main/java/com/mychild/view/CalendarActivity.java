@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.kk.mycalendar.CaldroidFragment;
 import com.kk.mycalendar.CaldroidListener;
 import com.mychild.Networkcall.RequestCompletion;
@@ -23,11 +24,16 @@ import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.volley.AppController;
+import com.mychild.webserviceparser.ChildCalenderEvents;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 
 public class CalendarActivity extends BaseFragmentActivity implements RequestCompletion, OnClickListener, IOnSwichChildListener {
@@ -98,10 +104,9 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
             final CaldroidListener listener = new CaldroidListener() {
                 @Override
                 public void onSelectDate(Date date, View view) {
-                    Constants.showProgress(CalendarActivity.this);
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(date);
-                    getChildCalenderEvent(cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH));
+                    getChildCalenderEvent( cal.get(Calendar.DAY_OF_MONTH)+ "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR));
                 }
 
                 @Override
@@ -142,9 +147,8 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Constants.showProgress(CalendarActivity.this);
         Calendar cal = Calendar.getInstance();
-        getChildCalenderEvent(cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH));
+        getChildCalenderEvent( cal.get(Calendar.DAY_OF_MONTH)+ "-" + (cal.get(Calendar.MONTH) + 1) + "-" +   cal.get(Calendar.YEAR));
     }
 
 
@@ -171,21 +175,23 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
 
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
-        CommonUtils.getLogs("timetable Response success");
-        Log.i(TAG, responseArray.toString());
+        Constants.stopProgress(this);
+        CommonUtils.getLogs("child calender Response success");
+        Log.i(TAG, responseJson.toString());
         calListView = (ListView) findViewById(R.id.calListView);
-        JSONArray ary;
-        try {
-            ary = new JSONArray(responseArray.toString());
-            ChildCalendarAdapter adapter = new ChildCalendarAdapter(CalendarActivity.this, ary);
+
+        String numberOfEvents = getNumberOfEvents(responseJson);
+
+        if(!numberOfEvents.contains("0")){
+            ArrayList<HashMap<String, String>> childCalenderList= ChildCalenderEvents.getInstance().getChildCalenderEvents(responseJson);
+            ChildCalendarAdapter adapter = new ChildCalendarAdapter(CalendarActivity.this, childCalenderList);
             calListView.setAdapter(adapter);
 
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            Constants.showMessage(this, "Sorry", "timetable Response Failure");
         }
-        Constants.stopProgress(this);
+        else {
+            Constants.showMessage(this, "Sorry", "No Calender Events...");
+        }
+
     }
 
     @Override
@@ -195,6 +201,15 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
         Constants.showMessage(this, "Sorry", error);
     }
 
+    public String getNumberOfEvents(JSONObject responseJson){
+        String numberOfEvents = null;
+        try {
+            numberOfEvents = responseJson.getString("no_of_events");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return numberOfEvents;
+    }
 
     public void setSwitchChildDialogueData() {
         appController = (AppController) getApplicationContext();
@@ -205,12 +220,13 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
     }
 
     public void getChildCalenderEvent(String date) {
+        Constants.showProgress(this);
         String Url_cal;
         if (CommonUtils.isNetworkAvailable(this)) {
             Url_cal = getString(R.string.base_url) + getString(R.string.calendar_task) + date;
             Log.i("ChildCalenderURL", Url_cal);
             WebServiceCall call = new WebServiceCall(CalendarActivity.this);
-            call.getCallRequest(Url_cal + date);
+            call.getJsonObjectResponse(Url_cal);
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }

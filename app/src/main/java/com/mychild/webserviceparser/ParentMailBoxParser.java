@@ -67,7 +67,7 @@ public class ParentMailBoxParser {
             e.printStackTrace();
         }
 
-        Log.i("chatArrayList", chatArrayList.toString());
+        Log.i("parentMailArrayList", chatArrayList.toString());
         return chatArrayList;
     }
 

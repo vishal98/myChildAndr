@@ -11,25 +11,32 @@ import android.widget.TextView;
 import com.mychild.view.R;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
- 
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class ChildCalendarAdapter extends BaseAdapter {
 
     public Activity context;
     private LayoutInflater inflater;
     private JSONArray ary;
+    ArrayList<HashMap<String,String>> childCalenderlist;
 
-    public ChildCalendarAdapter(Activity context,JSONArray ary) {
+    public ChildCalendarAdapter(Activity context,ArrayList<HashMap<String,String>> childCalenderlist) {
         this.context = context;
-        this.ary = ary;
+        this.childCalenderlist = childCalenderlist;
     }
     @Override
     public int getCount() {
-        return ary.length();
+        return childCalenderlist.size();
     }
 
- 
+    @Override
+    public Object getItem(int position) {
+        return childCalenderlist.get(position);
+    }
+
+
     @Override
     public long getItemId(int position) {
         return position;
@@ -44,44 +51,22 @@ public class ChildCalendarAdapter extends BaseAdapter {
         if (convertView == null)
             convertView = inflater.inflate(R.layout.cal_item, null);
         
-     JSONObject obj;
-	try {
-		obj = ary.getJSONObject(position);
-		
-		TextView subjectTimingTV = (TextView) convertView.findViewById(R.id.timingTV);
-        TextView subjectNameTV = (TextView) convertView.findViewById(R.id.subjectTV);
-        TextView  descTv = (TextView) convertView.findViewById(R.id.desc);
+
+		TextView eventTimingTV = (TextView) convertView.findViewById(R.id.timingTV);
+        TextView eventNameTV = (TextView) convertView.findViewById(R.id.subjectTV);
+        TextView  eventdescTv = (TextView) convertView.findViewById(R.id.desc);
        
-        String startTime= obj.getString("startTime").split(" ")[1];
-        String endTime=  obj.getString("endTime").split(" ")[1];
-        subjectNameTV.setText(obj.getString("title"));
-        descTv.setText(obj.getString("description"));
+        String startTime= childCalenderlist.get(position).get("startTime");
+        String endTime=  childCalenderlist.get(position).get("endTime");
+        eventNameTV.setText(childCalenderlist.get(position).get("title"));
+        eventdescTv.setText(childCalenderlist.get(position).get("description"));
         if(startTime == "null" && endTime == "null"){
-            subjectTimingTV.setText("8:45" +"-"+"9:45");
+            eventTimingTV.setText("0:00" +"-"+"0:00");
         }else {
-            subjectTimingTV.setText( startTime +"-"+endTime);
+            eventTimingTV.setText( startTime +"-"+endTime);
         }
-
-        
-		
-	} catch (JSONException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-
-        
         return convertView;
 
     }
-	@Override
-	public Object getItem(int arg0) {
-		// TODO Auto-generated method stub
-		try {
-			return ary.get(arg0);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
+
 }

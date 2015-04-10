@@ -46,7 +46,7 @@
     <string name="attendance">/app/attendance/student/1/month/</string>
     <string name="parent_email_to_teahcer">/app/conversations/new</string>
     <string name="timetabel_teacher">/app/teacher/timetable/</string>
-    <string name="calender_task_teacher">app/events/teacher/</string>
+    <string name="calender_task_teacher">/app/events/teacher/</string>
 
 
     <!--teacher flow-->

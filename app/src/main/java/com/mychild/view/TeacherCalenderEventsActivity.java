@@ -21,13 +21,16 @@ import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.volley.AppController;
+import com.mychild.webserviceparser.ChildCalenderEvents;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by vijay on 4/7/15.
@@ -141,7 +144,6 @@ public class TeacherCalenderEventsActivity extends BaseFragmentActivity implemen
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Constants.showProgress(this);
         Calendar cal = Calendar.getInstance();
         getTeacherCalenderEvent(cal.get(Calendar.DAY_OF_MONTH)+ "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR) );
     }
@@ -154,20 +156,19 @@ public class TeacherCalenderEventsActivity extends BaseFragmentActivity implemen
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         CommonUtils.getLogs("teachercalender Response success");
-        Log.i(TAG, responseArray.toString());
+        Log.i(TAG, responseJson.toString());
         calListView = (ListView) findViewById(R.id.calListView);
-        JSONArray ary;
-        try {
-            ary = new JSONArray(responseArray.toString());
-            ChildCalendarAdapter adapter = new ChildCalendarAdapter(this, ary);
-            calListView.setAdapter(adapter);
-
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            Constants.showMessage(this, "Sorry", "timetable Response Failure");
-        }
+        String numberOfEvents = getNumberOfEvents(responseJson);
         Constants.stopProgress(this);
+        if(!numberOfEvents.contains("0")){
+            ArrayList<HashMap<String, String>> childCalenderList= ChildCalenderEvents.getInstance().getChildCalenderEvents(responseJson);
+            ChildCalendarAdapter adapter = new ChildCalendarAdapter(this, childCalenderList);
+            calListView.setAdapter(adapter);
+        }
+        else {
+            Constants.showMessage(this, "Sorry", "No Calender Events...");
+        }
+
     }
 
     @Override
@@ -175,6 +176,16 @@ public class TeacherCalenderEventsActivity extends BaseFragmentActivity implemen
         CommonUtils.getLogs("Teachercalender Response Failure");
         Constants.stopProgress(this);
         Constants.showMessage(this, "Sorry", error);
+    }
+
+    public String getNumberOfEvents(JSONObject responseJson){
+        String numberOfEvents = null;
+        try {
+            numberOfEvents = responseJson.getString("no_of_events");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return numberOfEvents;
     }
 
     public void setTopBar() {
@@ -191,7 +202,7 @@ public class TeacherCalenderEventsActivity extends BaseFragmentActivity implemen
             Url_cal = getString(R.string.base_url) + getString(R.string.calender_task_teacher) + date;
             Log.i("TeacherCalender", Url_cal);
             WebServiceCall call = new WebServiceCall(this);
-            call.getCallRequest(Url_cal);
+            call.getJsonObjectResponse(Url_cal);
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }

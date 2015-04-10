@@ -22,6 +22,7 @@ import com.mychild.volley.AppController;
 import com.mychild.webserviceparser.ParentMailBoxParser;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -96,10 +97,17 @@ public class ChildInboxActivity extends BaseActivity implements RequestCompletio
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         CommonUtils.getLogs("INbox Response success");
         Log.i(TAG, responseJson.toString());
-        ArrayList<HashMap<String, String>> mailBox = ParentMailBoxParser.getInstance().getParentMailBox(responseJson);
-        ParentInboxAdapter adapter = new ParentInboxAdapter(this, mailBox);
-        ListView listView = (ListView) findViewById(R.id.child_time_table_list);
-        listView.setAdapter(adapter);
+        String numberOfConversations = getNumberOfConversations(responseJson);
+        if(!numberOfConversations.contains("")){
+            ArrayList<HashMap<String, String>> mailBox = ParentMailBoxParser.getInstance().getParentMailBox(responseJson);
+            ParentInboxAdapter adapter = new ParentInboxAdapter(this, mailBox);
+            ListView listView = (ListView) findViewById(R.id.child_time_table_list);
+            listView.setAdapter(adapter);
+        }
+        else {
+            Constants.showMessage(this,"No Mails","No mail found ...");
+        }
+
         Constants.stopProgress(this);
     }
 
@@ -140,6 +148,16 @@ public class ChildInboxActivity extends BaseActivity implements RequestCompletio
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }
+    }
+
+    public String getNumberOfConversations(JSONObject responseJson){
+        String numberOfConversations = null;
+        try {
+            numberOfConversations = responseJson.getString("numberOfConversations");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return numberOfConversations;
     }
 
     @Override
