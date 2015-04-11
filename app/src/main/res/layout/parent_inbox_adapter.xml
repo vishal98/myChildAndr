@@ -65,7 +65,7 @@
         android:layout_width="fill_parent"
         android:layout_height="2dp"
         android:layout_below="@+id/homeworkRL"
-        android:background="@color/done_red_color"
+        android:background="@color/grey"
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp" />

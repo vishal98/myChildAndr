@@ -20,6 +20,7 @@
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_calendar">Calendar Activity</string>
     <string name="title_activity_attendance">Attendance Activity</string>
+    <string name="title_parent_mail_details">MailDetails Activity</string>
 
     <!--ParentHomeActivity-->
     <string name="switch_child">SWITCH CHILD</string>
@@ -31,6 +32,7 @@
     <string name="calender">Calender</string>
     <string name="attendence">Attendence</string>
     <string name="transport">Transport</string>
+    <string name="Mail">Transport</string>
 
 
     <!--Endpoint urls -->
@@ -118,6 +120,7 @@
     <string name="write_mail_subject">Subject</string>
     <string name="write_mail_message">Message</string>
     <string name="send_mail">SEND MAIL</string>
+    <string name="mail_regards">Regards,</string>
     <string name="search_mail_contacts">Search by Name/Subject</string>
 
 

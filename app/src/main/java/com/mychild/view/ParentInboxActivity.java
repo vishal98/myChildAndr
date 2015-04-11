@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mychild.Networkcall.RequestCompletion;
@@ -31,8 +33,8 @@ import java.util.HashMap;
 /**
  * Created by Vijay on 3/29/15.
  */
-public class ChildInboxActivity extends BaseActivity implements RequestCompletion, View.OnClickListener, IOnSwichChildListener {
-    public static final String TAG = ChildInboxActivity.class.getSimpleName();
+public class ParentInboxActivity extends BaseActivity implements RequestCompletion, View.OnClickListener, IOnSwichChildListener {
+    public static final String TAG = ParentInboxActivity.class.getSimpleName();
     private TopBar topBar;
     private SwitchChildView switchChild;
     ImageView writeMail;
@@ -40,6 +42,9 @@ public class ChildInboxActivity extends BaseActivity implements RequestCompletio
     private Dialog dialog = null;
     private int selectedChildPosition = 0;
     private AppController appController = null;
+    ListView listView;
+    ArrayList<HashMap<String, String>> mailBox;
+    TextView mailCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +78,7 @@ public class ChildInboxActivity extends BaseActivity implements RequestCompletio
                 break;
 
             case R.id.write_mailIV:
-                startActivity(new Intent(ChildInboxActivity.this, ParentWriteMailToTeacher.class));
+                startActivity(new Intent(ParentInboxActivity.this, ParentWriteMailToTeacher.class));
                 break;
             case R.id.switch_child:
                 if (parentModel.getChildList() != null) {
@@ -81,6 +86,7 @@ public class ChildInboxActivity extends BaseActivity implements RequestCompletio
                 } else {
                     Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
                 }
+
             default:
                 //Enter code in the event that that no cases match
         }
@@ -99,10 +105,25 @@ public class ChildInboxActivity extends BaseActivity implements RequestCompletio
         Log.i(TAG, responseJson.toString());
         String numberOfConversations = getNumberOfConversations(responseJson);
         if(!numberOfConversations.contains("0")){
-            ArrayList<HashMap<String, String>> mailBox = ParentMailBoxParser.getInstance().getEmails(responseJson);
+            mailBox = ParentMailBoxParser.getInstance().getEmails(responseJson);
             ParentInboxAdapter adapter = new ParentInboxAdapter(this, mailBox);
-            ListView listView = (ListView) findViewById(R.id.child_time_table_list);
             listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> adapter, View view,int position, long id) {
+                    String mailFrom = mailBox.get(position).get("fromId");
+                    String mailTitle = mailBox.get(position).get("title");
+                    String mailDescription = mailBox.get(position).get("messageText");
+                    Intent intent = new Intent(ParentInboxActivity.this, ParentMailDetailedActivity.class);
+                    Bundle b = new Bundle();
+                    //b.putInt("position", position);
+                    b.putString("mailFrom",mailFrom);
+                    b.putString("mailDescription", mailDescription);
+                    b.putString("mailTitle", mailTitle);
+                    intent.putExtras(b);
+                    startActivity(intent);
+                }
+            });
+
         }
         else {
             Constants.showMessage(this,"No Mails","No mail found ...");
@@ -118,9 +139,14 @@ public class ChildInboxActivity extends BaseActivity implements RequestCompletio
         Constants.showMessage(this, "Sorry", error);
     }
 
+
+
     public void setOnClickListener() {
+        mailCount = (TextView) findViewById(R.id.mailCount);
         writeMail = (ImageView) findViewById(R.id.write_mailIV);
+        listView = (ListView) findViewById(R.id.parent_inbox_list);
         writeMail.setOnClickListener(this);
+
     }
 
     public void setTopBar() {
@@ -154,10 +180,11 @@ public class ChildInboxActivity extends BaseActivity implements RequestCompletio
         String numberOfConversations = null;
         try {
             numberOfConversations = responseJson.getString("numberOfConversations");
+            mailCount.setText("ALL MAILS"+"("+numberOfConversations+")");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.i("numberOfConversations>>>>",numberOfConversations);
+        Log.i("noOfConversations::",numberOfConversations);
         return numberOfConversations;
     }
 

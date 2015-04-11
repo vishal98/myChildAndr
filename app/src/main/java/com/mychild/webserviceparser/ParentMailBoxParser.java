@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
- * Created by MAST_HODC\vramz on 3/30/15.
+ * Created by vijay on 3/30/15.
  */
 public class ParentMailBoxParser {
 

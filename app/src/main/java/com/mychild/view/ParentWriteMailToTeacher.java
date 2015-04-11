@@ -26,7 +26,7 @@ import org.json.JSONObject;
 /**
  * Created by Vijay on 3/29/15.
  */
-public class ParentWriteMailToTeacher extends BaseActivity implements RequestCompletion, View.OnClickListener {
+public class ParentWriteMailToTeacher extends BaseFragmentActivity implements RequestCompletion, View.OnClickListener {
     public static final String TAG = ParentWriteMailToTeacher.class.getSimpleName();
     private TopBar topBar;
     private SwitchChildView switchChild;

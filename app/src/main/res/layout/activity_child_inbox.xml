@@ -25,10 +25,13 @@
         android:background="@color/white"
         android:layout_below="@+id/switchchildBar">
         <TextView
+            android:id="@+id/mailCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="@string/all_mails"/>
+            android:text="@string/all_mails"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp" />
 
         <RelativeLayout
             android:id="@+id/mailinfobarRV"
@@ -83,7 +86,7 @@
         android:padding="5dp" />
 
     <ListView
-        android:id="@+id/child_time_table_list"
+        android:id="@+id/parent_inbox_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

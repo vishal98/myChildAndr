@@ -244,20 +244,23 @@ public class WebServiceCall {
         }
         if (error instanceof NetworkError) {
         } else if (error instanceof ClientError) {
-            mRequestCompletion.onRequestCompletionError("Something woring.Please try again.");
+            mRequestCompletion.onRequestCompletionError("Something wrong.Please try again.");
+            Log.e("ClientError::", error.getMessage());
         } else if (error instanceof ServerError) {
-            mRequestCompletion.onRequestCompletionError("ServerError::" + "Something woring.Please try again.");
-            Log.d("ServerError", error.getMessage());
+            mRequestCompletion.onRequestCompletionError("Something wrong.Please try again.");
+            Log.e("ServerError::", error.getMessage());
         } else if (error instanceof AuthFailureError) {
-            mRequestCompletion.onRequestCompletionError("Something woring.Please try again.");
+            mRequestCompletion.onRequestCompletionError("Something wrong.Please try again.");
+            Log.e("AuthFailureError::", error.getMessage());
         } else if (error instanceof ParseError) {
-            mRequestCompletion.onRequestCompletionError("Something woring.Please try again.");
-            Log.d("ParseError", error.getMessage());
+            mRequestCompletion.onRequestCompletionError("Something wrong.Please try again.");
+            Log.e("ParseError", error.getMessage());
         } else if (error instanceof NoConnectionError) {
-            Log.d("NoConnectionError", error.getMessage());
             mRequestCompletion.onRequestCompletionError("Please connect to network...");
+            Log.e("NoConnectionError", error.getMessage());
         } else if (error instanceof TimeoutError) {
             mRequestCompletion.onRequestCompletionError("Connection Timeout");
+            Log.e("TimeoutError", error.getMessage().toString());
         }
 
     }

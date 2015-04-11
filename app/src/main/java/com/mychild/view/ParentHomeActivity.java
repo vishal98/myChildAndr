@@ -140,11 +140,11 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 intent = null;
                 break;
             case R.id.mail_box:
-                startActivity(new Intent(this, ChildInboxActivity.class));
+                startActivity(new Intent(this, ParentInboxActivity.class));
                 break;
-            case R.id.chat:
-                startActivity(new Intent(ParentHomeActivity.this, ParentChatAvtivity.class));
-                break;
+//            case R.id.chat:
+//                startActivity(new Intent(ParentHomeActivity.this, ParentChatAvtivity.class));
+//                break;
             case R.id.calender:
                 startActivity(new Intent(ParentHomeActivity.this, CalendarActivity.class));
                 break;
@@ -192,14 +192,14 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         ImageView timeTable = (ImageView) findViewById(R.id.time_table);
         ImageView exams = (ImageView) findViewById(R.id.exams);
         ImageView mailBox = (ImageView) findViewById(R.id.mail_box);
-        ImageView chat = (ImageView) findViewById(R.id.chat);
+//        ImageView chat = (ImageView) findViewById(R.id.chat);
         ImageView calender = (ImageView) findViewById(R.id.calender);
         ImageView attendance = (ImageView) findViewById(R.id.attendance);
         homeWork.setOnClickListener(this);
         timeTable.setOnClickListener(this);
         exams.setOnClickListener(this);
         mailBox.setOnClickListener(this);
-        chat.setOnClickListener(this);
+//        chat.setOnClickListener(this);
         calender.setOnClickListener(this);
         attendance.setOnClickListener(this);
         switchChild.switchChildBT.setOnClickListener(this);
