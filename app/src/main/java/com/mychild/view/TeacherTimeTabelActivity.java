@@ -135,10 +135,10 @@ public class TeacherTimeTabelActivity extends BaseFragmentActivity implements Re
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         Constants.stopProgress(this);
         CommonUtils.getLogs("Timetable Response success");
-         Log.i(TAG, responseJson.toString());
-         timeTabelList = (ListView) findViewById(R.id.teacher_time_table_list);
-         ArrayList<HashMap<String, String>> teacherTimeTable = TeacherTimetabelParser.getInstance().getTeacherTimetabel(responseJson);
-         TeacherTimetabelAdapter timeTableAdapter = new TeacherTimetabelAdapter(this,teacherTimeTable);
+        Log.i(TAG, responseJson.toString());
+        timeTabelList = (ListView) findViewById(R.id.teacher_time_table_list);
+        ArrayList<HashMap<String, String>> teacherTimeTable = TeacherTimetabelParser.getInstance().getTeacherTimetabel(responseJson);
+        TeacherTimetabelAdapter timeTableAdapter = new TeacherTimetabelAdapter(this,teacherTimeTable);
         timeTabelList.setAdapter(timeTableAdapter);
     }
 
@@ -177,6 +177,19 @@ public class TeacherTimeTabelActivity extends BaseFragmentActivity implements Re
             TextView tv = (TextView) v;
             String selectedDate = tv.getTag().toString();
 //			Toast.makeText(ChildrenTimeTableActivity.this, selectedDate, Toast.LENGTH_LONG).show();
+            ((TextView)findViewById(R.id.text1)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView)findViewById(R.id.text2)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView)findViewById(R.id.text3)).setTextColor(Color.parseColor("#D7D7D7"));
+            if(!(((TextView)findViewById(R.id.text4)).getCurrentTextColor()==Color.parseColor("#FF0000")))
+                ((TextView)findViewById(R.id.text4)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView)findViewById(R.id.text5)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView)findViewById(R.id.text6)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView)findViewById(R.id.text7)).setTextColor(Color.parseColor("#D7D7D7"));
+
+
+            if(!(tv.getCurrentTextColor()==Color.parseColor("#FF0000")))
+                tv.setTextColor(Color.BLUE);
+
             getTeacherTimeTabel(selectedDate);
         }
     }

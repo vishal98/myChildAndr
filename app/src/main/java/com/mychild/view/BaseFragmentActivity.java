@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.mychild.threads.HttpConnectThread;
+import com.mychild.utils.CustomHandler;
+import com.pushbots.push.Pushbots;
 
 
 /**
@@ -16,5 +18,8 @@ public class BaseFragmentActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        Pushbots.sharedInstance().init(this);
+        Pushbots.sharedInstance().setCustomHandler(CustomHandler.class);
     }
 }
+

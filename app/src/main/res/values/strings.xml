@@ -9,6 +9,8 @@
     <string name="remember">Remember Me</string>
     <string name="login_parent_teacher_txt">PARENT/TEACHER LOGIN</string>
     <string name="login_footer_txt">Powered by my child</string>
+    <string name="title_notification">NotificationActivity</string>
+    <string name="parent_notice">NoticeActivity</string>
 
     <!--activity_child_homeworkvity_child_homework.xml used text-->
     <string name="text_to_send_hint">Type here...</string>
@@ -68,6 +70,7 @@
     <string name="mail_box">Mail Box</string>
     <string name="calendar">Calendar</string>
     <string name="teacher_chat">Chat</string>
+    <string name="notice">Notice</string>
 
 
     <!--assigntask-->

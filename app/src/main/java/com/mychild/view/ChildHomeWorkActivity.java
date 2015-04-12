@@ -242,7 +242,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
     public String getNumberOfHomeWork(JSONObject responseJson){
         String numberOfHomeWork = null;
         try {
-               numberOfHomeWork = responseJson.getString("number_of_homeworks");
+            numberOfHomeWork = responseJson.getString("number_of_homeworks");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -258,7 +258,24 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
 //            tv.setTextColor(Color.RED);
 //            String selectedDate = tv.getTag().toString();
             String selectedHomeWorkDate = tv.getText()+ "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR)  ;
-            Toast.makeText(ChildHomeWorkActivity.this, tv.getText(), Toast.LENGTH_LONG).show();
+            // Toast.makeText(ChildHomeWorkActivity.this, tv.getText(), Toast.LENGTH_LONG).show();
+
+
+
+
+            ((TextView)findViewById(R.id.text1)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView)findViewById(R.id.text2)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView)findViewById(R.id.text3)).setTextColor(Color.parseColor("#D7D7D7"));
+            if(!(((TextView)findViewById(R.id.text4)).getCurrentTextColor()==Color.parseColor("#FF0000")))
+                ((TextView)findViewById(R.id.text4)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView)findViewById(R.id.text5)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView)findViewById(R.id.text6)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView)findViewById(R.id.text7)).setTextColor(Color.parseColor("#D7D7D7"));
+
+
+            if(!(tv.getCurrentTextColor()==Color.parseColor("#FF0000")))
+                tv.setTextColor(Color.BLUE);
+
             getChildHomworkWebservicescall(selectedHomeWorkDate);
         }
     }

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.mychild.threads.HttpConnectThread;
+import com.mychild.utils.CustomHandler;
+import com.pushbots.push.Pushbots;
 
 
 /**
@@ -14,6 +16,8 @@ public class BaseActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+         super.onCreate(savedInstanceState);
+        Pushbots.sharedInstance().init(BaseActivity.this);
+        Pushbots.sharedInstance().setCustomHandler(CustomHandler.class);
     }
 }

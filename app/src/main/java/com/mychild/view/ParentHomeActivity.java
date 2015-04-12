@@ -109,50 +109,39 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 } else {
                     Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
                 }
-
-                /*Toast.makeText(this, "Switch Child", Toast.LENGTH_LONG).show();
-                customDialogue = new CustomDialogClass(this);
-                customDialogue.setCancelable(true);
-                customDialogue.show();*/
-
-//               if(manager != null){
-//                   Toast.makeText(this, "Switch Child", Toast.LENGTH_LONG).show();
-//                   customDialogue = new CustomDialogClass(this);
-//                   customDialogue.setCancelable(true);
-//                   customDialogue.show();
-//               }
-//            else {
-//                   Toast.makeText(this, "No Child data found..",Toast.LENGTH_LONG).show();
-//               }
                 break;
+
             case R.id.homework:
                 startActivity(new Intent(ParentHomeActivity.this, ChildHomeWorkActivity.class));
                 break;
+
             case R.id.time_table:
-                Toast.makeText(this, "Time Table", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(ParentHomeActivity.this, ChildrenTimeTableActivity.class));
                 break;
+
             case R.id.exams:
-                //Toast.makeText(this,"Exams",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(this, ExamsActivity.class);
                 intent.putExtra(getString(R.string.key_from), getString(R.string.key_from_parent));
                 startActivity(intent);
                 intent = null;
                 break;
+
             case R.id.mail_box:
                 startActivity(new Intent(this, ParentInboxActivity.class));
                 break;
-//            case R.id.chat:
-//                startActivity(new Intent(ParentHomeActivity.this, ParentChatAvtivity.class));
-//                break;
-            case R.id.calender:
-                startActivity(new Intent(ParentHomeActivity.this, CalendarActivity.class));
-                break;
+
+             case R.id.calender:
+                    startActivity(new Intent(ParentHomeActivity.this, CalendarActivity.class));
+                    break;
 
             case R.id.attendance:
                 startActivity(new Intent(ParentHomeActivity.this, AttendanceActivity.class));
-                Toast.makeText(this, "Attendance", Toast.LENGTH_LONG).show();
                 break;
+
+            case R.id.notice:
+                startActivity(new Intent(ParentHomeActivity.this, ParentNoticeActivity.class));
+                break;
+
 
             case R.id.logoutIV:
                 Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
@@ -170,13 +159,35 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
 
     }
 
+//    public void setTopBar() {
+//        topBar = (TopBar) findViewById(R.id.topBar);
+//        topBar.initTopBar();
+//        topBar.titleTV.setText(getString(R.string.my_child));
+//        topBar.backArrowIV.setImageResource(R.drawable.icon_home);
+//        topBar.logoutIV.setOnClickListener(this);
+//    }
+
     public void setTopBar() {
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.titleTV.setText(getString(R.string.my_child));
         topBar.backArrowIV.setImageResource(R.drawable.icon_home);
         topBar.logoutIV.setOnClickListener(this);
+
+        ImageView notification = (ImageView) topBar.findViewById(R.id.notification);
+        notification.setVisibility(View.VISIBLE);
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(ParentHomeActivity.this, NotificationActivity.class));
+
+            }
+        });
     }
+
+
 
     public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
@@ -192,14 +203,14 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         ImageView timeTable = (ImageView) findViewById(R.id.time_table);
         ImageView exams = (ImageView) findViewById(R.id.exams);
         ImageView mailBox = (ImageView) findViewById(R.id.mail_box);
-//        ImageView chat = (ImageView) findViewById(R.id.chat);
         ImageView calender = (ImageView) findViewById(R.id.calender);
         ImageView attendance = (ImageView) findViewById(R.id.attendance);
+        ImageView notice = (ImageView) findViewById(R.id.notice);
         homeWork.setOnClickListener(this);
         timeTable.setOnClickListener(this);
         exams.setOnClickListener(this);
+        notice.setOnClickListener(this);
         mailBox.setOnClickListener(this);
-//        chat.setOnClickListener(this);
         calender.setOnClickListener(this);
         attendance.setOnClickListener(this);
         switchChild.switchChildBT.setOnClickListener(this);

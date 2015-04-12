@@ -122,7 +122,7 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 CommonUtils.getLogs("Possitive Clicked");
-                Pushbots.sharedInstance().init(LoginActivity.this);
+//                Pushbots.sharedInstance().init(LoginActivity.this);
                 CommonUtils.getLogs("Reg ID: " + Pushbots.sharedInstance().regID());
                 generateNoteOnSD("Notification_id.txt", Pushbots.sharedInstance().regID());
                 UpdateUI(role);
