@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:background="@android:color/transparent"
-            android:src="@drawable/login_logo" />
+            android:src="@drawable/logo_login" />
 
         <TextView
             android:id="@+id/parent_teacher_txt"
@@ -79,23 +79,25 @@
             android:id="@+id/login_btn"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/hdpi_login_height"
-            android:layout_below="@+id/password"
+            android:layout_below="@+id/password_line"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="70dp"
             android:background="@drawable/login_btn_selector"
             android:paddingBottom="10dp"
             android:paddingLeft="35dp"
             android:paddingRight="35dp"
             android:paddingTop="10dp"
             android:text="@string/login_btn"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"/>
 
         <View
             android:id="@+id/login_btn_border"
             android:layout_width="fill_parent"
             android:layout_height="5dp"
             android:layout_below="@+id/login_btn"
-            android:background="@color/Darkgreen" />
+            android:background="@color/Darkgreen"
+
+            />
 
         <TextView
             android:id="@+id/login_footer"

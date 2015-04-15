@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyChild</string>
+    <string name="app_name">Rosary</string>
     <string name="action_settings">Settings</string>
     <string name="login_text">Please login to connect</string>
     <string name="userid_hint">Enter User ID</string>

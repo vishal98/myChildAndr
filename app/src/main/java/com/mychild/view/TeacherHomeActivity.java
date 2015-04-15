@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.model.StudentDTO;
@@ -40,7 +39,7 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
         ((ImageView) findViewById(R.id.time_table_iv)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.exams_iv)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.mail_box_iv)).setOnClickListener(this);
-        ((ImageView) findViewById(R.id.chat_iv)).setOnClickListener(this);
+        ((ImageView) findViewById(R.id.notice_iv)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.calender_iv)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.attendance)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.transport)).setOnClickListener(this);
@@ -72,8 +71,9 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
                 intent = new Intent(this, TeacherEmailsActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.chat_iv:
-                CommonUtils.getToastMessage(this, "Under Developent");
+
+            case R.id.notice_iv:
+                startActivity(new Intent(this, ParentNoticeActivity.class));
                 break;
             case R.id.calender_iv:
                 intent = new Intent(this, TeacherCalenderEventsActivity.class);
@@ -93,7 +93,6 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.logoutIV:
                 SharedPreferences clearSharedPreferenceForLogout;
-                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
                 clearSharedPreferenceForLogout = getSharedPreferences("MyChild_Preferences", 0);
                 SharedPreferences.Editor editor = clearSharedPreferenceForLogout.edit();
                 editor.clear();

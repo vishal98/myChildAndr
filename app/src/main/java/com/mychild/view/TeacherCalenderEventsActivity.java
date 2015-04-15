@@ -150,6 +150,14 @@ public class TeacherCalenderEventsActivity extends BaseFragmentActivity implemen
 
     @Override
     public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+
+            case R.id.back_arrow_iv:
+                onBackPressed();
+                break;
+            default:
+        }
 
     }
 

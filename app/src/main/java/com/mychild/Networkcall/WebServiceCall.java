@@ -248,19 +248,19 @@ public class WebServiceCall {
             Log.e("ClientError::", error.getMessage());
         } else if (error instanceof ServerError) {
             mRequestCompletion.onRequestCompletionError("Something wrong.Please try again.");
-            Log.e("ServerError::", error.getMessage());
+            Log.e("ServerError::", error.toString());
         } else if (error instanceof AuthFailureError) {
             mRequestCompletion.onRequestCompletionError("Something wrong.Please try again.");
-            Log.e("AuthFailureError::", error.getMessage());
+            Log.e("AuthFailureError::", error.toString());
         } else if (error instanceof ParseError) {
             mRequestCompletion.onRequestCompletionError("Something wrong.Please try again.");
-            Log.e("ParseError", error.getMessage());
+            Log.e("ParseError", error.toString());
         } else if (error instanceof NoConnectionError) {
             mRequestCompletion.onRequestCompletionError("Please connect to network...");
-            Log.e("NoConnectionError", error.getMessage());
+            Log.e("NoConnectionError", error.toString());
         } else if (error instanceof TimeoutError) {
             mRequestCompletion.onRequestCompletionError("Connection Timeout");
-            Log.e("TimeoutError", error.getMessage().toString());
+            Log.e("TimeoutError", error.toString());
         }
 
     }
