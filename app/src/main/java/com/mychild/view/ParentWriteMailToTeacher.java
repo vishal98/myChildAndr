@@ -7,10 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
+import com.mychild.adapters.TeacherListForChildAdapter;
 import com.mychild.customView.SwitchChildView;
 import com.mychild.model.ParentModel;
 import com.mychild.sharedPreference.StorageManager;
@@ -18,10 +20,14 @@ import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.volley.AppController;
+import com.mychild.webserviceparser.TeacherListForChildParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Vijay on 3/29/15.
@@ -35,8 +41,10 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
     private int selectedChildPosition = 0;
     private Dialog dialog = null;
     ImageView backButton;
-    EditText to,subject,message;
+    EditText subject,message;
+    Spinner to;
     Button sendMail;
+    String responseType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +54,7 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
         onClickListeners();
         setTopBar();
         switchChildBar();
+        getTeacherList();
     }
 
     @Override
@@ -81,14 +90,25 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
 
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
-        CommonUtils.getLogs("posting mail Response is success...");
-        Log.i(TAG, responseJson.toString());
-        String status = getEmailSentStatus(responseJson);
-        if(status.contains("success")){
-            CommonUtils.getToastMessage(this, "Email Sent.");
+        String status = null;
+        if(responseType == "JSONARRAY"){
+            CommonUtils.getLogs("get teacher Response is success...");
+            Log.i(TAG, responseArray.toString());
+            ArrayList<HashMap<String,String>> teacherListForChild = TeacherListForChildParser.getInstance().getTeacherList(responseArray);
+            Log.i("---->",teacherListForChild.toString());
+            TeacherListForChildAdapter teacherAdapter = new TeacherListForChildAdapter(this,teacherListForChild);
+            to.setAdapter(teacherAdapter);
         }
         else {
-            CommonUtils.getToastMessage(this, "Email Not Sent.");
+            CommonUtils.getLogs("posting mail Response is success...");
+            Log.i(TAG, responseJson.toString());
+            status = getEmailSentStatus(responseJson);
+            if(status.contains("success")){
+                CommonUtils.getToastMessage(this, "Email Sent.");
+            }
+            else {
+                CommonUtils.getToastMessage(this, "Email Not Sent.");
+            }
         }
         Constants.stopProgress(this);
     }
@@ -105,11 +125,12 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
     public void onClickListeners(){
         backButton = (ImageView) findViewById(R.id.back);
         sendMail = (Button) findViewById(R.id.send_mail_btn);
-        to = (EditText) findViewById(R.id.mail_toET);
+        to = (Spinner) findViewById(R.id.mail_toET);
         subject = (EditText) findViewById(R.id.mail_subjectET);
         message = (EditText) findViewById(R.id.mail_messageET);
         backButton.setOnClickListener(this);
         sendMail.setOnClickListener(this);
+
     }
 
     public void setTopBar() {
@@ -135,14 +156,33 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
         }
     }
 
-    public void postEailToServer() {
+    public  void getTeacherList(){
+        responseType = "JSONARRAY";
+        Constants.showProgress(this);
+        String Url_teacher_list = null;
+        if (CommonUtils.isNetworkAvailable(this)) {
 
+            Url_teacher_list = getString(R.string.base_url) + "/app/parent/getUsers/1";
+                Log.i("===list_teacher===", Url_teacher_list);
+            WebServiceCall call = new WebServiceCall(this);
+            call.getCallRequest(Url_teacher_list);
+        } else {
+            CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
+        }
+    }
+
+    public void postEailToServer() {
+        responseType = "JSONOBJECT";
         if (CommonUtils.isNetworkAvailable(this)) {
             String mailFrom = StorageManager.readString(this, "username", "");
-            String mailTo = to.getText().toString();
+            String mailTo = to.getSelectedItem().toString();
+            String mailToString[] = mailTo.split("=");
+            Log.i("----->123",mailToString[1]);
+            String mailToStringdata = mailToString[1].toString().replace("}","");
+            Log.i("----->1234",mailToStringdata);
+
             String mailSubject = subject.getText().toString();
             String mailMessage = message.getText().toString();
-
             if (mailTo.equals("")) {
                 CommonUtils.getToastMessage(this, "Please Enter To Field");
             } else if (mailSubject.equals("")) {
@@ -153,7 +193,7 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
             else {
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put("toId", mailTo);
+                    jsonObject.put("toId", mailToStringdata);
                     jsonObject.put("fromId", mailFrom);
                     jsonObject.put("title", mailSubject);
                     jsonObject.put("messageText", mailMessage);
@@ -185,6 +225,5 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
         CommonUtils.getLogs(mailSentStatus);
         return mailSentStatus;
     }
-
 
 }

@@ -86,15 +86,26 @@
         android:layout_below="@+id/new_emialRV"
         android:paddingTop="15dp">
 
-
-        <EditText
+        <Spinner
             android:id="@+id/mail_toET"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/hdpi_write_email"
+            android:layout_height="@dimen/hdpi_login_height"
             android:layout_marginTop="15dp"
-            android:background="@drawable/writemail_text_selector"
+            android:background="@drawable/searchview_selector"
             android:gravity="center_vertical"
-            android:hint="@string/write_mail_to" />
+            android:scrollbars="none"
+            android:spinnerMode="dropdown"
+            android:hint="@string/write_mail_subject"/>
+
+
+        <!--<EditText-->
+            <!--android:id="@+id/mail_toET"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/hdpi_write_email"-->
+            <!--android:layout_marginTop="15dp"-->
+            <!--android:background="@drawable/writemail_text_selector"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:hint="@string/write_mail_to" />-->
 
 
         <EditText

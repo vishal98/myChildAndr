@@ -46,10 +46,7 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
     private final int REQUEST_CODE = 1234;
     private boolean updateCheckStatus = false;
     String teacherName = "";
-    //private String base_url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/Teacher/id";
-    // private String base_and_post_url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com/app/teacher/homework/save";
     private String post_url = "/app/teacher/homework/save";
-    //private String subject_base_url = "http://Default-Environment-8tpprium54.elasticbeanstalk.com";
     private TeacherModel teacherModel = null;
     private int selectedGrade = 0, SelectedSubject = 0;
     private CustomAdapter classNamesAdapter = null;
