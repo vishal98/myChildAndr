@@ -250,7 +250,7 @@ public class WebServiceCall {
             mRequestCompletion.onRequestCompletionError("Something wrong.Please try again.");
             Log.e("ServerError::", error.toString());
         } else if (error instanceof AuthFailureError) {
-            mRequestCompletion.onRequestCompletionError("Something wrong.Please try again.");
+            mRequestCompletion.onRequestCompletionError("AuthFailureError");
             Log.e("AuthFailureError::", error.toString());
         } else if (error instanceof ParseError) {
             mRequestCompletion.onRequestCompletionError("Something wrong.Please try again.");

@@ -54,7 +54,9 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
     @Override
     public void onRequestCompletionError(String error) {
         Constants.stopProgress(this);
-        Constants.showMessage(this, "Sorry", error);
+        if(error == "AuthFailureError"){
+            Constants.showMessage(this, "Sorry", getString(R.string.auth_error));
+        }
         Log.i("Login", error);
     }
 

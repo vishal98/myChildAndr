@@ -142,5 +142,10 @@
     <string name="url_save_attendence">/app/teacher/attendance/save</string>
     <string name="url_new_mail">/app/conversations/new</string>
 
+    <!--Generic Error messages-->
+    <string name="auth_error">wrong user id/password.</string>
+
+
+
 
 </resources>
