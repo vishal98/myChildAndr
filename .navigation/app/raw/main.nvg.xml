@@ -22,7 +22,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "com.mychild.view.LoginActivity"/>
+        className = "com.mychild.view.CommonToApp.LoginActivity"/>
       <point      
         x = "484"      
         y = "472"/>
@@ -30,7 +30,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.MenuState"      
-        className = "com.mychild.view.LoginActivity"/>
+        className = "com.mychild.view.CommonToApp.LoginActivity"/>
       <point      
         x = "1444"      
         y = "660"/>

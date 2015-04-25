@@ -25,7 +25,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".CommonToApp.SplashScreenActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,44 +39,44 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".CommonToApp.LoginActivity"
             android:label="@string/title_activity_Login"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ParentHomeActivity"
+            android:name=".Parent.ParentHomeActivity"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".TeacherHomeActivity"
+            android:name=".Teacher.TeacherHomeActivity"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ChildHomeWorkActivity"
+            android:name=".Parent.ChildHomeWorkActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ChildrenTimeTableActivity"
+            android:name=".Parent.ChildrenTimeTableActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ParentInboxActivity"
+            android:name=".Parent.ParentInboxActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
         <activity
-            android:name=".ParentChatAvtivity"
+            android:name=".Parent.ParentChatAvtivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ParentWriteMailToTeacher"
+            android:name=".Parent.ParentWriteMailToTeacher"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AttendanceActivity"
+            android:name=".Parent.AttendanceActivity"
             android:label="@string/title_activity_attendance"
             android:screenOrientation="portrait"></activity>
 
         <activity
-            android:name=".NotificationActivity"
+            android:name=".CommonToApp.NotificationActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_notification"></activity>
         <activity
-            android:name=".ParentNoticeActivity"
+            android:name=".Parent.ParentNoticeActivity"
             android:screenOrientation="portrait"
             android:label="@string/parent_notice"></activity>
 
@@ -98,46 +98,46 @@
         <service android:name="com.pushbots.push.GCMIntentService" />
 
         <activity
-            android:name=".AssignTaskActivity"
+            android:name=".Teacher.AssignTaskActivity"
             android:label="@string/title_activity_assign_task"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SelectStudentActivity"
+            android:name=".Teacher.SelectStudentActivity"
             android:label="@string/title_activity_select_student"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ExamsActivity"
+            android:name=".Parent.ExamsActivity"
             android:label="@string/title_activity_exams"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CalendarActivity"
+            android:name=".CommonToApp.CalendarActivity"
             android:label="@string/title_activity_calendar"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".TeacherEmailsActivity"
+            android:name=".Teacher.TeacherEmailsActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_teacher_emails" />
         <activity
-            android:name=".TeacherWriteNewEmailActivity"
+            android:name=".Teacher.TeacherWriteNewEmailActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_teacher_write_new_email" />
         <activity
-            android:name=".AttendenceUpdateActivity"
+            android:name=".Teacher.AttendenceUpdateActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_attendence"></activity>
 
         <activity
-            android:name=".TeacherTimeTabelActivity"
+            android:name=".Teacher.TeacherTimeTabelActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_teacher_timetabel"></activity>
 
         <activity
-            android:name=".TeacherCalenderEventsActivity"
+            android:name=".Teacher.TeacherCalenderEventsActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_teacher_calender"></activity>
 
         <activity
-            android:name=".ParentMailDetailedActivity"
+            android:name=".Parent.ParentMailDetailedActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_parent_mail_details"></activity>
 

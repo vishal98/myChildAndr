@@ -6,7 +6,7 @@
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.mychild.view.AssignTaskActivity">
+    tools:context="com.mychild.view.Teacher.AssignTaskActivity">
 
     <com.mychild.utils.TopBar
         android:id="@+id/topBar"
