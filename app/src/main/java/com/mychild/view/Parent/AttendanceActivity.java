@@ -2,6 +2,7 @@ package com.mychild.view.Parent;
 
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseFragmentActivity;
+import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.R;
 import com.mychild.volley.AppController;
 
@@ -35,15 +37,20 @@ import java.util.Date;
 
 public class AttendanceActivity extends BaseFragmentActivity implements RequestCompletion,OnClickListener,IOnSwichChildListener
 {
-    LinearLayout calendar1;
-    ImageView handleImg;
+    public static final String TAG = ChildrenTimeTableActivity.class.getSimpleName();
     private TopBar topBar;
     private SwitchChildView switchChild;
     private int selectedChildPosition = 0;
     private ParentModel parentModel = null;
     private AppController appController = null;
     private Dialog dialog = null;
-    public static final String TAG = ChildrenTimeTableActivity.class.getSimpleName();
+    String childName;
+    int getChildId = 0;
+    LinearLayout calendar1,today;
+    ImageView handleImg;
+    TextView totalTV,presentTV, apsentTV;
+    private static int monthOfAttendence ;
+    private static int yearOfAttendence ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -53,6 +60,7 @@ public class AttendanceActivity extends BaseFragmentActivity implements RequestC
             setContentView(R.layout.activity_attendance);
             setTopBar();
             switchChildBar();
+            setOnClickListener();
             //	Calendar minYear = Calendar.getInstance();
             //			minYear.add(Calendar.YEAR, -1);
             //
@@ -63,7 +71,7 @@ public class AttendanceActivity extends BaseFragmentActivity implements RequestC
             //			calendar.setOnDateSelectedListener(this);
             //			calendar.init( minYear.getTime(),maxYear.getTime())
             //		.withSelectedDate(today);
-            calendar1 = (LinearLayout) findViewById(R.id.calendar1);
+            //calendar1 = (LinearLayout) findViewById(R.id.calendar1);
             //scrollView  = (ScrollView)findViewById(R.id.scrollView);
             CaldroidFragment caldroidFragment = new CaldroidFragment();
             CaldroidFragment.type = 0;
@@ -75,7 +83,8 @@ public class AttendanceActivity extends BaseFragmentActivity implements RequestC
             FragmentTransaction t = getSupportFragmentManager().beginTransaction();
             t.replace(R.id.calendar1, caldroidFragment);
             t.commit();
-            handleImg = (ImageView) findViewById(R.id.handleImg);
+
+            //handleImg = (ImageView) findViewById(R.id.handleImg);
             handleImg.setTag("close");
             ((TextView) findViewById(R.id.todayDate)).setText(cal.get(Calendar.DAY_OF_MONTH) + " " + getMonth(cal.get(Calendar.MONTH) + 1).substring(0, 3) + " " + cal.get(Calendar.YEAR));
             handleImg.setOnClickListener(new OnClickListener() {
@@ -102,9 +111,11 @@ public class AttendanceActivity extends BaseFragmentActivity implements RequestC
                 @Override
                 public void onChangeMonth(int month, int year) {
                     String text = "month: " + month + " year: " + year;
-                    //	Toast.makeText(getApplicationContext(), text, 	Toast.LENGTH_SHORT).show();
+                    monthOfAttendence = month;
+                    yearOfAttendence = year;
+                    Toast.makeText(getApplicationContext(), text, 	Toast.LENGTH_SHORT).show();
                     ((TextView) findViewById(R.id.calMonth)).setText(getMonth(month) + " " + year);
-                    getAttendance("" + month, "" + year);
+                    getAttendance(Constants.SET_SWITCH_CHILD_ID,month,year);
                 }
                 @Override
                 public void onLongClickDate(Date date, View view) {
@@ -136,46 +147,45 @@ public class AttendanceActivity extends BaseFragmentActivity implements RequestC
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Calendar cal = Calendar.getInstance();
-        getAttendance("" + (cal.get(Calendar.MONTH) + 1), "" + cal.get(Calendar.DAY_OF_MONTH));
+//        Calendar cal = Calendar.getInstance();
+//        getAttendance(Constants.SET_SWITCH_CHILD_ID,"" + (cal.get(Calendar.MONTH) + 1), "" + cal.get(Calendar.DAY_OF_MONTH));
     }
 
+
+
+    public void setOnClickListener() {
+        calendar1 = (LinearLayout) findViewById(R.id.calendar1);
+        handleImg = (ImageView) findViewById(R.id.handleImg);
+        today = (LinearLayout) findViewById(R.id.today);
+        totalTV = (TextView) findViewById(R.id.todalTv);
+        presentTV = (TextView) findViewById(R.id.presentTv);
+        apsentTV = (TextView) findViewById(R.id.absentTv);
+
+        today.setOnClickListener(this);
+
+    }
 
 
     @Override
-    public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
-
-
-        Log.i(TAG, responseJson.toString());
-
-        try {
-            ((TextView) findViewById(R.id.todalTv)).setText(responseJson.getString("total_working_days"));
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        try {
-            ((TextView) findViewById(R.id.presentTv)).setText(responseJson.getString("present_days"));
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        try {
-            ((TextView) findViewById(R.id.absentTv)).setText(responseJson.getString("total_absent_days"));
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    protected void onResume() {
+        super.onResume();
+        switchChild.childNameTV.setText(Constants.SWITCH_CHILD_FLAG);
     }
+
+    @Override
+    public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
+        Log.i(TAG, responseJson.toString());
+        attendenceRecordUdateUI(responseJson);
+        Constants.stopProgress(this);
+    }
+
+
 
     @Override
     public void onRequestCompletionError(String error) {
         CommonUtils.getLogs("timetable Response Failure");
-        Constants.stopProgress(AttendanceActivity.this);
+        Constants.stopProgress(this);
         Constants.showMessage(this, "Sorry", error);
-
     }
 
     @Override
@@ -185,7 +195,6 @@ public class AttendanceActivity extends BaseFragmentActivity implements RequestC
             case R.id.back_arrow_iv:
                 onBackPressed();
                 break;
-
             case R.id.switch_child:
                 if (parentModel.getChildList() != null) {
                     dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
@@ -193,20 +202,44 @@ public class AttendanceActivity extends BaseFragmentActivity implements RequestC
                     Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
                 }
                 break;
-
+            case R.id.logoutIV:
+                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
+                Constants.logOut(this);
+                Intent i = new Intent(this, LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+                finish();
+                break;
             default:
-                //Enter code in the event that that no cases match
+               //Enter code in the event that that no cases match
         }
-
-
     }
 
     @Override
     public void onSwitchChild(int selectedChildPosition) {
+
+        getAttendance(Constants.SET_SWITCH_CHILD_ID,monthOfAttendence,yearOfAttendence);
+
+        childName = Constants.getChildNameAfterSelecting(selectedChildPosition,appController.getParentsData());
+        getChildId = Constants.getChildIdAfterSelecting(selectedChildPosition,appController.getParentsData());
+        switchChild.childNameTV.setText(childName);
+        Constants.SWITCH_CHILD_FLAG = childName;
+        Log.i("Switching child::",Constants.SWITCH_CHILD_FLAG);
+        Constants.SET_SWITCH_CHILD_ID = getChildId;
         this.selectedChildPosition = selectedChildPosition;
         appController.setSelectedChild(selectedChildPosition);
         dialog.dismiss();
 
+    }
+    public void attendenceRecordUdateUI(JSONObject responseJson){
+        try {
+            totalTV.setText(responseJson.getString("total_working_days"));
+            presentTV.setText(responseJson.getString("present_days"));
+            apsentTV.setText(responseJson.getString("total_absent_days"));
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public void setSwitchChildDialogueData() {
@@ -217,12 +250,13 @@ public class AttendanceActivity extends BaseFragmentActivity implements RequestC
         }
     }
 
-    public void getAttendance(String month, String year) {
+    public void getAttendance(int childId,int month, int year) {
         String Url_cal = null;
         if (CommonUtils.isNetworkAvailable(this)) {
-            Url_cal = getString(R.string.base_url) + getString(R.string.attendance) + month + "/" + year;
+            Constants.showProgress(this);
+            Url_cal = getString(R.string.base_url) + getString(R.string.attendance)+childId+"/month/"+ month + "/" + year;
             Log.i("Attendance URl", Url_cal);
-            WebServiceCall call = new WebServiceCall(AttendanceActivity.this);
+            WebServiceCall call = new WebServiceCall(this);
             call.getJsonObjectResponse(Url_cal);
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
@@ -234,13 +268,14 @@ public class AttendanceActivity extends BaseFragmentActivity implements RequestC
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
         topBar.titleTV.setText(getString(R.string.attendence));
+        topBar.logoutIV.setOnClickListener(this);
 
     }
 
     public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
-        switchChild.parentNameTV.setText("Name");
+        switchChild.childNameTV.setText("Name");
         switchChild.switchChildBT.setOnClickListener(this);
     }
 

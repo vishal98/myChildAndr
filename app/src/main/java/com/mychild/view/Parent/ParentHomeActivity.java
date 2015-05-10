@@ -11,11 +11,10 @@ import android.widget.Toast;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
-import com.mychild.adapters.CustomDialogueAdapter;
-import com.mychild.customView.CustomDialogClass;
 import com.mychild.customView.SwitchChildView;
 import com.mychild.interfaces.IOnSwichChildListener;
 import com.mychild.model.ParentModel;
+import com.mychild.model.StudentDTO;
 import com.mychild.sharedPreference.ListOfChildrenPreference;
 import com.mychild.sharedPreference.PrefManager;
 import com.mychild.sharedPreference.StorageManager;
@@ -33,26 +32,22 @@ import com.mychild.webserviceparser.ParentHomeJsonParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class ParentHomeActivity extends BaseActivity implements RequestCompletion, View.OnClickListener, IOnSwichChildListener {
     public static final String TAG = ParentHomeActivity.class.getSimpleName();
 
     PrefManager sharedPref;
-    ArrayList<String> childrenList = null;
-    ArrayList<HashMap<String, String>> childrenGradeAndSection = null;
-    CustomDialogClass customDialogue;
-    CustomDialogueAdapter customDialogueAdapter = null;
     private TopBar topBar;
     private int selectedposition = 0;
     private SwitchChildView switchChild;
     private Dialog dialog = null;
     private ParentModel parentModel = null;
+    private StudentDTO studentDTO = null;
     private int selectedChildPosition = 0;
     private AppController appController = null;
+    int getChildId = 0;
     ListOfChildrenPreference manager;
     SharedPreferences clearSharedPreferenceForLogout;
+    String childName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +59,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         setTopBar();
         switchChildBar();
         setOnClickListener();
+        onChangingChild();
 
     }
 
@@ -71,27 +67,26 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     protected void onResume() {
         super.onResume();
         selectedChildPosition = appController.getSelectedChild();
+        switchChild.childNameTV.setText(Constants.SWITCH_CHILD_FLAG);
     }
 
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
+
         CommonUtils.getLogs("Parent Response success" + responseArray);
         Log.i(TAG, responseArray.toString());
         Constants.stopProgress(this);
-        //childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenGradeAndSection(responseArray);
-        //childrenGradeAndSection = ParentHomeJsonParser.getInstance().getChildrenListwithID(this, responseArray);
-        //customDialogueAdapter = new CustomDialogueAdapter(this, childrenGradeAndSection);
-
         //Storing to Shared preference to cache the child list for the parent
         if (responseArray != null) {
             parentModel = ParentHomeJsonParser.getInstance().getParentDetails(responseArray);
-
+            Log.i("####parentModel###", parentModel.getChildList().toString());
             appController.setParentData(parentModel);
             if (parentModel.getNumberOfChildren() >= 0) {
                 appController.setSelectedChild(0);
             }
-            ListOfChildrenPreference manager = new ListOfChildrenPreference(this);
-            manager.SaveChildrenListToPreference(responseArray);
+            onChangingChild();
+//            ListOfChildrenPreference manager = new ListOfChildrenPreference(this);
+//            manager.SaveChildrenListToPreference(responseArray);
         } else {
             Toast.makeText(this, "No data..", Toast.LENGTH_LONG).show();
         }
@@ -103,6 +98,19 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         Constants.stopProgress(this);
         Constants.showMessage(this, "Sorry", error);
 
+    }
+
+    @Override
+    public void onSwitchChild(int selectedChildPosition) {
+        childName = Constants.getChildNameAfterSelecting(selectedChildPosition,appController.getParentsData());
+        getChildId = Constants.getChildIdAfterSelecting(selectedChildPosition,appController.getParentsData());
+        switchChild.childNameTV.setText(childName);
+        Constants.SWITCH_CHILD_FLAG = childName;
+        Log.i("Switching child::",Constants.SWITCH_CHILD_FLAG);
+        Constants.SET_SWITCH_CHILD_ID = getChildId;
+        this.selectedChildPosition = selectedChildPosition;
+        appController.setSelectedChild(selectedChildPosition);
+        dialog.dismiss();
     }
 
     @Override
@@ -165,13 +173,21 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
 
     }
 
-//    public void setTopBar() {
-//        topBar = (TopBar) findViewById(R.id.topBar);
-//        topBar.initTopBar();
-//        topBar.titleTV.setText(getString(R.string.my_child));
-//        topBar.backArrowIV.setImageResource(R.drawable.icon_home);
-//        topBar.logoutIV.setOnClickListener(this);
-//    }
+    public void onChangingChild(){
+
+        if(appController.getParentsData() != null){
+            childName = Constants.getChildNameAfterSelecting(0,appController.getParentsData());
+            switchChild.childNameTV.setText(childName);
+            Constants.SWITCH_CHILD_FLAG = childName;
+            Log.i("Setting Default child::",Constants.SWITCH_CHILD_FLAG);
+            getChildId = Constants.getChildIdAfterSelecting(0,appController.getParentsData());
+            Constants.SET_SWITCH_CHILD_ID = getChildId;
+        }
+        else {
+            switchChild.childNameTV.setText(Constants.SWITCH_CHILD_FLAG);
+        }
+    }
+
 
     public void setTopBar() {
         topBar = (TopBar) findViewById(R.id.topBar);
@@ -179,27 +195,25 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         topBar.titleTV.setText(getString(R.string.my_child));
         topBar.backArrowIV.setImageResource(R.drawable.icon_home);
         topBar.logoutIV.setOnClickListener(this);
-
         ImageView notification = (ImageView) topBar.findViewById(R.id.notification);
         notification.setVisibility(View.VISIBLE);
-
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                startActivity(new Intent(ParentHomeActivity.this, NotificationActivity.class));
+            startActivity(new Intent(ParentHomeActivity.this, NotificationActivity.class));
 
             }
         });
     }
 
 
-
     public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
-        StorageManager.readString(this, "username", "");
-        switchChild.parentNameTV.setText(StorageManager.readString(this, "username", ""));
+//        StorageManager.readString(this, "username", "");
+//        switchChild.parentNameTV.setText(childName);
+//        switchChild.parentNameTV.setText(StorageManager.readString(this, "username", ""));
+
     }
 
 
@@ -225,7 +239,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     public void getParentDetailsWebservicescall() {
         String Url_parent_details = null;
         if (CommonUtils.isNetworkAvailable(this)) {
-            Constants.showProgress(ParentHomeActivity.this);
+            Constants.showProgress(this);
             //SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
             if (!StorageManager.readString(this, "username", "").isEmpty()) {
                 Url_parent_details = getString(R.string.base_url) + getString(R.string.parent_url_endpoint) + StorageManager.readString(this, "username", "");
@@ -238,10 +252,5 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         }
     }
 
-    @Override
-    public void onSwitchChild(int selectedChildPosition) {
-        this.selectedChildPosition = selectedChildPosition;
-        appController.setSelectedChild(selectedChildPosition);
-        dialog.dismiss();
-    }
+
 }

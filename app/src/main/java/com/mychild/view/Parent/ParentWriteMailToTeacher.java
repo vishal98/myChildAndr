@@ -1,6 +1,7 @@
 package com.mychild.view.Parent;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseFragmentActivity;
+import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.R;
 import com.mychild.volley.AppController;
 import com.mychild.webserviceparser.TeacherListForChildParser;
@@ -60,6 +62,12 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        switchChild.childNameTV.setText(Constants.SWITCH_CHILD_FLAG);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back:
@@ -78,6 +86,16 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
             case R.id.send_mail_btn:
                 Constants.showProgress(this);
                 postEailToServer();
+                break;
+            case R.id.logoutIV:
+                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
+                Constants.logOut(this);
+
+                Intent i = new Intent(this, LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+                finish();
+
                 break;
 
             default:
@@ -140,12 +158,13 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
         topBar.initTopBar();
         topBar.backArrowIV.setVisibility(View.INVISIBLE);
         topBar.titleTV.setText(getString(R.string.inbox));
+        topBar.logoutIV.setOnClickListener(this);
     }
 
     public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
-        switchChild.parentNameTV.setText("Name");
+        switchChild.childNameTV.setText("Name");
     }
 
 

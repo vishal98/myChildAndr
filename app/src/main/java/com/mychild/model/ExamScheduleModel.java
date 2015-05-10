@@ -8,6 +8,16 @@ public class ExamScheduleModel {
     private String subjectSyllabus = "";
     private String teacherName = "";
     private String examsStartTime = "";
+    private String examsDate = "";
+
+
+    public void setExamsDate(String examsDate) {
+        this.examsDate = examsDate;
+    }
+
+    public String getExamsDate() {
+        return examsDate;
+    }
 
     public String getExamsEndTime() {
         return examsEndTime;

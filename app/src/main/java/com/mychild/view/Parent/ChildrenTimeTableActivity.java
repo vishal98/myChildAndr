@@ -1,6 +1,7 @@
 package com.mychild.view.Parent;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,7 @@ import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseFragmentActivity;
+import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.R;
 import com.mychild.volley.AppController;
 import com.mychild.webserviceparser.ChildTimeTabelParser;
@@ -56,13 +58,18 @@ public class ChildrenTimeTableActivity extends BaseFragmentActivity implements R
     private Dialog dialog = null;
     InfiniteViewPager viewPager;
     int currentIndicator = 0;
+    String childName = null;
+    int DATE_CHANGED_FLAG=0;
+    private String childGrade;
+    private String childsection;
+    private String timeTabledate;
+    String selectedTimeTableDate;
+    Calendar cal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setSwitchChildDialogueData();
-        Constants.showProgress(ChildrenTimeTableActivity.this);
-        //getChildTimeTabel();
         setContentView(R.layout.activity_child_time_tabel);
         setTopBar();
         switchChildBar();
@@ -95,7 +102,7 @@ public class ChildrenTimeTableActivity extends BaseFragmentActivity implements R
         WeekdayArrayAdapter weekdaysAdapter = new WeekdayArrayAdapter(
                 this, android.R.layout.simple_list_item_1, getDaysOfWeek());
         weekdayGridView.setAdapter(weekdaysAdapter);
-        Calendar cal = Calendar.getInstance();
+        cal = Calendar.getInstance();
         ((TextView) findViewById(R.id.todayDate)).setText(cal.get(Calendar.DAY_OF_MONTH) + " " + getMonth(cal.get(Calendar.MONTH) + 1).substring(0, 3) + " " + cal.get(Calendar.YEAR));
 
         final CaldroidFragment dialogCaldroidFragment = CaldroidFragment.newInstance("Select a date", cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), 1);
@@ -137,6 +144,7 @@ public class ChildrenTimeTableActivity extends BaseFragmentActivity implements R
     protected void onResume() {
         super.onResume();
         selectedChildPosition = appController.getSelectedChild();
+        switchChild.childNameTV.setText(Constants.SWITCH_CHILD_FLAG);
     }
 
     @Override
@@ -172,6 +180,17 @@ public class ChildrenTimeTableActivity extends BaseFragmentActivity implements R
                     Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
                 }
                 break;
+            case R.id.logoutIV:
+                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
+                Constants.logOut(this);
+
+                Intent i = new Intent(this, LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+                finish();
+
+                break;
+
             default:
         }
     }
@@ -186,23 +205,31 @@ public class ChildrenTimeTableActivity extends BaseFragmentActivity implements R
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
         topBar.titleTV.setText(getString(R.string.time_tabel));
+        topBar.logoutIV.setOnClickListener(this);
     }
 
     @Override
     public void onSwitchChild(int selectedChildPosition) {
+
+        if(DATE_CHANGED_FLAG == 0){
+            getChildTimeTabel(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
+        }
+        else {
+            getChildTimeTabel(selectedTimeTableDate);
+        }
+        childName = Constants.getChildNameAfterSelecting(selectedChildPosition,appController.getParentsData());
+        switchChild.childNameTV.setText(childName);
+        Constants.SWITCH_CHILD_FLAG = childName;
         this.selectedChildPosition = selectedChildPosition;
         appController.setSelectedChild(selectedChildPosition);
         dialog.dismiss();
     }
 
-
     public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
-        switchChild.parentNameTV.setText("Name");
+        switchChild.childNameTV.setText("Name");
         switchChild.switchChildBT.setOnClickListener(this);
-
-
     }
 
     public void setSwitchChildDialogueData() {
@@ -215,9 +242,11 @@ public class ChildrenTimeTableActivity extends BaseFragmentActivity implements R
 
     public void getChildTimeTabel(String day) {
         String Url_TimeTable = null;
-        //Constants.showProgress(ChildrenTimeTableActivity.this);
         if (CommonUtils.isNetworkAvailable(this)) {
-            Url_TimeTable = getString(R.string.base_url) + getString(R.string.timetable_child) + "/5/a/" + day;
+            Constants.showProgress(this);
+            String gradeID = parentModel.getChildList().get(selectedChildPosition).getGrade();
+            String section = parentModel.getChildList().get(selectedChildPosition).getSection();
+            Url_TimeTable = getString(R.string.base_url) + getString(R.string.timetable_child) +gradeID+ "/"+section+"/" + day;
             Log.i("TimetableURL", Url_TimeTable);
             WebServiceCall call = new WebServiceCall(this);
             call.getCallRequest(Url_TimeTable);
@@ -232,7 +261,7 @@ public class ChildrenTimeTableActivity extends BaseFragmentActivity implements R
         public void onClick(View v) {
             // TODO Auto-generated method stub
             TextView tv = (TextView) v;
-            String selectedDate = tv.getTag().toString();
+            selectedTimeTableDate = tv.getTag().toString();
 //			Toast.makeText(ChildrenTimeTableActivity.this, selectedDate, Toast.LENGTH_LONG).show();
 
 
@@ -249,7 +278,7 @@ public class ChildrenTimeTableActivity extends BaseFragmentActivity implements R
             if(!(tv.getCurrentTextColor()==Color.parseColor("#FF0000")))
                 tv.setTextColor(Color.BLUE);
 
-            getChildTimeTabel(selectedDate);
+            getChildTimeTabel(selectedTimeTableDate);
         }
     }
 

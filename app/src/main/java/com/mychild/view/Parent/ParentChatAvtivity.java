@@ -72,7 +72,7 @@ public class ParentChatAvtivity extends BaseActivity implements RequestCompletio
     public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
-        switchChild.parentNameTV.setText("Name");
+        switchChild.childNameTV.setText("Name");
     }
 
     public void getChatHistoryWebserviceCall() {

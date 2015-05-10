@@ -8,12 +8,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 
+import com.mychild.model.ParentModel;
+
 /**
  * Created by vijay on 2/25/2015.
  */
 public abstract class Constants {
     public static ProgressDialog progress;
     static SharedPreferences clearSharedPreferenceForLogout;
+    public static String SWITCH_CHILD_FLAG = "No Child Selected";
+    public static int SET_SWITCH_CHILD_ID = 0;
     public static void showMessage(Context context, String title, String message){
         AlertDialog alert = new AlertDialog.Builder(context).create();
         alert.setTitle(title);
@@ -46,4 +50,17 @@ public abstract class Constants {
         editor.commit();
         activity.finish();
     }
+
+    public static String getChildNameAfterSelecting(int position,ParentModel parentModel){
+        String childName = parentModel.getChildList().get(position).getStundentName();
+        System.out.println("Switching Child Name::"+ childName);
+        return childName;
+    }
+
+    public static int getChildIdAfterSelecting(int position,ParentModel parentModel){
+        int getStudentId =  parentModel.getChildList().get(position).getStudentId();
+        System.out.println("Switching Child ID::"+ getStudentId);
+        return getStudentId;
+    }
+
 }

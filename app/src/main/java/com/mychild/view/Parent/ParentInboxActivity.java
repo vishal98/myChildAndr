@@ -21,6 +21,7 @@ import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseActivity;
+import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.R;
 import com.mychild.volley.AppController;
 import com.mychild.webserviceparser.ParentMailBoxParser;
@@ -51,17 +52,12 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Constants.showProgress(this);
         setContentView(R.layout.activity_child_inbox);
         setOnClickListener();
         setTopBar();
         switchChildBar();
         inboxWebServiceCall();
-        appController = (AppController) getApplicationContext();
-        parentModel = appController.getParentsData();
-        if (parentModel != null && parentModel.getNumberOfChildren() >= 0) {
-            selectedChildPosition = appController.getSelectedChild();
-        }
+        setSwitchChildDialogueData();
 
     }
 
@@ -69,6 +65,7 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
     protected void onResume() {
         super.onResume();
         selectedChildPosition = appController.getSelectedChild();
+        switchChild.childNameTV.setText(Constants.SWITCH_CHILD_FLAG);
     }
 
     @Override
@@ -88,7 +85,18 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
                 } else {
                     Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
                 }
+                break;
 
+            case R.id.logoutIV:
+                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
+                Constants.logOut(this);
+
+                Intent i = new Intent(this, LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+                finish();
+
+                break;
             default:
                 //Enter code in the event that that no cases match
         }
@@ -125,12 +133,10 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
                     startActivity(intent);
                 }
             });
-
         }
         else {
             Constants.showMessage(this,"No Mails","No mail found ...");
         }
-
         Constants.stopProgress(this);
     }
 
@@ -142,6 +148,22 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
     }
 
 
+    @Override
+    public void onSwitchChild(int selectedChildPosition) {
+
+
+        this.selectedChildPosition = selectedChildPosition;
+        appController.setSelectedChild(selectedChildPosition);
+        dialog.dismiss();
+    }
+
+    public void setSwitchChildDialogueData() {
+        appController = (AppController) getApplicationContext();
+        parentModel = appController.getParentsData();
+        if (parentModel != null && parentModel.getNumberOfChildren() >= 0) {
+            selectedChildPosition = appController.getSelectedChild();
+        }
+    }
 
     public void setOnClickListener() {
         mailCount = (TextView) findViewById(R.id.mailCount);
@@ -156,19 +178,19 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
         topBar.titleTV.setText(getString(R.string.inbox));
+        topBar.logoutIV.setOnClickListener(this);
     }
 
     public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
-        switchChild.parentNameTV.setText("Name");
         switchChild.switchChildBT.setOnClickListener(this);
     }
-
 
     public void inboxWebServiceCall() {
         String Url_inbox =null ;
         if (CommonUtils.isNetworkAvailable(this)) {
+            Constants.showProgress(this);
             Url_inbox = getString(R.string.base_url) + getString(R.string.parent_mail);
             Log.i("TimetableURL", Url_inbox);
             WebServiceCall call = new WebServiceCall(this);
@@ -188,12 +210,5 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
         }
         Log.i("noOfConversations::",numberOfConversations);
         return numberOfConversations;
-    }
-
-    @Override
-    public void onSwitchChild(int selectedChildPosition) {
-        this.selectedChildPosition = selectedChildPosition;
-        appController.setSelectedChild(selectedChildPosition);
-        dialog.dismiss();
     }
 }

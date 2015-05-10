@@ -26,12 +26,12 @@ public class ExamsJsonParser {
         return examsJsonParser;
     }
 
-    public ArrayList<ExamModel> getExamsList(String str) {
+    public ArrayList<ExamModel> getExamsList(JSONObject responseJson) {
         ArrayList<ExamModel> examsList = new ArrayList<ExamModel>();
         try {
-            JSONObject jsonObject = new JSONObject(str);
-            if (jsonObject.has("exams")) {
-                JSONArray examsArray = jsonObject.getJSONArray("exams");
+            //JSONObject responseJson = new JSONObject(str);
+            if (responseJson.has("exams")) {
+                JSONArray examsArray = responseJson.getJSONArray("exams");
                 int examsScheduleSize = examsArray.length();
                 for (int i = 0; i < examsScheduleSize; i++) {
                     JSONObject examObj = examsArray.getJSONObject(i);
@@ -64,6 +64,10 @@ public class ExamsJsonParser {
                             if (subjectObj.has("examEndTime")) {
                                 examScheduleModel.setExamsEndTime(subjectObj.getString("examEndTime"));
                             }
+                            if (subjectObj.has("examDate")) {
+                                examScheduleModel.setExamsDate(subjectObj.getString("examDate"));
+                            }
+
                             examsScheduleList.add(examScheduleModel);
                             examScheduleModel = null;
                         }

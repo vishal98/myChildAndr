@@ -1,7 +1,9 @@
 package com.mychild.view.Parent;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -11,20 +13,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mychild.Networkcall.RequestCompletion;
+import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.adapters.ExamsListviewAdapter;
 import com.mychild.adapters.ExamsTypesListviewAdapter;
 import com.mychild.customView.SwitchChildView;
-import com.mychild.interfaces.AsyncTaskInterface;
 import com.mychild.interfaces.IOnExamChangedListener;
 import com.mychild.interfaces.IOnSwichChildListener;
 import com.mychild.model.ExamModel;
 import com.mychild.model.ParentModel;
-import com.mychild.sharedPreference.StorageManager;
-import com.mychild.threads.HttpConnectThread;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseActivity;
+import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.R;
 import com.mychild.volley.AppController;
 import com.mychild.webserviceparser.ExamsJsonParser;
@@ -35,7 +36,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class ExamsActivity extends BaseActivity implements View.OnClickListener, RequestCompletion, AsyncTaskInterface, IOnExamChangedListener, IOnSwichChildListener {
+public class ExamsActivity extends BaseActivity implements View.OnClickListener, RequestCompletion, IOnExamChangedListener, IOnSwichChildListener {
 
     private SwitchChildView switchChild;
     private ListView examsListView;
@@ -47,24 +48,19 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
     private ParentModel parentModel = null;
     private AppController appController = null;
     private Dialog dialog = null;
+    private TopBar topBar;
+    String childName;
+    int getChildId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exams);
-        TopBar topBar = (TopBar) findViewById(R.id.topBar);
-        topBar.initTopBar();
-        topBar.titleTV.setText(getString(R.string.exams_title));
-        topBar.backArrowIV.setOnClickListener(this);
-        switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
-        switchChild.initSwitchChildBar();
-        switchChild.parentNameTV.setText(StorageManager.readString(this, getString(R.string.pref_username), ""));
-        switchChild.switchChildBT.setOnClickListener(this);
-        examsListView = (ListView) findViewById(R.id.exams_listview);
-        examsIV = (ImageView) findViewById(R.id.exams_iv);
-        examTypeTV = (TextView) findViewById(R.id.exam_type_tv);
-        dateTV = (TextView) findViewById(R.id.date_tv);
-        examsIV.setOnClickListener(this);
+        setTopBar();
+        switchChildBar();
+        setOnClickListener();
+
+
         Bundle buddle = getIntent().getExtras();
         if (buddle != null) {
             String fromKey = buddle.getString(getString(R.string.key_from));
@@ -72,65 +68,63 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
                 switchChild.switchChildBT.setVisibility(View.VISIBLE);
                 appController = (AppController) getApplicationContext();
                 parentModel = appController.getParentsData();
-                switchChild.parentNameTV.setText(parentModel.getName());
+                switchChild.childNameTV.setText(Constants.SWITCH_CHILD_FLAG);
                 selectedChildPosition = appController.getSelectedChild();
             } else if (fromKey.equals(getString(R.string.key_from_teacher))) {
                 switchChild.switchChildBT.setVisibility(View.GONE);
             }
         }
-        callExamsWebservice();
-
-
+        callExamsWebservice(Constants.SET_SWITCH_CHILD_ID);
     }
 
-    private void callExamsWebservice() {
-        String exmas_url = null;
-        if (CommonUtils.isNetworkAvailable(this)) {
-            //  Constants.showProgress(ExamsActivity.this);
-           /* SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
-            if (saredpreferences.contains("UserName")) {*/
-            exmas_url = getString(R.string.base_url) + getString(R.string.url_teacher_exam);
-            CommonUtils.getLogs("URL::" + exmas_url);
-        /*    }*/
-            /*WebServiceCall call = new WebServiceCall(ExamsActivity.this);
-            call.getCallRequest(Url_home_work);*/
-            httpConnectThread = new HttpConnectThread(this, null, this);
-            httpConnectThread.execute(exmas_url);
-        } else {
-            CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        selectedChildPosition = appController.getSelectedChild();
+        if(appController.getParentsData() != null){
+            onChangingChild();
         }
+        else{
+            switchChild.childNameTV.setText("No Child Selected");
+        }
+
+
     }
 
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         Constants.stopProgress(this);
         CommonUtils.getLogs("Response::111" + responseJson);
-        CommonUtils.getLogs("Response::2222" + responseArray);
+        examsList = ExamsJsonParser.getInstance().getExamsList(responseJson);
+        if (examsList != null && examsList.size() > 0) {
+            selectedExamposition = 0;
+            setExamScheduleListAdapter(examsList.get(selectedExamposition));
+        }
+        Constants.stopProgress(this);
+
     }
 
     @Override
     public void onRequestCompletionError(String error) {
         CommonUtils.getLogs("Error is exams response::" + error);
+        Constants.stopProgress(this);
+        Constants.showMessage(this, "Sorry", error);
     }
 
-    @Override
-    public void setAsyncTaskCompletionListener(String object) {
-        CommonUtils.getLogs("Response::::Exams" + object);
-        if (object != null && !object.equals("")) {
-            examsList = ExamsJsonParser.getInstance().getExamsList(object);
-            if (examsList != null && examsList.size() > 0) {
-                selectedExamposition = 0;
-                setExamScheduleListAdapter(examsList.get(selectedExamposition));
-            }
-        }
-    }
+//    @Override
+//    public void setAsyncTaskCompletionListener(String object) {
+//        CommonUtils.getLogs("Response::::Exams" + object);
+//        if (object != null && !object.equals("")) {
+//            examsList = ExamsJsonParser.getInstance().getExamsList(object);
+//            if (examsList != null && examsList.size() > 0) {
+//                selectedExamposition = 0;
+//                setExamScheduleListAdapter(examsList.get(selectedExamposition));
+//            }
+//        }
+//    }
 
-    private void setExamScheduleListAdapter(ExamModel examModel) {
-        examTypeTV.setText(examModel.getExamType());
-        dateTV.setText("Mar 29 - April 05 2015");
-        ExamsListviewAdapter examsListviewAdapter = new ExamsListviewAdapter(this, R.layout.exams_schedule_list_item, examModel.getExamScheduleList());
-        examsListView.setAdapter(examsListviewAdapter);
-    }
 
     @Override
     public void onClick(View v) {
@@ -152,8 +146,104 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
             case R.id.back_arrow_iv:
                 onBackPressed();
                 break;
+            case R.id.logoutIV:
+                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
+                Constants.logOut(this);
+
+                Intent i = new Intent(this, LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+                finish();
+
+                break;
+
             default:
         }
+    }
+
+    @Override
+    public void onExamChanged(int position, boolean isChecked) {
+        if (isChecked) {
+            examsTypeDialog.dismiss();
+            selectedExamposition = position;
+            setExamScheduleListAdapter(examsList.get(selectedExamposition));
+        }
+
+    }
+
+    @Override
+    public void onSwitchChild(int selectedChildPosition) {
+        childName = Constants.getChildNameAfterSelecting(selectedChildPosition,appController.getParentsData());
+        getChildId = Constants.getChildIdAfterSelecting(selectedChildPosition,appController.getParentsData());
+        switchChild.childNameTV.setText(childName);
+        Constants.SWITCH_CHILD_FLAG = childName;
+        Log.i("Switching child::", Constants.SWITCH_CHILD_FLAG);
+        Constants.SET_SWITCH_CHILD_ID = getChildId;
+        callExamsWebservice(getChildId);
+        this.selectedChildPosition = selectedChildPosition;
+        appController.setSelectedChild(selectedChildPosition);
+        dialog.dismiss();
+    }
+
+    private void callExamsWebservice(int childID) {
+        String exmas_url = null;
+        if (CommonUtils.isNetworkAvailable(this)) {
+            Constants.showProgress(this);
+            exmas_url = getString(R.string.base_url) + getString(R.string.url_child_exam)+childID;
+            CommonUtils.getLogs("URL::" + exmas_url);
+            WebServiceCall call = new WebServiceCall(ExamsActivity.this);
+            call.getJsonObjectResponse(exmas_url);
+//            httpConnectThread = new HttpConnectThread(this, null, this);
+//            httpConnectThread.execute(exmas_url);
+        } else {
+            CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
+        }
+    }
+
+    private void setExamScheduleListAdapter(ExamModel examModel) {
+        examTypeTV.setText(examModel.getExamType());
+        dateTV.setText("Mar 29 - April 05 2015");
+        ExamsListviewAdapter examsListviewAdapter = new ExamsListviewAdapter(this, R.layout.exams_schedule_list_item, examModel.getExamScheduleList());
+        examsListView.setAdapter(examsListviewAdapter);
+    }
+
+    public void onChangingChild(){
+        if(Constants.SWITCH_CHILD_FLAG == null){
+            childName = Constants.getChildNameAfterSelecting(0,appController.getParentsData());
+            switchChild.childNameTV.setText(childName);
+            Constants.SWITCH_CHILD_FLAG = childName;
+            Log.i("Setting Default child::",Constants.SWITCH_CHILD_FLAG);
+            getChildId = Constants.getChildIdAfterSelecting(0,appController.getParentsData());
+            Constants.SET_SWITCH_CHILD_ID = getChildId;
+        }
+        else {
+            switchChild.childNameTV.setText(Constants.SWITCH_CHILD_FLAG);
+        }
+    }
+
+    public void setTopBar() {
+        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar.initTopBar();
+        topBar.titleTV.setText(getString(R.string.exams_title));
+        topBar.backArrowIV.setOnClickListener(this);
+        topBar.logoutIV.setOnClickListener(this);
+    }
+
+    public void switchChildBar() {
+        switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
+        switchChild.initSwitchChildBar();
+//        switchChild.childNameTV.setText(StorageManager.readString(this, getString(R.string.pref_username), ""));
+
+    }
+
+    public void setOnClickListener() {
+
+        examsListView = (ListView) findViewById(R.id.exams_listview);
+        examsIV = (ImageView) findViewById(R.id.exams_iv);
+        examTypeTV = (TextView) findViewById(R.id.exam_type_tv);
+        dateTV = (TextView) findViewById(R.id.date_tv);
+        examsIV.setOnClickListener(this);
+        switchChild.switchChildBT.setOnClickListener(this);
     }
 
     private Dialog getExamsDialog(ArrayList<ExamModel> list, int examPosition) {
@@ -172,19 +262,5 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
         return dialog;
     }
 
-    @Override
-    public void onExamChanged(int position, boolean isChecked) {
-        if (isChecked) {
-            examsTypeDialog.dismiss();
-            selectedExamposition = position;
-            setExamScheduleListAdapter(examsList.get(selectedExamposition));
-        }
-    }
 
-    @Override
-    public void onSwitchChild(int selectedChildPosition) {
-        this.selectedChildPosition = selectedChildPosition;
-        appController.setSelectedChild(selectedChildPosition);
-        dialog.dismiss();
-    }
 }

@@ -60,6 +60,9 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
         if(error == "AuthFailureError"){
             Constants.showMessage(this, "Sorry", getString(R.string.auth_error));
         }
+        else{
+            Constants.showMessage(this, "Sorry", error);
+        }
         Log.i("Login", error);
     }
 

@@ -61,6 +61,12 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
     InfiniteViewPager viewPager;
     int currentIndicator = 0;
     Calendar cal = Calendar.getInstance();
+    String childName = null;
+    String selectedHomeWorkDate;
+    String homeWorkDate;
+    int DATE_CHANGED_FLAG=0;
+    int getChildId = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +103,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
                 this, android.R.layout.simple_list_item_1, getDaysOfWeek());
         weekdayGridView.setAdapter(weekdaysAdapter);
         Calendar cal = Calendar.getInstance();
-        String homeWorkDate = cal.get(Calendar.DAY_OF_MONTH)+ "-" +(cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR);
+        homeWorkDate = cal.get(Calendar.DAY_OF_MONTH)+ "-" +(cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR);
         ((TextView) findViewById(R.id.todayDate)).setText(cal.get(Calendar.DAY_OF_MONTH) + " " + getMonth(cal.get(Calendar.MONTH) + 1).substring(0, 3) + " " + cal.get(Calendar.YEAR));
 
         final CaldroidFragment dialogCaldroidFragment = CaldroidFragment.newInstance("Select a date", cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR), 1);
@@ -108,7 +114,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(date);
                 dialogCaldroidFragment.dismiss();
-                getChildHomworkWebservicescall(getDayFull(cal.get(Calendar.DATE)));
+                getChildHomworkWebservicescall(Constants.SET_SWITCH_CHILD_ID,getDayFull(cal.get(Calendar.DATE)));
             }
 
             @Override
@@ -135,7 +141,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
 
 
         Log.i("homeWorkDate", homeWorkDate);
-        getChildHomworkWebservicescall(homeWorkDate);
+        getChildHomworkWebservicescall(Constants.SET_SWITCH_CHILD_ID,homeWorkDate);
 
     }
 
@@ -143,6 +149,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
     protected void onResume() {
         super.onResume();
         selectedChildPosition = appController.getSelectedChild();
+        switchChild.childNameTV.setText(Constants.SWITCH_CHILD_FLAG);
     }
 
     @Override
@@ -156,8 +163,17 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
             ChildHomeworkAdapter homeworkAdapter = new ChildHomeworkAdapter(this, childrenGradeAndSection);
             homeWorkList.setAdapter(homeworkAdapter);
 
+
         }else{
             Constants.showMessage(this,"No Homework","No homework found for the day...");
+        }
+        if(Constants.SWITCH_CHILD_FLAG == null){
+            childName = Constants.getChildNameAfterSelecting(0,appController.getParentsData());
+            switchChild.childNameTV.setText(childName);
+            Constants.SWITCH_CHILD_FLAG = childName;
+        }
+        else {
+            switchChild.childNameTV.setText(Constants.SWITCH_CHILD_FLAG);
         }
         Constants.stopProgress(this);
     }
@@ -182,7 +198,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
                 break;
 
             case R.id.switch_child:
-                if (parentModel.getChildList() != null) {
+                if (parentModel != null) {
                     dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
                 } else {
                     Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
@@ -191,7 +207,6 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
             case R.id.logoutIV:
                 Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
                 Constants.logOut(this);
-
                 Intent i = new Intent(this, LoginActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
@@ -206,11 +221,26 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
 
     @Override
     public void onSwitchChild(int selectedChildPosition) {
+
+        if(DATE_CHANGED_FLAG == 0){
+            Constants.SET_SWITCH_CHILD_ID = Constants.getChildIdAfterSelecting(selectedChildPosition,appController.getParentsData());
+            getChildHomworkWebservicescall(Constants.SET_SWITCH_CHILD_ID,homeWorkDate);
+        }
+        else {
+            Constants.SET_SWITCH_CHILD_ID = Constants.getChildIdAfterSelecting(selectedChildPosition,appController.getParentsData());
+            getChildHomworkWebservicescall(Constants.SET_SWITCH_CHILD_ID,selectedHomeWorkDate);
+        }
+
+        childName = Constants.getChildNameAfterSelecting(selectedChildPosition,appController.getParentsData());
+        switchChild.childNameTV.setText(childName);
+        Constants.SWITCH_CHILD_FLAG = childName;
         this.selectedChildPosition = selectedChildPosition;
         appController.setSelectedChild(selectedChildPosition);
         dialog.dismiss();
 
     }
+
+
 
     public void setTopBar() {
         topBar = (TopBar) findViewById(R.id.topBar);
@@ -224,7 +254,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
     public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
-        switchChild.parentNameTV.setText("Name");
+        switchChild.childNameTV.setText("Name");
         switchChild.switchChildBT.setOnClickListener(this);
     }
 
@@ -238,12 +268,13 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
     }
 
 
-    public void getChildHomworkWebservicescall(String date) {
-        Constants.showProgress(this);
+    public void getChildHomworkWebservicescall(int childId,String date) {
+
         String Url_home_work = null;
         if (CommonUtils.isNetworkAvailable(this)) {
+            Constants.showProgress(this);
             if (!StorageManager.readString(this, "username", "").isEmpty()) {
-                Url_home_work = getString(R.string.base_url) + "/app/getHomework/student/1/"+date;
+                Url_home_work = getString(R.string.base_url) + getString(R.string.home_work_for_child)+childId+"/"+date;
                 Log.i("===Url_Homework===", Url_home_work);
             }
             WebServiceCall call = new WebServiceCall(ChildHomeWorkActivity.this);
@@ -268,11 +299,11 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
     class onDateClickListner implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            // TODO Auto-generated method stub
+            DATE_CHANGED_FLAG = 1;
             TextView tv = (TextView) v;
 //            tv.setTextColor(Color.RED);
 //            String selectedDate = tv.getTag().toString();
-            String selectedHomeWorkDate = tv.getText()+ "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR)  ;
+             selectedHomeWorkDate = tv.getText()+ "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR)  ;
             // Toast.makeText(ChildHomeWorkActivity.this, tv.getText(), Toast.LENGTH_LONG).show();
 
 
@@ -291,7 +322,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
             if(!(tv.getCurrentTextColor()==Color.parseColor("#FF0000")))
                 tv.setTextColor(Color.BLUE);
 
-            getChildHomworkWebservicescall(selectedHomeWorkDate);
+            getChildHomworkWebservicescall(Constants.SET_SWITCH_CHILD_ID,selectedHomeWorkDate);
         }
     }
 

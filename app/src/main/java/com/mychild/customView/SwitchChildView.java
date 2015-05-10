@@ -15,7 +15,7 @@ import com.mychild.view.R;
  */
 public class SwitchChildView extends RelativeLayout {
     public ImageView personIV;
-    public TextView parentNameTV;
+    public TextView childNameTV;
     public Button switchChildBT;
 
     public SwitchChildView(Context context) {
@@ -38,8 +38,8 @@ public class SwitchChildView extends RelativeLayout {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.switch_child, this);
 
-        personIV = (ImageView) findViewById(R.id.parent_image);
-        parentNameTV = (TextView) findViewById(R.id.parent_name);
+        personIV = (ImageView) findViewById(R.id.child_icon);
+        childNameTV = (TextView) findViewById(R.id.child_name);
         switchChildBT = (Button) findViewById(R.id.switch_child);
     }
 }

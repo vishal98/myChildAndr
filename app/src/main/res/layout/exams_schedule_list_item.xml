@@ -20,20 +20,26 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/subject_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ENGLISH"
-
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <TextView
                 android:id="@+id/time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="9:00AM - 9:30 AM"
-                android:textSize="12sp"  />
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/subject_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SUBJECT"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/subject_SyllabusTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Syllabus" />
 
         </LinearLayout>
 

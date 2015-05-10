@@ -8,6 +8,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.mychild.model.ParentModel;
+import com.mychild.model.StudentDTO;
 
 
 public class AppController extends Application {
@@ -19,6 +20,7 @@ public class AppController extends Application {
     LruBitmapCache mLruBitmapCache;
     private int selectedStudentPosition = 0;
     private ParentModel parentModel;
+    private StudentDTO studentDTO;
 
     private static AppController mAppInstance;
 
@@ -82,6 +84,7 @@ public class AppController extends Application {
 
     public void setSelectedChild(int selectedStudentPosition) {
         this.selectedStudentPosition = selectedStudentPosition;
+
     }
 
     public int getSelectedChild() {

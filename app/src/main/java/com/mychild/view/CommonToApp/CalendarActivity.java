@@ -48,6 +48,9 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
     private ParentModel parentModel = null;
     private AppController appController = null;
     private Dialog dialog = null;
+    int getChildId = 0;
+    String childName;
+    Calendar cal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +110,7 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
                 public void onSelectDate(Date date, View view) {
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(date);
-                    getChildCalenderEvent( cal.get(Calendar.DAY_OF_MONTH)+ "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR));
+                    getChildCalenderEvent(cal.get(Calendar.DAY_OF_MONTH)+ "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR), Constants.SET_SWITCH_CHILD_ID);
                 }
 
                 @Override
@@ -148,8 +151,8 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Calendar cal = Calendar.getInstance();
-        getChildCalenderEvent( cal.get(Calendar.DAY_OF_MONTH)+ "-" + (cal.get(Calendar.MONTH) + 1) + "-" +   cal.get(Calendar.YEAR));
+        cal = Calendar.getInstance();
+        getChildCalenderEvent( cal.get(Calendar.DAY_OF_MONTH)+ "-" + (cal.get(Calendar.MONTH) + 1) + "-" +   cal.get(Calendar.YEAR),Constants.SET_SWITCH_CHILD_ID);
     }
 
 
@@ -220,12 +223,12 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
         }
     }
 
-    public void getChildCalenderEvent(String date) {
+    public void getChildCalenderEvent(String date, int childID) {
         Constants.showProgress(this);
         String Url_cal;
         if (CommonUtils.isNetworkAvailable(this)) {
-            Url_cal = getString(R.string.base_url) + getString(R.string.calendar_task) + date;
-            Log.i("ChildCalenderURL", Url_cal);
+            Url_cal = getString(R.string.base_url) + getString(R.string.calendar_task_parent)+childID+"/"+ date;
+            Log.i("ChildCalenderURL::", Url_cal);
             WebServiceCall call = new WebServiceCall(CalendarActivity.this);
             call.getJsonObjectResponse(Url_cal);
         } else {
@@ -244,7 +247,7 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
     public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
-        switchChild.parentNameTV.setText("Name");
+//        switchChild.childNameTV.setText("Name");
         switchChild.switchChildBT.setOnClickListener(this);
     }
 
@@ -281,6 +284,14 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
 
     @Override
     public void onSwitchChild(int selectedChildPosition) {
+        childName = Constants.getChildNameAfterSelecting(selectedChildPosition,appController.getParentsData());
+        getChildId = Constants.getChildIdAfterSelecting(selectedChildPosition,appController.getParentsData());
+        switchChild.childNameTV.setText(childName);
+        Constants.SWITCH_CHILD_FLAG = childName;
+        Log.i("Switching child::",Constants.SWITCH_CHILD_FLAG);
+        Constants.SET_SWITCH_CHILD_ID = getChildId;
+        String eventDate= cal.get(Calendar.DAY_OF_MONTH)+ "-" + (cal.get(Calendar.MONTH) + 1) + "-" +   cal.get(Calendar.YEAR);
+        getChildCalenderEvent(eventDate,getChildId);
         this.selectedChildPosition = selectedChildPosition;
         appController.setSelectedChild(selectedChildPosition);
         dialog.dismiss();

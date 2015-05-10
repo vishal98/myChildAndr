@@ -43,6 +43,7 @@ public class ExamsListviewAdapter extends ArrayAdapter<ExamScheduleModel> {
             holder.timeTV = (TextView) convertView.findViewById(R.id.time_tv);
             holder.subjectTV = (TextView) convertView.findViewById(R.id.subject_tv);
             holder.weekTV = (TextView) convertView.findViewById(R.id.week_tv);
+            holder.subject_SyllabusTV = (TextView) convertView.findViewById(R.id.subject_SyllabusTV);
             holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
 
             convertView.setTag(holder);
@@ -50,9 +51,10 @@ public class ExamsListviewAdapter extends ArrayAdapter<ExamScheduleModel> {
             holder = (ViewHolder) convertView.getTag();
         }
         ExamScheduleModel examScheduleModel = getItem(position);
-        holder.weekTV.setText(CommonUtils.getWeekName(examScheduleModel.getExamsStartTime()));
+        holder.weekTV.setText(examScheduleModel.getExamsStartTime()+"-"+examScheduleModel.getExamsEndTime());
         holder.subjectTV.setText(examScheduleModel.getSubjectName());
-        holder.timeTV.setText(CommonUtils.getTime(examScheduleModel.getExamsStartTime(), examScheduleModel.getExamsEndTime()));
+        holder.subject_SyllabusTV.setText(examScheduleModel.getSubjectSyllabus());
+        holder.timeTV.setText(examScheduleModel.getExamsStartTime()+ "-"+ examScheduleModel.getExamsEndTime());
         holder.monthTV.setText(CommonUtils.getMonth(examScheduleModel.getExamsStartTime()));
         holder.dateTV.setText(CommonUtils.getDate(examScheduleModel.getExamsStartTime()));
         //ExamScheduleModel studentDTO = getItem(position);
@@ -61,7 +63,7 @@ public class ExamsListviewAdapter extends ArrayAdapter<ExamScheduleModel> {
     }
 
     private class ViewHolder {
-        TextView dateTV, monthTV, timeTV, weekTV, subjectTV;
+        TextView dateTV, monthTV, timeTV, weekTV, subjectTV,subject_SyllabusTV;
         CheckBox checkBox;
     }
 
