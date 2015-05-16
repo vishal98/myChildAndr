@@ -14,8 +14,9 @@ import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseActivity;
-import com.mychild.view.Parent.ExamsActivity;
+import com.mychild.view.CommonToApp.GalleryActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
+import com.mychild.view.Parent.ExamsActivity;
 import com.mychild.view.Parent.ParentNoticeActivity;
 import com.mychild.view.R;
 import com.mychild.webserviceparser.TeacherHomeJsonParser;
@@ -93,7 +94,7 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.transport:
-                CommonUtils.getToastMessage(this, "Under Developent");
+                startActivity(new Intent(this, GalleryActivity.class));
                 break;
 
             case R.id.logoutIV:

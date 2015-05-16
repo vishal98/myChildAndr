@@ -2,6 +2,7 @@ package com.mychild.utils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -13,6 +14,9 @@ import android.widget.Toast;
 import com.mychild.adapters.CustomDialogueAdapter;
 import com.mychild.model.StudentDTO;
 import com.mychild.view.R;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -147,5 +151,19 @@ public class CommonUtils {
         dialog.setCancelable(true);
         dialog.show();
         return dialog;
+    }
+
+    public static DisplayImageOptions returnDisplayOptions() {
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .showImageForEmptyUri(R.drawable.placeholder)
+                .showImageOnFail(R.drawable.placeholder)
+                .resetViewBeforeLoading(true)
+                .cacheOnDisk(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .considerExifParams(true)
+                .displayer(new FadeInBitmapDisplayer(300))
+                .build();
+        return options;
     }
 }
