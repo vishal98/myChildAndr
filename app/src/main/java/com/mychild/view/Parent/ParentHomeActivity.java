@@ -155,6 +155,10 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 startActivity(new Intent(ParentHomeActivity.this, ParentNoticeActivity.class));
                 break;
 
+            case R.id.transport:
+                startActivity(new Intent(ParentHomeActivity.this, CustomTabActivity.class));
+                break;
+
 
             case R.id.logoutIV:
                 Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();

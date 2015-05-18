@@ -35,6 +35,7 @@
     <string name="attendence">Attendence</string>
     <string name="transport">Transport</string>
     <string name="Mail">Transport</string>
+    <string name="child_exams_activity">ExamsActivity</string>
 
 
     <!--Endpoint urls -->

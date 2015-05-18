@@ -80,6 +80,12 @@
             android:screenOrientation="portrait"
             android:label="@string/parent_notice"></activity>
 
+        <activity
+            android:name=".Parent.CustomTabActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/child_exams_activity"></activity>
+
+
         <receiver
             android:name="com.pushbots.google.gcm.GCMBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
