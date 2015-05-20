@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Rosary</string>
+    <string name="app_name">My Child</string>
     <string name="action_settings">Settings</string>
     <string name="login_text">Please login to connect</string>
     <string name="userid_hint">Enter User ID</string>
@@ -36,6 +36,7 @@
     <string name="transport">Transport</string>
     <string name="Mail">Transport</string>
     <string name="child_exams_activity">ExamsActivity</string>
+    <string name="gallary">Gallary</string>
 
 
     <!--Endpoint urls -->
@@ -54,6 +55,7 @@
     <string name="parent_email_to_teahcer">/app/conversations/new</string>
     <string name="timetabel_teacher">/app/teacher/timetable/</string>
     <string name="calender_task_teacher">/app/events/teacher/</string>
+    <string name="gallery_url">http://gimmewingsdev.elasticbeanstalk.com/app/getuserAlbums</string>
 
 
     <!--teacher flow-->
@@ -144,15 +146,21 @@
     <string name="absent_caps">ABSENT</string>
     <string name="url_save_attendence">/app/teacher/attendance/save</string>
     <string name="url_new_mail">/app/conversations/new</string>
-
-
     <string name="url_child_exam">/app/exams/result/</string>
 
-
+,
     <!--Generic Error messages-->
     <string name="auth_error">wrong user id/password.</string>
+    <string name="title_activity_gallery">GalleryActivity</string>
+    <string name="title_activity_gallery_album">GalleryAlbumActivity</string>
 
 
+    <!--gallery-->
+    <string name="gallery">Gallery</string>
+    <string name="album_data">album_data</string>
+    <string name="album_list_data">album_list_data</string>
+    <string name="position">position</string>
+    <string name="title_activity_gallery_full_image">GalleryFullImageActivity</string>
 
 
 </resources>

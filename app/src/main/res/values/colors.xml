@@ -11,6 +11,7 @@
     <color name="done_dark_red_color">#ffd9484b</color>
     <color name="cal_time">#FC3135</color>
     <color name="orange">#FF6F0A</color>
+    <color name="gallery_full_screen_header_color">#ff323232</color>
 
 
     <!--Color codes for tabs activity-->

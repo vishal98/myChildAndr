@@ -30,8 +30,8 @@ public class ExamsJsonParser {
         ArrayList<ExamModel> examsList = new ArrayList<ExamModel>();
         try {
             //JSONObject responseJson = new JSONObject(str);
-            if (responseJson.has("exams")) {
-                JSONArray examsArray = responseJson.getJSONArray("exams");
+            if (responseJson.has("exam")) {
+                JSONArray examsArray = responseJson.getJSONArray("exam");
                 int examsScheduleSize = examsArray.length();
                 for (int i = 0; i < examsScheduleSize; i++) {
                     JSONObject examObj = examsArray.getJSONObject(i);
@@ -42,27 +42,44 @@ public class ExamsJsonParser {
                     if (examObj.has("examType")) {
                         examModel.setExamType(examObj.getString("examType"));
                     }
-                    if (examObj.has("schedule")) {
-                        JSONArray examScheduleArray = examObj.getJSONArray("schedule");
+                    if (examObj.has("examSchedule")) {
+                        JSONArray examScheduleArray = examObj.getJSONArray("examSchedule");
                         ArrayList<ExamScheduleModel> examsScheduleList = new ArrayList<ExamScheduleModel>();
                         int subjectsSize = examScheduleArray.length();
                         for (int j = 0; j < subjectsSize; j++) {
                             JSONObject subjectObj = examScheduleArray.getJSONObject(j);
                             ExamScheduleModel examScheduleModel = new ExamScheduleModel();
-                            if (subjectObj.has("subjectName")) {
-                                examScheduleModel.setSubjectName(subjectObj.getString("subjectName"));
+
+                            if (subjectObj.has("syllabus")) {
+
+                                    JSONObject syllabusObj = subjectObj.getJSONObject("syllabus");
+                                    if (syllabusObj.has("syllabus")) {
+                                        examScheduleModel.setSubjectSyllabus(syllabusObj.getString("syllabus"));
+                                    }
                             }
-                            if (subjectObj.has("subjectSyllabus")) {
-                                examScheduleModel.setSubjectSyllabus(subjectObj.getString("subjectSyllabus"));
+
+                            if (subjectObj.has("subject")) {
+
+                                JSONObject syllabusSubjectObj = subjectObj.getJSONObject("subject");
+                                if (syllabusSubjectObj.has("subjectName")) {
+                                    examScheduleModel.setSubjectName(syllabusSubjectObj.getString("subjectName"));
+                                }
                             }
-                            if (subjectObj.has("teacherName")) {
-                                examScheduleModel.setTeacherName(subjectObj.getString("teacherName"));
+
+//                            if (subjectObj.has("subjectName")) {
+//                                examScheduleModel.setSubjectName(subjectObj.getString("subjectName"));
+//                            }
+//                            if (subjectObj.has("subjectSyllabus")) {
+//                                examScheduleModel.setSubjectSyllabus(subjectObj.getString("subjectSyllabus"));
+//                            }
+//                            if (subjectObj.has("teacherName")) {
+//                                examScheduleModel.setTeacherName(subjectObj.getString("teacherName"));
+//                            }
+                            if (subjectObj.has("startTime")) {
+                                examScheduleModel.setExamsStartTime(subjectObj.getString("startTime"));
                             }
-                            if (subjectObj.has("examStartTime")) {
-                                examScheduleModel.setExamsStartTime(subjectObj.getString("examStartTime"));
-                            }
-                            if (subjectObj.has("examEndTime")) {
-                                examScheduleModel.setExamsEndTime(subjectObj.getString("examEndTime"));
+                            if (subjectObj.has("endTime")) {
+                                examScheduleModel.setExamsEndTime(subjectObj.getString("endTime"));
                             }
                             if (subjectObj.has("examDate")) {
                                 examScheduleModel.setExamsDate(subjectObj.getString("examDate"));

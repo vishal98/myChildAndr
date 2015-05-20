@@ -23,6 +23,7 @@ import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseActivity;
 import com.mychild.view.CommonToApp.CalendarActivity;
+import com.mychild.view.CommonToApp.GalleryActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.CommonToApp.NotificationActivity;
 import com.mychild.view.R;
@@ -102,11 +103,11 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
 
     @Override
     public void onSwitchChild(int selectedChildPosition) {
-        childName = Constants.getChildNameAfterSelecting(selectedChildPosition,appController.getParentsData());
-        getChildId = Constants.getChildIdAfterSelecting(selectedChildPosition,appController.getParentsData());
+        childName = Constants.getChildNameAfterSelecting(selectedChildPosition, appController.getParentsData());
+        getChildId = Constants.getChildIdAfterSelecting(selectedChildPosition, appController.getParentsData());
         switchChild.childNameTV.setText(childName);
         Constants.SWITCH_CHILD_FLAG = childName;
-        Log.i("Switching child::",Constants.SWITCH_CHILD_FLAG);
+        Log.i("Switching child::", Constants.SWITCH_CHILD_FLAG);
         Constants.SET_SWITCH_CHILD_ID = getChildId;
         this.selectedChildPosition = selectedChildPosition;
         appController.setSelectedChild(selectedChildPosition);
@@ -143,9 +144,9 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 startActivity(new Intent(this, ParentInboxActivity.class));
                 break;
 
-             case R.id.calender:
-                    startActivity(new Intent(ParentHomeActivity.this, CalendarActivity.class));
-                    break;
+            case R.id.calender:
+                startActivity(new Intent(ParentHomeActivity.this, CalendarActivity.class));
+                break;
 
             case R.id.attendance:
                 startActivity(new Intent(ParentHomeActivity.this, AttendanceActivity.class));
@@ -156,10 +157,12 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 break;
 
             case R.id.transport:
-                startActivity(new Intent(ParentHomeActivity.this, CustomTabActivity.class));
+                startActivity(new Intent(this, CustomTabActivity.class));
                 break;
-
-
+            case R.id.gallary:
+                startActivity(new Intent(this, GalleryActivity.class));
+                break;
+            
             case R.id.logoutIV:
                 Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
                 clearSharedPreferenceForLogout = getSharedPreferences("Response", 0);
@@ -177,17 +180,16 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
 
     }
 
-    public void onChangingChild(){
+    public void onChangingChild() {
 
-        if(appController.getParentsData() != null){
-            childName = Constants.getChildNameAfterSelecting(0,appController.getParentsData());
+        if (appController.getParentsData() != null) {
+            childName = Constants.getChildNameAfterSelecting(0, appController.getParentsData());
             switchChild.childNameTV.setText(childName);
             Constants.SWITCH_CHILD_FLAG = childName;
-            Log.i("Setting Default child::",Constants.SWITCH_CHILD_FLAG);
-            getChildId = Constants.getChildIdAfterSelecting(0,appController.getParentsData());
+            Log.i("Setting Default child::", Constants.SWITCH_CHILD_FLAG);
+            getChildId = Constants.getChildIdAfterSelecting(0, appController.getParentsData());
             Constants.SET_SWITCH_CHILD_ID = getChildId;
-        }
-        else {
+        } else {
             switchChild.childNameTV.setText(Constants.SWITCH_CHILD_FLAG);
         }
     }
@@ -204,7 +206,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            startActivity(new Intent(ParentHomeActivity.this, NotificationActivity.class));
+                startActivity(new Intent(ParentHomeActivity.this, NotificationActivity.class));
 
             }
         });
@@ -230,6 +232,8 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         ImageView calender = (ImageView) findViewById(R.id.calender);
         ImageView attendance = (ImageView) findViewById(R.id.attendance);
         ImageView notice = (ImageView) findViewById(R.id.notice);
+        ImageView transport = (ImageView) findViewById(R.id.transport);
+        ImageView gallary = (ImageView) findViewById(R.id.gallary);
         homeWork.setOnClickListener(this);
         timeTable.setOnClickListener(this);
         exams.setOnClickListener(this);
@@ -237,6 +241,8 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         mailBox.setOnClickListener(this);
         calender.setOnClickListener(this);
         attendance.setOnClickListener(this);
+        transport.setOnClickListener(this);
+        gallary.setOnClickListener(this);
         switchChild.switchChildBT.setOnClickListener(this);
     }
 

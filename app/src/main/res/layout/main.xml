@@ -87,7 +87,8 @@
         android:id="@+id/tabhost2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="50"
+        android:background="@color/white"
+
         >
         <LinearLayout
             android:orientation="vertical"
@@ -109,7 +110,7 @@
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="2dip"
-                android:background="@color/selected_bottom"
+                android:background="@color/green"
                 />
             <View
                 android:layout_width="fill_parent"
@@ -119,18 +120,18 @@
 
             <FrameLayout
             android:id="@android:id/tabcontent"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"></FrameLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></FrameLayout>
 
         </LinearLayout>
     </TabHost>
 
-    <!--<ListView-->
-        <!--android:id="@+id/exams_listview"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:divider="@color/done_red_color"-->
-        <!--android:dividerHeight="1dp"></ListView>-->
+    <ListView
+        android:id="@+id/exams_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/done_red_color"
+        android:dividerHeight="1dp"></ListView>
 
 </LinearLayout>
 
