@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.model.StudentDTO;
@@ -49,6 +50,7 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
         ((ImageView) findViewById(R.id.calender_iv)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.attendance)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.transport)).setOnClickListener(this);
+        ((ImageView) findViewById(R.id.transport_ivtest)).setOnClickListener(this);
         ((TextView) findViewById(R.id.teacher_name_tv)).setText(StorageManager.readString(this, getString(R.string.pref_username), ""));
 
 
@@ -97,6 +99,9 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
                 startActivity(new Intent(this, GalleryActivity.class));
                 break;
 
+            case R.id.transport_ivtest:
+                Toast.makeText(this,"Coming soon",Toast.LENGTH_LONG).show();
+                break;
             case R.id.logoutIV:
                 SharedPreferences clearSharedPreferenceForLogout;
                 clearSharedPreferenceForLogout = getSharedPreferences("MyChild_Preferences", 0);

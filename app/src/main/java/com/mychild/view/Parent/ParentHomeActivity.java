@@ -157,12 +157,8 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 break;
 
             case R.id.transport:
-                startActivity(new Intent(this, CustomTabActivity.class));
-                break;
-            case R.id.gallary:
                 startActivity(new Intent(this, GalleryActivity.class));
                 break;
-            
             case R.id.logoutIV:
                 Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
                 clearSharedPreferenceForLogout = getSharedPreferences("Response", 0);
@@ -173,7 +169,9 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 finish();
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
-
+            case R.id.transport_homeic:
+                Toast.makeText(this,"Coming Soon",Toast.LENGTH_LONG).show();
+                break;
             default:
                 //Enter code in the event that that no cases match
         }
@@ -233,7 +231,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         ImageView attendance = (ImageView) findViewById(R.id.attendance);
         ImageView notice = (ImageView) findViewById(R.id.notice);
         ImageView transport = (ImageView) findViewById(R.id.transport);
-        ImageView gallary = (ImageView) findViewById(R.id.gallary);
+        ImageView transport_homeic = (ImageView) findViewById(R.id.transport_homeic);
         homeWork.setOnClickListener(this);
         timeTable.setOnClickListener(this);
         exams.setOnClickListener(this);
@@ -242,7 +240,8 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         calender.setOnClickListener(this);
         attendance.setOnClickListener(this);
         transport.setOnClickListener(this);
-        gallary.setOnClickListener(this);
+        transport_homeic.setOnClickListener(this);
+
         switchChild.switchChildBT.setOnClickListener(this);
     }
 

@@ -235,7 +235,7 @@
                 android:id="@+id/transport"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_transport" />
+                android:src="@drawable/gallery_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -244,9 +244,44 @@
                 android:layout_marginTop="5dp"
                 android:textSize="17sp"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/transport" />
+                android:text="Gallery" />
         </LinearLayout>
     </TableRow>
+
+        <TableRow
+            android:id="@+id/tr5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tr4"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:weightSum="1">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/transport_ivtest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_transport" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="5dp"
+                    android:textSize="17sp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Transport" />
+            </LinearLayout>
+        </TableRow>
+
     </LinearLayout>
     </ScrollView>
 

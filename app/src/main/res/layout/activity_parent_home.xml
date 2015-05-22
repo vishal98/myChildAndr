@@ -198,7 +198,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/parent_layout5"
+            android:id="@+id/row5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/parent_layout4"
@@ -239,7 +239,7 @@
                     android:id="@+id/transport"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/icon_transport" />
+                    android:src="@drawable/gallery_icon" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -248,18 +248,21 @@
                     android:layout_marginTop="5dp"
                     android:textSize="17sp"
                     android:layout_gravity="center_horizontal"
-                    android:text="@string/transport" />
+                    android:text="Gallery" />
             </LinearLayout>
+
+
         </TableRow>
             <TableRow
                 android:id="@+id/row6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/parent_layout5"
+                android:layout_below="@+id/row5"
                 android:layout_marginTop="20dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:weightSum="1">
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -267,7 +270,7 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/gallary"
+                        android:id="@+id/transport_homeic"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:src="@drawable/icon_transport" />
@@ -279,9 +282,11 @@
                         android:layout_marginTop="5dp"
                         android:textSize="17sp"
                         android:layout_gravity="center_horizontal"
-                        android:text="@string/gallary" />
+                        android:text="Transport" />
                 </LinearLayout>
+
             </TableRow>
+
         </LinearLayout>
     </ScrollView>
 
