@@ -173,6 +173,11 @@ public class ChildrenTimeTableActivity extends BaseFragmentActivity implements R
             case R.id.back_arrow_iv:
                 onBackPressed();
                 break;
+
+            case R.id.child_name:
+                startActivity(new Intent(this, ProfileFragmentActivity.class));
+                break;
+
             case R.id.switch_child:
                 if (parentModel.getChildList() != null) {
                     dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
@@ -230,6 +235,7 @@ public class ChildrenTimeTableActivity extends BaseFragmentActivity implements R
         switchChild.initSwitchChildBar();
         switchChild.childNameTV.setText("Name");
         switchChild.switchChildBT.setOnClickListener(this);
+        switchChild.childNameTV.setOnClickListener(this);
     }
 
     public void setSwitchChildDialogueData() {

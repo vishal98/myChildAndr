@@ -76,9 +76,14 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
                 onBackPressed();
                 break;
 
+            case R.id.child_name:
+                startActivity(new Intent(this, ProfileFragmentActivity.class));
+                break;
+
             case R.id.write_mailIV:
                 startActivity(new Intent(ParentInboxActivity.this, ParentWriteMailToTeacher.class));
                 break;
+
             case R.id.switch_child:
                 if (parentModel.getChildList() != null) {
                     dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
@@ -151,7 +156,6 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
     @Override
     public void onSwitchChild(int selectedChildPosition) {
 
-
         this.selectedChildPosition = selectedChildPosition;
         appController.setSelectedChild(selectedChildPosition);
         dialog.dismiss();
@@ -185,6 +189,7 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
         switchChild.switchChildBT.setOnClickListener(this);
+        switchChild.childNameTV.setOnClickListener(this);
     }
 
     public void inboxWebServiceCall() {

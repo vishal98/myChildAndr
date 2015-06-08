@@ -17,6 +17,7 @@ import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseActivity;
 import com.mychild.view.CommonToApp.GalleryActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
+import com.mychild.view.CommonToApp.NoticeActivity;
 import com.mychild.view.Parent.ExamsActivity;
 import com.mychild.view.Parent.ParentNoticeActivity;
 import com.mychild.view.R;
@@ -81,7 +82,7 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.notice_iv:
-                startActivity(new Intent(this, ParentNoticeActivity.class));
+                startActivity(new Intent(this, NoticeActivity.class));
                 break;
             case R.id.calender_iv:
                 intent = new Intent(this, TeacherCalenderEventsActivity.class);

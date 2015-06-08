@@ -47,7 +47,6 @@ public class WebServiceCall {
         mRequestCompletion = (RequestCompletion) context;
     }
 
-
     public void LoginRequestApi(String userName, String Password) {
         String request_URL = mContext.getString(R.string.base_url) + mContext.getString(R.string.login_url_endpoint);
         Log.d("LOGIN URL", request_URL);
@@ -186,13 +185,14 @@ public class WebServiceCall {
                         @Override
                         public void onResponse(final JSONObject response) {
                             // handle response
-                            Log.d("JsonObject", response.toString());
+                            Log.d("JsonObject-->>", response.toString());
                             mRequestCompletion.onRequestCompletion(response, null);
                         }
                     }
                     , new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    Log.d("JsonObjecterror-->>", error.toString());
                     handleNetworkError(error);
                 }
             }) {

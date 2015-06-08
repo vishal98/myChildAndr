@@ -2,7 +2,6 @@ package com.mychild.view.Parent;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,13 +16,11 @@ import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.adapters.ExamsListviewAdapter;
 import com.mychild.adapters.ExamsTypesListviewAdapter;
-import com.mychild.adapters.ResultsListAdapter;
 import com.mychild.customView.SwitchChildView;
 import com.mychild.interfaces.IOnExamChangedListener;
 import com.mychild.interfaces.IOnSwichChildListener;
 import com.mychild.model.ExamModel;
 import com.mychild.model.ParentModel;
-import com.mychild.model.ResultsModel;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
@@ -35,9 +31,10 @@ import com.mychild.volley.AppController;
 import com.mychild.webserviceparser.ExamsJsonParser;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
+
 
 public class ExamsActivity extends BaseActivity implements View.OnClickListener, RequestCompletion, IOnExamChangedListener, IOnSwichChildListener {
 
@@ -47,7 +44,6 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
     private ImageView examsIV;
     private TextView examTypeTV, dateTV;
     private ArrayList<ExamModel> examsList;
-    private ArrayList<ResultsModel> resultList;
     private Dialog examsTypeDialog = null;
     private ParentModel parentModel = null;
     private AppController appController = null;
@@ -55,10 +51,6 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
     private TopBar topBar;
     String childName;
     int getChildId = 0;
-    ResultsListAdapter resultsListAdapter;
-    ExamsListviewAdapter examsListviewAdapter;
-    private static String tabSelectedFlag = "Exams";
-    TabHost tabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,20 +64,16 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
         if (buddle != null) {
             String fromKey = buddle.getString(getString(R.string.key_from));
             if (fromKey.equals(getString(R.string.key_from_parent))) {
-                setUpTab();
                 switchChild.switchChildBT.setVisibility(View.VISIBLE);
                 appController = (AppController) getApplicationContext();
                 parentModel = appController.getParentsData();
                 switchChild.childNameTV.setText(Constants.SWITCH_CHILD_FLAG);
                 selectedChildPosition = appController.getSelectedChild();
-                callExamsWebservice(Constants.SET_SWITCH_CHILD_ID);
             } else if (fromKey.equals(getString(R.string.key_from_teacher))) {
                 switchChild.switchChildBT.setVisibility(View.GONE);
-                tabHost.setVisibility(View.GONE);
-                callExamsWebservice();
             }
         }
-
+        callExamsWebservice(Constants.SET_SWITCH_CHILD_ID);
     }
 
 
@@ -93,59 +81,27 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onResume() {
         super.onResume();
-        if (appController != null) {
-            selectedChildPosition = appController.getSelectedChild();
-            if (appController.getParentsData() != null) {
-                onChangingChild();
-            } else {
-                switchChild.childNameTV.setText("No Child Selected");
-            }
+        selectedChildPosition = appController.getSelectedChild();
+        if(appController.getParentsData() != null){
+            onChangingChild();
+        }
+        else{
+            switchChild.childNameTV.setText("No Child Selected");
         }
     }
 
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
-
-        Log.i("tabSelectedFlag",tabSelectedFlag);
-        try {
-            if(responseJson.has("exam")){
-                if(tabSelectedFlag == "Exams"){
-                    JSONArray examsArray = responseJson.getJSONArray("exam");
-                    if(examsArray.length() != 0){
-                        CommonUtils.getLogs("Response::111" + responseJson);
-                        examsList = ExamsJsonParser.getInstance().getExamsList(responseJson);
-                        if (examsList != null && examsList.size() > 0) {
-                            //selectedExamposition = 0;
-                            setExamScheduleListAdapter(examsList.get(selectedExamposition));
-                        }
-
-                    }
-                    else {
-                        examsListView.setAdapter(null);
-                        Constants.showMessage(this, "No Exams", "No Exams found...");
-                    }
-                }
-                else {
-                    resultList = ExamsJsonParser.getInstance().getResultList(responseJson);
-
-                        if (resultList != null && resultList.size() > 0) {
-                            setResultListAdapter(resultList);
-                        }
-                        else {
-                            examsListView.setAdapter(null);
-                            Constants.showMessage(this, "No Results", "No Results found...");
-                        }
-                }
-
-
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        Constants.stopProgress(this);
+        CommonUtils.getLogs("Response::111" + responseJson);
+        examsList = ExamsJsonParser.getInstance().getExamsList(responseJson);
+        if (examsList != null && examsList.size() > 0) {
+            selectedExamposition = 0;
+            setExamScheduleListAdapter(examsList.get(selectedExamposition));
         }
         Constants.stopProgress(this);
 
     }
-
 
     @Override
     public void onRequestCompletionError(String error) {
@@ -178,6 +134,11 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
                     Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
                 }
                 break;
+
+            case R.id.child_name:
+                startActivity(new Intent(this, ProfileFragmentActivity.class));
+                break;
+
             case R.id.exams_iv:
                 examsTypeDialog = getExamsDialog(examsList, selectedExamposition);
                 break;
@@ -190,7 +151,6 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
             case R.id.logoutIV:
                 Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
                 Constants.logOut(this);
-
                 Intent i = new Intent(this, LoginActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
@@ -205,8 +165,6 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onExamChanged(int position, boolean isChecked) {
         if (isChecked) {
-//            tabHost.getTabWidget().getChildTabViewAt(0).setBackgroundColor(getResources().getColor(R.color.green));
-//            tabHost.getTabWidget().getChildTabViewAt(1).setBackgroundColor(Color.TRANSPARENT);
             examsTypeDialog.dismiss();
             selectedExamposition = position;
             setExamScheduleListAdapter(examsList.get(selectedExamposition));
@@ -216,8 +174,6 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onSwitchChild(int selectedChildPosition) {
-//        tabHost.getTabWidget().getChildTabViewAt(0).setBackgroundColor(getResources().getColor(R.color.green));
-//        tabHost.getTabWidget().getChildTabViewAt(1).setBackgroundColor(Color.TRANSPARENT);
         childName = Constants.getChildNameAfterSelecting(selectedChildPosition,appController.getParentsData());
         getChildId = Constants.getChildIdAfterSelecting(selectedChildPosition,appController.getParentsData());
         switchChild.childNameTV.setText(childName);
@@ -230,19 +186,6 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
         dialog.dismiss();
     }
 
-    private void callExamsWebservice() {
-        String exmas_url = null;
-        if (CommonUtils.isNetworkAvailable(this)) {
-            Constants.showProgress(this);
-            exmas_url = "http://gimmewingsdev.elasticbeanstalk.com/app/exams/teacherExamsSchedule";
-            CommonUtils.getLogs("URL::" + exmas_url);
-            WebServiceCall call = new WebServiceCall(ExamsActivity.this);
-            call.getJsonObjectResponse(exmas_url);
-        } else {
-            CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
-        }
-    }
-
     private void callExamsWebservice(int childID) {
         String exmas_url = null;
         if (CommonUtils.isNetworkAvailable(this)) {
@@ -251,28 +194,19 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
             CommonUtils.getLogs("URL::" + exmas_url);
             WebServiceCall call = new WebServiceCall(ExamsActivity.this);
             call.getJsonObjectResponse(exmas_url);
+//            httpConnectThread = new HttpConnectThread(this, null, this);
+//            httpConnectThread.execute(exmas_url);
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }
     }
 
     private void setExamScheduleListAdapter(ExamModel examModel) {
-        tabSelectedFlag = "Exams";
         examTypeTV.setText(examModel.getExamType());
         dateTV.setText("Mar 29 - April 05 2015");
-        examsListviewAdapter = new ExamsListviewAdapter(this, R.layout.exams_schedule_list_item, examModel.getExamScheduleList());
-//        resultsListAdapter = new ResultsListAdapter(this,R.layout.activity_exam_results_tab, examModel.getChildResultModel());
+        ExamsListviewAdapter examsListviewAdapter = new ExamsListviewAdapter(this, R.layout.exams_schedule_list_item, examModel.getExamScheduleList());
         examsListView.setAdapter(examsListviewAdapter);
-
     }
-
-    private void setResultListAdapter(ArrayList<ResultsModel> resultData) {
-
-        resultsListAdapter = new ResultsListAdapter(this,R.layout.activity_exam_results_tab, resultData);
-        examsListView.setAdapter(resultsListAdapter);
-
-    }
-
 
     public void onChangingChild(){
         if(Constants.SWITCH_CHILD_FLAG == null){
@@ -304,13 +238,14 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
     }
 
     public void setOnClickListener() {
-        tabHost = (TabHost) findViewById(R.id.tabhost2);
+
         examsListView = (ListView) findViewById(R.id.exams_listview);
         examsIV = (ImageView) findViewById(R.id.exams_iv);
         examTypeTV = (TextView) findViewById(R.id.exam_type_tv);
         dateTV = (TextView) findViewById(R.id.date_tv);
         examsIV.setOnClickListener(this);
         switchChild.switchChildBT.setOnClickListener(this);
+        switchChild.childNameTV.setOnClickListener(this);
     }
 
     private Dialog getExamsDialog(ArrayList<ExamModel> list, int examPosition) {
@@ -327,60 +262,6 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
         examsListview.setAdapter(examsTypesListviewAdapter);
         dialog.show();
         return dialog;
-    }
-
-
-  public void setUpTab(){
-
-        tabHost.setup();
-        tabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
-        class TabDef {
-            public final String Indicator;
-            public TabDef(String Indicator) {
-                this.Indicator = Indicator;
-            }
-        };
-        for(TabDef thisTab : new TabDef[]{
-                new TabDef("Exams"),
-                new TabDef("Results")
-        })
-        {
-            View indicatorview = android.view.LayoutInflater.from(this).inflate(R.layout.tabs_bg_plain, null);
-            TextView tabTitle = (TextView) indicatorview.findViewById(R.id.tabsText);
-            tabTitle.setText(thisTab.Indicator);
-
-            tabHost.addTab(tabHost.newTabSpec(thisTab.Indicator).setIndicator(indicatorview)
-                    .setContent(new TabHost.TabContentFactory() {
-                        public View createTabContent(String tag) {
-                            tabHost.getTabWidget().getChildTabViewAt(0).setBackgroundColor(getResources().getColor(R.color.green));
-                            return examsListView;
-                        }
-                    }));
-
-            tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-                @Override
-                public void onTabChanged(String tabId) {
-
-                    if (tabId == "Exams") {
-                        tabSelectedFlag = "Exams";
-//                        if(tabSelectedFlag == "Exams"){
-//                            tabHost.getTabWidget().getChildTabViewAt(0).setBackgroundColor(R.drawable.tab_bg_selected);
-//                        }
-                        tabHost.getTabWidget().getChildTabViewAt(0).setBackgroundColor(getResources().getColor(R.color.green));
-                        tabHost.getTabWidget().getChildTabViewAt(1).setBackgroundColor(Color.TRANSPARENT);
-                        callExamsWebservice(Constants.SET_SWITCH_CHILD_ID);
-//                        examsListView.setAdapter(examsListviewAdapter);
-                    } else {
-                        tabSelectedFlag = "Results";
-                        Toast.makeText(ExamsActivity.this, "clicked", Toast.LENGTH_SHORT).show();
-                        tabHost.getTabWidget().getChildTabViewAt(1).setBackgroundColor(getResources().getColor(R.color.green));
-                        tabHost.getTabWidget().getChildTabViewAt(0).setBackgroundColor(Color.TRANSPARENT);
-                        callExamsWebservice(Constants.SET_SWITCH_CHILD_ID);
-//                        examsListView.setAdapter(resultsListAdapter);
-                    }
-                }
-            });
-        }
     }
 
 

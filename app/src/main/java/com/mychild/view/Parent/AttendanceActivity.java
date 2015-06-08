@@ -124,6 +124,7 @@ public class AttendanceActivity extends BaseFragmentActivity implements RequestC
                 public void onCaldroidViewCreated() {
                 }
             };
+
             caldroidFragment.setCaldroidListener(listener);
             ((View) findViewById(R.id.today)).setOnClickListener(new OnClickListener() {
 
@@ -160,9 +161,8 @@ public class AttendanceActivity extends BaseFragmentActivity implements RequestC
         totalTV = (TextView) findViewById(R.id.todalTv);
         presentTV = (TextView) findViewById(R.id.presentTv);
         apsentTV = (TextView) findViewById(R.id.absentTv);
-
         today.setOnClickListener(this);
-
+        switchChild.childNameTV.setOnClickListener(this);
     }
 
 
@@ -195,6 +195,11 @@ public class AttendanceActivity extends BaseFragmentActivity implements RequestC
             case R.id.back_arrow_iv:
                 onBackPressed();
                 break;
+
+            case R.id.child_name:
+                startActivity(new Intent(this, ProfileFragmentActivity.class));
+                break;
+
             case R.id.switch_child:
                 if (parentModel.getChildList() != null) {
                     dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);

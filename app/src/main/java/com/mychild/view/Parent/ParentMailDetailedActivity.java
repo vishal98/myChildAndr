@@ -67,6 +67,10 @@ public class ParentMailDetailedActivity extends BaseFragmentActivity implements 
                 onBackPressed();
                 break;
 
+            case R.id.child_name:
+                startActivity(new Intent(this, ProfileFragmentActivity.class));
+                break;
+
             case R.id.write_mailIV:
                 startActivity(new Intent(this, ParentWriteMailToTeacher.class));
                 break;
@@ -101,7 +105,7 @@ public class ParentMailDetailedActivity extends BaseFragmentActivity implements 
         mailTitleTV = (TextView) findViewById(R.id.mailTitleTV);
         mailFromTV = (TextView) findViewById(R.id.mailFromTV);
         backButton.setOnClickListener(this);
-
+        switchChild.childNameTV.setOnClickListener(this);
     }
 
     public void setSwitchChildDialogueData() {

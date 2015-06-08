@@ -13,7 +13,7 @@ import com.mychild.view.R;
  * Created by Sandeep on 25-03-2015.
  */
 public class TopBar extends RelativeLayout {
-    public ImageView backArrowIV;
+    public ImageView backArrowIV,mMenuSliderIV;
     public TextView titleTV;
     public ImageView logoutIV;
 
@@ -39,6 +39,7 @@ public class TopBar extends RelativeLayout {
         backArrowIV = (ImageView) findViewById(R.id.back_arrow_iv);
         titleTV = (TextView) findViewById(R.id.title_tv);
         logoutIV = (ImageView) findViewById(R.id.logoutIV);
+      //  mMenuSliderIV=(ImageView) findViewById(R.id.menusliderimgview);
 
     }
 }

@@ -139,7 +139,6 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
             }
         });
 
-
         Log.i("homeWorkDate", homeWorkDate);
         getChildHomworkWebservicescall(Constants.SET_SWITCH_CHILD_ID,homeWorkDate);
 
@@ -162,8 +161,6 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
             childrenGradeAndSection = ChildHomeWorkJsonParser.getInstance().getChildrenHomework(responseJson);
             ChildHomeworkAdapter homeworkAdapter = new ChildHomeworkAdapter(this, childrenGradeAndSection);
             homeWorkList.setAdapter(homeworkAdapter);
-
-
         }else{
             Constants.showMessage(this,"No Homework","No homework found for the day...");
         }
@@ -214,6 +211,9 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
 
                 break;
 
+            case R.id.child_name:
+                startActivity(new Intent(this, ProfileFragmentActivity.class));
+                break;
             default:
                 //Enter code in the event that that no cases match
         }
@@ -256,6 +256,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
         switchChild.initSwitchChildBar();
         switchChild.childNameTV.setText("Name");
         switchChild.switchChildBT.setOnClickListener(this);
+        switchChild.childNameTV.setOnClickListener(this);
     }
 
     public void setSwitchChildDialogueData() {

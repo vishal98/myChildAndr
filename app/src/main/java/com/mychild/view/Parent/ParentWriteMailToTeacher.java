@@ -74,6 +74,10 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
                 onBackPressed();
                 break;
 
+            case R.id.child_name:
+                startActivity(new Intent(this, ProfileFragmentActivity.class));
+                break;
+
             case R.id.switch_child:
                 if (parentModel.getChildList() != null) {
                     dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
@@ -150,7 +154,7 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
         message = (EditText) findViewById(R.id.mail_messageET);
         backButton.setOnClickListener(this);
         sendMail.setOnClickListener(this);
-
+        switchChild.childNameTV.setOnClickListener(this);
     }
 
     public void setTopBar() {

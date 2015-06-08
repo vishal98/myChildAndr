@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ import com.mychild.view.CommonToApp.BaseActivity;
 import com.mychild.view.CommonToApp.CalendarActivity;
 import com.mychild.view.CommonToApp.GalleryActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
+import com.mychild.view.CommonToApp.NoticeActivity;
 import com.mychild.view.CommonToApp.NotificationActivity;
 import com.mychild.view.R;
 import com.mychild.volley.AppController;
@@ -35,7 +37,6 @@ import org.json.JSONObject;
 
 public class ParentHomeActivity extends BaseActivity implements RequestCompletion, View.OnClickListener, IOnSwichChildListener {
     public static final String TAG = ParentHomeActivity.class.getSimpleName();
-
     PrefManager sharedPref;
     private TopBar topBar;
     private int selectedposition = 0;
@@ -61,7 +62,6 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         switchChildBar();
         setOnClickListener();
         onChangingChild();
-
     }
 
     @Override
@@ -98,7 +98,6 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         CommonUtils.getLogs("Parent Response Failure");
         Constants.stopProgress(this);
         Constants.showMessage(this, "Sorry", error);
-
     }
 
     @Override
@@ -123,6 +122,10 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 } else {
                     Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
                 }
+                break;
+
+            case R.id.child_name:
+                startActivity(new Intent(this, ProfileFragmentActivity.class));
                 break;
 
             case R.id.homework:
@@ -153,7 +156,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 break;
 
             case R.id.notice:
-                startActivity(new Intent(ParentHomeActivity.this, ParentNoticeActivity.class));
+                startActivity(new Intent(ParentHomeActivity.this, NoticeActivity/*ParentNoticeActivity*/.class));
                 break;
 
             case R.id.transport:
@@ -170,7 +173,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
             case R.id.transport_homeic:
-                Toast.makeText(this,"Coming Soon",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Coming Soon", Toast.LENGTH_LONG).show();
                 break;
             default:
                 //Enter code in the event that that no cases match
@@ -192,7 +195,6 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         }
     }
 
-
     public void setTopBar() {
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
@@ -205,7 +207,6 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ParentHomeActivity.this, NotificationActivity.class));
-
             }
         });
     }
@@ -214,6 +215,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
     public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
+
 //        StorageManager.readString(this, "username", "");
 //        switchChild.parentNameTV.setText(childName);
 //        switchChild.parentNameTV.setText(StorageManager.readString(this, "username", ""));
@@ -242,7 +244,9 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         transport.setOnClickListener(this);
         transport_homeic.setOnClickListener(this);
 
+        switchChild.childNameTV.setOnClickListener(this);
         switchChild.switchChildBT.setOnClickListener(this);
+
     }
 
     public void getParentDetailsWebservicescall() {
@@ -260,6 +264,5 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }
     }
-
 
 }
