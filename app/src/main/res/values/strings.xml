@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Rosary</string>
+    <string name="app_name">My Child</string>
     <string name="action_settings">Settings</string>
     <string name="login_text">Please login to connect</string>
     <string name="userid_hint">Enter User ID</string>
@@ -35,6 +35,9 @@
     <string name="attendence">Attendence</string>
     <string name="transport">Transport</string>
     <string name="Mail">Transport</string>
+    <string name="child_exams_activity">ExamsActivity</string>
+    <string name="gallary">Gallary</string>
+
 
     <!--Endpoint urls -->
     <!--<string name="base_url">http://default-environment-8t9czpvzjh.elasticbeanstalk.com</string>-->
@@ -143,11 +146,9 @@
     <string name="absent_caps">ABSENT</string>
     <string name="url_save_attendence">/app/teacher/attendance/save</string>
     <string name="url_new_mail">/app/conversations/new</string>
-
-
     <string name="url_child_exam">/app/exams/result/</string>
 
-
+,
     <!--Generic Error messages-->
     <string name="auth_error">wrong user id/password.</string>
     <string name="title_activity_gallery">GalleryActivity</string>
@@ -159,35 +160,7 @@
     <string name="album_data">album_data</string>
     <string name="album_list_data">album_list_data</string>
     <string name="position">position</string>
-
     <string name="title_activity_gallery_full_image">GalleryFullImageActivity</string>
 
-    <!--SLIDER MENU-->
-    <string name="drawer_open">Slider Menu Opened</string>
-    <string name="drawer_close">Slider Menu Closed</string>
-
-    <!-- Nav Drawer Menu Items -->
-    <string-array name="nav_drawer_items">
-        <item >Home</item>
-        <item >Find People</item>
-        <item >Photos</item>
-        <item >Communities</item>
-        <item >Pages</item>
-        <item >What\'s Hot</item>
-    </string-array>
-
-    <!-- Nav Drawer List Item Icons -->
-    <!-- Keep them in order as the titles are in -->
-    <array name="nav_drawer_icons">
-        <item>@drawable/ic_launcher</item>
-        <item>@drawable/ic_launcher</item>
-        <item>@drawable/ic_launcher</item>
-        <item>@drawable/ic_launcher</item>
-        <item>@drawable/ic_launcher</item>
-        <item>@drawable/ic_launcher</item>
-    </array>
-
-    <!-- Content Description -->
-    <string name="desc_list_item_icon">Item Icon</string>
 
 </resources>
