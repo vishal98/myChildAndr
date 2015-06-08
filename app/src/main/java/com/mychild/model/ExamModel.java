@@ -8,6 +8,8 @@ import java.util.ArrayList;
 public class ExamModel {
     private String examId;
     private String examType;
+    private ArrayList<ExamScheduleModel> examScheduleList;
+    private ArrayList<ResultsModel> resultList;
 
     public ArrayList<ExamScheduleModel> getExamScheduleList() {
         return examScheduleList;
@@ -15,6 +17,14 @@ public class ExamModel {
 
     public void setExamScheduleList(ArrayList<ExamScheduleModel> examScheduleList) {
         this.examScheduleList = examScheduleList;
+    }
+
+    public ArrayList<ResultsModel> getChildResultModel() {
+        return resultList;
+    }
+
+    public void setChildResultModel(ArrayList<ResultsModel> resultList) {
+        this.resultList = resultList;
     }
 
     public String getExamType() {
@@ -33,6 +43,6 @@ public class ExamModel {
         this.examId = examId;
     }
 
-    private ArrayList<ExamScheduleModel> examScheduleList;
+
 
 }
