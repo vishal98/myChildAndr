@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,74 +15,102 @@
     <com.mychild.customView.SwitchChildView
         android:id="@+id/switchchildBar"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"></com.mychild.customView.SwitchChildView>
+        android:layout_height="wrap_content"></com.mychild.customView.SwitchChildView>
 
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!-->-->
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/exams_iv"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:id="@+id/prevIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_prev"/>
+
+        <TextView
+            android:id="@+id/exam_type_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/done_red_color"
+            android:layout_toRightOf="@+id/prevIV"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:id="@+id/date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/exam_type_tv"
+            android:layout_toRightOf="@+id/prevIV"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:layout_marginLeft="20dp" />
+
+        <ImageView
+            android:id="@+id/nextIV"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/exams_iv"
-            android:layout_alignParentLeft="true"
+            android:background="@drawable/btn_next"
+            android:layout_marginLeft="20dp" />
+
+        <ImageView
+            android:id="@+id/exams_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@color/white"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:src="@drawable/img_exam" />
+    </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/prevIV"
-                android:layout_width="wrap_content"
+    <TabHost
+        android:id="@+id/tabhost2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+
+        >
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            >
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_prev"/>
+                android:layout_marginLeft="0dip"
+                android:layout_marginRight="0dip"
+                />
+            <View
+                android:id="@+id/selectBottom"
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:background="@color/green"
+                />
 
-            <TextView
-                android:id="@+id/exam_type_tv"
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/done_red_color"
-                android:layout_toRightOf="@+id/prevIV"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_marginLeft="20dp" />
+                android:layout_height="wrap_content"></FrameLayout>
 
-            <TextView
-                android:id="@+id/date_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/exam_type_tv"
-                android:layout_toRightOf="@+id/prevIV"
-                android:textColor="@color/black"
-                android:textSize="13sp"
-                android:layout_marginLeft="20dp" />
-
-            <ImageView
-                android:id="@+id/nextIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/exams_iv"
-                android:background="@drawable/btn_next"
-                android:layout_marginLeft="20dp" />
-
-            <ImageView
-                android:id="@+id/exams_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/img_exam" />
-        </RelativeLayout>
-
-
-    <!--</RelativeLayout>-->
+        </LinearLayout>
+    </TabHost>
 
     <ListView
         android:id="@+id/exams_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@color/done_red_color"
         android:dividerHeight="1dp"></ListView>
 
 </LinearLayout>
