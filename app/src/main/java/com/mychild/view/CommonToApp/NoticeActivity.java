@@ -64,6 +64,19 @@ public class NoticeActivity extends BaseFragmentActivity implements View.OnClick
         inflater= (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         setTopBar();
         switchChildBar();
+
+        Bundle buddle = getIntent().getExtras();
+
+        if (buddle != null) {
+            String fromKey = buddle.getString(getString(R.string.key_from));
+            if (fromKey.equals(getString(R.string.key_from_parent))) {
+                switchChild.switchChildBT.setVisibility(View.VISIBLE);
+                switchChild.setVisibility(View.VISIBLE);
+            } else if (fromKey.equals(getString(R.string.key_from_teacher))) {
+                switchChild.switchChildBT.setVisibility(View.GONE);
+                switchChild.setVisibility(View.GONE);
+            }
+        }
     }
 
     public void getParentDetailsWebservicescall() {

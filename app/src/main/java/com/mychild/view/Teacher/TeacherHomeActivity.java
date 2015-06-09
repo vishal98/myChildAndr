@@ -82,7 +82,10 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.notice_iv:
-                startActivity(new Intent(this, NoticeActivity.class));
+                Intent mintent = new Intent(this, NoticeActivity.class);
+                mintent.putExtra(getString(R.string.key_from), getString(R.string.key_from_teacher));
+                startActivity(mintent);
+                mintent = null;
                 break;
             case R.id.calender_iv:
                 intent = new Intent(this, TeacherCalenderEventsActivity.class);

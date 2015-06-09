@@ -156,7 +156,11 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 break;
 
             case R.id.notice:
-                startActivity(new Intent(ParentHomeActivity.this, NoticeActivity/*ParentNoticeActivity*/.class));
+                Intent in = new Intent(this, NoticeActivity.class);
+                in.putExtra(getString(R.string.key_from), getString(R.string.key_from_parent));
+                startActivity(in);
+                intent = null;
+               // startActivity(new Intent(ParentHomeActivity.this, NoticeActivity/*ParentNoticeActivity*/.class));
                 break;
 
             case R.id.transport:
