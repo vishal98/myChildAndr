@@ -9,12 +9,6 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"></com.mychild.utils.TopBar>
 
-    <com.mychild.customView.SwitchChildView
-        android:id="@+id/switchchildBar"
-        android:layout_width="wrap_content"
-        android:layout_below="@+id/topBar"
-        android:layout_height="70dp"></com.mychild.customView.SwitchChildView>
-
 
     <RelativeLayout
         android:id="@+id/new_emialRV"
@@ -22,7 +16,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:layout_below="@+id/switchchildBar">
+        android:layout_below="@+id/topBar">
 
         <ImageView
             android:id="@+id/back"
@@ -86,16 +80,14 @@
         android:layout_below="@+id/new_emialRV"
         android:paddingTop="15dp">
 
-        <Spinner
+        <AutoCompleteTextView
             android:id="@+id/mail_toET"
             android:layout_width="match_parent"
             android:layout_height="@dimen/hdpi_login_height"
             android:layout_marginTop="15dp"
-            android:background="@drawable/searchview_selector"
             android:gravity="center_vertical"
             android:scrollbars="none"
-            android:spinnerMode="dropdown"
-            android:hint="@string/write_mail_subject"/>
+            android:hint="@string/to_hint"/>
 
 
         <!--<EditText-->

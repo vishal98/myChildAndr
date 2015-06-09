@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -39,32 +41,32 @@ import java.util.HashMap;
 public class ParentWriteMailToTeacher extends BaseFragmentActivity implements RequestCompletion, View.OnClickListener {
     public static final String TAG = ParentWriteMailToTeacher.class.getSimpleName();
     private TopBar topBar;
-    private SwitchChildView switchChild;
+    //private SwitchChildView switchChild;
     private ParentModel parentModel = null;
     private AppController appController = null;
     private int selectedChildPosition = 0;
     private Dialog dialog = null;
     ImageView backButton;
     EditText subject,message;
-    Spinner to;
+    AutoCompleteTextView to;
     Button sendMail;
     String responseType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setSwitchChildDialogueData();
+        //setSwitchChildDialogueData();
         setContentView(R.layout.activity_parent_writemail_to_teacher);
         onClickListeners();
         setTopBar();
-        switchChildBar();
+      //  switchChildBar();
         getTeacherList();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        switchChild.childNameTV.setText(Constants.SWITCH_CHILD_FLAG);
+       // switchChild.childNameTV.setText(Constants.SWITCH_CHILD_FLAG);
     }
 
     @Override
@@ -72,10 +74,6 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
         switch (v.getId()) {
             case R.id.back:
                 onBackPressed();
-                break;
-
-            case R.id.child_name:
-                startActivity(new Intent(this, ProfileFragmentActivity.class));
                 break;
 
             case R.id.switch_child:
@@ -114,14 +112,23 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
 
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
+        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.mail_toET);
+
         String status = null;
+        String[] countries=null;
         if(responseType == "JSONARRAY"){
             CommonUtils.getLogs("get teacher Response is success...");
-            Log.i(TAG, responseArray.toString());
-            ArrayList<HashMap<String,String>> teacherListForChild = TeacherListForChildParser.getInstance().getTeacherList(responseArray);
-            Log.i("---->",teacherListForChild.toString());
-            TeacherListForChildAdapter teacherAdapter = new TeacherListForChildAdapter(this,teacherListForChild);
-            to.setAdapter(teacherAdapter);
+            if(responseArray!=null && responseArray.length()>0) {
+                Log.i(TAG, responseArray.toString());
+                ArrayList<HashMap<String, String>> teacherListForChild = TeacherListForChildParser.getInstance().getTeacherList(responseArray);
+                 countries = teacherListForChild.get(0).values().toArray(new String[teacherListForChild.size()]);
+            //    Log.i("---->", teacherListForChild.toString());
+              //  TeacherListForChildAdapter teacherAdapter = new TeacherListForChildAdapter(this, teacherListForChild);
+            }
+            ArrayAdapter<String> adapter =
+                    new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, countries  );
+            textView.setThreshold(1);
+            textView.setAdapter(adapter);
         }
         else {
             CommonUtils.getLogs("posting mail Response is success...");
@@ -149,12 +156,12 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
     public void onClickListeners(){
         backButton = (ImageView) findViewById(R.id.back);
         sendMail = (Button) findViewById(R.id.send_mail_btn);
-        to = (Spinner) findViewById(R.id.mail_toET);
+        to = (AutoCompleteTextView ) findViewById(R.id.mail_toET);
         subject = (EditText) findViewById(R.id.mail_subjectET);
         message = (EditText) findViewById(R.id.mail_messageET);
         backButton.setOnClickListener(this);
         sendMail.setOnClickListener(this);
-        switchChild.childNameTV.setOnClickListener(this);
+
     }
 
     public void setTopBar() {
@@ -166,9 +173,9 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
     }
 
     public void switchChildBar() {
-        switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
-        switchChild.initSwitchChildBar();
-        switchChild.childNameTV.setText("Name");
+       // switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
+        //switchChild.initSwitchChildBar();
+        //switchChild.childNameTV.setText("Name");
     }
 
 
@@ -200,10 +207,11 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
         responseType = "JSONOBJECT";
         if (CommonUtils.isNetworkAvailable(this)) {
             String mailFrom = StorageManager.readString(this, "username", "");
-            String mailTo = to.getSelectedItem().toString();
-            String mailToString[] = mailTo.split("=");
-            Log.i("----->123",mailToString[1]);
-            String mailToStringdata = mailToString[1].toString().replace("}","");
+
+            String mailTo = to.getText().toString();
+           // String mailToString[] = mailTo.split("=");
+            Log.i("----->123",mailTo);
+            String mailToStringdata = to.getText().toString();
             Log.i("----->1234",mailToStringdata);
 
             String mailSubject = subject.getText().toString();

@@ -17,10 +17,16 @@ import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseActivity;
 import com.mychild.view.CommonToApp.GalleryActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
+
 import com.mychild.view.CommonToApp.NoticeActivity;
 import com.mychild.view.Parent.ExamsActivity;
+import com.mychild.view.Parent.ParentInboxActivity;
 import com.mychild.view.Parent.ParentNoticeActivity;
 import com.mychild.view.R;
+import com.mychild.view.Teacher.AssignTaskActivity;
+import com.mychild.view.Teacher.AttendenceUpdateActivity;
+import com.mychild.view.Teacher.TeacherCalenderEventsActivity;
+import com.mychild.view.Teacher.TeacherTimeTabelActivity;
 import com.mychild.webserviceparser.TeacherHomeJsonParser;
 
 import org.json.JSONArray;
@@ -76,16 +82,16 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
                 startActivity(intent);
                 intent = null;
                 break;
+
             case R.id.mail_box_iv:
-                intent = new Intent(this, TeacherEmailsActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(this, ParentInboxActivity.class));
                 break;
 
             case R.id.notice_iv:
-                Intent mintent = new Intent(this, NoticeActivity.class);
-                mintent.putExtra(getString(R.string.key_from), getString(R.string.key_from_teacher));
-                startActivity(mintent);
-                mintent = null;
+                intent = new Intent(this, NoticeActivity.class);
+                intent.putExtra(getString(R.string.key_from), getString(R.string.key_from_teacher));
+                startActivity(intent);
+                intent = null;
                 break;
             case R.id.calender_iv:
                 intent = new Intent(this, TeacherCalenderEventsActivity.class);

@@ -22,6 +22,8 @@ import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
+import com.mychild.view.Parent.ParentMailDetailedActivity;
+import com.mychild.view.Parent.ParentWriteMailToTeacher;
 import com.mychild.view.R;
 import com.mychild.volley.AppController;
 import com.mychild.webserviceparser.ParentMailBoxParser;
@@ -36,7 +38,7 @@ import java.util.HashMap;
 /**
  * Created by Vijay on 3/29/15.
  */
-public class ParentInboxActivity extends BaseActivity implements RequestCompletion, View.OnClickListener, IOnSwichChildListener {
+public class ParentInboxActivity extends BaseActivity implements RequestCompletion, View.OnClickListener {
     public static final String TAG = ParentInboxActivity.class.getSimpleName();
     private TopBar topBar;
     private SwitchChildView switchChild;
@@ -55,17 +57,17 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
         setContentView(R.layout.activity_child_inbox);
         setOnClickListener();
         setTopBar();
-        switchChildBar();
+        //switchChildBar();
         inboxWebServiceCall();
-        setSwitchChildDialogueData();
+        //setSwitchChildDialogueData();
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        selectedChildPosition = appController.getSelectedChild();
-        switchChild.childNameTV.setText(Constants.SWITCH_CHILD_FLAG);
+   //     selectedChildPosition = appController.getSelectedChild();
+     //   switchChild.childNameTV.setText(Constants.SWITCH_CHILD_FLAG);
     }
 
     @Override
@@ -76,14 +78,9 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
                 onBackPressed();
                 break;
 
-            case R.id.child_name:
-                startActivity(new Intent(this, ProfileFragmentActivity.class));
-                break;
-
             case R.id.write_mailIV:
                 startActivity(new Intent(ParentInboxActivity.this, ParentWriteMailToTeacher.class));
                 break;
-
             case R.id.switch_child:
                 if (parentModel.getChildList() != null) {
                     dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
@@ -153,8 +150,8 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
     }
 
 
-    @Override
     public void onSwitchChild(int selectedChildPosition) {
+
 
         this.selectedChildPosition = selectedChildPosition;
         appController.setSelectedChild(selectedChildPosition);
@@ -189,7 +186,6 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
         switchChild.switchChildBT.setOnClickListener(this);
-        switchChild.childNameTV.setOnClickListener(this);
     }
 
     public void inboxWebServiceCall() {

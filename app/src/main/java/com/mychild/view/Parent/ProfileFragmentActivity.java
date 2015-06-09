@@ -21,6 +21,7 @@ import com.mychild.model.StudentDTO;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
+import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.CommonToApp.NotificationActivity;
 import com.mychild.view.R;
 import com.mychild.volley.AppController;
@@ -85,7 +86,7 @@ public class ProfileFragmentActivity extends FragmentActivity implements View.On
     private void assignDataToView() {
         parentModel = appController.getParentsData();
         appController.setParentData(parentModel);
-        circularImageView.setImageResource(R.drawable.icon_transport);
+        circularImageView.setImageResource(R.drawable.ic_launcher);
         circularImageView.setBorderColor(getResources().getColor(R.color.Darkgreen));
         circularImageView.setBorderWidth(3);
         circularImageView.addShadow();
@@ -95,14 +96,19 @@ public class ProfileFragmentActivity extends FragmentActivity implements View.On
                 .getParentsData())));
         ArrayList<StudentDTO> arr = parentModel.getChildList();
         StudentDTO stu = arr.get(appController.getSelectedChild());
-        mChildDOB.setText(stu.getDob().toString());
-        mChildClass.setText(stu.getGrade().toString()+stu.getSection().toString());
-        mChildMailId.setText(parentModel.getEmail().toString());
-        mchildAddress.setText(stu.getAddressModel().getAddress().toString());
-        mchildPhoneNo.setText(parentModel.getMobileNumber().toString());
-        mChildPlace.setText(stu.getAddressModel().getPlace().toString());
-        String encodedUrl = ("http://grubbr.in/images/user/1418200869354/2/Baingan%20Bharta.jpg").replaceAll(" ", "%20");
-        imageLoader.displayImage(encodedUrl, circularImageView);
+        try {
+            mChildDOB.setText(stu.getDob().toString());
+            mChildClass.setText(stu.getGrade().toString() + stu.getSection().toString());
+            mChildMailId.setText(parentModel.getEmail().toString());
+            mchildAddress.setText(stu.getAddressModel().getAddress().toString());
+            mchildPhoneNo.setText(parentModel.getMobileNumber().toString());
+            mChildPlace.setText(stu.getAddressModel().getPlace().toString());
+            String encodedUrl = (stu.getStudentPhoto().toString()).replaceAll(" ", "%20");
+            imageLoader.displayImage(encodedUrl, circularImageView);
+        }
+        catch (Exception c) {
+            c.printStackTrace();
+        }
     }
 
     private void initializeView() {
@@ -134,8 +140,8 @@ public class ProfileFragmentActivity extends FragmentActivity implements View.On
     public void setTopBar() {
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
-        topBar.titleTV.setText(getString(R.string.my_child));
-        topBar.backArrowIV.setImageResource(R.drawable.icon_home);
+        topBar.backArrowIV.setOnClickListener(this);
+        topBar.titleTV.setText(getString(R.string.profile));
         topBar.logoutIV.setOnClickListener(this);
         ImageView notification = (ImageView) topBar.findViewById(R.id.notification);
         notification.setVisibility(View.VISIBLE);
@@ -151,6 +157,7 @@ public class ProfileFragmentActivity extends FragmentActivity implements View.On
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
         switchChild.initSwitchChildBar();
         switchChild.childNameTV.setText("Name");
+        switchChild.switchChildBT.setOnClickListener(this);
     }
 
     public void onSwitchChild(int selectedChildPosition) {
@@ -160,6 +167,7 @@ public class ProfileFragmentActivity extends FragmentActivity implements View.On
         Constants.SWITCH_CHILD_FLAG = childName;
         this.selectedChildPosition = selectedChildPosition;
         appController.setSelectedChild(selectedChildPosition);
+        assignDataToView();
         dialog.dismiss();
     }
 
@@ -174,12 +182,27 @@ public class ProfileFragmentActivity extends FragmentActivity implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.back_arrow_iv:
+                onBackPressed();
+                break;
+
             case R.id.switch_child:
                 if (parentModel.getChildList() != null) {
                     dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
                 } else {
                     Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
                 }
+                break;
+
+            case R.id.logoutIV:
+                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
+                Constants.logOut(this);
+
+                Intent i = new Intent(this, LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+                finish();
+
                 break;
         }
     }

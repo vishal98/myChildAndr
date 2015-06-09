@@ -99,8 +99,8 @@ public class NoticeActivity extends BaseFragmentActivity implements View.OnClick
     public void setTopBar() {
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
-        topBar.titleTV.setText(getString(R.string.my_child));
-        topBar.backArrowIV.setImageResource(R.drawable.icon_home);
+        topBar.titleTV.setText(getString(R.string.notice));
+        topBar.backArrowIV.setOnClickListener(this);
         topBar.logoutIV.setOnClickListener(this);
         ImageView notification = (ImageView) topBar.findViewById(R.id.notification);
         notification.setVisibility(View.VISIBLE);
@@ -140,6 +140,11 @@ public class NoticeActivity extends BaseFragmentActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
+            case R.id.back_arrow_iv:
+                onBackPressed();
+                break;
+
             case R.id.switch_child:
                 if (parentModel.getChildList() != null) {
                     dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);

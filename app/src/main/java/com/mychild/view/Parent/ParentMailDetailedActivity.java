@@ -17,14 +17,15 @@ import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseFragmentActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
+import com.mychild.view.Parent.*;
 import com.mychild.view.R;
 import com.mychild.volley.AppController;
 
 /**
  * Created by Vijay on 4/11/15.
  */
-public class ParentMailDetailedActivity extends BaseFragmentActivity implements View.OnClickListener, IOnSwichChildListener {
-    public static final String TAG = ParentWriteMailToTeacher.class.getSimpleName();
+public class ParentMailDetailedActivity extends BaseFragmentActivity implements View.OnClickListener {
+    public static final String TAG = com.mychild.view.Parent.ParentWriteMailToTeacher.class.getSimpleName();
     private TopBar topBar;
     private SwitchChildView switchChild;
     private ParentModel parentModel = null;
@@ -37,14 +38,14 @@ public class ParentMailDetailedActivity extends BaseFragmentActivity implements 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setSwitchChildDialogueData();
+        //setSwitchChildDialogueData();
         setContentView(R.layout.activity_parent_detailed_inbox);
         setOnClickListeners();
-        switchChildBar();
+      //  switchChildBar();
         setTopBar();
         UpdateUI();
     }
-    @Override
+
     public void onSwitchChild(int selectedChildPosition) {
         this.selectedChildPosition = selectedChildPosition;
         appController.setSelectedChild(selectedChildPosition);
@@ -58,7 +59,7 @@ public class ParentMailDetailedActivity extends BaseFragmentActivity implements 
     @Override
     protected void onResume() {
         super.onResume();
-        selectedChildPosition = appController.getSelectedChild();
+//        selectedChildPosition = appController.getSelectedChild();
     }
     @Override
     public void onClick(View v) {
@@ -67,12 +68,8 @@ public class ParentMailDetailedActivity extends BaseFragmentActivity implements 
                 onBackPressed();
                 break;
 
-            case R.id.child_name:
-                startActivity(new Intent(this, ProfileFragmentActivity.class));
-                break;
-
             case R.id.write_mailIV:
-                startActivity(new Intent(this, ParentWriteMailToTeacher.class));
+                startActivity(new Intent(this, com.mychild.view.Parent.ParentWriteMailToTeacher.class));
                 break;
             case R.id.switch_child:
                 if (parentModel.getChildList() != null) {
@@ -105,7 +102,7 @@ public class ParentMailDetailedActivity extends BaseFragmentActivity implements 
         mailTitleTV = (TextView) findViewById(R.id.mailTitleTV);
         mailFromTV = (TextView) findViewById(R.id.mailFromTV);
         backButton.setOnClickListener(this);
-        switchChild.childNameTV.setOnClickListener(this);
+
     }
 
     public void setSwitchChildDialogueData() {

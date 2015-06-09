@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Rosary</string>
+    <string name="app_name">My Child</string>
     <string name="action_settings">Settings</string>
     <string name="login_text">Please login to connect</string>
     <string name="userid_hint">Enter User ID</string>
@@ -13,6 +13,7 @@
     <string name="parent_notice">NoticeActivity</string>
 
     <!--activity_child_homeworkvity_child_homework.xml used text-->
+    <string name="to_hint">To</string>
     <string name="text_to_send_hint">Type here...</string>
     <string name="home_text_to_send_lbl">Please enter text to send.</string>
     <string name="home_text_to_send_hint">Type your message here...</string>
@@ -35,6 +36,9 @@
     <string name="attendence">Attendence</string>
     <string name="transport">Transport</string>
     <string name="Mail">Transport</string>
+    <string name="child_exams_activity">ExamsActivity</string>
+    <string name="gallary">Gallary</string>
+    <string name="profile">Profile</string>
 
     <!--Endpoint urls -->
     <!--<string name="base_url">http://default-environment-8t9czpvzjh.elasticbeanstalk.com</string>-->
@@ -60,7 +64,7 @@
     <string name="url_post_assign_task">/app/teacher/homework/save</string>
     <string name="url_teachers_list">/Teacher/id/</string>
     <string name="url_teacher_email">/app/conversations/get/</string>
-    <string name="url_teacher_exam">/Parent/exam/1</string>
+    <string name="url_teacher_exam">/app/exams/result/1</string>
     <string name="no_network_connection">No Network connection</string>
     <string name="title_activity_assign_task">AssignTaskActivity</string>
 
@@ -143,8 +147,6 @@
     <string name="absent_caps">ABSENT</string>
     <string name="url_save_attendence">/app/teacher/attendance/save</string>
     <string name="url_new_mail">/app/conversations/new</string>
-
-
     <string name="url_child_exam">/app/exams/result/</string>
 
 
@@ -189,5 +191,6 @@
 
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
+
 
 </resources>
