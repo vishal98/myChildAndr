@@ -39,7 +39,7 @@ public class GalleryActivity extends BaseActivity implements View.OnClickListene
         topBar.logoutIV.setVisibility(View.GONE);
         if (CommonUtils.isNetworkAvailable(this)) {
             httpConnectThread = new HttpConnectThread(this, null, this);
-            httpConnectThread.execute(getString(R.string.gallery_url));
+            httpConnectThread.execute(getString(R.string.base_url)+getString(R.string.gallery_url));
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }

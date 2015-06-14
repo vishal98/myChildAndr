@@ -42,7 +42,7 @@
 
     <!--Endpoint urls -->
     <!--<string name="base_url">http://default-environment-8t9czpvzjh.elasticbeanstalk.com</string>-->
-    <string name="base_url">http://gimmewingsdev.elasticbeanstalk.com</string>
+    <string name="base_url">http://gotomychild.elasticbeanstalk.com</string>
     <string name="login_url_endpoint">/api/login</string>
     <string name="url_exams">MyChild/Parent/username/</string>
     <string name="parent_url_endpoint">/Parent/username/</string>
@@ -56,7 +56,7 @@
     <string name="parent_email_to_teahcer">/app/conversations/new</string>
     <string name="timetabel_teacher">/app/teacher/timetable/</string>
     <string name="calender_task_teacher">/app/events/teacher/</string>
-    <string name="gallery_url">http://gimmewingsdev.elasticbeanstalk.com/app/getuserAlbums</string>
+    <string name="gallery_url">/app/getuserAlbums</string>
 
 
     <!--teacher flow-->

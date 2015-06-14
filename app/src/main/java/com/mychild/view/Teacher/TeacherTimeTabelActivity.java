@@ -136,18 +136,28 @@ public class TeacherTimeTabelActivity extends BaseFragmentActivity implements Re
 
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
-        Constants.stopProgress(this);
-        CommonUtils.getLogs("Timetable Response success");
-        Log.i(TAG, responseJson.toString());
-        timeTabelList = (ListView) findViewById(R.id.teacher_time_table_list);
-        ArrayList<HashMap<String, String>> teacherTimeTable = TeacherTimetabelParser.getInstance().getTeacherTimetabel(responseJson);
-        TeacherTimetabelAdapter timeTableAdapter = new TeacherTimetabelAdapter(this,teacherTimeTable);
-        timeTabelList.setAdapter(timeTableAdapter);
+        if(responseJson!=null && responseJson.length()>0) {
+            Constants.stopProgress(this);
+            CommonUtils.getLogs("Timetable Response success");
+
+            Log.i(TAG, responseJson.toString());
+
+            timeTabelList = (ListView) findViewById(R.id.teacher_time_table_list);
+            ArrayList<HashMap<String, String>> teacherTimeTable = TeacherTimetabelParser.getInstance().getTeacherTimetabel(responseJson);
+            TeacherTimetabelAdapter timeTableAdapter = new TeacherTimetabelAdapter(this, teacherTimeTable);
+            timeTabelList.setAdapter(timeTableAdapter);
+        }else {
+            CommonUtils.getLogs(" Response Failure");
+            Constants.stopProgress(this);
+            Constants.showMessage(this, "Sorry", "Try Again");
+        }
     }
 
     @Override
     public void onRequestCompletionError(String error) {
-
+        CommonUtils.getLogs("Inbox Response Failure");
+        Constants.stopProgress(this);
+        Constants.showMessage(this, "Sorry", error);
     }
 
 

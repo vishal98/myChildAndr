@@ -10,9 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"></com.mychild.utils.TopBar>
 
-    <include
-        android:id="@+id/teacher_details_rl"
-        layout="@layout/teacher_details_layout" />
+
 
     <RelativeLayout
         android:id="@+id/cal_lyt"
