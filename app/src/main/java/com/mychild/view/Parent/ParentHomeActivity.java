@@ -177,7 +177,8 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
             case R.id.transport_homeic:
-                Toast.makeText(this, "Coming Soon", Toast.LENGTH_LONG).show();
+              //  Toast.makeText(this, "Coming Soon", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, ParentTransportMapRouteActivity.class));
                 break;
             default:
                 //Enter code in the event that that no cases match
@@ -260,7 +261,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
             //SharedPreferences saredpreferences = this.getSharedPreferences("Response", 0);
             if (!StorageManager.readString(this, "username", "").isEmpty()) {
                 Url_parent_details = getString(R.string.base_url) + getString(R.string.parent_url_endpoint) + StorageManager.readString(this, "username", "");
-                Log.i("===Url_parent===", Url_parent_details);
+             //   Log.i("===Url_parent===", Url_parent_details);
             }
             WebServiceCall call = new WebServiceCall(this);
             call.getCallRequest(Url_parent_details);
