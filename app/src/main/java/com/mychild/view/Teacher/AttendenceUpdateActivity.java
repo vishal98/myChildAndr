@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.kk.mycalendar.WeekdayArrayAdapter;
+import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.adapters.StudentsListAdapter;
 import com.mychild.interfaces.AsyncTaskInterface;
@@ -22,9 +23,11 @@ import com.mychild.model.TeacherModel;
 import com.mychild.sharedPreference.StorageManager;
 import com.mychild.threads.HttpConnectThread;
 import com.mychild.utils.CommonUtils;
+import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseActivity;
 import com.mychild.view.R;
+import com.mychild.webserviceparser.AttendaceJsonParser;
 import com.mychild.webserviceparser.TeacherHomeJsonParser;
 import com.thehayro.view.InfinitePagerAdapter;
 import com.thehayro.view.InfiniteViewPager;
@@ -33,12 +36,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 
-public class AttendenceUpdateActivity extends BaseActivity implements View.OnClickListener, AsyncTaskInterface, IOnCheckedChangeListener {
+public class AttendenceUpdateActivity extends BaseActivity implements View.OnClickListener, IOnCheckedChangeListener,RequestCompletion {
 
     private TopBar topBar;
     private String teacherName = "";
@@ -104,20 +108,36 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
         weekdayGridView.setAdapter(weekdaysAdapter);
         Calendar cal = Calendar.getInstance();
         ((TextView) findViewById(R.id.todayDate)).setText(cal.get(Calendar.DAY_OF_MONTH) + " " + getMonth(cal.get(Calendar.MONTH) + 1).substring(0, 3) + " " + cal.get(Calendar.YEAR));
-
+        SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy");
         if (CommonUtils.isNetworkAvailable(this)) {
-            type = RequestType.TYPE_GET;
-            httpConnectThread = new HttpConnectThread(this, null, this);
-            String url = getString(R.string.base_url) + getString(R.string.url_teacher_deatils);
-            teacherName = "/" + StorageManager.readString(this, getString(R.string.pref_username), "");
-            httpConnectThread.execute(url + teacherName);
-        } else {
+        getAttendanceWebService(sdf.format(cal.getTime()));
+        }else
+         {
             CommonUtils.getToastMessage(this, getString(R.string.network_error));
         }
 
     }
 
+public void getAttendanceWebService(String date) {
+    {
+        type = RequestType.TYPE_GET;
 
+
+        if (CommonUtils.isNetworkAvailable(this)) {
+            Constants.showProgress(this);
+            String postUrl = "/app/attendance/grade/" + "5/a/" + date;
+
+            postUrl = getString(R.string.base_url) + postUrl;
+            Log.i("TimetableURL", postUrl);
+            WebServiceCall call = new WebServiceCall(this);
+            call.getJsonObjectResponse(postUrl);
+         // httpConnectThread = new HttpConnectThread(this, null, this);
+       //     String url = getString(R.string.base_url) + getString(R.string.url_teacher_deatils);
+           // teacherName = "/" + StorageManager.readString(this, getString(R.string.pref_username), "");
+           // httpConnectThread.execute(postUrl);
+        }
+    }
+}
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -162,8 +182,12 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
             CommonUtils.getLogs("POST Obj : " + jsonObject);
             if (CommonUtils.isNetworkAvailable(this)) {
                 type = RequestType.GET_POST;
-                httpConnectThread = new HttpConnectThread(this, jsonObject, this);
-                httpConnectThread.execute(getString(R.string.base_url) + getString(R.string.url_save_attendence));
+            //    httpConnectThread = new HttpConnectThread(this, jsonObject, this);
+
+                WebServiceCall call = new WebServiceCall(this);
+                call.postToServer(jsonObject,(getString(R.string.base_url) + getString(R.string.url_save_attendence)));
+                //httpConnectThread.execute(getString(R.string.base_url) + getString(R.string.url_save_attendence));
+
             } else {
                 CommonUtils.getToastMessage(this, getString(R.string.network_error));
             }
@@ -188,58 +212,55 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
         }
     }
 
-    @Override
-    public void setAsyncTaskCompletionListener(String object) {
-        CommonUtils.getLogs("Response::::" + object);
-        if (object != null) {
+   @Override
+    public  void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
+        CommonUtils.getLogs("Response::::" + responseJson);
+       if(responseJson!=null && responseArray==null){
+           responseArray=new JSONArray();
+           responseArray.put(responseJson);
+       }
+        if (responseArray != null) {
             switch (type) {
                 case TYPE_GET:
                     JSONObject obj = null;
-                    try {
-                        obj = new JSONObject(object);
-                        teacherModel = TeacherHomeJsonParser.getInstance().getTeacherDetails(obj);
 
-                        studentsList = teacherModel.getGradeModels().get(0).getStudentsModels();
-                        studentsSize = studentsList.size();
-                        adapter = new StudentsListAdapter(this, R.layout.select_student_list_item, studentsList);
-                        studentsListview.setAdapter(adapter);
+                    //  obj = new JSONObject(object);
+                    teacherModel = AttendaceJsonParser.getInstance().getTeacherModel(responseArray);
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    studentsList = teacherModel.getGradeModels().get(0).getStudentsModels();
+                    studentsSize = studentsList.size();
+                    ArrayList<StudentDTO> absentlist = AttendaceJsonParser.getInstance().getStudentsList(responseArray);
+                    adapter = new StudentsListAdapter(this, R.layout.select_student_list_item, studentsList);
+                    studentsListview.setAdapter(adapter);
+
+                    Constants.stopProgress(this);
+                         break;
+                    case GET_POST:
+                try {
+                    obj = responseJson;
+                    if (obj.has("message")) {
+                        CommonUtils.getToastMessage(this, obj.getString("message"));
                     }
-                    break;
-                case GET_POST:
-                    try {
-                        obj = new JSONObject(object);
-                        if (obj.has("message")) {
-                            CommonUtils.getToastMessage(this, obj.getString("message"));
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                default:
-
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-
-        } else {
-            CommonUtils.getToastMessage(this, getString(R.string.network_error));
-        }
-
-    }
-
-    public void getChildTimeTabel(String day) {
-        String Url_TimeTable = null;
-        //Constants.showProgress(ChildrenTimeTableActivity.this);
-        if (CommonUtils.isNetworkAvailable(this)) {
-            Url_TimeTable = getString(R.string.base_url) + getString(R.string.timetable_child) + "/5/a/" + day;
-            Log.i("TimetableURL", Url_TimeTable);
-            WebServiceCall call = new WebServiceCall(this);
-            call.getCallRequest(Url_TimeTable);
-        } else {
-            CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
+        }else{
+            Constants.stopProgress(this);
         }
     }
+
+    @Override
+    public void onRequestCompletionError(String error) {
+        CommonUtils.getLogs("Response::::" + error);
+        Constants.stopProgress(this);
+        Constants.showMessage(this, "Retry Again", error);
+    }
+
+
+
+
+
 
 
     class onDateClickListner implements View.OnClickListener {
@@ -247,6 +268,21 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
         public void onClick(View v) {
             TextView tv = (TextView) v;
             String selectedDate = tv.getTag().toString();
+
+
+            ((TextView)findViewById(R.id.text1)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView)findViewById(R.id.text2)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView)findViewById(R.id.text3)).setTextColor(Color.parseColor("#D7D7D7"));
+            if(!(((TextView)findViewById(R.id.text4)).getCurrentTextColor()==Color.parseColor("#FF0000")))
+                ((TextView)findViewById(R.id.text4)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView)findViewById(R.id.text5)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView)findViewById(R.id.text6)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView)findViewById(R.id.text7)).setTextColor(Color.parseColor("#D7D7D7"));
+
+
+            if(!(tv.getCurrentTextColor()==Color.parseColor("#FF0000")))
+                tv.setTextColor(Color.BLUE);
+            getAttendanceWebService(selectedDate);
 //			Toast.makeText(ChildrenTimeTableActivity.this, selectedDate, Toast.LENGTH_LONG).show();
             //    getChildTimeTabel(selectedDate);
         }
@@ -295,38 +331,43 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
                 else
                     cal.add(Calendar.DAY_OF_YEAR, (indicator * 7) - 3);
             }
+            SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy");
             text1.setText("" + cal.get(Calendar.DATE));
-            text1.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
+            text1.setTag(sdf.format(cal.getTime()));
             text1.setOnClickListener(new onDateClickListner());
 
             cal.add(Calendar.DAY_OF_YEAR, 1);
             text2.setText("" + cal.get(Calendar.DATE));
-            text2.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
+            text2.setTag(sdf.format(cal.getTime()));
             text2.setOnClickListener(new onDateClickListner());
 
             cal.add(Calendar.DAY_OF_YEAR, 1);
             text3.setText("" + cal.get(Calendar.DATE));
-            text3.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
+            text3.setTag(sdf.format(cal.getTime()));
             text3.setOnClickListener(new onDateClickListner());
 
             cal.add(Calendar.DAY_OF_YEAR, 1);
             text4.setText("" + cal.get(Calendar.DATE));
-            text4.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
+            text4.setTag(sdf.format(cal.getTime()));
+            //text4.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
             text4.setOnClickListener(new onDateClickListner());
 
             cal.add(Calendar.DAY_OF_YEAR, 1);
             text5.setText("" + cal.get(Calendar.DATE));
-            text5.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
+            text5.setTag(sdf.format(cal.getTime()));
+            //text5.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
             text5.setOnClickListener(new onDateClickListner());
 
             cal.add(Calendar.DAY_OF_YEAR, 1);
             text6.setText("" + cal.get(Calendar.DATE));
-            text6.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
+            text6.setTag(sdf.format(cal.getTime()));
+            //text6.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
             text6.setOnClickListener(new onDateClickListner());
 
             cal.add(Calendar.DAY_OF_YEAR, 1);
             text7.setText("" + cal.get(Calendar.DATE));
-            text7.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
+            text7.setTag(sdf.format(cal.getTime()));
+            //text7.setTag(getDayFull(cal.get(Calendar.DAY_OF_WEEK)));
             text7.setOnClickListener(new onDateClickListner());
 
             layout.setTag(indicator);
@@ -408,7 +449,7 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
         } else if (Calendar.FRIDAY == dayOfWeek) {
             weekDay = "FRI";
         } else if (Calendar.SATURDAY == dayOfWeek) {
-            weekDay = "SATY";
+            weekDay = "SAT";
         } else if (Calendar.SUNDAY == dayOfWeek) {
             weekDay = "SUN";
         }

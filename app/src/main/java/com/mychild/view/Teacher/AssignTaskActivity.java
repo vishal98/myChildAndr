@@ -3,6 +3,7 @@ package com.mychild.view.Teacher;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.mychild.Networkcall.RequestCompletion;
+import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.adapters.CustomAdapter;
 import com.mychild.adapters.SubjectSpinnerAdapter;
 import com.mychild.interfaces.AsyncTaskInterface;
@@ -21,6 +23,7 @@ import com.mychild.model.StudentDTO;
 import com.mychild.model.SubjectModel;
 import com.mychild.model.TeacherModel;
 import com.mychild.sharedPreference.StorageManager;
+import com.mychild.sharedPreference.TeacherDetailsPref;
 import com.mychild.threads.HttpConnectThread;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
@@ -55,6 +58,7 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
     private SubjectSpinnerAdapter subjectSpinnerAdapter = null;
     private Calendar calendar = Calendar.getInstance();
     private ArrayList<StudentDTO> selectedStudents = null;
+    private TeacherDetailsPref teacherDetailsPref;
 
     enum RequestType {
         TYPE_TEACHER_DETAILS, TYPE_SUBJECTS, TYPE_POST_DATA;
@@ -78,11 +82,18 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
         chooseDateTV = (TextView) findViewById(R.id.choose_date_tv);
         ((TextView) findViewById(R.id.teacher_name_tv)).setText(StorageManager.readString(this, getString(R.string.pref_username), ""));
         chooseDateTV.setOnClickListener(this);
-        teacherName = "/" + StorageManager.readString(this, getString(R.string.pref_username), "");
+        String teacherName1=StorageManager.readString(this, getString(R.string.pref_username), "");
+        teacherName = "/" + teacherName1;
+        teacherDetailsPref=new TeacherDetailsPref(getApplicationContext());
+           teacherModel =teacherDetailsPref.getChildrenListFromPreference(teacherName1);
+
+         if(teacherModel==null){
         if (CommonUtils.isNetworkAvailable(this)) {
             RequestType type = RequestType.TYPE_TEACHER_DETAILS;
             httpConnectThread = new HttpConnectThread(this, null, this);
             String url = getString(R.string.base_url) + getString(R.string.url_teacher_deatils);
+
+
             httpConnectThread.execute(url + teacherName);
            /* Constants.showProgress(this);
             WebServiceCall call = new WebServiceCall(AssignTaskActivity.this);
@@ -91,7 +102,9 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
             CommonUtils.getLogs("URL is : " + getString(R.string.base_url) + getString(R.string.url_teacher_deatils) + teacherName);*/
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
-        }
+        }}else{
+             setClassSpinner();
+         }
         //register with listeners
         assignTaskBtn.setOnClickListener(this);
         topBar.backArrowIV.setOnClickListener(this);
@@ -157,24 +170,21 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         Constants.stopProgress(this);
-        if (responseJson.has("status")) {
-            try {
-                if (responseJson.getString("status").equals("success")) {
-                    if (responseJson.has("message")) {
-                        CommonUtils.getToastMessage(AssignTaskActivity.this, responseJson.getString("message"));
-                        resetData();
-                    }
-                } else {
-                    if (responseJson.has("message")) {
-                        CommonUtils.getToastMessage(AssignTaskActivity.this, responseJson.getString("message"));
-                    }
-                }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+    if(responseJson!=null){
+                switch (type) {
+                    case TYPE_TEACHER_DETAILS:
+                    case TYPE_SUBJECTS:
+                        TeacherModel teacherModel = TeacherHomeJsonParser.getInstance().getSubjectListM(responseJson);
+                        this.teacherModel.setSubjectsList(teacherModel.getSubjectsList());
+                        setSubjectAdapter(teacherModel.getSubjectsList());
+                         break;
+
+
+                }
             }
         }
-    }
+
 
     private void resetData() {
         calendar = Calendar.getInstance();
@@ -217,8 +227,16 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
         type = RequestType.TYPE_SUBJECTS;
         String postUrl = "/app/subject/" + classSection;
         if (CommonUtils.isNetworkAvailable(this)) {
-            httpConnectThread = new HttpConnectThread(this, null, this);
-            httpConnectThread.execute(getString(R.string.base_url) + postUrl);
+            Constants.showProgress(this);
+
+
+            postUrl = getString(R.string.base_url) +postUrl;
+            Log.i("TimetableURL", postUrl);
+            WebServiceCall call = new WebServiceCall(this);
+            call.getJsonObjectResponse(postUrl);
+          //  httpConnectThread = new HttpConnectThread(this, null, this);
+            ///Log.i("subject::::",postUrl);
+            //httpConnectThread.execute(getString(R.string.base_url) + postUrl);
         } else {
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }
