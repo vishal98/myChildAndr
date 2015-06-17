@@ -234,7 +234,7 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
         String exmas_url = null;
         if (CommonUtils.isNetworkAvailable(this)) {
             Constants.showProgress(this);
-            exmas_url = "http://gimmewingsdev.elasticbeanstalk.com/app/exams/teacherExamsSchedule";
+            exmas_url = getString(R.string.base_url)+"/app/exams/teacherExamsSchedule";
             CommonUtils.getLogs("URL::" + exmas_url);
             WebServiceCall call = new WebServiceCall(ExamsActivity.this);
             call.getJsonObjectResponse(exmas_url);
