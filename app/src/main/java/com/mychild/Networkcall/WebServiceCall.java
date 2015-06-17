@@ -43,10 +43,56 @@ public class WebServiceCall {
     private RequestCompletion mRequestCompletion;
 
     public WebServiceCall(Activity context) {
-        this.mContext = context;
+        mContext = context;
         mRequestCompletion = (RequestCompletion) context;
     }
 
+    public void registerForPushApi(String regId){
+        String request_URL = mContext.getString(R.string.base_url) + "/app/registerForpush";
+        LinkedHashMap<String, String> parmKeyValue = new LinkedHashMap<String, String>();
+        parmKeyValue.put("platform", "1");
+        parmKeyValue.put("token", regId);
+        JSONObject headerBodyParam = new JSONObject(parmKeyValue);
+        JsonObjectRequest req;
+        try {
+            req = new JsonObjectRequest(Request.Method.POST, request_URL, headerBodyParam,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject responseJson) {
+                            // handle response
+                            Log.d("JSON Response", responseJson.toString());
+                            TokenID(responseJson);
+                            mRequestCompletion.onRequestCompletion(responseJson, null);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            handleNetworkError(error);
+                        }
+                    }) {
+                @Override
+                public Map<String, String> getHeaders() {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/json");
+                    System.out.println("Headers: = " + headers);
+                    return headers;
+                }
+            };
+            Log.d("Req", req.toString());
+            req.setRetryPolicy(
+                    new DefaultRetryPolicy(
+                            6000,
+                            1,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            // Adding request to volley request queue.
+            AppController.getInstance().addToRequestQueue(req);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
     public void LoginRequestApi(String userName, String Password) {
         String request_URL = mContext.getString(R.string.base_url) + mContext.getString(R.string.login_url_endpoint);
         Log.d("LOGIN URL", request_URL);
@@ -128,14 +174,15 @@ public class WebServiceCall {
                 }
             };
             Log.d("Req", req.toString());
-            req.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            req.setRetryPolicy(new DefaultRetryPolicy( 6000,
+                    1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             // Adding request to volley request queue.
             AppController.getInstance().addToRequestQueue(req);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+//used fot json array response
     public void getCallRequest(String url) {
 
         try {
@@ -166,8 +213,8 @@ public class WebServiceCall {
             Log.d("Req", req.toString());
             req.setRetryPolicy(
                     new DefaultRetryPolicy(
-                            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
-                            0,
+                            6000,
+                            1,
                             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             // Adding request to volley request queue
             AppController.getInstance().addToRequestQueue(req);

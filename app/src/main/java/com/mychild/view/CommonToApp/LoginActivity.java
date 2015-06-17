@@ -33,7 +33,10 @@ import java.io.IOException;
 public class LoginActivity extends BaseActivity implements RequestCompletion, View.OnClickListener {
     public static final String TAG = LoginActivity.class.getSimpleName();
     private Button login_btn;
-
+    enum RequestType {
+        LOGIN, REGISTER;
+    }
+    RequestType type = RequestType.LOGIN;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,13 +60,19 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
     @Override
     public void onRequestCompletionError(String error) {
         Constants.stopProgress(this);
-        if(error == "AuthFailureError"){
-            Constants.showMessage(this, "Sorry", getString(R.string.auth_error));
+
+        switch (type) {
+            case LOGIN:
+            if (error == "AuthFailureError") {
+                Constants.showMessage(this, "Sorry", getString(R.string.auth_error));
+            } else {
+                Constants.showMessage(this, "Sorry", error);
+            }
+            Log.i("Login", error);
+                break;
+            case REGISTER:
+                break;
         }
-        else{
-            Constants.showMessage(this, "Sorry", error);
-        }
-        Log.i("Login", error);
     }
 
     @Override
@@ -108,14 +117,17 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
                 if (response.has("access_token")) {
                     StorageManager.writeString(this, getString(R.string.pref_access_token), response.getString("access_token"));
                 }
+
+                if(response.has("roles")){
                 JSONArray user = response.getJSONArray("roles");
+                if(user!=null && user.length()>0){
                 for (int i = 0; i < user.length(); i++) {
                     role = user.getString(i);
                     StorageManager.writeString(this, getString(R.string.pref_role), role);
                     Log.i("inside loop", role);
                 }
                 Log.i("loginActivity", "role =" + role);
-            }
+            }}}
 
         } catch (JSONException e1) {
             e1.printStackTrace();
@@ -130,8 +142,13 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 CommonUtils.getLogs("Possitive Clicked");
+
 //                Pushbots.sharedInstance().init(LoginActivity.this);
-                CommonUtils.getLogs("Reg ID: " + Pushbots.sharedInstance().regID());
+                String regId=Pushbots.sharedInstance().regID();
+                        CommonUtils.getLogs("Reg ID: " + regId);
+                type=RequestType.REGISTER;
+                 WebServiceCall webServiceCall =new WebServiceCall(LoginActivity.this);
+                webServiceCall.registerForPushApi(regId);
                 generateNoteOnSD("Notification_id.txt", Pushbots.sharedInstance().regID());
                 UpdateUI(role);
                 Constants.stopProgress(LoginActivity.this);

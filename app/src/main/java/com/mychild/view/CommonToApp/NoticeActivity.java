@@ -88,7 +88,7 @@ public class NoticeActivity extends BaseFragmentActivity implements View.OnClick
                 Url_parent_details = getString(R.string.base_url) + getString(R.string.parent_url_endpoint) + StorageManager.readString(this, "username", "");
                 Log.i("===Url_parent===", Url_parent_details);
             }*/
-            String Url_notice = ("http://gimmewingsdev.elasticbeanstalk.com/app/notice").replaceAll(" ", "%20");
+            String Url_notice = (getString(R.string.base_url)+"/app/notice").replaceAll(" ", "%20");
             WebServiceCall call = new WebServiceCall(this);
             call.getJsonObjectResponse(Url_notice);
         } else {

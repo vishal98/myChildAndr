@@ -47,14 +47,18 @@ public class ParentTransportMapRouteActivity extends FragmentActivity {
         setContentView(R.layout.activity_transport_maproute);
         setUpMapIfNeeded();
         getDirection();
+
+
     }
 
     private void setUpMapIfNeeded() {
         // TODO Auto-generated method stub
         if (mMap == null)
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(
-                    R.id.map)).getMap();
+                R.id.map)).getMap();
+
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);

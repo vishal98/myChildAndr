@@ -32,9 +32,7 @@ import com.pkmmte.view.CircularImageView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 //import com.astuetz.PagerSlidingTabStrip;
@@ -86,7 +84,7 @@ public class ProfileFragmentActivity extends FragmentActivity implements View.On
     private void assignDataToView() {
         parentModel = appController.getParentsData();
         appController.setParentData(parentModel);
-        circularImageView.setImageResource(R.drawable.ic_launcher);
+        circularImageView.setImageResource(R.drawable.ic_launcher_tdx);
         circularImageView.setBorderColor(getResources().getColor(R.color.Darkgreen));
         circularImageView.setBorderWidth(3);
         circularImageView.addShadow();
