@@ -73,7 +73,6 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
             case REGISTER:
                 break;
         }
-        Constants.stopProgress(this);
     }
 
     @Override
