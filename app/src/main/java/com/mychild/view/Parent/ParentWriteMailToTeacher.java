@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Vijay on 3/29/15.
@@ -46,11 +47,13 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
     private AppController appController = null;
     private int selectedChildPosition = 0;
     private Dialog dialog = null;
-    ImageView backButton;
-    EditText subject,message;
-    AutoCompleteTextView to;
-    Button sendMail;
+    private ImageView backButton;
+    private EditText subject,message;
+    private AutoCompleteTextView to;
+    private ImageView sendMail;
     String responseType;
+    private ArrayAdapter<String> arrayAdapter;
+    public static List<String> ll ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,22 +116,24 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.mail_toET);
-
+        ll = new ArrayList<String>();
         String status = null;
-        String[] countries=null;
+     //   String[] countries=null;
         if(responseType == "JSONARRAY"){
             CommonUtils.getLogs("get teacher Response is success...");
             if(responseArray!=null && responseArray.length()>0) {
                 Log.i(TAG, responseArray.toString());
                 ArrayList<HashMap<String, String>> teacherListForChild = TeacherListForChildParser.getInstance().getTeacherList(responseArray);
-                 countries = teacherListForChild.get(0).values().toArray(new String[teacherListForChild.size()]);
-            //    Log.i("---->", teacherListForChild.toString());
-              //  TeacherListForChildAdapter teacherAdapter = new TeacherListForChildAdapter(this, teacherListForChild);
+                for (int i = 0; i < teacherListForChild.size(); i++) {
+                    ll.add(teacherListForChild.get(i).get("username").toString());
+                    Log.e("--------",teacherListForChild.get(i).get("username").toString());
+                }
             }
-            ArrayAdapter<String> adapter =
-                    new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, countries  );
+            arrayAdapter = new DropDownAdapter(this,
+                    R.layout.arealist_suggestion, R.id.searchdropdown,
+                    ll);
             textView.setThreshold(1);
-            textView.setAdapter(adapter);
+            textView.setAdapter(arrayAdapter);
         }
         else {
             CommonUtils.getLogs("posting mail Response is success...");
@@ -155,7 +160,7 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
 
     public void onClickListeners(){
         backButton = (ImageView) findViewById(R.id.back);
-        sendMail = (Button) findViewById(R.id.send_mail_btn);
+        sendMail = (ImageView) findViewById(R.id.send_mail_btn);
         to = (AutoCompleteTextView ) findViewById(R.id.mail_toET);
         subject = (EditText) findViewById(R.id.mail_subjectET);
         message = (EditText) findViewById(R.id.mail_messageET);
@@ -218,10 +223,13 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
             String mailMessage = message.getText().toString();
             if (mailTo.equals("")) {
                 CommonUtils.getToastMessage(this, "Please Enter To Field");
+                Constants.stopProgress(this);
             } else if (mailSubject.equals("")) {
                 CommonUtils.getToastMessage(this, "Please Enter Subject");
+                Constants.stopProgress(this);
             } else if (mailMessage.equals("")) {
                 CommonUtils.getToastMessage(this, "Please Enter Message");
+                Constants.stopProgress(this);
             }
             else {
                 JSONObject jsonObject = new JSONObject();

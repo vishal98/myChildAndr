@@ -89,7 +89,7 @@
     <string name="all_students_caps">ALL STUDENTS</string>
     <string name="selected_students">Selected Students</string>
     <string name="assign_task_caps">ASSIGN TASK</string>
-    <string name="mondatory_fields">* Mondatory fields</string>
+    <string name="mondatory_fields">* Mandatory fields</string>
     <string name="title_activity_select_student">SelectStudentActivity</string>
     <string name="title_teacher_timetabel">TimeTabelActivity</string>
     <string name="title_teacher_calender">TeacherCalenderActivity</string>
