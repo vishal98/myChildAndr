@@ -229,9 +229,12 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
         if (CommonUtils.isNetworkAvailable(this)) {
             RequestType type = RequestType.TYPE_TEACHER_DETAILS;
 
-
+            String teacherName1=StorageManager.readString(this, getString(R.string.pref_username), "");
+            teacherDetailsPref=new TeacherDetailsPref(getApplicationContext());
+            teacherModel =teacherDetailsPref.getChildrenListFromPreference(teacherName1);
            Constants.showProgress(this);
             WebServiceCall call = new WebServiceCall(TeacherHomeActivity.this);
+
          call.getJsonObjectResponse(getString(R.string.base_url) + getString(R.string.url_teacher_deatils) + teacherName);
 
             CommonUtils.getLogs("URL is : " + getString(R.string.base_url) + getString(R.string.url_teacher_deatils) + teacherName);

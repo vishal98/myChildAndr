@@ -219,10 +219,11 @@ public void getAttendanceWebService(String date) {
            responseArray=new JSONArray();
            responseArray.put(responseJson);
        }
-        if (responseArray != null) {
+       JSONObject obj = null;
+
+       if (responseArray != null) {
             switch (type) {
                 case TYPE_GET:
-                    JSONObject obj = null;
 
                     //  obj = new JSONObject(object);
                     teacherModel = AttendaceJsonParser.getInstance().getTeacherModel(responseArray);
@@ -234,6 +235,15 @@ public void getAttendanceWebService(String date) {
                     studentsListview.setAdapter(adapter);
 
                     Constants.stopProgress(this);
+
+                    try {
+                        obj = (JSONObject)responseArray.get(0);
+
+                        if (obj.has("message")) {
+                            CommonUtils.getToastMessage(this, obj.getString("message"));
+                        } }catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                          break;
                     case GET_POST:
                 try {
@@ -247,6 +257,15 @@ public void getAttendanceWebService(String date) {
             }
         }else{
             Constants.stopProgress(this);
+           try {
+            obj = responseJson;
+            obj = responseJson;
+            if (obj.has("message")) {
+                CommonUtils.getToastMessage(this, obj.getString("message"));
+            } }catch (JSONException e) {
+               e.printStackTrace();
+           }
+
         }
     }
 
