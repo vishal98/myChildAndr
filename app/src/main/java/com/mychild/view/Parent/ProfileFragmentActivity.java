@@ -84,7 +84,7 @@ public class ProfileFragmentActivity extends FragmentActivity implements View.On
     private void assignDataToView() {
         parentModel = appController.getParentsData();
         appController.setParentData(parentModel);
-        circularImageView.setImageResource(R.drawable.ic_launcher_tdx);
+        circularImageView.setImageResource(R.drawable.ic_launcher_td);
         circularImageView.setBorderColor(getResources().getColor(R.color.Darkgreen));
         circularImageView.setBorderWidth(3);
         circularImageView.addShadow();
