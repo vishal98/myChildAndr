@@ -230,8 +230,8 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
             RequestType type = RequestType.TYPE_TEACHER_DETAILS;
 
             String teacherName1=StorageManager.readString(this, getString(R.string.pref_username), "");
-            teacherDetailsPref=new TeacherDetailsPref(getApplicationContext());
-            teacherModel =teacherDetailsPref.getChildrenListFromPreference(teacherName1);
+         //   teacherDetailsPref=new TeacherDetailsPref(getApplicationContext());
+           // teacherModel =teacherDetailsPref.getChildrenListFromPreference(teacherName1);
            Constants.showProgress(this);
             WebServiceCall call = new WebServiceCall(TeacherHomeActivity.this);
 
