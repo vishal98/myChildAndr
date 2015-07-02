@@ -9,6 +9,7 @@ public class GradeModel {
     private String gradeName;
     private String section = "";
     private ArrayList<StudentDTO> studentsModels;
+    private ArrayList<StudentDTO> absentstudentsModels;
 
     public String getGradeName() {
         return gradeName;
@@ -25,6 +26,17 @@ public class GradeModel {
     public void setStudentsModels(ArrayList<StudentDTO> studentsModels) {
         this.studentsModels = studentsModels;
     }
+
+    //----------------
+    public ArrayList<StudentDTO> getAbsentStudentsModels() {
+        return absentstudentsModels;
+    }
+
+    public void setAbsentStudentsModels(ArrayList<StudentDTO> absentstudentsModels) {
+        this.absentstudentsModels = absentstudentsModels;
+    }
+    //-----------------------
+
 
     public String getSection() {
         return section;

@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
@@ -33,18 +35,23 @@ import java.io.IOException;
 public class LoginActivity extends BaseActivity implements RequestCompletion, View.OnClickListener {
     public static final String TAG = LoginActivity.class.getSimpleName();
     private Button login_btn;
+    private TextView mForgetPwdTxt;
+
     enum RequestType {
         LOGIN, REGISTER;
     }
+
     RequestType type = RequestType.LOGIN;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        login_btn = (Button) findViewById(R.id.login_btn);
+        login_btn = (Button) findViewById(R.id.changepwdbtn);
+        mForgetPwdTxt = (TextView) findViewById(R.id.forgetpwdtxt);
         login_btn.setOnClickListener(LoginActivity.this);
+        mForgetPwdTxt.setOnClickListener(LoginActivity.this);
     }
-
 
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
@@ -54,7 +61,6 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
         String userRole = validatingUser(responseJson);
         Log.i("CompletionuserRole", userRole);
         pushNotification("Activate Notification?", userRole);
-
     }
 
     @Override
@@ -63,35 +69,77 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
 
         switch (type) {
             case LOGIN:
-            if (error == "AuthFailureError") {
-                Constants.showMessage(this, "Sorry", getString(R.string.auth_error));
-            } else {
-                Constants.showMessage(this, "Sorry", error);
-            }
-            Log.i("Login", error);
+                if (error == "AuthFailureError") {
+                    Constants.showMessage(this, "Sorry", getString(R.string.auth_error));
+                } else {
+                    Constants.showMessage(this, "Sorry", error);
+                }
+                Log.i("Login", error);
                 break;
             case REGISTER:
                 break;
         }
-		Constants.stopProgress(this);
+        Constants.stopProgress(this);
     }
 
     @Override
     public void onClick(View v) {
-        final EditText usedID = (EditText) findViewById(R.id.user_id);
-        final EditText pwd = (EditText) findViewById(R.id.password);
-        if (usedID.getText().length() == 0 && pwd.getText().length() == 0) {
-            Constants.showMessage(this, "Sorry", "UserName & Password cannot be empty.");
-        } else {
-            if (CommonUtils.isNetworkAvailable(this)) {
-                CommonUtils.getLogs("Clicked");
-                Constants.showProgress(LoginActivity.this);
-                WebServiceCall call = new WebServiceCall(LoginActivity.this);
-                call.LoginRequestApi(usedID.getText().toString(), pwd.getText().toString());
-            } else {
-                CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
-            }
+        switch (v.getId()) {
+            case R.id.changepwdbtn:
+                final EditText usedID = (EditText) findViewById(R.id.mailid_changepwd);
+                final EditText pwd = (EditText) findViewById(R.id.oldpwd_changepwd);
+                if (usedID.getText().length() == 0 && pwd.getText().length() == 0) {
+                    Constants.showMessage(this, "Sorry", "UserName & Password cannot be empty.");
+                } else {
+                    if (CommonUtils.isNetworkAvailable(this)) {
+                        CommonUtils.getLogs("Clicked");
+                        Constants.showProgress(LoginActivity.this);
+                        WebServiceCall call = new WebServiceCall(LoginActivity.this);
+                        call.LoginRequestApi(usedID.getText().toString(), pwd.getText().toString());
+                    } else {
+                        CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
+                    }
+                }
+                break;
+
+            case R.id.forgetpwdtxt:
+                showForgetPasswordDialog();
+                break;
         }
+    }
+
+    private void showForgetPasswordDialog() {
+        final Dialog dialog = new Dialog(this,
+                android.R.style.Theme_Translucent_NoTitleBar);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setBackgroundDrawableResource(R.color.tranparentbg4);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.custom_forgetpwd_dialog);
+        TextView send = (TextView) dialog.findViewById(R.id.send);
+        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
+        EditText mailid_Edtxt = (EditText) dialog
+                .findViewById(R.id.mailid_forgetpwd);
+      //  msgTextlogin.setText("Your GPS seems to be disabled. Please enable it");
+        dialog.show();
+        cancel.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+            }
+        });
+
+        send.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+
+                dialog.dismiss();
+            }
+        });
     }
 
     public void UpdateUI(String roleUser) {
@@ -119,16 +167,18 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
                     StorageManager.writeString(this, getString(R.string.pref_access_token), response.getString("access_token"));
                 }
 
-                if(response.has("roles")){
-                JSONArray user = response.getJSONArray("roles");
-                if(user!=null && user.length()>0){
-                for (int i = 0; i < user.length(); i++) {
-                    role = user.getString(i);
-                    StorageManager.writeString(this, getString(R.string.pref_role), role);
-                    Log.i("inside loop", role);
+                if (response.has("roles")) {
+                    JSONArray user = response.getJSONArray("roles");
+                    if (user != null && user.length() > 0) {
+                        for (int i = 0; i < user.length(); i++) {
+                            role = user.getString(i);
+                            StorageManager.writeString(this, getString(R.string.pref_role), role);
+                            Log.i("inside loop", role);
+                        }
+                        Log.i("loginActivity", "role =" + role);
+                    }
                 }
-                Log.i("loginActivity", "role =" + role);
-            }}}
+            }
 
         } catch (JSONException e1) {
             e1.printStackTrace();
@@ -145,10 +195,10 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
                 CommonUtils.getLogs("Possitive Clicked");
 
 //                Pushbots.sharedInstance().init(LoginActivity.this);
-                String regId=Pushbots.sharedInstance().regID();
-                        CommonUtils.getLogs("Reg ID: " + regId);
-                type=RequestType.REGISTER;
-                 WebServiceCall webServiceCall =new WebServiceCall(LoginActivity.this);
+                String regId = Pushbots.sharedInstance().regID();
+                CommonUtils.getLogs("Reg ID: " + regId);
+                type = RequestType.REGISTER;
+                WebServiceCall webServiceCall = new WebServiceCall(LoginActivity.this);
                 webServiceCall.registerForPushApi(regId);
                 generateNoteOnSD("Notification_id.txt", Pushbots.sharedInstance().regID());
                 UpdateUI(role);

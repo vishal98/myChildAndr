@@ -10,7 +10,7 @@
     <com.mychild.utils.TopBar
         android:id="@+id/topBar"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"></com.mychild.utils.TopBar>
+        android:layout_height="wrap_content"></com.mychild.utils.TopBar>
 
     <com.mychild.customView.SwitchChildView
         android:id="@+id/switchchildBar"
@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="4dp"
                     android:textSize="17sp"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/home_work" />
@@ -73,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="4dp"
                     android:textSize="17sp"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/attendence" />
@@ -107,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="4dp"
             android:textSize="17sp"
             android:layout_gravity="center_horizontal"
             android:text="@string/time_tabel" />
@@ -132,7 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="4dp"
             android:textSize="17sp"
             android:layout_gravity="center_horizontal"
             android:text="@string/exmas" />
@@ -167,7 +167,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="4dp"
                     android:textSize="17sp"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/notice" />
@@ -189,7 +189,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="4dp"
             android:textSize="17sp"
             android:layout_gravity="center_horizontal"
             android:text="@string/mail_box" />
@@ -223,7 +223,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="4dp"
             android:textSize="17sp"
             android:layout_gravity="center_horizontal"
             android:text="@string/calendar" />
@@ -245,7 +245,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="4dp"
                     android:textSize="17sp"
                     android:layout_gravity="center_horizontal"
                     android:text="Gallery" />
@@ -259,6 +259,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/row5"
                 android:layout_marginTop="20dp"
+                android:paddingBottom="20dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:weightSum="1">
@@ -279,12 +280,32 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="4dp"
                         android:textSize="17sp"
                         android:layout_gravity="center_horizontal"
                         android:text="Transport" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
 
+                    <ImageView
+                        android:id="@+id/changepwd_parent_imgview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_mail" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="4dp"
+                        android:textSize="17sp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Change Password" />
+                </LinearLayout>
             </TableRow>
 
         </LinearLayout>

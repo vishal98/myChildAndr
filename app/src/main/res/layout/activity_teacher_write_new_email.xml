@@ -10,7 +10,7 @@
     <com.mychild.utils.TopBar
         android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"></com.mychild.utils.TopBar>
+        android:layout_height="wrap_content"></com.mychild.utils.TopBar>
 
     <RelativeLayout
         android:id="@+id/new_email_rl"
@@ -126,7 +126,7 @@
                 android:id="@+id/send_mail_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/hdpi_login_height"
-                android:layout_below="@+id/password"
+                android:layout_below="@+id/oldpwd_changepwd"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/writemail_btn_selector"

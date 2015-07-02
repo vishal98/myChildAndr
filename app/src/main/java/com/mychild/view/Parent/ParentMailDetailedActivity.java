@@ -31,7 +31,7 @@ public class ParentMailDetailedActivity extends BaseFragmentActivity implements 
     private ParentModel parentModel = null;
     private AppController appController = null;
     private int selectedChildPosition = 0;
-    ImageView backButton;
+    ImageView backButton,mReplyMailIMGV;
     private Dialog dialog = null;
     TextView detailedMailTV,regardsFromTV, mailTimeTV,mailTitleTV,mailFromTV ;
 
@@ -68,9 +68,16 @@ public class ParentMailDetailedActivity extends BaseFragmentActivity implements 
                 onBackPressed();
                 break;
 
-            case R.id.write_mailIV:
-                startActivity(new Intent(this, com.mychild.view.Parent.ParentWriteMailToTeacher.class));
+            case R.id.reply_imgview:
+                Intent intent = new Intent(ParentMailDetailedActivity.this, com.mychild.view.Parent.ParentWriteMailToTeacher.class);
+                Bundle b = new Bundle();
+                b.putString("mailto", regardsFromTV.getText().toString());
+                intent.putExtras(b);
+                startActivity(intent);
                 break;
+          /*  case R.id.write_mailIV:
+                startActivity(new Intent(this, com.mychild.view.Parent.ParentWriteMailToTeacher.class));
+                break;*/
             case R.id.switch_child:
                 if (parentModel.getChildList() != null) {
                     dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
@@ -101,8 +108,9 @@ public class ParentMailDetailedActivity extends BaseFragmentActivity implements 
         mailTimeTV = (TextView) findViewById(R.id.mailTimeTV);
         mailTitleTV = (TextView) findViewById(R.id.mailTitleTV);
         mailFromTV = (TextView) findViewById(R.id.mailFromTV);
+        mReplyMailIMGV = (ImageView) findViewById(R.id.reply_imgview);
         backButton.setOnClickListener(this);
-
+        mReplyMailIMGV.setOnClickListener(this);
     }
 
     public void setSwitchChildDialogueData() {

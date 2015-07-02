@@ -47,7 +47,7 @@ public class WebServiceCall {
         mRequestCompletion = (RequestCompletion) context;
     }
 
-    public void registerForPushApi(String regId){
+    public void registerForPushApi(String regId) {
         String request_URL = mContext.getString(R.string.base_url) + "/app/registerForpush";
         LinkedHashMap<String, String> parmKeyValue = new LinkedHashMap<String, String>();
         parmKeyValue.put("platform", "1");
@@ -93,6 +93,7 @@ public class WebServiceCall {
         }
 
     }
+
     public void LoginRequestApi(String userName, String Password) {
         String request_URL = mContext.getString(R.string.base_url) + mContext.getString(R.string.login_url_endpoint);
         Log.d("LOGIN URL", request_URL);
@@ -174,7 +175,7 @@ public class WebServiceCall {
                 }
             };
             Log.d("Req", req.toString());
-            req.setRetryPolicy(new DefaultRetryPolicy( 6000,
+            req.setRetryPolicy(new DefaultRetryPolicy(6000,
                     1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             // Adding request to volley request queue.
             AppController.getInstance().addToRequestQueue(req);
@@ -182,7 +183,8 @@ public class WebServiceCall {
             e.printStackTrace();
         }
     }
-//used fot json array response
+
+    //used fot json array response
     public void getCallRequest(String url) {
 
         try {
@@ -330,4 +332,55 @@ public class WebServiceCall {
         return getToken;
     }
 
+    //--------------------------------
+    public void changePasswordRequestApi(String oldPassword, String newPassword, String confirmPassword) {
+        String request_URL = mContext.getString(R.string.base_url) + mContext.getString(R.string.changepwd_url);
+        Log.d("change pwd URL", request_URL);
+        LinkedHashMap<String, String> parmKeyValue = new LinkedHashMap<String, String>();
+        parmKeyValue.put("password", oldPassword);
+        parmKeyValue.put("password_new", newPassword);
+        parmKeyValue.put("password_new2", confirmPassword);
+        JSONObject headerBodyParam = new JSONObject(parmKeyValue);
+        JsonObjectRequest req;
+        try {
+            req = new JsonObjectRequest(Request.Method.POST, request_URL, headerBodyParam,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject responseJson) {
+                            // handle response
+                            Log.d("JSON Response", responseJson.toString());
+                            mRequestCompletion.onRequestCompletion(responseJson, null);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            handleNetworkError(error);
+                        }
+                    }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/json");
+                    headers.put("X-Auth-Token", getToken);
+                    System.out.println("Headers: = " + headers);
+                    return headers;
+                }
+            };
+            Log.d("Req", req.toString());
+            req.setRetryPolicy(
+                    new DefaultRetryPolicy(
+                            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                            0,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            req.setShouldCache(true);
+            // Adding request to volley request queue
+            AppController.getInstance().addToRequestQueue(req);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    //---------------------------------------
 }

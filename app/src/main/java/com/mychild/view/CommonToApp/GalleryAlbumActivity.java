@@ -2,6 +2,7 @@ package com.mychild.view.CommonToApp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -43,7 +44,7 @@ public class GalleryAlbumActivity extends BaseActivity implements View.OnClickLi
         topBar.initTopBar();
         topBar.backArrowIV.setVisibility(View.GONE);
         topBar.titleTV.setText(getString(R.string.gallery));
-        topBar.logoutIV.setVisibility(View.GONE);
+        topBar.logoutIV.setOnClickListener(this);
         gridView = (GridView) findViewById(R.id.gridView);
         ImageView backArrowIV = (ImageView) findViewById(R.id.go_back_arrow_iv);
         TextView albumNameTV = (TextView) findViewById(R.id.album_name_tv);
@@ -119,6 +120,15 @@ public class GalleryAlbumActivity extends BaseActivity implements View.OnClickLi
             case R.id.go_back_arrow_iv:
                 onBackPressed();
                 break;
+            case R.id.logoutIV:
+                SharedPreferences clearSharedPreferenceForLogout;
+                clearSharedPreferenceForLogout = getSharedPreferences("MyChild_Preferences", 0);
+                SharedPreferences.Editor editor = clearSharedPreferenceForLogout.edit();
+                editor.clear();
+                editor.commit();
+                finish();
+                startActivity(new Intent(this, LoginActivity.class));
+
             default:
                 break;
 

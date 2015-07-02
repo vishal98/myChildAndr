@@ -444,7 +444,7 @@ public class ChildrenTimeTableActivity extends BaseFragmentActivity implements R
         } else if (Calendar.FRIDAY == dayOfWeek) {
             weekDay = "FRI";
         } else if (Calendar.SATURDAY == dayOfWeek) {
-            weekDay = "SATY";
+            weekDay = "SAT";
         } else if (Calendar.SUNDAY == dayOfWeek) {
             weekDay = "SUN";
         }

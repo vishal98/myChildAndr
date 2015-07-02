@@ -2,8 +2,9 @@
     <string name="app_name">My Child</string>
     <string name="action_settings">Settings</string>
     <string name="login_text">Please login to connect</string>
-    <string name="userid_hint">Enter User ID</string>
-    <string name="password">Enter Password</string>
+    <string name="userid_hint">User Name</string>
+    <string name="regmailid">Enter Registered mail id</string>
+    <string name="password">Password</string>
     <string name="login_btn">Login</string>
     <string name="login_reset">Reset</string>
     <string name="remember">Remember Me</string>
@@ -11,6 +12,9 @@
     <string name="login_footer_txt">Powered by my child</string>
     <string name="title_notification">NotificationActivity</string>
     <string name="parent_notice">NoticeActivity</string>
+    <string name="forgetpwd">Forget Password</string>
+    <string name="forgetpwdstring">Enter your Email Address here to receive a link to change pssword.</string>
+    <string name="sendmail">SEND EMAIL</string>
 
     <!--activity_child_homeworkvity_child_homework.xml used text-->
     <string name="to_hint">To</string>
@@ -57,7 +61,7 @@
     <string name="timetabel_teacher">/app/teacher/timetable/</string>
     <string name="calender_task_teacher">/app/events/teacher/</string>
     <string name="gallery_url">/app/getuserAlbums</string>
-
+    <string name="changepwd_url">/app/changePassword</string>
 
     <!--teacher flow-->
     <string name="url_teacher_deatils">/Teacher/id</string>
@@ -107,6 +111,7 @@
     <string name="pref_access_token">access_token</string>
     <string name="pref_username">username</string>
     <string name="pref_role">user_role</string>
+    <string name="send">Send</string>
 
     <!--exams_screen-->
     <string name="students_data">Students data</string>
@@ -116,7 +121,7 @@
     <string name="key_from_parent">from_parent</string>
     <string name="key_from_teacher">from_teacher</string>
     <string name="hello_world">Hello world!</string>
-
+    <string name="whattodo">What to do?</string>
     <!--Exams-->
     <string name="exams_title">Exams</string>
 
@@ -154,7 +159,7 @@
     <string name="auth_error">wrong user id/password.</string>
     <string name="title_activity_gallery">GalleryActivity</string>
     <string name="title_activity_gallery_album">GalleryAlbumActivity</string>
-
+    <string name="passwordchnagedsuccess">Password changed successfully</string>
 
     <!--gallery-->
     <string name="gallery">Gallery</string>
@@ -170,12 +175,12 @@
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
-        <item >Home</item>
-        <item >Find People</item>
-        <item >Photos</item>
-        <item >Communities</item>
-        <item >Pages</item>
-        <item >What\'s Hot</item>
+        <item>Home</item>
+        <item>Find People</item>
+        <item>Photos</item>
+        <item>Communities</item>
+        <item>Pages</item>
+        <item>What\'s Hot</item>
     </string-array>
 
     <!-- Nav Drawer List Item Icons -->

@@ -22,6 +22,7 @@ import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseActivity;
+import com.mychild.view.CommonToApp.ChangePasswordActivity;
 import com.mychild.view.CommonToApp.GalleryActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
 
@@ -78,9 +79,8 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
         ((ImageView) findViewById(R.id.calender_iv)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.attendance)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.transport)).setOnClickListener(this);
-    //    ((ImageView) findViewById(R.id.transport_ivtest)).setOnClickListener(this);
+        ((ImageView) findViewById(R.id.changepwd_teacher_imgview)).setOnClickListener(this);
         ((TextView) findViewById(R.id.teacher_name_tv)).setText(StorageManager.readString(this, getString(R.string.pref_username), ""));
-
 
     }
 
@@ -130,9 +130,10 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
                 startActivity(new Intent(this, GalleryActivity.class));
                 break;
 
-        //    case R.id.transport_ivtest:
-          //      Toast.makeText(this,"Coming soon",Toast.LENGTH_LONG).show();
-            //    break;
+            case R.id.changepwd_teacher_imgview:
+               startActivity(new Intent(this,ChangePasswordActivity.class));
+                break;
+
             case R.id.logoutIV:
                 SharedPreferences clearSharedPreferenceForLogout;
                 clearSharedPreferenceForLogout = getSharedPreferences("MyChild_Preferences", 0);

@@ -11,7 +11,7 @@ public class TeacherModel implements Serializable {
     private String teacherName = "";
     private String teacherEmail = "";
     private String teacherGrade = "";
-
+private String isAttendanceDone= "N";
     public ArrayList<SubjectModel> getSubjectsList() {
         return subjectsList;
     }
@@ -74,4 +74,11 @@ public class TeacherModel implements Serializable {
 
     private ArrayList<GradeModel> gradeModels;
 
+    public String getIsAttendanceDone() {
+        return isAttendanceDone;
+    }
+
+    public void setIsAttendanceDone(String isAttendanceDone) {
+        this.isAttendanceDone = isAttendanceDone;
+    }
 }

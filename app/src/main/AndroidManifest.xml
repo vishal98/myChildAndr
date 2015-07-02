@@ -102,6 +102,11 @@
             android:name=".CommonToApp.NoticeActivity"
             android:label="@string/parent_notice"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".CommonToApp.ChangePasswordActivity"
+            android:label="@string/parent_notice"
+            android:screenOrientation="portrait"/>
+
 
         <receiver
             android:name="com.pushbots.google.gcm.GCMBroadcastReceiver"

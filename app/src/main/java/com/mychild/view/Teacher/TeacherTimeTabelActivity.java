@@ -168,7 +168,6 @@ public class TeacherTimeTabelActivity extends BaseFragmentActivity implements Re
         topBar.titleTV.setText(getString(R.string.time_tabel));
     }
 
-
     public void getTeacherTimeTabel(String day) {
         String Url_TimeTable = null;
         Constants.showProgress(this);
@@ -181,7 +180,6 @@ public class TeacherTimeTabelActivity extends BaseFragmentActivity implements Re
             CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
         }
     }
-
 
     class onDateClickListner implements View.OnClickListener {
         @Override
@@ -363,7 +361,7 @@ public class TeacherTimeTabelActivity extends BaseFragmentActivity implements Re
         } else if (Calendar.FRIDAY == dayOfWeek) {
             weekDay = "FRI";
         } else if (Calendar.SATURDAY == dayOfWeek) {
-            weekDay = "SATY";
+            weekDay = "SAT";
         } else if (Calendar.SUNDAY == dayOfWeek) {
             weekDay = "SUN";
         }

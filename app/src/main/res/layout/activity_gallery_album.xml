@@ -7,7 +7,7 @@
     <com.mychild.utils.TopBar
         android:id="@+id/topBar"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"></com.mychild.utils.TopBar>
+        android:layout_height="wrap_content"></com.mychild.utils.TopBar>
 
     <RelativeLayout
         android:id="@+id/user_data"

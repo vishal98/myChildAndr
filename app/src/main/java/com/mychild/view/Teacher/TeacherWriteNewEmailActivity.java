@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-
 import com.mychild.interfaces.AsyncTaskInterface;
 import com.mychild.sharedPreference.StorageManager;
 import com.mychild.threads.HttpConnectThread;
@@ -13,10 +12,8 @@ import com.mychild.utils.CommonUtils;
 import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseActivity;
 import com.mychild.view.R;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 public class TeacherWriteNewEmailActivity extends BaseActivity implements View.OnClickListener, AsyncTaskInterface {
     private TopBar topBar;
@@ -38,7 +35,6 @@ public class TeacherWriteNewEmailActivity extends BaseActivity implements View.O
         mailToEt = (EditText) findViewById(R.id.mail_to_et);
         mailSubjectET = (EditText) findViewById(R.id.mail_subject_et);
         mailMessageET = (EditText) findViewById(R.id.mail_message_et);
-
         sendMailBtn = (Button) findViewById(R.id.send_mail_btn);
         sendMailBtn.setOnClickListener(this);
     }
@@ -79,7 +75,6 @@ public class TeacherWriteNewEmailActivity extends BaseActivity implements View.O
                 break;
             default:
         }
-
     }
 
     @Override
@@ -101,8 +96,6 @@ public class TeacherWriteNewEmailActivity extends BaseActivity implements View.O
                             CommonUtils.getToastMessage(this, jsonObject.getString("message"));
                         }
                     }
-
-
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

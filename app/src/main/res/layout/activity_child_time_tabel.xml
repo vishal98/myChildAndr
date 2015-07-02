@@ -2,45 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    android:orientation="vertical">
 
     <com.mychild.utils.TopBar
         android:id="@+id/topBar"
         android:layout_width="wrap_content"
-        android:layout_height="60dp">
+        android:layout_height="wrap_content">
 
     </com.mychild.utils.TopBar>
 
     <com.mychild.customView.SwitchChildView
         android:id="@+id/switchchildBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </com.mychild.customView.SwitchChildView>
+        android:layout_height="wrap_content"></com.mychild.customView.SwitchChildView>
 
     <RelativeLayout
         android:id="@+id/calLyt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="5dip"
         android:background="@color/white"
         android:paddingLeft="10dip"
-        android:paddingRight="10dip" >
+        android:paddingRight="10dip"
+        android:paddingTop="5dip">
 
         <LinearLayout
             android:id="@+id/today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:orientation="vertical" >
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/todayDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:layout_marginBottom="-1.2dp"
+                android:text="27 Jun 2015"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -49,7 +51,8 @@
                 android:layout_gravity="left"
                 android:text="TODAY"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#FF0000" />
+                android:textColor="#FF0000"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <ImageView
@@ -66,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <GridView
             android:id="@+id/weekday_gridview_main"
@@ -74,20 +77,21 @@
             android:layout_height="wrap_content"
             android:numColumns="7"
             android:stretchMode="columnWidth"
-            android:visibility="gone" >
-        </GridView>
+            android:visibility="gone"></GridView>
 
         <com.thehayro.view.InfiniteViewPager
             android:id="@+id/infinite_viewpager"
             android:layout_width="match_parent"
-            android:layout_height="30dp" >
-        </com.thehayro.view.InfiniteViewPager>
+            android:layout_height="30dp"></com.thehayro.view.InfiniteViewPager>
     </LinearLayout>
 
     <ListView
         android:id="@+id/child_time_table_list"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </ListView>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:divider="@color/hinttxtcolor"
+        android:dividerHeight="0.5dp"></ListView>
 
 </LinearLayout>

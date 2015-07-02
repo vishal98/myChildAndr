@@ -54,7 +54,7 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
     String responseType;
     private ArrayAdapter<String> arrayAdapter;
     public static List<String> ll ;
-
+    AutoCompleteTextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +63,19 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
         onClickListeners();
         setTopBar();
       //  switchChildBar();
+        UpdateUI();
         getTeacherList();
+    }
+
+    public void UpdateUI(){
+        Intent intent = getIntent();
+        if(intent.hasExtra("mailto")) {
+            Bundle extras = intent.getExtras();
+            if (extras != null) {
+                textView.setText(extras.getString("mailto"));
+                textView.setFocusable(false);
+            }
+        }
     }
 
     @Override
@@ -115,7 +127,6 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
 
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
-        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.mail_toET);
         ll = new ArrayList<String>();
         String status = null;
      //   String[] countries=null;
@@ -164,6 +175,7 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
         to = (AutoCompleteTextView ) findViewById(R.id.mail_toET);
         subject = (EditText) findViewById(R.id.mail_subjectET);
         message = (EditText) findViewById(R.id.mail_messageET);
+        textView = (AutoCompleteTextView) findViewById(R.id.mail_toET);
         backButton.setOnClickListener(this);
         sendMail.setOnClickListener(this);
 

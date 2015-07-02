@@ -11,7 +11,7 @@
     <com.mychild.utils.TopBar
         android:id="@+id/topBar"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"></com.mychild.utils.TopBar>
+        android:layout_height="wrap_content"></com.mychild.utils.TopBar>
 
     <include
         android:id="@+id/teacher_details_rl"
@@ -24,7 +24,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@drawable/background"
             android:orientation="vertical"
             android:paddingBottom="15dp"
             android:paddingLeft="30dp"
@@ -35,87 +35,93 @@
                 style="@style/hdpi_assign_task_label_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="@string/choose_class_caps" />
 
             <Spinner
                 android:id="@+id/class_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/hdpi_login_height"
-                android:layout_marginTop="15dp"
+                android:layout_height="@dimen/edittextcustomheight"
                 android:background="@drawable/searchview_selector"
                 android:gravity="center_vertical"
                 android:scrollbars="none"
+                android:layout_marginTop="@dimen/textleftpadding4dp"
+                android:paddingLeft="@dimen/textleftpadding4dp"
                 android:spinnerMode="dropdown" />
 
             <TextView
                 style="@style/hdpi_assign_task_label_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="12dp"
                 android:text="@string/choose_subject_caps" />
 
             <Spinner
                 android:id="@+id/subject_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/hdpi_login_height"
-                android:layout_marginTop="15dp"
+                android:layout_height="@dimen/edittextcustomheight"
+                android:layout_marginTop="@dimen/textleftpadding4dp"
                 android:background="@drawable/searchview_selector"
                 android:gravity="center_vertical"
                 android:scrollbars="none"
+                android:paddingLeft="@dimen/textleftpadding4dp"
                 android:spinnerMode="dropdown" />
 
             <TextView
                 style="@style/hdpi_assign_task_label_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="12dp"
                 android:text="@string/task_to_do_caps" />
 
             <EditText
                 android:id="@+id/task_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/textleftpadding4dp"
                 android:background="@drawable/searchview_selector"
-                android:gravity="top|left"
+                android:gravity="top"
                 android:inputType="textMultiLine"
                 android:lines="4"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp" />
+                android:text=""
+                android:hint="@string/whattodo"
+                android:textColorHint="@color/hinttxtcolor"
+                android:padding="10dp" />
 
             <TextView
                 style="@style/hdpi_assign_task_label_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="12dp"
                 android:text="@string/choose_a_due_date_caps"
                 android:gravity="center" />
 
             <TextView
                 android:id="@+id/choose_date_tv"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/hdpi_login_height"
-                android:layout_marginTop="15dp"
-                style="@style/hdpi_assign_task_label_style"
+                android:layout_height="@dimen/edittextcustomheight"
+                android:layout_marginTop="@dimen/textleftpadding4dp"
                 android:hint="@string/choose_a_due_date_caps"
+                android:textColorHint="@color/hinttxtcolor"
                 android:background="@drawable/searchview_selector"
                 android:gravity="left|center_vertical"
+                android:textColor="@color/black"
                 android:singleLine="true"
-                android:paddingLeft="5dp"
+                android:paddingLeft="10dp"
                 android:paddingRight="5dp" />
 
             <TextView
                 style="@style/hdpi_assign_task_label_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="12dp"
                 android:text="@string/select_students_caps" />
 
             <RadioGroup
                 android:id="@+id/select_students_rg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="6dp"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -141,7 +147,7 @@
                 android:id="@+id/assign_task_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/hdpi_login_height"
-                android:layout_below="@+id/password"
+                android:layout_below="@+id/oldpwd_changepwd"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/assign_task_btn_selector"

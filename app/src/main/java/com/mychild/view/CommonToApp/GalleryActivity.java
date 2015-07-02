@@ -1,5 +1,7 @@
 package com.mychild.view.CommonToApp;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -35,8 +37,9 @@ public class GalleryActivity extends BaseActivity implements View.OnClickListene
         topBar.initTopBar();
         topBar.titleTV.setText(getString(R.string.gallery));
         topBar.backArrowIV.setOnClickListener(this);
+        topBar.logoutIV.setOnClickListener(this);
         gallertLV = (ListView) findViewById(R.id.gallery_lv);
-        topBar.logoutIV.setVisibility(View.GONE);
+       // topBar.logoutIV.setVisibility(View.GONE);
         if (CommonUtils.isNetworkAvailable(this)) {
             httpConnectThread = new HttpConnectThread(this, null, this);
             httpConnectThread.execute(getString(R.string.base_url)+getString(R.string.gallery_url));
@@ -101,6 +104,15 @@ public class GalleryActivity extends BaseActivity implements View.OnClickListene
             case R.id.back_arrow_iv:
                 onBackPressed();
                 break;
+            case R.id.logoutIV:
+                SharedPreferences clearSharedPreferenceForLogout;
+                clearSharedPreferenceForLogout = getSharedPreferences("MyChild_Preferences", 0);
+                SharedPreferences.Editor editor = clearSharedPreferenceForLogout.edit();
+                editor.clear();
+                editor.commit();
+                finish();
+                startActivity(new Intent(this, LoginActivity.class));
+
             default:
                 break;
         }

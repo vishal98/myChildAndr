@@ -24,6 +24,7 @@ import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseActivity;
 import com.mychild.view.CommonToApp.CalendarActivity;
+import com.mychild.view.CommonToApp.ChangePasswordActivity;
 import com.mychild.view.CommonToApp.GalleryActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.CommonToApp.NoticeActivity;
@@ -176,18 +177,22 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 finish();
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
+
             case R.id.transport_homeic:
               //  Toast.makeText(this, "Coming Soon", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(this, ParentTransportMapRouteActivity.class));
                 break;
+
+            case R.id.changepwd_parent_imgview:
+                startActivity(new Intent(this,ChangePasswordActivity.class));
+                break;
             default:
                 //Enter code in the event that that no cases match
         }
-
     }
 
     public void onChangingChild() {
-
+        Log.i("---->>>>>>", "1111111111");
         if (appController.getParentsData() != null) {
             childName = Constants.getChildNameAfterSelecting(0, appController.getParentsData());
             switchChild.childNameTV.setText(childName);
@@ -195,6 +200,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
             Log.i("Setting Default child::", Constants.SWITCH_CHILD_FLAG);
             getChildId = Constants.getChildIdAfterSelecting(0, appController.getParentsData());
             Constants.SET_SWITCH_CHILD_ID = getChildId;
+            Log.i("---->>>>>>", "1111111111");
         } else {
             switchChild.childNameTV.setText(Constants.SWITCH_CHILD_FLAG);
         }
@@ -216,15 +222,15 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         });
     }
 
-
     public void switchChildBar() {
         switchChild = (SwitchChildView) findViewById(R.id.switchchildBar);
+        Log.i("Antony", "1111111111");
         switchChild.initSwitchChildBar();
-
+        switchChild.switchChildBT.setOnClickListener(this);
+        Log.i("Antony", "222222222222");
 //        StorageManager.readString(this, "username", "");
 //        switchChild.parentNameTV.setText(childName);
 //        switchChild.parentNameTV.setText(StorageManager.readString(this, "username", ""));
-
     }
 
 
@@ -239,6 +245,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         ImageView notice = (ImageView) findViewById(R.id.notice);
         ImageView transport = (ImageView) findViewById(R.id.transport);
         ImageView transport_homeic = (ImageView) findViewById(R.id.transport_homeic);
+        ImageView changePwd = (ImageView) findViewById(R.id.changepwd_parent_imgview);
         homeWork.setOnClickListener(this);
         timeTable.setOnClickListener(this);
         exams.setOnClickListener(this);
@@ -248,9 +255,9 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         attendance.setOnClickListener(this);
         transport.setOnClickListener(this);
         transport_homeic.setOnClickListener(this);
-
+        changePwd.setOnClickListener(this);
         switchChild.childNameTV.setOnClickListener(this);
-        switchChild.switchChildBT.setOnClickListener(this);
+        /*switchChild.switchChildBT.setOnClickListener(this);*/
 
     }
 

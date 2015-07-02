@@ -8,7 +8,7 @@
     <com.mychild.utils.TopBar
         android:id="@+id/topBar"
         android:layout_width="wrap_content"
-        android:layout_height="60dp">
+        android:layout_height="wrap_content">
     </com.mychild.utils.TopBar>
 
 
@@ -35,6 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/icon_new_mail"
+                android:visibility="gone"
                 android:layout_marginRight="10dp" />
             <TextView
                 android:id="@+id/date"
@@ -60,6 +61,15 @@
                 android:layout_marginRight="10dp" />
 
         </RelativeLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/reply_imgview"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/icon_new_mail"
+            android:layout_toLeftOf="@+id/mailinfobarRV"
+            android:layout_toStartOf="@+id/mailinfobarRV" />
     </RelativeLayout>
 
     <RelativeLayout

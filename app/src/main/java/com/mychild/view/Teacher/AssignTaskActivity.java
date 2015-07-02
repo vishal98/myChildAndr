@@ -2,6 +2,7 @@ package com.mychild.view.Teacher;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseActivity;
+import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.R;
 import com.mychild.webserviceparser.TeacherHomeJsonParser;
 
@@ -72,6 +74,7 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.titleTV.setText(getString(R.string.assign_task_title));
+        topBar.logoutIV.setOnClickListener(this);
         classSpinner = (Spinner) findViewById(R.id.class_spinner);
         classSpinner.setOnItemSelectedListener(this);
         subjectSpinner = (Spinner) findViewById(R.id.subject_spinner);
@@ -130,6 +133,14 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
             case R.id.assign_task_btn:
                 postAssignTaskData();
                 break;
+            case R.id.logoutIV:
+                SharedPreferences clearSharedPreferenceForLogout;
+                clearSharedPreferenceForLogout = getSharedPreferences("MyChild_Preferences", 0);
+                SharedPreferences.Editor editor = clearSharedPreferenceForLogout.edit();
+                editor.clear();
+                editor.commit();
+                finish();
+                startActivity(new Intent(this, LoginActivity.class));
             default:
         }
     }

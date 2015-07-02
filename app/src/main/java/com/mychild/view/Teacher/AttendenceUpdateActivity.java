@@ -1,14 +1,18 @@
 package com.mychild.view.Teacher;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.kk.mycalendar.WeekdayArrayAdapter;
@@ -26,6 +30,7 @@ import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseActivity;
+import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.R;
 import com.mychild.webserviceparser.AttendaceJsonParser;
 import com.mychild.webserviceparser.TeacherHomeJsonParser;
@@ -42,7 +47,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class AttendenceUpdateActivity extends BaseActivity implements View.OnClickListener, IOnCheckedChangeListener,RequestCompletion {
+public class AttendenceUpdateActivity extends BaseActivity implements View.OnClickListener, IOnCheckedChangeListener, RequestCompletion {
 
     private TopBar topBar;
     private String teacherName = "";
@@ -53,15 +58,17 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
     private TextView doneTV;
     private StudentsListAdapter adapter;
     private ArrayList<StudentDTO> studentsList = null;
+    private ArrayList<StudentDTO> studentsListabsent = null;
     private TeacherModel teacherModel = null;
     private int studentsSize;
+    String mselectedDate = "";
+    public static boolean hasattendancedone = false;
 
     enum RequestType {
         TYPE_GET, GET_POST;
     }
 
     private RequestType type = RequestType.TYPE_GET;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +77,7 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
+        topBar.logoutIV.setOnClickListener(this);
         topBar.titleTV.setText(getString(R.string.attendence_title));
         studentsListview = (ListView) findViewById(R.id.students_listview);
         doneTV = (TextView) findViewById(R.id.done_tv);
@@ -78,6 +86,10 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
         absetntTV = (TextView) findViewById(R.id.absent_tv);
         resultTV = (TextView) findViewById(R.id.result_tv);
         resultTV.setText("");
+
+        ((TextView) findViewById(R.id.teacher_name_tv)).setText(StorageManager.readString(this, getString(R.string.pref_username), ""));
+        String teacherName1 = StorageManager.readString(this, getString(R.string.pref_username), "");
+        teacherName = "/" + teacherName1;
 
         viewPager = (InfiniteViewPager) findViewById(R.id.infinite_viewpager);
         viewPager.setAdapter(new MyInfinitePagerAdapter(0));
@@ -108,36 +120,33 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
         weekdayGridView.setAdapter(weekdaysAdapter);
         Calendar cal = Calendar.getInstance();
         ((TextView) findViewById(R.id.todayDate)).setText(cal.get(Calendar.DAY_OF_MONTH) + " " + getMonth(cal.get(Calendar.MONTH) + 1).substring(0, 3) + " " + cal.get(Calendar.YEAR));
-        SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         if (CommonUtils.isNetworkAvailable(this)) {
-        getAttendanceWebService(sdf.format(cal.getTime()));
-        }else
-         {
+            Log.e("------->>>", sdf.format(cal.getTime()));
+            getAttendanceWebService(sdf.format(cal.getTime()));
+        } else {
             CommonUtils.getToastMessage(this, getString(R.string.network_error));
         }
-
     }
 
-public void getAttendanceWebService(String date) {
-    {
-        type = RequestType.TYPE_GET;
-
-
-        if (CommonUtils.isNetworkAvailable(this)) {
-            Constants.showProgress(this);
-            String postUrl = "/app/attendance/grade/" + "5/a/" + date;
-
-            postUrl = getString(R.string.base_url) + postUrl;
-            Log.i("TimetableURL", postUrl);
-            WebServiceCall call = new WebServiceCall(this);
-            call.getJsonObjectResponse(postUrl);
-         // httpConnectThread = new HttpConnectThread(this, null, this);
-       //     String url = getString(R.string.base_url) + getString(R.string.url_teacher_deatils);
-           // teacherName = "/" + StorageManager.readString(this, getString(R.string.pref_username), "");
-           // httpConnectThread.execute(postUrl);
+    public void getAttendanceWebService(String date) {
+        {
+            type = RequestType.TYPE_GET;
+            if (CommonUtils.isNetworkAvailable(this)) {
+                Constants.showProgress(this);
+                String postUrl = "/app/attendance/grade/v1/" + "5/a/" + date;
+                postUrl = getString(R.string.base_url) + postUrl;
+                Log.i("TimetableURL", postUrl);
+                WebServiceCall call = new WebServiceCall(this);
+                call.getCallRequest(postUrl);
+                // httpConnectThread = new HttpConnectThread(this, null, this);
+                //     String url = getString(R.string.base_url) + getString(R.string.url_teacher_deatils);
+                // teacherName = "/" + StorageManager.readString(this, getString(R.string.pref_username), "");
+                // httpConnectThread.execute(postUrl);
+            }
         }
     }
-}
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -154,7 +163,14 @@ public void getAttendanceWebService(String date) {
                     CommonUtils.getLogs("start");
                 }
                 break;
-
+            case R.id.logoutIV:
+                SharedPreferences clearSharedPreferenceForLogout;
+                clearSharedPreferenceForLogout = getSharedPreferences("MyChild_Preferences", 0);
+                SharedPreferences.Editor editor = clearSharedPreferenceForLogout.edit();
+                editor.clear();
+                editor.commit();
+                finish();
+                startActivity(new Intent(this, LoginActivity.class));
             default:
         }
     }
@@ -177,24 +193,21 @@ public void getAttendanceWebService(String date) {
             }
             GradeModel gradeModel = teacherModel.getGradeModels().get(0);
             jsonObject.put("grade", gradeModel.getGradeName());
-            jsonObject.put("date", "06-04-2015");
+            jsonObject.put("date", mselectedDate);//06-04-2015
             jsonObject.put("section", gradeModel.getSection());
             CommonUtils.getLogs("POST Obj : " + jsonObject);
             if (CommonUtils.isNetworkAvailable(this)) {
                 type = RequestType.GET_POST;
-            //    httpConnectThread = new HttpConnectThread(this, jsonObject, this);
-
+                //    httpConnectThread = new HttpConnectThread(this, jsonObject, this);
                 WebServiceCall call = new WebServiceCall(this);
-                call.postToServer(jsonObject,(getString(R.string.base_url) + getString(R.string.url_save_attendence)));
+                call.postToServer(jsonObject, (getString(R.string.base_url) + getString(R.string.url_save_attendence)));
                 //httpConnectThread.execute(getString(R.string.base_url) + getString(R.string.url_save_attendence));
-
             } else {
                 CommonUtils.getToastMessage(this, getString(R.string.network_error));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -212,59 +225,77 @@ public void getAttendanceWebService(String date) {
         }
     }
 
-   @Override
-    public  void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
+    @Override
+    public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         CommonUtils.getLogs("Response::::" + responseJson);
-       if(responseJson!=null && responseArray==null){
-           responseArray=new JSONArray();
-           responseArray.put(responseJson);
-       }
-       JSONObject obj = null;
-
-       if (responseArray != null) {
+        if (responseJson != null && responseArray == null) {
+            responseArray = new JSONArray();
+            responseArray.put(responseJson);
+        }
+        JSONObject obj = null;
+        if (responseArray != null) {
             switch (type) {
                 case TYPE_GET:
-
                     //  obj = new JSONObject(object);
                     teacherModel = AttendaceJsonParser.getInstance().getTeacherModel(responseArray);
-
                     studentsList = teacherModel.getGradeModels().get(0).getStudentsModels();
                     studentsSize = studentsList.size();
-                    ArrayList<StudentDTO> absentlist = AttendaceJsonParser.getInstance().getStudentsList(responseArray);
-                    adapter = new StudentsListAdapter(this, R.layout.select_student_list_item, studentsList);
-                    studentsListview.setAdapter(adapter);
+                    //-------
+                    if (AttendenceUpdateActivity.hasattendancedone) {
+                        studentsListabsent = teacherModel.getGradeModels().get(0).getAbsentStudentsModels();
+                        adapter = new StudentsListAdapter(this, R.layout.select_student_list_item, studentsList, studentsListabsent,true);
+                        studentsListview.setAdapter(adapter);
+                    } else {
+                        adapter = new StudentsListAdapter(this, R.layout.select_student_list_item, studentsList);
+                        studentsListview.setAdapter(adapter);
+                    }
+
+                   /* if (AttendenceUpdateActivity.hasattendancedone) {
+                        studentsListabsent = teacherModel.getGradeModels().get(0).getAbsentStudentsModels();
+                        Log.e("---->>>", "name---->>" + String.valueOf(studentsListabsent.size()).toString());
+                        for(int i=0;i<studentsList.size();i++) {
+                            View view = studentsListview.getAdapter().getView(i, null, studentsListview);
+                            view.setClickable(false);
+                            view.setFocusable(false);
+                            TextView tv = (TextView) view.findViewById(R.id.student_name_tv);
+                            Log.e("------>>>>>", tv.getText().toString());
+                            CheckBox cb =(CheckBox)view.findViewById(R.id.checkbox);
+                            cb.setChecked(true);
+                        }
+                    }*/
 
                     Constants.stopProgress(this);
-
                     try {
-                        obj = (JSONObject)responseArray.get(0);
+                        obj = (JSONObject) responseArray.get(0);
 
                         if (obj.has("message")) {
                             CommonUtils.getToastMessage(this, obj.getString("message"));
-                        } }catch (JSONException e) {
+                        }
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                         break;
-                    case GET_POST:
-                try {
-                    obj = responseJson;
-                    if (obj.has("message")) {
-                        CommonUtils.getToastMessage(this, obj.getString("message"));
+                    break;
+                case GET_POST:
+                    try {
+                        obj = responseJson;
+                        if (obj.has("message")) {
+                            CommonUtils.getToastMessage(this, obj.getString("message"));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
             }
-        }else{
+        } else {
             Constants.stopProgress(this);
-           try {
-            obj = responseJson;
-            obj = responseJson;
-            if (obj.has("message")) {
-                CommonUtils.getToastMessage(this, obj.getString("message"));
-            } }catch (JSONException e) {
-               e.printStackTrace();
-           }
+            try {
+                obj = responseJson;
+                obj = responseJson;
+                if (obj.has("message")) {
+                    CommonUtils.getToastMessage(this, obj.getString("message"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         }
     }
@@ -277,32 +308,27 @@ public void getAttendanceWebService(String date) {
     }
 
 
-
-
-
-
-
     class onDateClickListner implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             TextView tv = (TextView) v;
             String selectedDate = tv.getTag().toString();
 
+            ((TextView) findViewById(R.id.text1)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView) findViewById(R.id.text2)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView) findViewById(R.id.text3)).setTextColor(Color.parseColor("#D7D7D7"));
+            if (!(((TextView) findViewById(R.id.text4)).getCurrentTextColor() == Color.parseColor("#FF0000")))
+                ((TextView) findViewById(R.id.text4)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView) findViewById(R.id.text5)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView) findViewById(R.id.text6)).setTextColor(Color.parseColor("#D7D7D7"));
+            ((TextView) findViewById(R.id.text7)).setTextColor(Color.parseColor("#D7D7D7"));
 
-            ((TextView)findViewById(R.id.text1)).setTextColor(Color.parseColor("#D7D7D7"));
-            ((TextView)findViewById(R.id.text2)).setTextColor(Color.parseColor("#D7D7D7"));
-            ((TextView)findViewById(R.id.text3)).setTextColor(Color.parseColor("#D7D7D7"));
-            if(!(((TextView)findViewById(R.id.text4)).getCurrentTextColor()==Color.parseColor("#FF0000")))
-                ((TextView)findViewById(R.id.text4)).setTextColor(Color.parseColor("#D7D7D7"));
-            ((TextView)findViewById(R.id.text5)).setTextColor(Color.parseColor("#D7D7D7"));
-            ((TextView)findViewById(R.id.text6)).setTextColor(Color.parseColor("#D7D7D7"));
-            ((TextView)findViewById(R.id.text7)).setTextColor(Color.parseColor("#D7D7D7"));
-
-
-            if(!(tv.getCurrentTextColor()==Color.parseColor("#FF0000")))
+            if (!(tv.getCurrentTextColor() == Color.parseColor("#FF0000")))
                 tv.setTextColor(Color.BLUE);
+            Log.e("===selected date", selectedDate);
+            mselectedDate = selectedDate;
             getAttendanceWebService(selectedDate);
-//			Toast.makeText(ChildrenTimeTableActivity.this, selectedDate, Toast.LENGTH_LONG).show();
+//			Toast.makeText(ChildrenTimeTableActivity.this, selectedDate,wind Toast.LENGTH_LONG).show();
             //    getChildTimeTabel(selectedDate);
         }
     }
@@ -350,7 +376,7 @@ public void getAttendanceWebService(String date) {
                 else
                     cal.add(Calendar.DAY_OF_YEAR, (indicator * 7) - 3);
             }
-            SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             text1.setText("" + cal.get(Calendar.DATE));
             text1.setTag(sdf.format(cal.getTime()));
             text1.setOnClickListener(new onDateClickListner());
