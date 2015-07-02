@@ -243,26 +243,12 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
                     //-------
                     if (AttendenceUpdateActivity.hasattendancedone) {
                         studentsListabsent = teacherModel.getGradeModels().get(0).getAbsentStudentsModels();
-                        adapter = new StudentsListAdapter(this, R.layout.select_student_list_item, studentsList, studentsListabsent,true);
+                        adapter = new StudentsListAdapter(this, R.layout.select_student_list_item, studentsList, studentsListabsent, true);
                         studentsListview.setAdapter(adapter);
                     } else {
                         adapter = new StudentsListAdapter(this, R.layout.select_student_list_item, studentsList);
                         studentsListview.setAdapter(adapter);
                     }
-
-                   /* if (AttendenceUpdateActivity.hasattendancedone) {
-                        studentsListabsent = teacherModel.getGradeModels().get(0).getAbsentStudentsModels();
-                        Log.e("---->>>", "name---->>" + String.valueOf(studentsListabsent.size()).toString());
-                        for(int i=0;i<studentsList.size();i++) {
-                            View view = studentsListview.getAdapter().getView(i, null, studentsListview);
-                            view.setClickable(false);
-                            view.setFocusable(false);
-                            TextView tv = (TextView) view.findViewById(R.id.student_name_tv);
-                            Log.e("------>>>>>", tv.getText().toString());
-                            CheckBox cb =(CheckBox)view.findViewById(R.id.checkbox);
-                            cb.setChecked(true);
-                        }
-                    }*/
 
                     Constants.stopProgress(this);
                     try {
