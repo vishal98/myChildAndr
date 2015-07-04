@@ -111,6 +111,9 @@
         android:id="@+id/exams_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:dividerHeight="1dp"></ListView>
+        android:dividerHeight="0.5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:divider="@color/hinttxtcolor"></ListView>
 
 </LinearLayout>

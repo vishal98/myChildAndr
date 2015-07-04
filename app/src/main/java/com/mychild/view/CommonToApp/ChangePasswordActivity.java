@@ -52,7 +52,7 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
     private void setTopBar() {
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
-        topBar.titleTV.setText(getString(R.string.my_child));
+        topBar.titleTV.setText(getString(R.string.changepwd));
         topBar.logoutIV.setOnClickListener(this);
         topBar.backArrowIV.setOnClickListener(this);
 

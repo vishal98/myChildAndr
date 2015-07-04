@@ -33,9 +33,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="-3dp"
                 android:text="#0123"
-                android:textSize="@dimen/sp17"
+                android:textSize="@dimen/sp18"
                 android:textStyle="bold" />
 
             <TextView
@@ -45,7 +46,8 @@
                 android:layout_gravity="center_horizontal"
                 android:text="Bharath Antony"
                 android:textColor="@color/orange"
-                android:textSize="@dimen/sp18" />
+                android:layout_marginBottom="-3dp"
+                android:textSize="@dimen/sp19" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -75,6 +77,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="28dp"
+                    android:textColor="@color/hinttxtcolor"
                     android:text="CLASS " />
 
                 <TextView
@@ -90,7 +93,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/dp24"
+                android:layout_marginTop="@dimen/dp16"
+                android:textColor="@color/hinttxtcolor"
                 android:text="E-MAIL"
                 android:textSize="@dimen/sp12" />
 
@@ -106,7 +110,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/dp18"
+                android:layout_marginTop="@dimen/dp16"
+                android:textColor="@color/hinttxtcolor"
                 android:text="MOBILE"
                 android:textSize="@dimen/sp12" />
 
@@ -123,7 +128,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/dp18"
+                android:layout_marginTop="@dimen/dp16"
+                android:textColor="@color/hinttxtcolor"
                 android:text="ADDRESS"
                 android:textSize="@dimen/sp12" />
 
@@ -133,6 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="Bangalore 769869"
+                android:layout_marginBottom="-3dp"
                 android:textSize="@dimen/sp15" />
 
             <TextView
@@ -148,12 +155,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/dp24"
+                android:layout_marginTop="@dimen/dp20"
                 android:background="@drawable/edirprofile_cornerrounded_orangebg"
-                android:paddingBottom="10dp"
+                android:paddingBottom="8dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:paddingTop="10dp"
+                android:paddingTop="8dp"
                 android:text="EDIT DETAILS"
                 android:textColor="@color/white" />
 

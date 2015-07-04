@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_centerVertical="true">
 
     <RelativeLayout
         android:id="@+id/homeworkRL"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+     >
 
         <ImageView
             android:id="@+id/homework_image"
@@ -23,7 +23,8 @@
             android:textStyle="bold"
             android:layout_toRightOf="@+id/homework_image"
             android:text="Title"
-            android:textSize="20dp" />
+            android:textAllCaps="true"
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/descreption"
@@ -31,19 +32,10 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/homework_image"
             android:layout_below="@+id/title"
-            android:text="descreption" />
+android:paddingRight="10dp"
+            android:text="description" />
 
     </RelativeLayout>
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:layout_below="@+id/homeworkRL"
-        android:background="@color/done_red_color"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp" />
 
 
 </RelativeLayout>

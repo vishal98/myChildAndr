@@ -86,7 +86,11 @@
     <ListView
         android:id="@+id/homework"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="wrap_content"
+        android:divider="@color/done_red_color"
+        android:dividerHeight="0.5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"></ListView>
 
 
 

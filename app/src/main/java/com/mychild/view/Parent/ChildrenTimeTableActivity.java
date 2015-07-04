@@ -270,7 +270,6 @@ public class ChildrenTimeTableActivity extends BaseFragmentActivity implements R
             selectedTimeTableDate = tv.getTag().toString();
 //			Toast.makeText(ChildrenTimeTableActivity.this, selectedDate, Toast.LENGTH_LONG).show();
 
-
             ((TextView)findViewById(R.id.text1)).setTextColor(Color.parseColor("#D7D7D7"));
             ((TextView)findViewById(R.id.text2)).setTextColor(Color.parseColor("#D7D7D7"));
             ((TextView)findViewById(R.id.text3)).setTextColor(Color.parseColor("#D7D7D7"));

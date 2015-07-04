@@ -13,8 +13,9 @@
     <string name="title_notification">NotificationActivity</string>
     <string name="parent_notice">NoticeActivity</string>
     <string name="forgetpwd">Forget Password</string>
-    <string name="forgetpwdstring">Enter your Email Address here to receive a link to change pssword.</string>
+    <string name="forgetpwdstring">Enter your Email Address here to receive a link to change password.</string>
     <string name="sendmail">SEND EMAIL</string>
+    <string name="changepwd">Change Password</string>
 
     <!--activity_child_homeworkvity_child_homework.xml used text-->
     <string name="to_hint">To</string>
@@ -45,7 +46,7 @@
     <string name="profile">Profile</string>
 
     <!--Endpoint urls -->
-    <!--<string name="base_url">http://default-environment-8t9czpvzjh.elasticbeanstalk.com</string>-->
+    <!--<string name="base_url">http://sandeepani.elasticbeanstalk.com</string>-->
     <string name="base_url">http://gotomychild.elasticbeanstalk.com</string>
     <string name="login_url_endpoint">/api/login</string>
     <string name="url_exams">MyChild/Parent/username/</string>
@@ -149,7 +150,7 @@
     <string name="attendence_title">Attendence</string>
     <string name="start_caps">START</string>
     <string name="present_caps">PRESENT</string>
-    <string name="absent_caps">ABSENT</string>
+    <string name="absent_caps">ABSENT </string>
     <string name="url_save_attendence">/app/teacher/attendance/save</string>
     <string name="url_new_mail">/app/conversations/new</string>
     <string name="url_child_exam">/app/exams/result/</string>
