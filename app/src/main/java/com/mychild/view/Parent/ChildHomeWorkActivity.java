@@ -39,6 +39,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -114,7 +115,12 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(date);
                 dialogCaldroidFragment.dismiss();
-                getChildHomworkWebservicescall(Constants.SET_SWITCH_CHILD_ID,getDayFull(cal.get(Calendar.DATE)));
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+                    Log.e("------->>>", sdf.format(cal.getTime()));
+                    String date1=sdf.format(cal.getTime());
+
+                    getChildHomworkWebservicescall(Constants.SET_SWITCH_CHILD_ID,date1);
             }
 
             @Override
@@ -483,7 +489,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
         } else if (Calendar.FRIDAY == dayOfWeek) {
             weekDay = "FRI";
         } else if (Calendar.SATURDAY == dayOfWeek) {
-            weekDay = "SATY";
+            weekDay = "SAT";
         } else if (Calendar.SUNDAY == dayOfWeek) {
             weekDay = "SUN";
         }

@@ -195,7 +195,7 @@ public class CalendarActivity extends BaseFragmentActivity implements RequestCom
         else {
             Constants.showMessage(this, "Sorry", "No Calender Events...");
         }
-
+        Constants.stopProgress(this);
     }
 
     @Override

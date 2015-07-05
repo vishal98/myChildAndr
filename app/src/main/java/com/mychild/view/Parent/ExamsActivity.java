@@ -138,6 +138,8 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
                 }
 
 
+            }else{
+                Constants.showMessage(this, "Sorry", "No Exams Data");
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -314,21 +316,23 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private Dialog getExamsDialog(ArrayList<ExamModel> list, int examPosition) {
-        Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_exams);
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.setCancelable(true);
-        Button cancelBtn = (Button) dialog.findViewById(R.id.cancel_btn);
-        cancelBtn.setOnClickListener(this);
-        //cancelBtn.setOnClickListener();
-        ListView examsListview = (ListView) dialog.findViewById(R.id.exams_types_lv);
-        ExamsTypesListviewAdapter examsTypesListviewAdapter = new ExamsTypesListviewAdapter(this, R.layout.exam_type_listview_item, list, examPosition);
-        examsListview.setAdapter(examsTypesListviewAdapter);
-        dialog.show();
-        return dialog;
+        if (list != null && list.size() > 0) {
+            Dialog dialog = new Dialog(this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_exams);
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialog.setCancelable(true);
+            Button cancelBtn = (Button) dialog.findViewById(R.id.cancel_btn);
+            cancelBtn.setOnClickListener(this);
+            //cancelBtn.setOnClickListener();
+            ListView examsListview = (ListView) dialog.findViewById(R.id.exams_types_lv);
+            ExamsTypesListviewAdapter examsTypesListviewAdapter = new ExamsTypesListviewAdapter(this, R.layout.exam_type_listview_item, list, examPosition);
+            examsListview.setAdapter(examsTypesListviewAdapter);
+            dialog.show();
+            return dialog;
+        }
+        return null;
     }
-
 
   public void setUpTab(){
 

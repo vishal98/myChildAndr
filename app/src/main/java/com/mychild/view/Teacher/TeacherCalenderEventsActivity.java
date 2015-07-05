@@ -147,7 +147,7 @@ public class TeacherCalenderEventsActivity extends BaseFragmentActivity implemen
             e.printStackTrace();
         }
         Calendar cal = Calendar.getInstance();
-        getTeacherCalenderEvent(cal.get(Calendar.DAY_OF_MONTH)+ "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR) );
+        getTeacherCalenderEvent(cal.get(Calendar.DAY_OF_MONTH) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.YEAR));
     }
 
     @Override
@@ -166,19 +166,29 @@ public class TeacherCalenderEventsActivity extends BaseFragmentActivity implemen
     @Override
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         CommonUtils.getLogs("teachercalender Response success");
+        try{
         Log.i(TAG, responseJson.toString());
         calListView = (ListView) findViewById(R.id.calListView);
+        String status =responseJson.getString("status");
+        if(status!=null && "error".equalsIgnoreCase(status)) {
+            Constants.showMessage(this, "Sorry", "no  events is present");
+        }else{
         String numberOfEvents = getNumberOfEvents(responseJson);
         Constants.stopProgress(this);
         if(!numberOfEvents.contains("0")){
             ArrayList<HashMap<String, String>> childCalenderList= ChildCalenderEvents.getInstance().getChildCalenderEvents(responseJson);
             ChildCalendarAdapter adapter = new ChildCalendarAdapter(this, childCalenderList);
             calListView.setAdapter(adapter);
-        }
-        else {
-            Constants.showMessage(this, "Sorry", "No Calender Events...");
-        }
+        }}
 
+
+
+    } catch (JSONException e) {
+        e.printStackTrace();
+    }
+        finally {
+            Constants.stopProgress(this);
+        }
     }
 
     @Override

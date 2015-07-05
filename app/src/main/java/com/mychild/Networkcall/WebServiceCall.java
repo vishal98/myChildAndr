@@ -51,6 +51,9 @@ public class WebServiceCall {
         String request_URL = mContext.getString(R.string.base_url) + "/app/registerForpush";
         LinkedHashMap<String, String> parmKeyValue = new LinkedHashMap<String, String>();
         parmKeyValue.put("platform", "1");
+
+            //regId="APA91bEq-Udjm-1XYKrimadcYW0DMU8Iifs92wAV-oU5uUIq1Yj39d8Yz0LwBAVSyDekHNpEV8YaFk2vojZvIOsD3Z_ah-kvT7aYTTIoqXmZZGBbQzUgsf7rKap7uX1_KmnnKkaDxAKF";
+
         parmKeyValue.put("token", regId);
         JSONObject headerBodyParam = new JSONObject(parmKeyValue);
         JsonObjectRequest req;
@@ -60,8 +63,10 @@ public class WebServiceCall {
                         @Override
                         public void onResponse(JSONObject responseJson) {
                             // handle response
+                            CommonUtils.getLogs("===Response:::" + responseJson);
+                            // handle response
                             Log.d("JSON Response", responseJson.toString());
-                            TokenID(responseJson);
+                            //   TokenID(responseJson);
                             mRequestCompletion.onRequestCompletion(responseJson, null);
                         }
                     },
@@ -75,6 +80,7 @@ public class WebServiceCall {
                 public Map<String, String> getHeaders() {
                     HashMap<String, String> headers = new HashMap<String, String>();
                     headers.put("Content-Type", "application/json");
+                    headers.put("X-Auth-Token", getToken);
                     System.out.println("Headers: = " + headers);
                     return headers;
                 }
@@ -123,6 +129,7 @@ public class WebServiceCall {
                 public Map<String, String> getHeaders() {
                     HashMap<String, String> headers = new HashMap<String, String>();
                     headers.put("Content-Type", "application/json");
+                    headers.put("X-Auth-Token", getToken);
                     System.out.println("Headers: = " + headers);
                     return headers;
                 }
@@ -131,7 +138,7 @@ public class WebServiceCall {
             req.setRetryPolicy(
                     new DefaultRetryPolicy(
                             DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
-                            0,
+                            1,
                             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             // Adding request to volley request queue.
             AppController.getInstance().addToRequestQueue(req);
@@ -257,7 +264,7 @@ public class WebServiceCall {
             req.setRetryPolicy(
                     new DefaultRetryPolicy(
                             DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
-                            0,
+                            1,
                             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             req.setShouldCache(true);
             // Adding request to volley request queue

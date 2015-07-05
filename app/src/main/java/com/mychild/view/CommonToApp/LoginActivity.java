@@ -57,10 +57,17 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
     public void onRequestCompletion(JSONObject responseJson, JSONArray responseArray) {
         CommonUtils.getLogs("Login Response" + responseJson);
         CommonUtils.getLogs("Login Response" + responseArray);
-        Log.i(TAG, responseJson.toString());
-        String userRole = validatingUser(responseJson);
-        Log.i("CompletionuserRole", userRole);
-        pushNotification("Activate Notification?", userRole);
+
+
+        switch (type) {
+            case LOGIN:
+                String userRole = validatingUser(responseJson);
+                Log.i("CompletionuserRole", userRole);
+                pushNotification("Activate Notification?", userRole);
+                break;
+            case REGISTER:
+                break;
+        }
     }
 
     @Override
@@ -179,7 +186,7 @@ public class LoginActivity extends BaseActivity implements RequestCompletion, Vi
                     }
                 }
             }
-
+            Constants.stopProgress(LoginActivity.this);
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
