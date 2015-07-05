@@ -168,6 +168,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
             ChildHomeworkAdapter homeworkAdapter = new ChildHomeworkAdapter(this, childrenGradeAndSection);
             homeWorkList.setAdapter(homeworkAdapter);
         }else{
+            homeWorkList.setAdapter(null);
             Constants.showMessage(this,"No Homework","No homework found for the day...");
         }
         if(Constants.SWITCH_CHILD_FLAG == null){
