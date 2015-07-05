@@ -33,8 +33,8 @@ public class ChildCalenderEvents {
         LinkedHashMap<String, String> calenderMap = null;
         try {
             if (jsonObject != null) {
-                int size = jsonObject.length();
-                for (int i = 0; i < size; i++) {
+             //   int size = jsonObject.length();
+               // for (int i = 0; i < size; i++) {
                     JSONArray conversationArray = jsonObject.getJSONArray("events");
                     for (int j = 0; j < conversationArray.length(); j++) {
                         calenderMap = new LinkedHashMap<String, String>();
@@ -65,7 +65,7 @@ public class ChildCalenderEvents {
                     }
                     childCalenderArrayList.add(calenderMap);
                 }
-            }
+          //  }
         } catch (JSONException e) {
             e.printStackTrace();
         }
