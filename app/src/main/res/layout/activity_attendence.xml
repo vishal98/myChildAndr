@@ -131,6 +131,19 @@
         </TableRow>
 
         <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="edit"
+            android:id="@+id/edit"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:background="@color/green"
+            android:textColor="@color/white"
+            android:layout_weight="0.5"
+            android:visibility="gone"
+            />
+
+        <TextView
             android:id="@+id/done_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"

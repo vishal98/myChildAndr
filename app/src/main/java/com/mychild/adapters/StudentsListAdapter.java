@@ -30,6 +30,7 @@ public class StudentsListAdapter extends ArrayAdapter<StudentDTO> {
     public SparseBooleanArray mSelectedItemsIds;
     private IOnCheckedChangeListener iOnCheckedChangeListener = null;
     private boolean hasAbsentList=false;
+    private boolean isEditEnabled=false;
 
     public StudentsListAdapter(Context context, int resource, List<StudentDTO> list) {
         super(context, resource, list);
@@ -42,7 +43,7 @@ public class StudentsListAdapter extends ArrayAdapter<StudentDTO> {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public StudentsListAdapter(Context context, int resource, List<StudentDTO> list,List<StudentDTO> absentList,boolean hasAbsentList) {
+    public StudentsListAdapter(Context context, int resource, List<StudentDTO> list,List<StudentDTO> absentList,boolean hasAbsentList,boolean isEditEnabled) {
         super(context, resource, list);
         this.list = list;
         mSelectedItemsIds = new SparseBooleanArray();
@@ -52,6 +53,7 @@ public class StudentsListAdapter extends ArrayAdapter<StudentDTO> {
         this.absentList=new ArrayList<StudentDTO>();
         this.absentList.addAll(absentList);
         this.hasAbsentList=hasAbsentList;
+        this.isEditEnabled=isEditEnabled;
         iOnCheckedChangeListener = (IOnCheckedChangeListener) context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -91,8 +93,8 @@ public class StudentsListAdapter extends ArrayAdapter<StudentDTO> {
         holder.studentNameTV.setText(dto.getStundentName());
         if(hasAbsentList) {
             holder.checkBox.setChecked(true);
-            convertView.setEnabled(false);
-            holder.checkBox.setEnabled(false);
+            convertView.setEnabled(isEditEnabled);
+            holder.checkBox.setEnabled(isEditEnabled);
             for(StudentDTO studentDTO1:absentList){
                 int name=studentDTO1.getStudentId();
                 if(name == dto.getStudentId()){

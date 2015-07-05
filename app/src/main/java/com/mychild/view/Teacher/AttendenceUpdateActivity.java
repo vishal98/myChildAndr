@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kk.mycalendar.WeekdayArrayAdapter;
 import com.mychild.Networkcall.RequestCompletion;
@@ -55,7 +56,7 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
     private InfiniteViewPager viewPager;
     private TextView absetntTV, presentTV, resultTV;
     int currentIndicator = 0;
-    private TextView doneTV;
+    private TextView doneTV, editTV;
     private StudentsListAdapter adapter;
     private ArrayList<StudentDTO> studentsList = null;
     private ArrayList<StudentDTO> studentsListabsent = null;
@@ -81,7 +82,9 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
         topBar.titleTV.setText(getString(R.string.attendence_title));
         studentsListview = (ListView) findViewById(R.id.students_listview);
         doneTV = (TextView) findViewById(R.id.done_tv);
+        editTV = (TextView) findViewById(R.id.edit);
         doneTV.setOnClickListener(this);
+        editTV.setOnClickListener(this);
         presentTV = (TextView) findViewById(R.id.present_tv);
         absetntTV = (TextView) findViewById(R.id.absent_tv);
         resultTV = (TextView) findViewById(R.id.result_tv);
@@ -154,6 +157,7 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
             case R.id.back_arrow_iv:
                 onBackPressed();
                 break;
+
             case R.id.done_tv:
                 if (doneTV.getText().toString().equals(getString(R.string.done_caps))) {
                     CommonUtils.getLogs("DOne");
@@ -161,8 +165,13 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
                 } else if (doneTV.getText().toString().equals(getString(R.string.start_caps))) {
                     adapter.selectAll();
                     CommonUtils.getLogs("start");
-                }
+                } /*else if (doneTV.getText().toString().equals("edit")) {
+                    Toast.makeText(this, "edit", Toast.LENGTH_LONG).show();
+                    View vi=adapter.getView(1,null,studentsListview);
+                    vi.setBackgroundColor(getResources().getColor(R.color.Darkgreen));
+                }*/
                 break;
+
             case R.id.logoutIV:
                 SharedPreferences clearSharedPreferenceForLogout;
                 clearSharedPreferenceForLogout = getSharedPreferences("MyChild_Preferences", 0);
@@ -171,6 +180,14 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
                 editor.commit();
                 finish();
                 startActivity(new Intent(this, LoginActivity.class));
+
+            case R.id.edit:
+                    editTV.setVisibility(View.GONE);
+                    doneTV.setVisibility(View.VISIBLE);
+                    studentsListabsent = teacherModel.getGradeModels().get(0).getAbsentStudentsModels();
+                    adapter = new StudentsListAdapter(this, R.layout.select_student_list_item, studentsList, studentsListabsent, true, true);
+                    studentsListview.setAdapter(adapter);
+                break;
             default:
         }
     }
@@ -236,20 +253,31 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
         if (responseArray != null) {
             switch (type) {
                 case TYPE_GET:
-                    //  obj = new JSONObject(object);
+                    boolean hasClassList=false;
+                    try {
+                        JSONObject jsonObject = responseArray.getJSONObject(0);
+                        if (jsonObject.has("message")) {
+                            hasClassList= jsonObject.getString("message").equals("No Class assigned as Class Teacher");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if(!hasClassList) {
                     teacherModel = AttendaceJsonParser.getInstance().getTeacherModel(responseArray);
                     studentsList = teacherModel.getGradeModels().get(0).getStudentsModels();
                     studentsSize = studentsList.size();
-                    //-------
                     if (AttendenceUpdateActivity.hasattendancedone) {
                         studentsListabsent = teacherModel.getGradeModels().get(0).getAbsentStudentsModels();
-                        adapter = new StudentsListAdapter(this, R.layout.select_student_list_item, studentsList, studentsListabsent, true);
+                        adapter = new StudentsListAdapter(this, R.layout.select_student_list_item, studentsList, studentsListabsent, true, false);
                         studentsListview.setAdapter(adapter);
+                        editTV.setVisibility(View.VISIBLE);
+                        doneTV.setVisibility(View.GONE);
                     } else {
                         adapter = new StudentsListAdapter(this, R.layout.select_student_list_item, studentsList);
                         studentsListview.setAdapter(adapter);
+                        editTV.setVisibility(View.GONE);
+                        doneTV.setVisibility(View.VISIBLE);
                     }
-
                     Constants.stopProgress(this);
                     try {
                         obj = (JSONObject) responseArray.get(0);
@@ -259,6 +287,12 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
+                    }}
+                    else
+                    {
+                        Constants.stopProgress(this);
+                        onBackPressed();
+                       Toast.makeText(this,"No Class assigned as Class Teacher",Toast.LENGTH_LONG).show();
                     }
                     break;
                 case GET_POST:
