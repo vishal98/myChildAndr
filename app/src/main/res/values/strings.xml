@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Child</string>
+    <string name="app_name">gotoMyChild</string>
     <string name="action_settings">Settings</string>
     <string name="login_text">Please login to connect</string>
     <string name="userid_hint">User Name</string>
@@ -9,7 +9,7 @@
     <string name="login_reset">Reset</string>
     <string name="remember">Remember Me</string>
     <string name="login_parent_teacher_txt">PARENT/TEACHER LOGIN</string>
-    <string name="login_footer_txt">Powered by my child</string>
+    <string name="login_footer_txt">Powered by valuechecktech.com</string>
     <string name="title_notification">NotificationActivity</string>
     <string name="parent_notice">NoticeActivity</string>
     <string name="forgetpwd">Forget Password</string>
@@ -32,7 +32,7 @@
 
     <!--ParentHomeActivity-->
     <string name="switch_child">SWITCH CHILD</string>
-    <string name="my_child">My Child</string>
+    <string name="my_child">gotoMyChild</string>
     <string name="home_work">Home Work</string>
     <string name="time_tabel">Time Table</string>
     <string name="inbox">Inbox</string>
@@ -46,15 +46,16 @@
     <string name="profile">Profile</string>
 
     <!--Endpoint urls -->
-    <string name="base_url">http://sandeepani.elasticbeanstalk.com</string>
-   <!-- <string name="base_url">http://gotomychild.elasticbeanstalk.com</string>-->
+
+    <!--     <string name="base_url">http://Default-Environment-7mcjqmmfd3.elasticbeanstalk.com</string> -->
+       <string name="base_url">http://gotomychild.elasticbeanstalk.com</string>
     <string name="login_url_endpoint">/api/login</string>
     <string name="url_exams">MyChild/Parent/username/</string>
     <string name="parent_url_endpoint">/Parent/username/</string>
     <string name="home_work_for_child">/app/getHomework/student/</string>
     <string name="home_work_student_assigned_date">/app/getHomework/student/</string>
     <string name="timetable_child">/app/timetable/</string>
-    <string name="parent_mail">/app/conversations/get/</string>
+    <string name="parent_mail">/app/conversations/get/v1</string>
     <string name="calendar_task">/app/events/student/1/</string>
     <string name="calendar_task_parent">/app/events/student/</string>
     <string name="attendance">/app/attendance/student/</string>

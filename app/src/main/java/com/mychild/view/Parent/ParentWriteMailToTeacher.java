@@ -9,14 +9,17 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import android .provider.MediaStore;
+import android.database.Cursor;
+import android.net.Uri;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
-import com.mychild.adapters.TeacherListForChildAdapter;
-import com.mychild.customView.SwitchChildView;
 import com.mychild.model.ParentModel;
 import com.mychild.sharedPreference.StorageManager;
 import com.mychild.utils.CommonUtils;
@@ -32,7 +35,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,14 +52,17 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
     private AppController appController = null;
     private int selectedChildPosition = 0;
     private Dialog dialog = null;
-    private ImageView backButton;
+    private ImageView backButton,url_bt1;
     private EditText subject,message;
     private AutoCompleteTextView to;
     private ImageView sendMail;
     String responseType;
+    TextView date;
+    EditText url_ed1;
     private ArrayAdapter<String> arrayAdapter;
     public static List<String> ll ;
     AutoCompleteTextView textView;
+    HashMap<String,String> maildMap=new HashMap<String,String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +73,21 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
       //  switchChildBar();
         UpdateUI();
         getTeacherList();
-    }
+        Calendar c = Calendar.getInstance();
+        System.out.println("Current time => "+c.getTime());
 
+        SimpleDateFormat df = new SimpleDateFormat("dd MMM yyyy ");
+        String formattedDate = df.format(c.getTime());
+        // formattedDate have current date/time
+        Toast.makeText(this, formattedDate, Toast.LENGTH_SHORT).show();
+
+
+        // Now we display formattedDate value in TextView
+
+        date.setText(formattedDate);
+
+    }
+String mailToId;
     public void UpdateUI(){
         Intent intent = getIntent();
         if(intent.hasExtra("mailto")) {
@@ -74,6 +95,8 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
             if (extras != null) {
                 textView.setText(extras.getString("mailto"));
                 textView.setFocusable(false);
+                mailToId=extras.getString("mailToId");
+                maildMap.put(extras.getString("mailto"),mailToId);
             }
         }
     }
@@ -121,6 +144,44 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            //Bitmap photo = (Bitmap) data.getData().getPath();
+
+            Uri selectedImageUri = data.getData();
+           String imagepath =getRealPathFromURI(selectedImageUri);
+            //bitmap=BitmapFactory.decodeFile(imagepath);
+            //imageview.setImageBitmap(bitmap);
+            url_ed1.setText("Uploading file path:" +imagepath);
+
+        }
+    }
+
+
+    private String getRealPathFromURI(Uri contentUri)
+    {
+        String path = null;
+        String[] proj = { MediaStore.MediaColumns.DATA };
+
+        if("content".equalsIgnoreCase(contentUri.getScheme ()))
+        {
+            Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+            if (cursor.moveToFirst()) {
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+                path = cursor.getString(column_index);
+            }
+            cursor.close();
+            return path;
+        }
+        else if("file".equalsIgnoreCase(contentUri.getScheme()))
+        {
+            return contentUri.getPath();
+        }
+        return null;
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
@@ -134,10 +195,11 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
             CommonUtils.getLogs("get teacher Response is success...");
             if(responseArray!=null && responseArray.length()>0) {
                 Log.i(TAG, responseArray.toString());
-                ArrayList<HashMap<String, String>> teacherListForChild = TeacherListForChildParser.getInstance().getTeacherList(responseArray);
+                HashMap<String, String> teacherListForChild = TeacherListForChildParser.getInstance().getTeacherList(responseArray);
                 for (int i = 0; i < teacherListForChild.size(); i++) {
-                    ll.add(teacherListForChild.get(i).get("username").toString());
-                    Log.e("--------",teacherListForChild.get(i).get("username").toString());
+                    ll.addAll(teacherListForChild.keySet());
+                    //Log.e("--------", teacherListForChild.get(i).get("username").toString());
+                    maildMap=teacherListForChild;
                 }
             }
             arrayAdapter = new DropDownAdapter(this,
@@ -176,6 +238,9 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
         subject = (EditText) findViewById(R.id.mail_subjectET);
         message = (EditText) findViewById(R.id.mail_messageET);
         textView = (AutoCompleteTextView) findViewById(R.id.mail_toET);
+        url_bt1=(ImageView)findViewById(R.id.url_mail_btn);
+        url_ed1=(EditText)findViewById(R.id.mail_url);
+        date=(TextView)findViewById(R.id.date);
         backButton.setOnClickListener(this);
         sendMail.setOnClickListener(this);
 
@@ -246,7 +311,7 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
             else {
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put("toId", mailToStringdata);
+                    jsonObject.put("toId", maildMap.get(mailToStringdata));
                     jsonObject.put("fromId", mailFrom);
                     jsonObject.put("title", mailSubject);
                     jsonObject.put("messageText", mailMessage);

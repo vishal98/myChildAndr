@@ -51,6 +51,7 @@
             android:hint="@string/userid_hint"
             android:inputType="textPersonName"
             android:paddingLeft="8dp"
+android:textCursorDrawable="@drawable/cursor"
             android:textColorHint="@color/hinttxtcolor"
             android:typeface="sans" />
 
@@ -63,6 +64,7 @@
 
         <EditText
             android:id="@+id/oldpwd_changepwd"
+            android:textCursorDrawable="@drawable/cursor"
             style="@style/hdpi_login_textfield_style"
             android:layout_width="match_parent"
             android:layout_height="@dimen/hdpi_textfield_height"

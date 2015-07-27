@@ -10,20 +10,19 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.adapters.ParentInboxAdapter;
 import com.mychild.customView.SwitchChildView;
-import com.mychild.interfaces.IOnSwichChildListener;
 import com.mychild.model.ParentModel;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
-import com.mychild.view.Parent.ParentMailDetailedActivity;
-import com.mychild.view.Parent.ParentWriteMailToTeacher;
 import com.mychild.view.R;
 import com.mychild.volley.AppController;
 import com.mychild.webserviceparser.ParentMailBoxParser;
@@ -49,7 +48,8 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
     private AppController appController = null;
     ListView listView;
     ArrayList<HashMap<String, String>> mailBox;
-    TextView mailCount;
+    TextView mailCount,date1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +60,20 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
         //switchChildBar();
         inboxWebServiceCall();
         //setSwitchChildDialogueData();
+        date1=(TextView)findViewById(R.id.date11);
+        Calendar c = Calendar.getInstance();
+        System.out.println("Current time => "+c.getTime());
+
+        SimpleDateFormat df = new SimpleDateFormat("dd MMM yyyy ");
+        String formattedDate = df.format(c.getTime());
+        // formattedDate have current date/time
+        Toast.makeText(this, formattedDate, Toast.LENGTH_SHORT).show();
+
+
+        // Now we display formattedDate value in TextView
+
+        date1.setText(formattedDate);
+
 
     }
 
@@ -122,7 +136,8 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> adapter, View view,int position, long id) {
-                    String mailFrom = mailBox.get(position).get("fromId");
+                    String mailFrom = mailBox.get(position).get("fromName");
+                    String mailFromId = mailBox.get(position).get("fromId");
                     String mailTitle = mailBox.get(position).get("title");
                     String mailDescription = mailBox.get(position).get("messageText");
                     Intent intent = new Intent(ParentInboxActivity.this, ParentMailDetailedActivity.class);
@@ -131,6 +146,8 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
                     b.putString("mailFrom",mailFrom);
                     b.putString("mailDescription", mailDescription);
                     b.putString("mailTitle", mailTitle);
+                    b.putString("mailFromId", mailFromId);
+
                     intent.putExtras(b);
                     startActivity(intent);
                 }

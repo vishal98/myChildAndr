@@ -28,25 +28,30 @@ public class TeacherListForChildParser {
         return teacherListForChildParser;
     }
 
-    public ArrayList<HashMap<String, String>> getTeacherList(JSONArray object) {
-        ArrayList<HashMap<String, String>> teacherArrayList = new ArrayList<HashMap<String, String>>();
+    public HashMap<String, String> getTeacherList(JSONArray object) {
+
         LinkedHashMap<String, String> teacherMap = null;
             try {
+                teacherMap  = new LinkedHashMap<String, String>();
                 for (int i = 0; i < object.length(); i++) {
-                    teacherMap  = new LinkedHashMap<String, String>();
+
                     JSONObject listObj = object.getJSONObject(i);
                     if (listObj.has("username")) {
                         String username = listObj.getString("username");
-                        teacherMap.put("username", username);
+
+                        if(listObj.has("displayName")){
+                            teacherMap.put(listObj.getString("displayName"), username);
+
+                        }
                     }
-                    teacherArrayList.add(teacherMap);
+
                     Log.i("teacherMap", teacherMap.toString());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        Log.i("TeacherArrayList::", teacherArrayList.toString());
-        return teacherArrayList;
+        Log.i("TeacherArrayList::", teacherMap.toString());
+        return teacherMap;
     }
 
 }

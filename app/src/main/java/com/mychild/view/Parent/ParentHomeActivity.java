@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -183,9 +182,9 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 startActivity(new Intent(this, ParentTransportMapRouteActivity.class));
                 break;
 
-            case R.id.changepwd_parent_imgview:
-                startActivity(new Intent(this,ChangePasswordActivity.class));
-                break;
+//            case R.id.changepwd_parent_imgview:
+//                startActivity(new Intent(this,ChangePasswordActivity.class));
+//                break;
             default:
                 //Enter code in the event that that no cases match
         }
@@ -217,7 +216,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ParentHomeActivity.this, NotificationActivity.class));
+                startActivity(new Intent(ParentHomeActivity.this, ChangePasswordActivity.class));
             }
         });
     }
@@ -245,7 +244,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         ImageView notice = (ImageView) findViewById(R.id.notice);
         ImageView transport = (ImageView) findViewById(R.id.transport);
         ImageView transport_homeic = (ImageView) findViewById(R.id.transport_homeic);
-        ImageView changePwd = (ImageView) findViewById(R.id.changepwd_parent_imgview);
+        //ImageView changePwd = (ImageView) findViewById(R.id.changepwd_parent_imgview);
         homeWork.setOnClickListener(this);
         timeTable.setOnClickListener(this);
         exams.setOnClickListener(this);
@@ -255,7 +254,7 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
         attendance.setOnClickListener(this);
         transport.setOnClickListener(this);
         transport_homeic.setOnClickListener(this);
-        changePwd.setOnClickListener(this);
+       // changePwd.setOnClickListener(this);
         switchChild.childNameTV.setOnClickListener(this);
         /*switchChild.switchChildBT.setOnClickListener(this);*/
 

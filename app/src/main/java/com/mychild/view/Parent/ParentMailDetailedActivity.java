@@ -9,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mychild.customView.SwitchChildView;
-import com.mychild.interfaces.IOnSwichChildListener;
 import com.mychild.model.ParentModel;
 import com.mychild.sharedPreference.StorageManager;
 import com.mychild.utils.CommonUtils;
@@ -17,7 +16,6 @@ import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
 import com.mychild.view.CommonToApp.BaseFragmentActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
-import com.mychild.view.Parent.*;
 import com.mychild.view.R;
 import com.mychild.volley.AppController;
 
@@ -72,11 +70,12 @@ public class ParentMailDetailedActivity extends BaseFragmentActivity implements 
                 Intent intent = new Intent(ParentMailDetailedActivity.this, com.mychild.view.Parent.ParentWriteMailToTeacher.class);
                 Bundle b = new Bundle();
                 b.putString("mailto", regardsFromTV.getText().toString());
+                b.putString("mailToId",mailFromId);
                 intent.putExtras(b);
                 startActivity(intent);
                 break;
           /*  case R.id.write_mailIV:
-                startActivity(new Intent(this, com.mychild.view.Parent.ParentWriteMailToTeacher.class));
+                startActivity(new Intent(this, com.sandeepani.view.Parent.ParentWriteMailToTeacher.class));
                 break;*/
             case R.id.switch_child:
                 if (parentModel.getChildList() != null) {
@@ -136,13 +135,14 @@ public class ParentMailDetailedActivity extends BaseFragmentActivity implements 
         switchChild.childNameTV.setText(StorageManager.readString(this, "username", ""));
     }
 
-
+    String mailFromId=null;
     public void UpdateUI(){
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String mailFrom = extras.getString("mailFrom");
             String mailDescription = extras.getString("mailDescription");
             String mailTitle = extras.getString("mailTitle");
+             mailFromId=extras.getString("mailFromId");
 
             detailedMailTV.setText(mailDescription);
             mailFromTV.setText("From :"+mailFrom);

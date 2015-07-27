@@ -50,6 +50,10 @@ public class ParentMailBoxParser {
                                 String fromId = conversationObj.getString("fromId");
                                 chatMap.put("fromId", fromId);
                             }
+                            if (conversationObj.has("fromName")) {
+                                String fromId = conversationObj.getString("fromName");
+                                chatMap.put("fromName", fromId);
+                            }
                             if (conversationObj.has("title")) {
                                 String title = conversationObj.getString("title");
                                 chatMap.put("title", title);
