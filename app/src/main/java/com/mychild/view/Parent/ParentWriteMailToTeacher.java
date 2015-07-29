@@ -340,8 +340,9 @@ String mailToId;
             }
             else {
                 JSONObject jsonObject = new JSONObject();
+                String mailId=maildMap.get(mailToStringdata)!=null?maildMap.get(mailToStringdata):mailToStringdata;
                 try {
-                    jsonObject.put("toId", maildMap.get(mailToStringdata));
+                    jsonObject.put("toId", mailId);
                     jsonObject.put("fromId", mailFrom);
                     jsonObject.put("title", mailSubject);
                     jsonObject.put("messageText", mailMessage);
