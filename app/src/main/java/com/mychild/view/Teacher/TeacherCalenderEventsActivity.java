@@ -19,7 +19,7 @@ import com.mychild.customView.SwitchChildView;
 import com.mychild.model.ParentModel;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
-import com.mychild.utils.TopBar;
+import com.mychild.utils.TopBar1;
 import com.mychild.view.CommonToApp.BaseFragmentActivity;
 import com.mychild.view.R;
 import com.mychild.volley.AppController;
@@ -42,7 +42,7 @@ public class TeacherCalenderEventsActivity extends BaseFragmentActivity implemen
     LinearLayout calendar1;
     ImageView handleImg;
     ListView calListView;
-    private TopBar topBar;
+    private TopBar1 topBar;
     private SwitchChildView switchChild;
     private int selectedChildPosition = 0;
     private ParentModel parentModel = null;
@@ -209,7 +209,7 @@ public class TeacherCalenderEventsActivity extends BaseFragmentActivity implemen
     }
 
     public void setTopBar() {
-        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar = (TopBar1) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
         topBar.titleTV.setText(getString(R.string.calender));

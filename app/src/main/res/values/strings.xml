@@ -44,7 +44,7 @@
     <string name="child_exams_activity">ExamsActivity</string>
     <string name="gallary">Gallary</string>
     <string name="profile">Profile</string>
-
+    <string name="profileimagechange_url">/app/updateProfilePic</string>
     <!--Endpoint urls -->
 
     <!--     <string name="base_url">http://Default-Environment-7mcjqmmfd3.elasticbeanstalk.com</string> -->
@@ -198,6 +198,7 @@
 
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
+    <string name="title_activity_top_bar1">TopBar1</string>
 
 
 </resources>

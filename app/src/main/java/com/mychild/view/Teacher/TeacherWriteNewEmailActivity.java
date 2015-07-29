@@ -9,14 +9,14 @@ import com.mychild.interfaces.AsyncTaskInterface;
 import com.mychild.sharedPreference.StorageManager;
 import com.mychild.threads.HttpConnectThread;
 import com.mychild.utils.CommonUtils;
-import com.mychild.utils.TopBar;
+import com.mychild.utils.TopBar1;
 import com.mychild.view.CommonToApp.BaseActivity;
 import com.mychild.view.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class TeacherWriteNewEmailActivity extends BaseActivity implements View.OnClickListener, AsyncTaskInterface {
-    private TopBar topBar;
+    private TopBar1 topBar;
     private ImageView backButton;
     private EditText mailToEt, mailSubjectET, mailMessageET;
     private Button sendMailBtn;
@@ -25,13 +25,13 @@ public class TeacherWriteNewEmailActivity extends BaseActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_write_new_email);
-        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar = (TopBar1) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setVisibility(View.GONE);
         topBar.titleTV.setText(getString(R.string.inbox));
         backButton = (ImageView) findViewById(R.id.back);
         backButton.setOnClickListener(this);
-        topBar.logoutIV.setVisibility(View.GONE);
+      //  topBar.logoutIV.setVisibility(View.GONE);
         mailToEt = (EditText) findViewById(R.id.mail_to_et);
         mailSubjectET = (EditText) findViewById(R.id.mail_subject_et);
         mailMessageET = (EditText) findViewById(R.id.mail_message_et);

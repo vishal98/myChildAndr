@@ -20,7 +20,7 @@ import com.mychild.customView.SwitchChildView;
 import com.mychild.model.ParentModel;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
-import com.mychild.utils.TopBar;
+import com.mychild.utils.TopBar1;
 import com.mychild.view.CommonToApp.BaseActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.R;
@@ -39,7 +39,7 @@ import java.util.HashMap;
  */
 public class ParentInboxActivity extends BaseActivity implements RequestCompletion, View.OnClickListener {
     public static final String TAG = ParentInboxActivity.class.getSimpleName();
-    private TopBar topBar;
+    private TopBar1 topBar;
     private SwitchChildView switchChild;
     ImageView writeMail;
     private ParentModel parentModel = null;
@@ -103,16 +103,16 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
                 }
                 break;
 
-            case R.id.logoutIV:
-                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
-                Constants.logOut(this);
+//            case R.id.logoutIV:
+//                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
+//                Constants.logOut(this);
+//
+//                Intent i = new Intent(this, LoginActivity.class);
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(i);
+//                finish();
 
-                Intent i = new Intent(this, LoginActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-                finish();
-
-                break;
+               // break;
             default:
                 //Enter code in the event that that no cases match
         }
@@ -192,11 +192,11 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
     }
 
     public void setTopBar() {
-        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar = (TopBar1) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
         topBar.titleTV.setText(getString(R.string.inbox));
-        topBar.logoutIV.setOnClickListener(this);
+       // topBar.logoutIV.setOnClickListener(this);
     }
 
     public void switchChildBar() {

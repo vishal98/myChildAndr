@@ -25,7 +25,7 @@ import com.mychild.interfaces.IOnSwichChildListener;
 import com.mychild.model.ParentModel;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
-import com.mychild.utils.TopBar;
+import com.mychild.utils.TopBar1;
 import com.mychild.view.CommonToApp.BaseFragmentActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.R;
@@ -48,7 +48,7 @@ import java.util.HashMap;
  */
 public class ChildrenTimeTableActivity extends BaseFragmentActivity implements RequestCompletion, View.OnClickListener, IOnSwichChildListener {
     public static final String TAG = ChildrenTimeTableActivity.class.getSimpleName();
-    private TopBar topBar;
+    private TopBar1 topBar;
     private SwitchChildView switchChild;
     ChildTimeTabelAdapter adapter;
     ListView timeTabelList;
@@ -206,11 +206,11 @@ public class ChildrenTimeTableActivity extends BaseFragmentActivity implements R
     }
 
     public void setTopBar() {
-        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar = (TopBar1) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
         topBar.titleTV.setText(getString(R.string.time_tabel));
-        topBar.logoutIV.setOnClickListener(this);
+//        topBar.logoutIV.setOnClickListener(this);
     }
 
     @Override

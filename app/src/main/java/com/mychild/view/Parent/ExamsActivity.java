@@ -27,7 +27,7 @@ import com.mychild.model.ParentModel;
 import com.mychild.model.ResultsModel;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
-import com.mychild.utils.TopBar;
+import com.mychild.utils.TopBar1;
 import com.mychild.view.CommonToApp.BaseActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.R;
@@ -52,7 +52,7 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
     private ParentModel parentModel = null;
     private AppController appController = null;
     private Dialog dialog = null;
-    private TopBar topBar;
+    private TopBar1 topBar;
     String childName;
     int getChildId = 0;
     ResultsListAdapter resultsListAdapter;
@@ -189,16 +189,16 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
             case R.id.back_arrow_iv:
                 onBackPressed();
                 break;
-            case R.id.logoutIV:
-                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
-                Constants.logOut(this);
-
-                Intent i = new Intent(this, LoginActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-                finish();
-
-                break;
+//            case R.id.logoutIV:
+//                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
+//                Constants.logOut(this);
+//
+//                Intent i = new Intent(this, LoginActivity.class);
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(i);
+//                finish();
+//
+//                break;
 
             default:
         }
@@ -291,11 +291,11 @@ public class ExamsActivity extends BaseActivity implements View.OnClickListener,
     }
 
     public void setTopBar() {
-        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar = (TopBar1) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.titleTV.setText(getString(R.string.exams_title));
         topBar.backArrowIV.setOnClickListener(this);
-        topBar.logoutIV.setOnClickListener(this);
+       // topBar.logoutIV.setOnClickListener(this);
     }
 
     public void switchChildBar() {

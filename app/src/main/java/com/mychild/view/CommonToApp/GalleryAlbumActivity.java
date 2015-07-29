@@ -44,7 +44,7 @@ public class GalleryAlbumActivity extends BaseActivity implements View.OnClickLi
         topBar.initTopBar();
         topBar.backArrowIV.setVisibility(View.GONE);
         topBar.titleTV.setText(getString(R.string.gallery));
-        topBar.logoutIV.setOnClickListener(this);
+      //  topBar.logoutIV.setOnClickListener(this);
         gridView = (GridView) findViewById(R.id.gridView);
         ImageView backArrowIV = (ImageView) findViewById(R.id.go_back_arrow_iv);
         TextView albumNameTV = (TextView) findViewById(R.id.album_name_tv);

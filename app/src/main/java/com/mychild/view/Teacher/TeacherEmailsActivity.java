@@ -16,7 +16,7 @@ import com.mychild.interfaces.AsyncTaskInterface;
 import com.mychild.model.MessageModel;
 import com.mychild.threads.HttpConnectThread;
 import com.mychild.utils.CommonUtils;
-import com.mychild.utils.TopBar;
+import com.mychild.utils.TopBar1;
 import com.mychild.view.CommonToApp.BaseActivity;
 import com.mychild.view.R;
 import com.mychild.webserviceparser.EmailJsonParser;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 
 public class TeacherEmailsActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener, AsyncTaskInterface {
-    private TopBar topBar;
+    private TopBar1 topBar;
     private ImageView writeMail;
     private EditText searchET;
     private ListView emailsLV;
@@ -39,10 +39,10 @@ public class TeacherEmailsActivity extends BaseActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_emails);
-        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar = (TopBar1) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
-        topBar.logoutIV.setVisibility(View.GONE);
+      //  topBar.logoutIV.setVisibility(View.GONE);
         topBar.titleTV.setText(getString(R.string.inbox));
         writeMail = (ImageView) findViewById(R.id.write_mail_iv);
         writeMail.setOnClickListener(this);

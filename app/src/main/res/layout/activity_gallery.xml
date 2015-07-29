@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     tools:context="com.mychild.view.CommonToApp.GalleryActivity">
 
-    <com.mychild.utils.TopBar
+    <com.mychild.utils.TopBar1
         android:id="@+id/topBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></com.mychild.utils.TopBar>
+        android:layout_height="wrap_content"></com.mychild.utils.TopBar1>
 
     <ListView
         android:id="@+id/gallery_lv"

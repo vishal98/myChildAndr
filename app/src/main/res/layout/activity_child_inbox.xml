@@ -5,11 +5,11 @@
     android:orientation="vertical"
     android:background="@drawable/background">
 
-    <com.mychild.utils.TopBar
+    <com.mychild.utils.TopBar1
         android:id="@+id/topBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    </com.mychild.utils.TopBar>
+    </com.mychild.utils.TopBar1>
 
 
 

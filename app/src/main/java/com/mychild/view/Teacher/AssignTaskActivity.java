@@ -74,7 +74,7 @@ public class AssignTaskActivity extends BaseActivity implements View.OnClickList
         topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.titleTV.setText(getString(R.string.assign_task_title));
-        topBar.logoutIV.setOnClickListener(this);
+    //    topBar.logoutIV.setOnClickListener(this);
         classSpinner = (Spinner) findViewById(R.id.class_spinner);
         classSpinner.setOnItemSelectedListener(this);
         subjectSpinner = (Spinner) findViewById(R.id.subject_spinner);

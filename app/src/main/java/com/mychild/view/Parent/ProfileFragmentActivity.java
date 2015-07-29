@@ -2,25 +2,31 @@ package com.mychild.view.Parent;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mychild.Networkcall.RequestCompletion;
+import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.customView.SwitchChildView;
 import com.mychild.interfaces.IOnSwichChildListener;
 import com.mychild.model.ParentModel;
 import com.mychild.model.StudentDTO;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
-import com.mychild.utils.TopBar;
+import com.mychild.utils.TopBar1;
 import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.CommonToApp.NotificationActivity;
 import com.mychild.view.R;
@@ -32,6 +38,9 @@ import com.pkmmte.view.CircularImageView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +51,7 @@ import java.util.List;
  */
 public class ProfileFragmentActivity extends FragmentActivity implements View.OnClickListener, RequestCompletion, IOnSwichChildListener {
     public static final String TAG = ProfileFragmentActivity.class.getSimpleName();
-    private TopBar topBar;
+    private TopBar1 topBar;
     private SwitchChildView switchChild;
     public AppController appController = null;
     private int selectedChildPosition = 0;
@@ -54,7 +63,11 @@ public class ProfileFragmentActivity extends FragmentActivity implements View.On
     private MyPagerAdapter adapter;
     private TextView mChildName, mChildId, mChildDOB, mChildMailId, mchildPhoneNo, mchildAddress,mChildPlace,mChildClass;
     ImageLoader imageLoader;
+    private int PICK_IMAGE_REQUEST = 1;
+    enum RequestType {
+        TYPE_GET, GET_POST;}
     //  private PagerSlidingTabStrip tabs;
+    private RequestType type = RequestType.TYPE_GET;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,12 +108,12 @@ public class ProfileFragmentActivity extends FragmentActivity implements View.On
         ArrayList<StudentDTO> arr = parentModel.getChildList();
         StudentDTO stu = arr.get(appController.getSelectedChild());
         try {
-            mChildDOB.setText(stu.getDob().toString());
-            mChildClass.setText(stu.getGrade().toString() + stu.getSection().toString());
-            mChildMailId.setText(parentModel.getEmail().toString());
-            mchildAddress.setText(stu.getAddressModel().getAddress().toString());
-            mchildPhoneNo.setText(parentModel.getMobileNumber().toString());
-            mChildPlace.setText(stu.getAddressModel().getPlace().toString());
+//            mChildDOB.setText(stu.getDob().toString());
+//            mChildClass.setText(stu.getGrade().toString() + stu.getSection().toString());
+//            mChildMailId.setText(parentModel.getEmail().toString());
+//            mchildAddress.setText(stu.getAddressModel().getAddress().toString());
+//            mchildPhoneNo.setText(parentModel.getMobileNumber().toString());
+//            mChildPlace.setText(stu.getAddressModel().getPlace().toString());
             String encodedUrl = (stu.getStudentPhoto().toString()).replaceAll(" ", "%20");
             imageLoader.displayImage(encodedUrl, circularImageView);
         }
@@ -122,6 +135,7 @@ public class ProfileFragmentActivity extends FragmentActivity implements View.On
         mchildPhoneNo = (TextView) findViewById(R.id.mobilenoTV);
         mchildAddress = (TextView) findViewById(R.id.addressTV);
         mChildPlace= (TextView) findViewById(R.id.addressplaceTV);
+        circularImageView.setOnClickListener(this);
     }
 
     private List<Fragment> setUpView() {
@@ -136,19 +150,19 @@ public class ProfileFragmentActivity extends FragmentActivity implements View.On
     }
 
     public void setTopBar() {
-        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar = (TopBar1) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
         topBar.titleTV.setText(getString(R.string.profile));
-        topBar.logoutIV.setOnClickListener(this);
-        ImageView notification = (ImageView) topBar.findViewById(R.id.notification);
-        notification.setVisibility(View.VISIBLE);
-        notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ProfileFragmentActivity.this, NotificationActivity.class));
-            }
-        });
+     //   topBar.logoutIV.setOnClickListener(this);
+//        ImageView notification = (ImageView) topBar.findViewById(R.id.notification);
+//        notification.setVisibility(View.VISIBLE);
+//        notification.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(ProfileFragmentActivity.this, NotificationActivity.class));
+//            }
+//        });
     }
 
     public void switchChildBar() {
@@ -184,6 +198,15 @@ public class ProfileFragmentActivity extends FragmentActivity implements View.On
                 onBackPressed();
                 break;
 
+            case R.id.circularImageView:
+                Intent intent = new Intent();
+// Show only images, no videos or anything else
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+// Always show the chooser (if there are multiple options available)
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+                break;
+
             case R.id.switch_child:
                 if (parentModel.getChildList() != null) {
                     dialog = CommonUtils.getSwitchChildDialog(this, parentModel.getChildList(), selectedChildPosition);
@@ -192,16 +215,63 @@ public class ProfileFragmentActivity extends FragmentActivity implements View.On
                 }
                 break;
 
-            case R.id.logoutIV:
-                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
-                Constants.logOut(this);
+//            case R.id.logoutIV:
+//                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
+//                Constants.logOut(this);
+//
+//                Intent i = new Intent(this, LoginActivity.class);
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(i);
+//                finish();
+//
+//                break;
+        }
+    }
 
-                Intent i = new Intent(this, LoginActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-                finish();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-                break;
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            try {
+                //   Uri uri = data.getData();
+
+
+                //    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                // Log.d(TAG, String.valueOf(bitmap));
+
+                final Uri imageUri = data.getData();
+                final InputStream imageStream = this.getContentResolver().openInputStream(imageUri);
+                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                selectedImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] b = baos.toByteArray();
+                String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+
+//                circularImageView.setImageBitmap(BitmapFactory.decodeFile(imageEncoded));
+                Log.e("STRING IMAGE", imageEncoded);
+                try {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("studentId", String.valueOf(Constants.getChildIdAfterSelecting(appController.getSelectedChild(), appController
+                            .getParentsData())));
+                    jsonObject.put("studentPhoto", imageEncoded);
+                    if (CommonUtils.isNetworkAvailable(this)) {
+                        type = RequestType.GET_POST;
+                        //    httpConnectThread = new HttpConnectThread(this, jsonObject, this);
+                        WebServiceCall call = new WebServiceCall(this);
+                        call.postToServer(jsonObject, (getString(R.string.base_url) + getString(R.string.profileimagechange_url)));
+                    } else {
+                        CommonUtils.getToastMessage(this, getString(R.string.network_error));
+                    }
+                } catch (Exception io) {
+                    io.printStackTrace();
+                }
+
+              /* ImageView imageView = (ImageView) findViewById(R.id.imageView);
+               imageView.setImageBitmap(bitmap);*/
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

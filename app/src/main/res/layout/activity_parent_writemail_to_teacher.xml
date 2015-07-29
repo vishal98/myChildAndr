@@ -4,10 +4,10 @@
     android:layout_height="fill_parent"
     android:background="@drawable/background">
 
-    <com.mychild.utils.TopBar
+    <com.mychild.utils.TopBar1
         android:id="@+id/topBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></com.mychild.utils.TopBar>
+        android:layout_height="wrap_content"></com.mychild.utils.TopBar1>
 
 
     <RelativeLayout
@@ -170,8 +170,31 @@
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/mail_toET"
             android:src="@drawable/social_send_now" />
+        <EditText
+            android:id="@+id/mail_url"
+            android:layout_width="270dp"
+            android:layout_height="@dimen/hdpi_write_email"
+            android:layout_below="@+id/mail_messageET"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/writemail_text_selector"
+            android:gravity="center_vertical"
+            android:hint="Path"
+            android:paddingTop="10dp"
+            android:inputType="text"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
+
+            />
+        <ImageView
+            android:id="@+id/url_mail_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/mail_url"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/mail_url"
+            android:src="@android:drawable/ic_menu_edit" />
     </RelativeLayout>
     <!--</ScrollView>-->
 
 </RelativeLayout>
-

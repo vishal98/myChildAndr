@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.mychild.view.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -58,11 +60,33 @@ public class ParentInboxAdapter extends BaseAdapter {
         TextView fromTeacher = (TextView) convertView.findViewById(R.id.fromteacherNameTV);
         TextView mailSubject = (TextView) convertView.findViewById(R.id.mailSubjectTV);
         TextView mailDescription = (TextView) convertView.findViewById(R.id.mailDescriptionTV);
+        TextView date=(TextView)convertView.findViewById((R.id.dateTV));
+
+        String oldDate=parentInbox.get(position).get("toDate");
+        String newDate=getDate(oldDate);
 
 
+        date.setText(newDate);
         fromTeacher.setText(parentInbox.get(position).get("fromName"));
         mailSubject.setText(parentInbox.get(position).get("title"));
         mailDescription.setText(parentInbox.get(position).get("messageText"));
         return convertView;
+    }
+
+    public String getDate(String oldDate){
+        String newDate=null;
+        try {
+            SimpleDateFormat formatter, FORMATTER;
+            formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+            Date date = formatter.parse(oldDate.substring(0, 24));
+            FORMATTER = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+             newDate=FORMATTER.format(date);
+            System.out.println("OldDate-->" + oldDate);
+            System.out.println("NewDate-->" + newDate);
+        }catch(Exception e){
+
+        }
+        return newDate;
     }
 }

@@ -22,7 +22,7 @@ import com.mychild.interfaces.IOnSwichChildListener;
 import com.mychild.model.ParentModel;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
-import com.mychild.utils.TopBar;
+import com.mychild.utils.TopBar1;
 import com.mychild.view.CommonToApp.BaseFragmentActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.R;
@@ -38,7 +38,7 @@ import java.util.Date;
 public class AttendanceActivity extends BaseFragmentActivity implements RequestCompletion,OnClickListener,IOnSwichChildListener
 {
     public static final String TAG = ChildrenTimeTableActivity.class.getSimpleName();
-    private TopBar topBar;
+    private TopBar1 topBar;
     private SwitchChildView switchChild;
     private int selectedChildPosition = 0;
     private ParentModel parentModel = null;
@@ -207,14 +207,14 @@ public class AttendanceActivity extends BaseFragmentActivity implements RequestC
                     Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
                 }
                 break;
-            case R.id.logoutIV:
-                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
-                Constants.logOut(this);
-                Intent i = new Intent(this, LoginActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-                finish();
-                break;
+//            case R.id.logoutIV:
+//                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
+//                Constants.logOut(this);
+//                Intent i = new Intent(this, LoginActivity.class);
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(i);
+//                finish();
+//                break;
             default:
                //Enter code in the event that that no cases match
         }
@@ -269,11 +269,11 @@ public class AttendanceActivity extends BaseFragmentActivity implements RequestC
     }
 
     public void setTopBar() {
-        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar = (TopBar1) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
         topBar.titleTV.setText(getString(R.string.attendence));
-        topBar.logoutIV.setOnClickListener(this);
+     //   topBar.logoutIV.setOnClickListener(this);
 
     }
 

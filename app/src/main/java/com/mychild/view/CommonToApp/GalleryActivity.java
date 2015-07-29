@@ -12,7 +12,7 @@ import com.mychild.model.GalleryDTO;
 import com.mychild.model.GalleryItemModel;
 import com.mychild.threads.HttpConnectThread;
 import com.mychild.utils.CommonUtils;
-import com.mychild.utils.TopBar;
+import com.mychild.utils.TopBar1;
 import com.mychild.view.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 public class GalleryActivity extends BaseActivity implements View.OnClickListener, AsyncTaskInterface {
 
-    private TopBar topBar;
+    private TopBar1 topBar;
     private ListView gallertLV;
     private ArrayList<GalleryDTO> galleryList;
 
@@ -33,11 +33,11 @@ public class GalleryActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
-        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar = (TopBar1) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.titleTV.setText(getString(R.string.gallery));
         topBar.backArrowIV.setOnClickListener(this);
-        topBar.logoutIV.setOnClickListener(this);
+       // topBar.logoutIV.setOnClickListener(this);
         gallertLV = (ListView) findViewById(R.id.gallery_lv);
        // topBar.logoutIV.setVisibility(View.GONE);
         if (CommonUtils.isNetworkAvailable(this)) {
@@ -104,14 +104,14 @@ public class GalleryActivity extends BaseActivity implements View.OnClickListene
             case R.id.back_arrow_iv:
                 onBackPressed();
                 break;
-            case R.id.logoutIV:
-                SharedPreferences clearSharedPreferenceForLogout;
-                clearSharedPreferenceForLogout = getSharedPreferences("MyChild_Preferences", 0);
-                SharedPreferences.Editor editor = clearSharedPreferenceForLogout.edit();
-                editor.clear();
-                editor.commit();
-                finish();
-                startActivity(new Intent(this, LoginActivity.class));
+//            case R.id.logoutIV:
+//                SharedPreferences clearSharedPreferenceForLogout;
+//                clearSharedPreferenceForLogout = getSharedPreferences("MyChild_Preferences", 0);
+//                SharedPreferences.Editor editor = clearSharedPreferenceForLogout.edit();
+//                editor.clear();
+//                editor.commit();
+//                finish();
+//                startActivity(new Intent(this, LoginActivity.class));
 
             default:
                 break;

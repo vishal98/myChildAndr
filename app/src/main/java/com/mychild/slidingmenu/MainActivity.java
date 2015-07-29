@@ -1,17 +1,15 @@
 package com.mychild.slidingmenu;
 
 import java.util.ArrayList;
-import android.app.Activity;
+
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 

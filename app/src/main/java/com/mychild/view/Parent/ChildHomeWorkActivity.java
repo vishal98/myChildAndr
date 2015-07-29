@@ -26,7 +26,7 @@ import com.mychild.model.ParentModel;
 import com.mychild.sharedPreference.StorageManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
-import com.mychild.utils.TopBar;
+import com.mychild.utils.TopBar1;
 import com.mychild.view.CommonToApp.BaseFragmentActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.R;
@@ -53,7 +53,7 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
 
     ListView homeWorkList;
     ArrayList<HashMap<String, String>> childrenGradeAndSection;
-    private TopBar topBar;
+    private TopBar1 topBar;
     private SwitchChildView switchChild;
     private Dialog dialog = null;
     private int selectedChildPosition = 0;
@@ -168,7 +168,6 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
             ChildHomeworkAdapter homeworkAdapter = new ChildHomeworkAdapter(this, childrenGradeAndSection);
             homeWorkList.setAdapter(homeworkAdapter);
         }else{
-            homeWorkList.setAdapter(null);
             Constants.showMessage(this,"No Homework","No homework found for the day...");
         }
         if(Constants.SWITCH_CHILD_FLAG == null){
@@ -208,15 +207,15 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
                     Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
                 }
                 break;
-            case R.id.logoutIV:
-                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
-                Constants.logOut(this);
-                Intent i = new Intent(this, LoginActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-                finish();
-
-                break;
+//            case R.id.logoutIV:
+//                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
+//                Constants.logOut(this);
+//                Intent i = new Intent(this, LoginActivity.class);
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(i);
+//                finish();
+//
+//                break;
 
             case R.id.child_name:
                 startActivity(new Intent(this, ProfileFragmentActivity.class));
@@ -250,11 +249,11 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
 
 
     public void setTopBar() {
-        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar = (TopBar1) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
         topBar.titleTV.setText(getString(R.string.home_work));
-        topBar.logoutIV.setOnClickListener(this);
+//        topBar.logoutIV.setOnClickListener(this);
 
     }
 

@@ -13,7 +13,7 @@ import com.mychild.model.ParentModel;
 import com.mychild.sharedPreference.StorageManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
-import com.mychild.utils.TopBar;
+import com.mychild.utils.TopBar1;
 import com.mychild.view.CommonToApp.BaseFragmentActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.R;
@@ -24,7 +24,7 @@ import com.mychild.volley.AppController;
  */
 public class ParentMailDetailedActivity extends BaseFragmentActivity implements View.OnClickListener {
     public static final String TAG = com.mychild.view.Parent.ParentWriteMailToTeacher.class.getSimpleName();
-    private TopBar topBar;
+    private TopBar1 topBar;
     private SwitchChildView switchChild;
     private ParentModel parentModel = null;
     private AppController appController = null;
@@ -71,6 +71,7 @@ public class ParentMailDetailedActivity extends BaseFragmentActivity implements 
                 Bundle b = new Bundle();
                 b.putString("mailto", regardsFromTV.getText().toString());
                 b.putString("mailToId",mailFromId);
+                b.putString("msg",detailedMailTV.getText().toString());
                 intent.putExtras(b);
                 startActivity(intent);
                 break;
@@ -83,16 +84,16 @@ public class ParentMailDetailedActivity extends BaseFragmentActivity implements 
                 } else {
                     Toast.makeText(this, "No Child data found..", Toast.LENGTH_LONG).show();
                 }
-            case R.id.logoutIV:
-                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
-                Constants.logOut(this);
-
-                Intent i = new Intent(this, LoginActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-                finish();
-
-                break;
+//            case R.id.logoutIV:
+//                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
+//                Constants.logOut(this);
+//
+//                Intent i = new Intent(this, LoginActivity.class);
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(i);
+//                finish();
+//
+//                break;
 
             default:
                 //Enter code in the event that that no cases match
@@ -121,11 +122,11 @@ public class ParentMailDetailedActivity extends BaseFragmentActivity implements 
     }
 
     public void setTopBar() {
-        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar = (TopBar1)findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setVisibility(View.INVISIBLE);
         topBar.titleTV.setText(getString(R.string.inbox));
-        topBar.logoutIV.setOnClickListener(this);
+      //  topBar.logoutIV.setOnClickListener(this);
     }
 
     public void switchChildBar() {

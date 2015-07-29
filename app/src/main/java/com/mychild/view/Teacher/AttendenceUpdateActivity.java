@@ -8,11 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,21 +18,19 @@ import com.kk.mycalendar.WeekdayArrayAdapter;
 import com.mychild.Networkcall.RequestCompletion;
 import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.adapters.StudentsListAdapter;
-import com.mychild.interfaces.AsyncTaskInterface;
 import com.mychild.interfaces.IOnCheckedChangeListener;
 import com.mychild.model.GradeModel;
 import com.mychild.model.StudentDTO;
 import com.mychild.model.TeacherModel;
 import com.mychild.sharedPreference.StorageManager;
-import com.mychild.threads.HttpConnectThread;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
 import com.mychild.utils.TopBar;
+import com.mychild.utils.TopBar1;
 import com.mychild.view.CommonToApp.BaseActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.R;
 import com.mychild.webserviceparser.AttendaceJsonParser;
-import com.mychild.webserviceparser.TeacherHomeJsonParser;
 import com.thehayro.view.InfinitePagerAdapter;
 import com.thehayro.view.InfiniteViewPager;
 
@@ -50,7 +46,7 @@ import java.util.Date;
 
 public class AttendenceUpdateActivity extends BaseActivity implements View.OnClickListener, IOnCheckedChangeListener, RequestCompletion {
 
-    private TopBar topBar;
+    private TopBar1 topBar;
     private String teacherName = "";
     private ListView studentsListview;
     private InfiniteViewPager viewPager;
@@ -75,10 +71,10 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendence);
-        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar = (TopBar1) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setOnClickListener(this);
-        topBar.logoutIV.setOnClickListener(this);
+    //    topBar.logoutIV.setOnClickListener(this);
         topBar.titleTV.setText(getString(R.string.attendence_title));
         studentsListview = (ListView) findViewById(R.id.students_listview);
         doneTV = (TextView) findViewById(R.id.done_tv);
@@ -172,14 +168,14 @@ public class AttendenceUpdateActivity extends BaseActivity implements View.OnCli
                 }*/
                 break;
 
-            case R.id.logoutIV:
-                SharedPreferences clearSharedPreferenceForLogout;
-                clearSharedPreferenceForLogout = getSharedPreferences("MyChild_Preferences", 0);
-                SharedPreferences.Editor editor = clearSharedPreferenceForLogout.edit();
-                editor.clear();
-                editor.commit();
-                finish();
-                startActivity(new Intent(this, LoginActivity.class));
+//            case R.id.logoutIV:
+//                SharedPreferences clearSharedPreferenceForLogout;
+//                clearSharedPreferenceForLogout = getSharedPreferences("MyChild_Preferences", 0);
+//                SharedPreferences.Editor editor = clearSharedPreferenceForLogout.edit();
+//                editor.clear();
+//                editor.commit();
+//                finish();
+//                startActivity(new Intent(this, LoginActivity.class));
 
             case R.id.edit:
                     editTV.setVisibility(View.GONE);

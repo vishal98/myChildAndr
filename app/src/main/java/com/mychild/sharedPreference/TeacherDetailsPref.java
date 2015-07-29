@@ -7,7 +7,6 @@ import android.util.Log;
 import com.mychild.model.TeacherModel;
 import com.mychild.webserviceparser.TeacherHomeJsonParser;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

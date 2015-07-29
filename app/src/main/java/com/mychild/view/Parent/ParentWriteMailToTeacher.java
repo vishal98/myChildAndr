@@ -1,10 +1,14 @@
 package com.mychild.view.Parent;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -24,7 +28,7 @@ import com.mychild.model.ParentModel;
 import com.mychild.sharedPreference.StorageManager;
 import com.mychild.utils.CommonUtils;
 import com.mychild.utils.Constants;
-import com.mychild.utils.TopBar;
+import com.mychild.utils.TopBar1;
 import com.mychild.view.CommonToApp.BaseFragmentActivity;
 import com.mychild.view.CommonToApp.LoginActivity;
 import com.mychild.view.R;
@@ -46,7 +50,7 @@ import java.util.List;
  */
 public class ParentWriteMailToTeacher extends BaseFragmentActivity implements RequestCompletion, View.OnClickListener {
     public static final String TAG = ParentWriteMailToTeacher.class.getSimpleName();
-    private TopBar topBar;
+    private TopBar1 topBar;
     //private SwitchChildView switchChild;
     private ParentModel parentModel = null;
     private AppController appController = null;
@@ -85,6 +89,22 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
         // Now we display formattedDate value in TextView
 
         date.setText(formattedDate);
+        message.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        message.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView V, int i, KeyEvent event) {
+                if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    message.setSelection(0);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(message.getWindowToken(), 0);
+                    return true;
+                } else {
+                    return false;
+                }
+
+
+            }
+        });
 
     }
 String mailToId;
@@ -94,6 +114,7 @@ String mailToId;
             Bundle extras = intent.getExtras();
             if (extras != null) {
                 textView.setText(extras.getString("mailto"));
+                message.setText(extras.getString("msg"));
                 textView.setFocusable(false);
                 mailToId=extras.getString("mailToId");
                 maildMap.put(extras.getString("mailto"),mailToId);
@@ -122,21 +143,29 @@ String mailToId;
                 }
 
                 break;
+            case R.id.url_mail_btn:
+//                Constants.showProgress(this);
+//                postEailToServer();
+                Intent intent=new Intent();
+                intent .setType("*/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,"complete action using"),1);
+                break;
 
             case R.id.send_mail_btn:
                 Constants.showProgress(this);
                 postEailToServer();
                 break;
-            case R.id.logoutIV:
-                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
-                Constants.logOut(this);
-
-                Intent i = new Intent(this, LoginActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-                finish();
-
-                break;
+//            case R.id.logoutIV:
+//                Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
+//                Constants.logOut(this);
+//
+//                Intent i = new Intent(this, LoginActivity.class);
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(i);
+//                finish();
+//
+//                break;
 
             default:
                 //Enter code in the event that that no cases match
@@ -243,15 +272,16 @@ String mailToId;
         date=(TextView)findViewById(R.id.date);
         backButton.setOnClickListener(this);
         sendMail.setOnClickListener(this);
+        url_bt1.setOnClickListener(this);
 
     }
 
     public void setTopBar() {
-        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar = (TopBar1) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.backArrowIV.setVisibility(View.INVISIBLE);
         topBar.titleTV.setText(getString(R.string.inbox));
-        topBar.logoutIV.setOnClickListener(this);
+      //  topBar.logoutIV.setOnClickListener(this);
     }
 
     public void switchChildBar() {

@@ -1,35 +1,20 @@
 package com.mychild.view.Parent;
 
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.mychild.Networkcall.RequestCompletion;
-import com.mychild.Networkcall.WebServiceCall;
 import com.mychild.model.ParentModel;
 import com.mychild.sharedPreference.PrefManager;
-import com.mychild.sharedPreference.StorageManager;
-import com.mychild.utils.CommonUtils;
-import com.mychild.utils.Constants;
 import com.mychild.view.R;
 import com.mychild.volley.AppController;
-import com.mychild.webserviceparser.ParentHomeJsonParser;
 import com.pkmmte.view.CircularImageView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by Antony on 23-05-2015.

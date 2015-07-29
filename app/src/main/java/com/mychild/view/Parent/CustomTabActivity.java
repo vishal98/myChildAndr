@@ -94,7 +94,7 @@ public class CustomTabActivity extends FragmentActivity implements View.OnClickL
         topBar.initTopBar();
         topBar.titleTV.setText(getString(R.string.exams_title));
         topBar.backArrowIV.setOnClickListener(this);
-        topBar.logoutIV.setOnClickListener(this);
+      //  topBar.logoutIV.setOnClickListener(this);
     }
 
     public void switchChildBar() {

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.mychild.adapters.StudentsListAdapter;
 import com.mychild.interfaces.IOnCheckedChangeListener;
 import com.mychild.model.StudentDTO;
-import com.mychild.utils.TopBar;
+import com.mychild.utils.TopBar1;
 import com.mychild.view.CommonToApp.BaseActivity;
 import com.mychild.view.R;
 
@@ -25,7 +25,7 @@ public class SelectStudentActivity extends BaseActivity implements View.OnClickL
     private ListView studentsLV;
     private TextView allStudentsTV;
     private EditText searchET;
-    private TopBar topBar;
+    private TopBar1 topBar;
     StudentsListAdapter studentsListAdapter = null;
     private Button doneBtn;
     private int selectedStudentsSize = 0;
@@ -37,11 +37,11 @@ public class SelectStudentActivity extends BaseActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_student);
-        topBar = (TopBar) findViewById(R.id.topBar);
+        topBar = (TopBar1) findViewById(R.id.topBar);
         topBar.initTopBar();
         topBar.titleTV.setText(getString(R.string.assign_task_title));
         topBar.backArrowIV.setOnClickListener(this);
-        topBar.logoutIV.setVisibility(View.GONE);
+        //topBar.logoutIV.setVisibility(View.GONE);
         Bundle bundle = getIntent().getExtras();
 
         studentsLV = (ListView) findViewById(R.id.students_lv);

@@ -1,12 +1,15 @@
 package com.mychild.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mychild.view.CommonToApp.ChangePasswordActivity;
 import com.mychild.view.R;
 
 /**
@@ -15,7 +18,7 @@ import com.mychild.view.R;
 public class TopBar extends RelativeLayout {
     public ImageView backArrowIV,mMenuSliderIV;
     public TextView titleTV;
-    public ImageView logoutIV;
+    public ImageView logoutIV,notification;
 
     public TopBar(Context context) {
         super(context);
@@ -40,6 +43,16 @@ public class TopBar extends RelativeLayout {
         titleTV = (TextView) findViewById(R.id.title_tv);
         logoutIV = (ImageView) findViewById(R.id.logoutIV);
       //  mMenuSliderIV=(ImageView) findViewById(R.id.menusliderimgview);
+        notification = (ImageView) findViewById(R.id.notification);
+
+        notification.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(getContext(), ChangePasswordActivity.class);
+                getContext().startActivity(i);
+            }
+        });
 
     }
 }
