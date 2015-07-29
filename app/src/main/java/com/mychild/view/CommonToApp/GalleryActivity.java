@@ -62,7 +62,7 @@ public class GalleryActivity extends BaseActivity implements View.OnClickListene
                     GalleryDTO galleryDTO = new GalleryDTO();
                     galleryDTO.setFileType(jsonObject.optString("fileType"));
                     galleryDTO.setFileName(jsonObject.optString("fileName"));
-                    galleryDTO.setCoverPicUrl(jsonObject.optString("coverpicUrl"));
+                    galleryDTO.setCoverPicUrl(getString(R.string.base_url)+jsonObject.optString("coverpicUrl"));
                     galleryDTO.setFilesCount(Integer.parseInt(jsonObject.optString("filecount")));
                     galleryDTO.setPostedDate(jsonObject.optString("postedDate"));
                     JSONArray filesArray = jsonObject.optJSONArray("files");
@@ -76,7 +76,7 @@ public class GalleryActivity extends BaseActivity implements View.OnClickListene
                             if (fileObj != null) {
                                 GalleryItemModel galleryItemModel = new GalleryItemModel();
                                 galleryItemModel.setFileName(fileObj.optString("fileName"));
-                                galleryItemModel.setFilePath(fileObj.optString("filePath"));
+                                galleryItemModel.setFilePath(getString(R.string.base_url)+fileObj.optString("filePath"));
                                 galleryItemModel.setDescription(fileObj.optString("description"));
                                 galleryItemsList.add(galleryItemModel);
                                 galleryItemModel = null;
