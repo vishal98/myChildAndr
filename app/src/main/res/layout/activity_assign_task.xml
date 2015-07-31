@@ -6,12 +6,12 @@
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.mychild.view.Teacher.AssignTaskActivity">
+    tools:context="com.sandeepani.view.Teacher.AssignTaskActivity">
 
-    <com.mychild.utils.TopBar
+    <com.sandeepani.utils.TopBar
         android:id="@+id/topBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></com.mychild.utils.TopBar>
+        android:layout_height="wrap_content"></com.sandeepani.utils.TopBar>
 
     <include
         android:id="@+id/teacher_details_rl"

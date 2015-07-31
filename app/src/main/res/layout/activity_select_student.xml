@@ -4,12 +4,12 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical"
-    tools:context="com.mychild.view.Teacher.SelectStudentActivity">
+    tools:context="com.sandeepani.view.Teacher.SelectStudentActivity">
 
-    <com.mychild.utils.TopBar1
+    <com.sandeepani.utils.TopBar1
         android:id="@+id/topBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></com.mychild.utils.TopBar1>
+        android:layout_height="wrap_content"></com.sandeepani.utils.TopBar1>
 
     <RelativeLayout
         android:layout_width="match_parent"

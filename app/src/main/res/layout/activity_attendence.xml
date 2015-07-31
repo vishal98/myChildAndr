@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context="com.mychild.view.Teacher.AttendenceUpdateActivity">
+    tools:context="com.sandeepani.view.Teacher.AttendenceUpdateActivity">
 
-    <com.mychild.utils.TopBar1
+    <com.sandeepani.utils.TopBar1
         android:id="@+id/topBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></com.mychild.utils.TopBar1>
+        android:layout_height="wrap_content"></com.sandeepani.utils.TopBar1>
 
     <include
         android:id="@+id/teacher_details_rl"

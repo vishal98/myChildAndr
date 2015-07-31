@@ -43,7 +43,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="8dp"
         android:layout_toLeftOf="@+id/logoutIV"
-        android:src="@drawable/notification"
+        android:src="@drawable/forgot_password_icon"
         android:visibility="visible" />
 
 

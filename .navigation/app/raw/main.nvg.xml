@@ -6,7 +6,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "com.mychild.view.HomeActivity"/>
+        className = "com.sandeepani.view.HomeActivity"/>
       <point      
         x = "1884"      
         y = "472"/>
@@ -14,7 +14,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.MenuState"      
-        className = "com.mychild.view.HomeActivity"/>
+        className = "com.sandeepani.view.HomeActivity"/>
       <point      
         x = "2060"      
         y = "36"/>
@@ -22,7 +22,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "com.mychild.view.CommonToApp.LoginActivity"/>
+        className = "com.sandeepani.view.CommonToApp.LoginActivity"/>
       <point      
         x = "484"      
         y = "472"/>
@@ -30,7 +30,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.MenuState"      
-        className = "com.mychild.view.CommonToApp.LoginActivity"/>
+        className = "com.sandeepani.view.CommonToApp.LoginActivity"/>
       <point      
         x = "1444"      
         y = "660"/>
@@ -38,7 +38,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "com.mychild.view.StudentList2"/>
+        className = "com.sandeepani.view.StudentList2"/>
       <point      
         x = "3032"      
         y = "476"/>

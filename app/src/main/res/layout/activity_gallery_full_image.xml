@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context="com.mychild.view.CommonToApp.GalleryFullImageActivity">
+    tools:context="com.sandeepani.view.CommonToApp.GalleryFullImageActivity">
 
     <RelativeLayout
         android:id="@+id/topBar"

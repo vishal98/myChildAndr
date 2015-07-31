@@ -2,12 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mychild.view.CommonToApp.GalleryActivity">
+    tools:context="com.sandeepani.view.CommonToApp.GalleryActivity">
 
-    <com.mychild.utils.TopBar1
+    <com.sandeepani.utils.TopBar1
         android:id="@+id/topBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></com.mychild.utils.TopBar1>
+        android:layout_height="wrap_content"></com.sandeepani.utils.TopBar1>
 
     <ListView
         android:id="@+id/gallery_lv"
