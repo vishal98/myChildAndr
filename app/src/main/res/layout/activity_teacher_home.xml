@@ -74,7 +74,7 @@
                 android:layout_marginTop="5dp"
                 android:textSize="17sp"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/attendence" />
+                android:text="@string/attendence_title" />
         </LinearLayout>
 
     </TableRow>
@@ -285,11 +285,7 @@
                 android:layout_weight="0.5"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/changepwd_teacher_imgview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/icon_mail" />
+
 
 
             </LinearLayout>

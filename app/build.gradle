@@ -7,8 +7,8 @@ android {
         applicationId "com.sandeepani.view"
         minSdkVersion 14
         targetSdkVersion 21
-        versionName '3.2'
-        versionCode 4
+        versionName '3.5'
+        versionCode 7
     }
     buildTypes {
         release {

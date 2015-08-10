@@ -64,6 +64,7 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
     public static List<String> ll ;
     AutoCompleteTextView textView;
     HashMap<String,String> maildMap=new HashMap<String,String>();
+    Boolean NoreplyMail=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +74,9 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
         setTopBar();
       //  switchChildBar();
         UpdateUI();
-        getTeacherList();
+        if(NoreplyMail) {
+            getTeacherList();
+        }
         Calendar c = Calendar.getInstance();
         System.out.println("Current time => "+c.getTime());
 
@@ -104,12 +107,14 @@ public class ParentWriteMailToTeacher extends BaseFragmentActivity implements Re
         });
 
     }
+
 String mailToId;
     public void UpdateUI(){
         Intent intent = getIntent();
         if(intent.hasExtra("mailto")) {
             Bundle extras = intent.getExtras();
             if (extras != null) {
+                NoreplyMail=false;
                 textView.setText(extras.getString("mailto"));
                 message.setText(extras.getString("msg"));
                 textView.setFocusable(false);

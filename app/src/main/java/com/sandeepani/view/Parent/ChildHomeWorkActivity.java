@@ -290,6 +290,21 @@ public class ChildHomeWorkActivity extends BaseFragmentActivity implements Reque
         }
     }
 
+    public void unRegister(int childId,String date) {
+
+        String Url_home_work = null;
+        if (CommonUtils.isNetworkAvailable(this)) {
+            Constants.showProgress(this);
+            if (!StorageManager.readString(this, "username", "").isEmpty()) {
+                Url_home_work = getString(R.string.base_url) + getString(R.string.home_work_for_child)+childId+"/"+date;
+                Log.i("===Url_Homework===", Url_home_work);
+            }
+            WebServiceCall call = new WebServiceCall(ChildHomeWorkActivity.this);
+            call.getJsonObjectResponse(Url_home_work);
+        } else {
+            CommonUtils.getToastMessage(this, getString(R.string.no_network_connection));
+        }
+    }
 
     public String getNumberOfHomeWork(JSONObject responseJson){
         String numberOfHomeWork = null;

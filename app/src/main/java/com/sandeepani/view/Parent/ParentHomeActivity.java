@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.pushbots.push.Pushbots;
 import com.sandeepani.Networkcall.RequestCompletion;
 import com.sandeepani.Networkcall.WebServiceCall;
 import com.sandeepani.customView.SwitchChildView;
@@ -169,6 +170,9 @@ public class ParentHomeActivity extends BaseActivity implements RequestCompletio
                 Toast.makeText(this, "Clicked Logout", Toast.LENGTH_LONG).show();
                 clearSharedPreferenceForLogout = getSharedPreferences("Response", 0);
                 clearSharedPreferenceForLogout = getSharedPreferences("MyChild_Preferences", 0);
+                String regId = Pushbots.sharedInstance().regID();
+                WebServiceCall webServiceCall = new WebServiceCall(ParentHomeActivity.this);
+                webServiceCall.unRegisterDevice(regId);
                 SharedPreferences.Editor editor = clearSharedPreferenceForLogout.edit();
                 editor.clear();
                 editor.commit();

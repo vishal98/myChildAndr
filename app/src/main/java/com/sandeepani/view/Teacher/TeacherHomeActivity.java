@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pushbots.push.Pushbots;
 import com.sandeepani.Networkcall.RequestCompletion;
 import com.sandeepani.Networkcall.WebServiceCall;
 import com.sandeepani.adapters.CustomAdapter;
@@ -60,8 +61,8 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
         TopBar topBar = (TopBar) findViewById(R.id.topBar);
         topBar.initTopBar();
         teacherDetailWebservice();
-        topBar.backArrowIV.setVisibility(View.INVISIBLE);
         topBar.titleTV.setText(getString(R.string.app_name));
+        topBar.backArrowIV.setImageResource(R.drawable.icon_home);
         topBar.logoutIV.setOnClickListener(this);
         ((ImageView) findViewById(R.id.assign_task_iv)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.time_table_iv)).setOnClickListener(this);
@@ -71,7 +72,7 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
         ((ImageView) findViewById(R.id.calender_iv)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.attendance)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.transport)).setOnClickListener(this);
-        ((ImageView) findViewById(R.id.changepwd_teacher_imgview)).setOnClickListener(this);
+      //  ((ImageView) findViewById(R.id.changepwd_teacher_imgview)).setOnClickListener(this);
         ((TextView) findViewById(R.id.teacher_name_tv)).setText(StorageManager.readString(this, getString(R.string.pref_username), ""));
 
     }
@@ -122,13 +123,16 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
                 startActivity(new Intent(this, GalleryActivity.class));
                 break;
 
-            case R.id.changepwd_teacher_imgview:
-               startActivity(new Intent(this,ChangePasswordActivity.class));
-                break;
+        //    case R.id.changepwd_teacher_imgview:
+          //     startActivity(new Intent(this,ChangePasswordActivity.class));
+            //    break;
 
             case R.id.logoutIV:
                 SharedPreferences clearSharedPreferenceForLogout;
                 clearSharedPreferenceForLogout = getSharedPreferences("MyChild_Preferences", 0);
+                String regId = Pushbots.sharedInstance().regID();
+                WebServiceCall webServiceCall = new WebServiceCall(TeacherHomeActivity.this);
+                webServiceCall.unRegisterDevice(regId);
                 SharedPreferences.Editor editor = clearSharedPreferenceForLogout.edit();
                 editor.clear();
                 editor.commit();

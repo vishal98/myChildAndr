@@ -147,6 +147,7 @@ public class ParentInboxActivity extends BaseActivity implements RequestCompleti
                     b.putString("mailTitle", mailTitle);
                     b.putString("mailFromId", mailFromId);
 
+
                     intent.putExtras(b);
                     startActivity(intent);
                 }
